@@ -96,7 +96,7 @@
 
             <TextBlock Visibility="{Binding Square.IsGoal, ElementName=control, Converter={StaticResource BoolToVisConverter}}" 
                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
-                       FontFamily="Segoe MDL2 Assets" Text="&#xe082;" Foreground="#FEFEFE"/>
+                       FontFamily="{StaticResource SegoeMDL2}" Text="&#xe082;" Foreground="#FEFEFE"/>
             <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" BorderThickness="0"
                          Background="Transparent" Foreground="{StaticResource AccentBrush}" Height="2"
                          Visibility="{Binding Square.IsMarking, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>

@@ -304,7 +304,7 @@
                                                            Margin="5,-3,5,0"
                                                            FontWeight="Regular" FontSize="15"/>
                                                         <TextBlock Text="&#xe121;" Foreground="{StaticResource AccentColorBrush}" 
-                                                           FontFamily="Segoe MDL2 Assets" FontWeight="Medium" FontSize="15"/>
+                                                           FontFamily="{StaticResource SegoeMDL2}" FontWeight="Medium" FontSize="15"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </DataTemplate>

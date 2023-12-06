@@ -246,7 +246,7 @@
 
                                                                 <TextBlock Visibility="Visible" 
                                                                             HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
-                                                                            FontFamily="Segoe MDL2 Assets" Text="&#xe082;" Foreground="#FEFEFE"/>
+                                                                            FontFamily="{StaticResource SegoeMDL2}" Text="&#xe082;" Foreground="#FEFEFE"/>
 
                                                             </Grid>
                                                         </Border>

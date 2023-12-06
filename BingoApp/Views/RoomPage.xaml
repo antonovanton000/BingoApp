@@ -141,7 +141,7 @@
                                             IsHitTestVisible="{Binding ElementName=changeColorPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
                                             x:Name="btnChangeColor">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE2b1;" FontFamily="Segoe MDL2 Assets" FontSize="19"
+                                <TextBlock Text="&#xE2b1;" FontFamily="{StaticResource SegoeMDL2}" FontSize="19"
                                             Margin="0,0,10,0"/>
                                 <TextBlock Text="Change Color" FontSize="14"/>
                             </StackPanel>
@@ -229,7 +229,7 @@
                                           IsHitTestVisible="{Binding ElementName=sharePopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
                                           ToolTip="Share" Width="160">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xE72d;" FontFamily="Segoe MDL2 Assets" FontSize="17"
+                                    <TextBlock Text="&#xE72d;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
                                            Margin="0,0,10,0"/>
                                     <TextBlock Text="Share Link" FontSize="14" VerticalAlignment="Center" Margin="0,-2,0,0"/>
                                 </StackPanel>
@@ -266,7 +266,7 @@
                             Width="160" Margin="20,0,0,0" Command="{Binding EndGameCommand}"
                             Visibility="{Binding IsFinishGameVisible, Converter={StaticResource BoolToVisConverter}}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE7C1;" FontFamily="Segoe MDL2 Assets" FontSize="18"
+                                <TextBlock Text="&#xE7C1;" FontFamily="{StaticResource SegoeMDL2}" FontSize="18"
                                         Margin="0,0,10,0"/>
                                 <TextBlock Text="Finish Game" FontSize="14" VerticalAlignment="Center" Margin="0,-2,0,0"/>
                             </StackPanel>
@@ -507,7 +507,7 @@
                                                            Margin="5,-3,5,0"
                                                            FontWeight="Regular" FontSize="15"/>
                                                         <TextBlock Text="&#xe121;" Foreground="{StaticResource AccentColorBrush}" 
-                                                           FontFamily="Segoe MDL2 Assets" FontWeight="Medium" FontSize="15"/>
+                                                           FontFamily="{StaticResource SegoeMDL2}" FontWeight="Medium" FontSize="15"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </DataTemplate>
