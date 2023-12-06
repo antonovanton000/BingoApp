@@ -1,0 +1,186 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\HelveticaNeueCyr-Light.ttf" />
+    <None Remove="Fonts\HelveticaNeueCyr-Thin.ttf" />
+    <None Remove="Fonts\SEGMDL2.TTF" />
+    <None Remove="GameJsons\Bloodborne.json" />
+    <None Remove="GameJsons\Dark Souls I.json" />
+    <None Remove="GameJsons\Dark Souls II.json" />
+    <None Remove="GameJsons\Dark Souls III.json" />
+    <None Remove="GameJsons\Elden Ring (Season 1).json" />
+    <None Remove="GameJsons\Elden Ring (Season 2).json" />
+    <None Remove="GameJsons\Sekiro.json" />
+    <None Remove="Images\bingo.png" />
+    <None Remove="Images\bingocolored.png" />
+    <None Remove="Images\boardmanager.png" />
+    <None Remove="Images\br_bg.png" />
+    <None Remove="Images\connect.png" />
+    <None Remove="Images\createboard.png" />
+    <None Remove="Images\discord.png" />
+    <None Remove="Images\gamepad.png" />
+    <None Remove="Images\history.png" />
+    <None Remove="Images\instagram.png" />
+    <None Remove="Images\Logo.png" />
+    <None Remove="Images\practice.png" />
+    <None Remove="Images\presetcard.png" />
+    <None Remove="Images\tl_bg.png" />
+    <None Remove="Images\twitch.png" />
+    <None Remove="PresetImages\bloodborne.jpg" />
+    <None Remove="PresetImages\Dark Souls I.jpg" />
+    <None Remove="PresetImages\Dark Souls II.jpg" />
+    <None Remove="PresetImages\Dark Souls III.jpg" />
+    <None Remove="PresetImages\Elden Ring %28Season 1%29.jpg" />
+    <None Remove="PresetImages\Elden Ring %28Season 2%29.jpg" />
+    <None Remove="PresetImages\Sekiro.jpg" />
+    <None Remove="Sounds\beep.wav" />
+    <None Remove="Sounds\chat.wav" />
+    <None Remove="Sounds\connected.wav" />
+    <None Remove="Sounds\disconnected.wav" />
+    <None Remove="Sounds\goal.wav" />
+    <None Remove="Sounds\reveal.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="GameJsons\Sekiro.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Dark Souls II.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Dark Souls I.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Bloodborne.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Dark Souls III.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Elden Ring %28Season 1%29.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Elden Ring %28Season 2%29.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon.ico" />
+    <Content Include="PresetImages\Bloodborne.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Dark Souls I.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Dark Souls II.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Dark Souls III.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Elden Ring (Season 1).jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Elden Ring (Season 2).jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Sekiro.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\chat.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\connected.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\disconnected.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\goal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\reveal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\HelveticaNeueCyr-Light.ttf" />
+    <Resource Include="Fonts\HelveticaNeueCyr-Thin.ttf" />
+    <Resource Include="Fonts\SEGMDL2.TTF" />
+    <Resource Include="Images\bingo.png" />
+    <Resource Include="Images\bingocolored.png" />
+    <Resource Include="Images\boardmanager.png" />
+    <Resource Include="Images\br_bg.png" />
+    <Resource Include="Images\connect.png" />
+    <Resource Include="Images\createboard.png" />
+    <Resource Include="Images\discord.png" />
+    <Resource Include="Images\gamepad.png" />
+    <Resource Include="Images\history.png" />
+    <Resource Include="Images\instagram.png" />
+    <Resource Include="Images\Logo.png" />
+    <Resource Include="Images\practice.png" />
+    <Resource Include="Images\presetcard.png" />
+    <Resource Include="Images\tl_bg.png" />
+    <Resource Include="Images\twitch.png" />
+    <Content Include="Sounds\beep.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\CreatingControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TextAreaFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\SelectFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Views\BoardManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RoomHistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SettingsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\HistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EditBoardPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SocketTestPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>
