@@ -683,9 +683,9 @@
                        VerticalAlignment="Center">
             </TextBlock>
             <Image Height="20" Width="20" Source="/Images/discord.png" Margin="8,0,0,0" VerticalAlignment="Center"
-                   MouseLeftButtonDown="Discord_Click" Cursor="Hand" Opacity="0.5"/>
+                   MouseLeftButtonDown="Discord_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Discord"/>
             <Image Height="20" Width="20" Source="/Images/twitch.png" Margin="8,0,0,0" VerticalAlignment="Center"
-                   MouseLeftButtonDown="Twitch_Click" Cursor="Hand" Opacity="0.5"/>
+                   MouseLeftButtonDown="Twitch_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Twitch"/>
 
         </StackPanel>
         <TextBlock x:Name="textBlock"  Style="{StaticResource FlatTextBlockStyle}"

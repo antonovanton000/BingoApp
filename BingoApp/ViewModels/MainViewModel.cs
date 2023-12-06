@@ -100,7 +100,7 @@ namespace BingoApp.ViewModels
 
         [ObservableProperty]
         ObservableCollection<ActiveRoomModel> activeRooms = new ObservableCollection<ActiveRoomModel>();
-
+        
         [RelayCommand]
         async Task Appearing()
         {
@@ -135,20 +135,18 @@ namespace BingoApp.ViewModels
                     RoomInfo = await (App.Current as App).BingoEngine.GetRoomInfoAsync($"https://bingosync.com/room/{roomId}");
                     IsBoardWithAutoReveal = isAutoReveal == 1;
                     Credentials.NickName = nickName;
-                    Credentials.Password = password;
-                    IsModalVisible = false;
-                    IsConnectModalVisible = false;
-                    IsFromStartupArgs = true;                    
+                    Credentials.Password = password;                                        
+                    IsFromStartupArgs = true;
 
                 }
                 catch (Exception ex)
                 {
                     MainWindow.ShowErrorMessage(ex.Message, "SplashPage", "Appearing");
                     IsModalVisible = false;
-                    IsConnectModalVisible = false;
-                    App.StartupArgs = string.Empty;
+                    IsConnectModalVisible = false;                
 
                 }
+                App.StartupArgs = string.Empty;
             }
         }
 

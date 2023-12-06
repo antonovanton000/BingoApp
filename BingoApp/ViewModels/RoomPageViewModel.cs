@@ -478,8 +478,11 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         async Task SendChatMessage()
         {
-            await Room.SendChatMessage(ChatMessage);
-            ChatMessage = "";
+            if (!string.IsNullOrEmpty(ChatMessage))
+            {
+                await Room.SendChatMessage(ChatMessage);
+                ChatMessage = "";
+            }
         }
 
         [RelayCommand]

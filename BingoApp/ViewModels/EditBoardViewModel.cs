@@ -222,10 +222,39 @@ namespace BingoApp.ViewModels
                 var newjson = JsonConvert.SerializeObject(BoardPreset.Squares.Where(i => i.IsChecked).ToArray(), Formatting.Indented);
                 var directoryPath = System.IO.Path.GetDirectoryName(BoardPreset.FilePath);
                 var newPath = System.IO.Path.Combine(directoryPath, s + ".json");
-                await System.IO.File.WriteAllTextAsync(newPath, newjson);
+                if (System.IO.File.Exists(newPath))
+                {
+                    MainWindow.ShowMessage($"Preset with name '{s}' already exist.\r\n\r\nDo you want to replace it?", MessageNotificationType.YesNo, async () =>
+                    {
+                        var imgPath = System.IO.Path.Combine(App.Location, "PresetImages", BoardPreset.PresetName + ".jpg");
+                        if (System.IO.File.Exists(imgPath))
+                        {
+                            var imgDirectoryPath = System.IO.Path.GetDirectoryName(imgPath);
+                            var imgNewPath = System.IO.Path.Combine(imgDirectoryPath, s + ".jpg");
+                            System.IO.File.Copy(imgPath, imgNewPath, true);
+                        }
 
-                MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"{s} preset created!" });
-                await LoadPresets();
+                        await System.IO.File.WriteAllTextAsync(newPath, newjson);
+                        MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"{s} preset created!" });
+                        await LoadPresets();
+                    });
+                }
+                else
+                {
+
+                    var imgPath = System.IO.Path.Combine(App.Location, "PresetImages", BoardPreset.PresetName + ".jpg");
+                    if (System.IO.File.Exists(imgPath))
+                    {
+                        var imgDirectoryPath = System.IO.Path.GetDirectoryName(imgPath);
+                        var imgNewPath = System.IO.Path.Combine(imgDirectoryPath, s + ".jpg");
+                        System.IO.File.Copy(imgPath, imgNewPath, true);
+                    }
+
+                    await System.IO.File.WriteAllTextAsync(newPath, newjson);
+
+                    MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"{s} preset created!" });
+                    await LoadPresets();
+                }
             }), "", "Type new preset name");
         }
 
