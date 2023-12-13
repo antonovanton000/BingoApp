@@ -10,6 +10,7 @@ using BingoApp.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Threading;
+using System.Text.Encodings.Web;
 
 namespace BingoApp.Classes
 {
@@ -57,9 +58,9 @@ namespace BingoApp.Classes
                 var roomInfo = new RoomConnectionInfo()
                 {
                     RoomId = url.Replace("https://bingosync.com/room/", ""),
-                    RoomName = roomName.Attributes["value"].Value,
-                    Creator = creatorName.Attributes["value"].Value,
-                    Game = gameName.Attributes["value"].Value,
+                    RoomName = System.Web.HttpUtility.HtmlDecode(roomName.Attributes["value"].Value),
+                    Creator = System.Web.HttpUtility.HtmlDecode(creatorName.Attributes["value"].Value),
+                    Game = System.Web.HttpUtility.HtmlDecode(gameName.Attributes["value"].Value),
                     EncodedRoomUUID = roomUuid.Attributes["value"].Value,
                     CsrfMiddlewareToken = csrfToken?.Attributes["value"].Value ?? "",
                     RoomActionUrl = form?.Attributes["action"].Value ?? ""

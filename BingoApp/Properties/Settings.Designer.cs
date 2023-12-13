@@ -121,7 +121,7 @@ namespace BingoApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
         public int BoardAnalyzeTime {
             get {
                 return ((int)(this["BoardAnalyzeTime"]));

@@ -33,8 +33,9 @@ namespace BingoApp.ViewModels
         private Uri disconnectedSound = new Uri(System.Environment.CurrentDirectory + "/Sounds/disconnected.wav", UriKind.Relative);
         private Uri goalSound = new Uri(System.Environment.CurrentDirectory + "/Sounds/goal.wav", UriKind.Relative);
         private Uri revealSound = new Uri(System.Environment.CurrentDirectory + "/Sounds/reveal.wav", UriKind.Relative);
-
+        private TimeSpan savedTime = TimeSpan.Zero;
         public event EventHandler EventAdded;
+        
         public RoomPageViewModel()
         {
             _timerSocket = new TimerSocketClient();
@@ -44,7 +45,7 @@ namespace BingoApp.ViewModels
                 //if (IsTimerStarted)
                 //    TimerCounter += 1;
 
-                TimerCounter = sw.Elapsed;
+                TimerCounter = (sw.Elapsed + savedTime);
 
                 if (IsTimerStarted)
                 {                    
@@ -55,11 +56,11 @@ namespace BingoApp.ViewModels
                         {
                             sw.Stop();
                             IsStartTimerStarted = false;
-                            IsAfterRevealTimerStarted = true;
                             await Room.RevealTheBoard();
                             Room.IsRevealed = true;
                             sw.Reset();
                             sw.Start();
+                            IsAfterRevealTimerStarted = true;
                         }
                     }
                     else if (IsAfterRevealTimerStarted)
@@ -69,14 +70,14 @@ namespace BingoApp.ViewModels
                         {
                             sw.Stop();
                             IsAfterRevealTimerStarted = false;
+                            await _timerSocket.DisconnectAsync();
+                            sw.Reset();
+                            StartTimer();
                             IsGameTimerStarted = true;
                             Room.IsGameStarted = true;
                             Room.StartDate = DateTime.Now;
                             IsStarted = true;                            
                             IsTimerButtonsVisible = true;
-                            await _timerSocket.DisconnectAsync();
-                            sw.Reset();
-                            StartTimer();
                         }
                     }
 
@@ -243,24 +244,33 @@ namespace BingoApp.ViewModels
                 Room.StartDate = DateTime.Now;
 
             TimerCounter = TimeSpan.FromSeconds(Room.CurrentTimerTime);
+            savedTime = TimeSpan.FromSeconds(Room.CurrentTimerTime);
 
-            if (!Room.IsGameStarted)
+            if (Room.IsCreatorMode)
             {
-                if(Room.IsAutoBoardReveal)
+                IsTimerVisible = true;
+                if (!Room.IsGameStarted)
                 {
-                    IsTimerButtonsVisible = false;
-                    RevealPanelText = "Waiting for game started";
-                    _timerSocket.ConnectionChangedEvent += _timerSocket_ConnectionChangedEvent;
-                    _timerSocket.SettingsRecievedEvent += _timerSocket_SettingsRecievedEvent;
-                    _timerSocket.StartRecievedEvent += _timerSocket_StartRecievedEvent;
-                    IsTimerStarted = false;
-                    await _timerSocket.InitAsync(Room.RoomId);                    
-                    if (Room.IsCreatorMode)
+                    if (Room.IsAutoBoardReveal)
                     {
-                        IsAutoRevealBoardVisible = true;
-                        StartTimeSeconds = BingoApp.Properties.Settings.Default.BeforeStartTime;
-                        AfterRevealSeconds = BingoApp.Properties.Settings.Default.BoardAnalyzeTime;
-                        await _timerSocket.SendSettingsToServerAsync(StartTimeSeconds, AfterRevealSeconds);
+                        IsTimerButtonsVisible = false;
+                        RevealPanelText = "Waiting for game started";
+                        _timerSocket.ConnectionChangedEvent += _timerSocket_ConnectionChangedEvent;
+                        _timerSocket.SettingsRecievedEvent += _timerSocket_SettingsRecievedEvent;
+                        _timerSocket.StartRecievedEvent += _timerSocket_StartRecievedEvent;
+                        IsTimerStarted = false;
+                        await _timerSocket.InitAsync(Room.RoomId);
+                        if (Room.IsCreatorMode)
+                        {
+                            IsAutoRevealBoardVisible = true;
+                            StartTimeSeconds = BingoApp.Properties.Settings.Default.BeforeStartTime;
+                            AfterRevealSeconds = BingoApp.Properties.Settings.Default.BoardAnalyzeTime;
+                            await _timerSocket.SendSettingsToServerAsync(StartTimeSeconds, AfterRevealSeconds);
+                        }
+                    }
+                    else
+                    {
+                        IsStarted = true;
                     }
                 }
                 else
@@ -270,8 +280,46 @@ namespace BingoApp.ViewModels
             }
             else
             {
-                IsStarted = true;
+                if (Room.CurrentPlayer.IsSpectator)
+                {
+                    IsAutoRevealBoardVisible = false;
+                    IsTimerVisible = false;
+                }
+                else
+                {
+                    IsTimerVisible = true;
+                    if (!Room.IsGameStarted)
+                    {
+                        if (Room.IsAutoBoardReveal)
+                        {
+                            IsTimerButtonsVisible = false;
+                            RevealPanelText = "Waiting for game started";
+                            _timerSocket.ConnectionChangedEvent += _timerSocket_ConnectionChangedEvent;
+                            _timerSocket.SettingsRecievedEvent += _timerSocket_SettingsRecievedEvent;
+                            _timerSocket.StartRecievedEvent += _timerSocket_StartRecievedEvent;
+                            IsTimerStarted = false;
+                            await _timerSocket.InitAsync(Room.RoomId);
+                            if (Room.IsCreatorMode)
+                            {
+                                IsAutoRevealBoardVisible = true;
+                                StartTimeSeconds = BingoApp.Properties.Settings.Default.BeforeStartTime;
+                                AfterRevealSeconds = BingoApp.Properties.Settings.Default.BoardAnalyzeTime;
+                                await _timerSocket.SendSettingsToServerAsync(StartTimeSeconds, AfterRevealSeconds);
+                            }
+                        }
+                        else
+                        {
+                            IsStarted = true;
+                        }
+                    }
+                    else
+                    {
+                        IsStarted = true;
+                    }
+                }
             }
+
+            
         }
 
         [ObservableProperty]
@@ -282,6 +330,9 @@ namespace BingoApp.ViewModels
 
         [ObservableProperty]
         bool isRefreshing;
+
+        [ObservableProperty]
+        bool isTimerVisible;
 
         private void _timerSocket_StartRecievedEvent(object? sender, StartRecievedEventArgs e)
         {
@@ -468,10 +519,18 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         async Task RevealBoard()
         {
-            if (!Room.IsAutoBoardReveal)
+            if (Room.CurrentPlayer.IsSpectator)
             {
                 await Room.RevealTheBoard();
                 Room.IsRevealed = true;
+            }
+            else
+            {
+                if (!Room.IsAutoBoardReveal)
+                {
+                    await Room.RevealTheBoard();
+                    Room.IsRevealed = true;
+                }
             }
         }
 

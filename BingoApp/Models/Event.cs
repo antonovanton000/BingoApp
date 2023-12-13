@@ -107,7 +107,7 @@ namespace BingoApp.Models
                     case Models.EventType.connection:
                         return App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
                     case Models.EventType.chat:
-                        return PlayerColorBrush;
+                        return (PlayerColorBrush ?? App.Current.FindResource("AccentColorBrush") as SolidColorBrush);
                     case Models.EventType.revealed:
                         return App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
                     case Models.EventType.goal:
@@ -138,7 +138,7 @@ namespace BingoApp.Models
                         if (EventType == EventSubType.connected)
                             return $"{(Player.IsSpectator ? "Spectator" : "Player")} connected!";
                         else
-                            return "Player dicconnected!";
+                            return "Player disconnected!";
                     case Models.EventType.chat:
                         return Player.NickName;                        
                     case Models.EventType.revealed:

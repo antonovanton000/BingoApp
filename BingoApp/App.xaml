@@ -7,10 +7,11 @@
              StartupUri="MainWindow.xaml"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <Application.Resources>
+        <system:String x:Key="AppVersion">Version: 1.0.1</system:String>
+
         <FontFamily x:Key="HelveticaThin">pack://application:,,,/Fonts/#HelveticaNeueCyr-Thin</FontFamily>
         <FontFamily x:Key="HelveticaLight">pack://application:,,,/Fonts/#HelveticaNeueCyr-Light</FontFamily>
         <FontFamily x:Key="SegoeMDL2">pack://application:,,,/Fonts/#Segoe MDL2 Assets</FontFamily>
-        <system:String x:Key="AppVersion">Version: 1.0.0</system:String>
         <SolidColorBrush x:Key="PrimaryBrush">#414B4D</SolidColorBrush>
         <c:CountToVisibilityConverter x:Key="CountToVisibilityConverter"/>
         <Color x:Key="PrimaryColor">#414B4D</Color>

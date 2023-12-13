@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,7 @@
     <None Remove="GameJsons\Dark Souls I.json" />
     <None Remove="GameJsons\Dark Souls II.json" />
     <None Remove="GameJsons\Dark Souls III.json" />
+    <None Remove="GameJsons\Elden Ring (Baby Season 2).json" />
     <None Remove="GameJsons\Elden Ring (Season 1).json" />
     <None Remove="GameJsons\Elden Ring (Season 2).json" />
     <None Remove="GameJsons\Sekiro.json" />
@@ -40,6 +43,7 @@
     <None Remove="PresetImages\Dark Souls III.jpg" />
     <None Remove="PresetImages\Elden Ring %28Season 1%29.jpg" />
     <None Remove="PresetImages\Elden Ring %28Season 2%29.jpg" />
+    <None Remove="PresetImages\Elden Ring (Baby Season 2).jpg" />
     <None Remove="PresetImages\Sekiro.jpg" />
     <None Remove="Sounds\beep.wav" />
     <None Remove="Sounds\chat.wav" />
@@ -50,6 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="GameJsons\Elden Ring %28Baby Season 2%29.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="GameJsons\Sekiro.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -85,6 +92,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PresetImages\Elden Ring (Season 1).jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Elden Ring %28Baby Season 2%29.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PresetImages\Elden Ring (Season 2).jpg">

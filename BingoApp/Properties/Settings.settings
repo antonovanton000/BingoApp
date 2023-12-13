@@ -27,7 +27,7 @@
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="BoardAnalyzeTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">60</Value>
+      <Value Profile="(Default)">180</Value>
     </Setting>
     <Setting Name="DefaultRoomName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

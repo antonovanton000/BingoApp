@@ -613,7 +613,7 @@
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
                 </Grid>
-                <Grid Grid.Column="1" Margin="80,0,0,0">
+                <Grid Grid.Column="1" Margin="80,0,0,0" Visibility="{Binding IsTimerVisible, Converter={StaticResource BoolToVisConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="1*"/>
