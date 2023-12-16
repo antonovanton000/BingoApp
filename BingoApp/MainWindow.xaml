@@ -9,6 +9,9 @@
         WindowStyle="None"
         AllowsTransparency="True"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        SourceInitialized="Window_SourceInitialized"
+        Closing="Window_Closing"
         Background="Transparent">
     <Window.Resources>
         <Storyboard x:Key="showSuccess">
@@ -88,7 +91,7 @@
             <DoubleAnimation Storyboard.TargetName="dangerPB" Storyboard.TargetProperty="Width" From="0" To="320"/>
         </Storyboard>
     </Window.Resources>
-    <Border CornerRadius="10" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" Background="{StaticResource BackgroundBrush}">
+    <Border CornerRadius="10,10,0,0" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" Background="{StaticResource BackgroundBrush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -137,9 +140,11 @@
             </Border>
             <Grid Grid.Row="1">
                 <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">-->
-                <Border MinWidth="930" Grid.Column="1" Padding="0" BorderThickness="0,1,0,0" BorderBrush="#1a1d1f">
-                    <Frame NavigationUIVisibility="Hidden" x:Name="frame" Source="/Views/SplashPage.xaml" Navigated="frame_Navigated"/>
-                </Border>
+                
+                    <Border MinWidth="930" Grid.Column="1" Padding="0" BorderThickness="0,1,0,0" BorderBrush="#1a1d1f">
+                        <Frame NavigationUIVisibility="Hidden" x:Name="frame" Source="/Views/SplashPage.xaml" Navigated="frame_Navigated"/>
+                    </Border>
+                
                 <!--</ScrollViewer>-->
             </Grid>
             <Grid x:Name="NotificationGrid" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#80000000">

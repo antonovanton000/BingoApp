@@ -63,11 +63,11 @@
         <vm:RoomHistoryViewModel/>
     </Page.DataContext>
     <Grid>
-        <Grid Margin="100,0,100,40">
+        <Grid Margin="100,0,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="610"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*" MinHeight="610"/>
+                <RowDefinition MinHeight="230"/>
             </Grid.RowDefinitions>
             <Grid x:Name="grid" Height="100" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
@@ -79,9 +79,8 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="160"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto" MinWidth="620"/>
+                    <ColumnDefinition Width="1*" MinWidth="630"/>
                 </Grid.ColumnDefinitions>
                 <Grid VerticalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0">
@@ -144,8 +143,8 @@
 
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="1">
-                </Grid>
+                <Border Grid.Column="1" Padding="0,0,100,0">
+                </Border>
             </Grid>
             <Grid x:Name="grid1" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
@@ -157,74 +156,78 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto" MinWidth="620"/>
+                    <ColumnDefinition Width="1*" MinWidth="630"/>
                 </Grid.ColumnDefinitions>
                 <Grid>
-                    <Border HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" 
+                    <Viewbox Stretch="UniformToFill" x:Name="viewbox">
+                        <Grid x:Name="grBoard">
+                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" 
                             BorderBrush="{StaticResource BorderColorBrush}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="110"/>
-                                <ColumnDefinition Width="50"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="110"/>
-                                <RowDefinition Height="110"/>
-                                <RowDefinition Height="110"/>
-                                <RowDefinition Height="110"/>
-                                <RowDefinition Height="110"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="0" Style="{StaticResource FlatTextBlockStyle}" Text="COL1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="1" Style="{StaticResource FlatTextBlockStyle}" Text="COL2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="2" Style="{StaticResource FlatTextBlockStyle}" Text="COL3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="3" Style="{StaticResource FlatTextBlockStyle}" Text="COL4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="4" Style="{StaticResource FlatTextBlockStyle}" Text="COL5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="110"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="0" Style="{StaticResource FlatTextBlockStyle}" Text="COL1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="1" Style="{StaticResource FlatTextBlockStyle}" Text="COL2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="2" Style="{StaticResource FlatTextBlockStyle}" Text="COL3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="3" Style="{StaticResource FlatTextBlockStyle}" Text="COL4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="4" Style="{StaticResource FlatTextBlockStyle}" Text="COL5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="1" Style="{StaticResource FlatTextBlockStyle}" Text="ROW1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="2" Style="{StaticResource FlatTextBlockStyle}" Text="ROW2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="3" Style="{StaticResource FlatTextBlockStyle}" Text="ROW3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="4" Style="{StaticResource FlatTextBlockStyle}" Text="ROW4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="5" Style="{StaticResource FlatTextBlockStyle}" Text="ROW5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="1" Style="{StaticResource FlatTextBlockStyle}" Text="ROW1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="2" Style="{StaticResource FlatTextBlockStyle}" Text="ROW2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="3" Style="{StaticResource FlatTextBlockStyle}" Text="ROW3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="4" Style="{StaticResource FlatTextBlockStyle}" Text="ROW4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="5" Style="{StaticResource FlatTextBlockStyle}" Text="ROW5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                            <cnt:BingoSquare Grid.Row="1" Grid.Column="0" Square="{Binding Room.Board.Squares[0], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="1" Grid.Column="1" Square="{Binding Room.Board.Squares[1], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="1" Grid.Column="2" Square="{Binding Room.Board.Squares[2], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="1" Grid.Column="3" Square="{Binding Room.Board.Squares[3], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="1" Grid.Column="4" Square="{Binding Room.Board.Squares[4], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="1" Grid.Column="0" Square="{Binding Room.Board.Squares[0], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="1" Grid.Column="1" Square="{Binding Room.Board.Squares[1], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="1" Grid.Column="2" Square="{Binding Room.Board.Squares[2], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="1" Grid.Column="3" Square="{Binding Room.Board.Squares[3], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="1" Grid.Column="4" Square="{Binding Room.Board.Squares[4], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
 
-                            <cnt:BingoSquare Grid.Row="2" Grid.Column="0" Square="{Binding Room.Board.Squares[5], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="2" Grid.Column="1" Square="{Binding Room.Board.Squares[6], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="2" Grid.Column="2" Square="{Binding Room.Board.Squares[7], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="2" Grid.Column="3" Square="{Binding Room.Board.Squares[8], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="2" Grid.Column="4" Square="{Binding Room.Board.Squares[9], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="2" Grid.Column="0" Square="{Binding Room.Board.Squares[5], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="2" Grid.Column="1" Square="{Binding Room.Board.Squares[6], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="2" Grid.Column="2" Square="{Binding Room.Board.Squares[7], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="2" Grid.Column="3" Square="{Binding Room.Board.Squares[8], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="2" Grid.Column="4" Square="{Binding Room.Board.Squares[9], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
 
-                            <cnt:BingoSquare Grid.Row="3" Grid.Column="0" Square="{Binding Room.Board.Squares[10], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="3" Grid.Column="1" Square="{Binding Room.Board.Squares[11], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="3" Grid.Column="2" Square="{Binding Room.Board.Squares[12], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="3" Grid.Column="3" Square="{Binding Room.Board.Squares[13], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="3" Grid.Column="4" Square="{Binding Room.Board.Squares[14], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="3" Grid.Column="0" Square="{Binding Room.Board.Squares[10], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="3" Grid.Column="1" Square="{Binding Room.Board.Squares[11], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="3" Grid.Column="2" Square="{Binding Room.Board.Squares[12], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="3" Grid.Column="3" Square="{Binding Room.Board.Squares[13], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="3" Grid.Column="4" Square="{Binding Room.Board.Squares[14], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
 
-                            <cnt:BingoSquare Grid.Row="4" Grid.Column="1" Square="{Binding Room.Board.Squares[16], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="4" Grid.Column="2" Square="{Binding Room.Board.Squares[17], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="4" Grid.Column="3" Square="{Binding Room.Board.Squares[18], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="4" Grid.Column="4" Square="{Binding Room.Board.Squares[19], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="4" Grid.Column="0" Square="{Binding Room.Board.Squares[15], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="4" Grid.Column="1" Square="{Binding Room.Board.Squares[16], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="4" Grid.Column="2" Square="{Binding Room.Board.Squares[17], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="4" Grid.Column="3" Square="{Binding Room.Board.Squares[18], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="4" Grid.Column="4" Square="{Binding Room.Board.Squares[19], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="4" Grid.Column="0" Square="{Binding Room.Board.Squares[15], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
 
-                            <cnt:BingoSquare Grid.Row="5" Grid.Column="0" Square="{Binding Room.Board.Squares[20], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="5" Grid.Column="1" Square="{Binding Room.Board.Squares[21], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="5" Grid.Column="2" Square="{Binding Room.Board.Squares[22], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="5" Grid.Column="3" Square="{Binding Room.Board.Squares[23], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
-                            <cnt:BingoSquare Grid.Row="5" Grid.Column="4" Square="{Binding Room.Board.Squares[24], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="5" Grid.Column="0" Square="{Binding Room.Board.Squares[20], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="5" Grid.Column="1" Square="{Binding Room.Board.Squares[21], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="5" Grid.Column="2" Square="{Binding Room.Board.Squares[22], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="5" Grid.Column="3" Square="{Binding Room.Board.Squares[23], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                    <cnt:BingoSquare Grid.Row="5" Grid.Column="4" Square="{Binding Room.Board.Squares[24], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
+                                </Grid>
+                            </Border>
                         </Grid>
-                    </Border>
+                    </Viewbox>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Border Grid.Column="1" Padding="0,0,100,0">
                     <Grid Margin="80,0,0,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
@@ -315,9 +318,9 @@
                             </Grid>
                         </Border>
                     </Grid>
-                </Grid>
+                </Border>
             </Grid>
-            <Grid x:Name="grid2" Grid.Row="2" RenderTransformOrigin="0.5,0.5">
+            <Grid x:Name="grid2" Grid.Row="2" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top">
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -327,52 +330,58 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto" MinWidth="620"/>
+                    <ColumnDefinition Width="1*" MinWidth="630"/>
                 </Grid.ColumnDefinitions>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <TextBlock Opacity="0.4" Text="&#xe125;" Grid.Row="0" 
-                                   Margin="0,4,8,0"
-                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="20"
-                                   FontFamily="{StaticResource SegoeMDL2}"/>
-                        <TextBlock Opacity="0.4" Text="Players" Grid.Row="0" 
-                                   Margin="0,0,0,0"
-                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"/>
-                    </StackPanel>
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding Room.Players}" Margin="0,5,0,0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,50,10">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Border Width="60" Height="30" CornerRadius="4" 
-                                                Background="{Binding Color, Converter={StaticResource BingoCollorBackgroundConverter}}"
-                                                VerticalAlignment="Center" Margin="0,0,10,0">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
-                                                <TextBlock Text="{Binding SquaresCount}" Style="{StaticResource FlatTextBlockStyle}" Foreground="White"
-                                                           Margin="0,0,5,0" FontFamily="{StaticResource HelveticaLight}" FontWeight="SemiBold"/>
-                                                <TextBlock Text="{Binding LinesCount, StringFormat='({0})'}" Style="{StaticResource FlatTextBlockStyle}" Foreground="White"
-                                                           FontFamily="{StaticResource HelveticaLight}" FontWeight="SemiBold"/>
-                                            </StackPanel>
-                                        </Border>
-                                        <TextBlock Text="{Binding NickName}" VerticalAlignment="Center" FontWeight="Medium"
-                                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"/>
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </Grid>
-                <Grid Grid.Column="1" Margin="80,0,0,0">
+                <Border Padding="0,15,0,40"  x:Name="plgrid">
+                    <Grid Width="{Binding ElementName=viewbox, Path=ActualWidth}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+                            <TextBlock Opacity="0.4" Text="&#xe125;" Grid.Row="0" 
+                                       Margin="0,4,8,0"
+                                       Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="20"
+                                       FontFamily="{StaticResource SegoeMDL2}"/>
+                            <TextBlock Opacity="0.4" Text="Players" Grid.Row="0" 
+                                       Margin="0,0,0,0"
+                                       Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"/>
+                        </StackPanel>
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Room.ActualPlayers}" Margin="0,5,0,0"
+                                      VerticalContentAlignment="Stretch"
+                                      Padding="0,0,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,50,10">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="60" Height="30" CornerRadius="4" 
+                                                    Background="{Binding Color, Converter={StaticResource BingoCollorBackgroundConverter}}"
+                                                    VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                                                    <TextBlock Text="{Binding SquaresCount}" Style="{StaticResource FlatTextBlockStyle}" Foreground="White"
+                                                               Margin="0,0,5,0" FontFamily="{StaticResource HelveticaLight}" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="{Binding LinesCount, StringFormat='({0})'}" Style="{StaticResource FlatTextBlockStyle}" Foreground="White"
+                                                               FontFamily="{StaticResource HelveticaLight}" FontWeight="SemiBold"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <TextBlock Text="{Binding NickName}" VerticalAlignment="Center" FontWeight="Medium"
+                                                       Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18" MaxWidth="180" TextTrimming="CharacterEllipsis"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" Padding="0,0,100,40">
+                    
+                    <Grid Grid.Column="1" Margin="80,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="1*"/>
@@ -391,6 +400,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

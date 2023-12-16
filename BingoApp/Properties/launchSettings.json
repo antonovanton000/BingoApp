@@ -1,8 +1,7 @@
 {
   "profiles": {
     "BingoApp": {
-      "commandName": "Project",
-      "commandLineArgs": "bingoapp://ew0KICAiciI6ICJvNjJlWkxveFRzdUI3M25jcGRsaFVBIiwNCiAgInAiOiAidGVzdCIsDQogICJpIjogMQ0KfQ=="
+      "commandName": "Project"
     }
   }
 }

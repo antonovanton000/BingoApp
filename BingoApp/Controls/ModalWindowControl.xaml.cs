@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -93,8 +94,14 @@ namespace BingoApp.Controls
 
         private void CloseModal_Click(object sender, RoutedEventArgs e)
         {
+            newModal.Effect = null;
             IsOpen = false;
             CloseCommand?.Execute(null);
+        }
+
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            newModal.Effect = new DropShadowEffect() { BlurRadius= 80, Color = Color.FromArgb(70,0,0,0), ShadowDepth= 0 };
         }
     }
 }

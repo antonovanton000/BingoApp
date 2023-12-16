@@ -11,7 +11,7 @@
       d:DesignHeight="940" d:DesignWidth="1440"
       Background="{StaticResource GradientBackgroundBrush}"
       x:Name="page"
-      Loaded="page_Loaded"
+      Loaded="page_Loaded"      
       Title="MainPage">
     <Page.DataContext>
         <vm:MainViewModel />
@@ -119,7 +119,6 @@
             </EventTrigger.Actions>
         </EventTrigger>
     </Page.Triggers>
-
     <Grid>
         <Grid>
             <Grid.Background>
@@ -131,537 +130,542 @@
                 <ImageBrush ImageSource="/Images/br_bg.png" Stretch="UniformToFill" Opacity="0.3"/>
             </Grid.Background>
         </Grid>
-        <Grid Margin="40,40,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="120"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" x:Name="spTitle">
-                <StackPanel.RenderTransform>
-                    <TranslateTransform />
-                </StackPanel.RenderTransform>
-                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{Binding HelloMessage, Mode=OneWay}" FontWeight="Light" FontSize="40"/>
-                <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="What are we going to do today?"/>
-            </StackPanel>
-            <Grid  Margin="1066,-30,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Visibility="{Binding IsActiveRoomsVisible, Converter={StaticResource BoolToVisConverter}}">
-                <ToggleButton Width="265" Height="85"     
+        
+        <Viewbox Stretch="Uniform" VerticalAlignment="Top">
+            <Grid>
+                <Grid Margin="40,40,40,40">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" x:Name="spTitle">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform />
+                        </StackPanel.RenderTransform>
+                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{Binding HelloMessage, Mode=OneWay}" FontWeight="Light" FontSize="40"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="What are we going to do today?"/>
+                    </StackPanel>
+                    <Grid  Margin="1066,-30,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Visibility="{Binding IsActiveRoomsVisible, Converter={StaticResource BoolToVisConverter}}">
+                        <ToggleButton Width="265" Height="85"     
                               
-                              Background="Transparent" Foreground="Transparent"
-                              BorderThickness="0" Style="{StaticResource TransparentToggleButton}"
-                              IsHitTestVisible="{Binding ElementName=activeRoomsPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
-                              x:Name="btnActiveRooms" RenderTransformOrigin="0.5,0.5">
-                    <ToggleButton.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </ToggleButton.RenderTransform>
-                    <Border HorizontalAlignment="Left" VerticalAlignment="Center" Height="80" Width="260"
-                        BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1" CornerRadius="10"
-                        Background="{StaticResource BackgroundBrush}"                                                         
-                        RenderTransformOrigin="0.5 0.5"
-                        x:Name="activeRoomsPanel" 
-                        >
-                        <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform ScaleX="1" ScaleY="1" x:Name="arscale"/>
-                                <TranslateTransform x:Name="artt" X="0" Y="0"/>
-                            </TransformGroup>
-                        </Border.RenderTransform>
-                        <Border.Effect>
-                            <DropShadowEffect ShadowDepth="0"
-                                          x:Name="arshadow"
-                              Color="White"
-                              Opacity="0"
-                              BlurRadius="5"/>
-                        </Border.Effect>
-                        <Border.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleX"
-                                                         To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleY"
-                                                         To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="arshadow" Storyboard.TargetProperty="Opacity"
-                                                         To="0.3" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleX"
-                                                         To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleY"
-                                                         To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="arshadow" Storyboard.TargetProperty="Opacity"
-                                                         To="0" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Border.Triggers>
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Style.Triggers>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="80"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Margin="10,5,20,0">
-                                <TextBlock Text="Active Rooms" Style="{StaticResource FlatTextBlockStyle}"
-                                       VerticalAlignment="Center" Margin="0,0,0,7"
-                                       FontSize="18" Foreground="#90FEFEFE"/>
-                                <TextBlock Text="All your unfinished games are here" Style="{StaticResource FlatTextBlockStyle}"
-                                       VerticalAlignment="Center" TextWrapping="Wrap" 
-                                       FontSize="12" Foreground="#20FEFEFE"/>
-                            </StackPanel>
-                            <Grid Grid.Column="1">
-                                <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Rectangle Width="10" Height="10" Fill="#FAACA8" Canvas.Top="0" Canvas.Left="-9"/>
-                                    <Ellipse Width="20" Height="20" Fill="{StaticResource BackgroundBrush}"
-                                             Canvas.Top="0" Canvas.Left="-20"/>
-                                </Canvas>
-                                <Border CornerRadius="0,10,10,10">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                            <GradientStop Color="#FAACA8" Offset="0"/>
-                                            <GradientStop Color="#DDD6F3" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                </Border>
-                                <Image Source="/Images/gamepad.png" Margin="12">
-                                    <Image.Effect>
-                                        <DropShadowEffect Opacity="0.23" BlurRadius="2"/>
-                                    </Image.Effect>
-                                </Image>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </ToggleButton>
-                <Border CornerRadius="25" Height="25" Width="25" Background="{StaticResource Danger}"
-                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,0,0"
-                        x:Name="roomsCount">
-                    <TextBlock Text="{Binding ActiveRooms.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                           Foreground="#FEFEFE"/>
-                </Border>
-                <Popup x:Name="activeRoomsPopup" Panel.ZIndex="100" StaysOpen="False"
-                   IsOpen="{Binding ElementName=btnActiveRooms, Path=IsChecked}"
-                        AllowsTransparency="True" Placement="Bottom" Margin="0,5,20,0"
-                        HorizontalOffset="-57" PlacementTarget="{Binding ElementName=btnActiveRooms}"
-                   VerticalOffset="10">
-                    <Border Margin="0,5,0,0"
-                            Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
-                            Height="350" Width="320"
-                            Padding="10,10,10,0">
-                        <Grid>
+                                      Background="Transparent" Foreground="Transparent"
+                                      BorderThickness="0" Style="{StaticResource TransparentToggleButton}"
+                                      IsHitTestVisible="{Binding ElementName=activeRoomsPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                                      x:Name="btnActiveRooms" RenderTransformOrigin="0.5,0.5">
+                            <ToggleButton.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </ToggleButton.RenderTransform>
+                            <Border HorizontalAlignment="Left" VerticalAlignment="Center" Height="80" Width="260"
+                                BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1" CornerRadius="10"
+                                Background="{StaticResource BackgroundBrush}"                                                         
+                                RenderTransformOrigin="0.5 0.5"
+                                x:Name="activeRoomsPanel" 
+                                >
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1" x:Name="arscale"/>
+                                        <TranslateTransform x:Name="artt" X="0" Y="0"/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0"
+                                                  x:Name="arshadow"
+                                      Color="White"
+                                      Opacity="0"
+                                      BlurRadius="5"/>
+                                </Border.Effect>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleX"
+                                                                 To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleY"
+                                                                 To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="arshadow" Storyboard.TargetProperty="Opacity"
+                                                                 To="0.3" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleX"
+                                                                 To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="arscale" Storyboard.TargetProperty="ScaleY"
+                                                                 To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="arshadow" Storyboard.TargetProperty="Opacity"
+                                                                 To="0" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Border.Triggers>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="80"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Margin="10,5,20,0">
+                                        <TextBlock Text="Active Rooms" Style="{StaticResource FlatTextBlockStyle}"
+                                               VerticalAlignment="Center" Margin="0,0,0,7"
+                                               FontSize="18" Foreground="#90FEFEFE"/>
+                                        <TextBlock Text="All your unfinished games are here" Style="{StaticResource FlatTextBlockStyle}"
+                                               VerticalAlignment="Center" TextWrapping="Wrap" 
+                                               FontSize="12" Foreground="#20FEFEFE"/>
+                                    </StackPanel>
+                                    <Grid Grid.Column="1">
+                                        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Rectangle Width="10" Height="10" Fill="#FAACA8" Canvas.Top="0" Canvas.Left="-9"/>
+                                            <Ellipse Width="20" Height="20" Fill="{StaticResource BackgroundBrush}"
+                                                     Canvas.Top="0" Canvas.Left="-20"/>
+                                        </Canvas>
+                                        <Border CornerRadius="0,10,10,10">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#FAACA8" Offset="0"/>
+                                                    <GradientStop Color="#DDD6F3" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+                                        <Image Source="/Images/gamepad.png" Margin="12">
+                                            <Image.Effect>
+                                                <DropShadowEffect Opacity="0.23" BlurRadius="2"/>
+                                            </Image.Effect>
+                                        </Image>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </ToggleButton>
+                        <Border CornerRadius="25" Height="25" Width="25" Background="{StaticResource Danger}"
+                                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,0,0"
+                                x:Name="roomsCount">
+                            <TextBlock Text="{Binding ActiveRooms.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                   Foreground="#FEFEFE"/>
+                        </Border>
+                        <Popup x:Name="activeRoomsPopup" Panel.ZIndex="100" StaysOpen="False"
+                           IsOpen="{Binding ElementName=btnActiveRooms, Path=IsChecked}"
+                                AllowsTransparency="True" Placement="Bottom" Margin="0,5,20,0"
+                                HorizontalOffset="-57" PlacementTarget="{Binding ElementName=btnActiveRooms}"
+                           VerticalOffset="10">
+                            <Border Margin="0,5,0,0"
+                                    Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                                    Height="350" Width="320"
+                                    Padding="10,10,10,0">
+                                <Grid>
 
-                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
-                                <ItemsControl ItemsSource="{Binding ActiveRooms}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border x:Name="activeBoardBorder" BorderThickness="0,0,0,0" CornerRadius="5" Margin="0,0,0,8" Background="#05FFFFFF" BorderBrush="{StaticResource BorderColorBrush}">
-                                                <behaviors:Interaction.Triggers>
-                                                    <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=activeBoardBorder}">
-                                                        <behaviors:InvokeCommandAction Command="{Binding DataContext.ContinueRoomCommand,ElementName=page}" 
-                                                                                       CommandParameter="{Binding }"/>
-                                                    </behaviors:EventTrigger>
-                                                </behaviors:Interaction.Triggers>
-                                                <Border.Triggers>
-                                                    <EventTrigger RoutedEvent="MouseEnter">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="hoverbg" Storyboard.TargetProperty="Opacity"
-                                                                                 To="1" Duration="0:0:0.2"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                    <EventTrigger RoutedEvent="MouseLeave">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation Storyboard.TargetName="hoverbg" Storyboard.TargetProperty="Opacity"
-                                                                                 To="0" Duration="0:0:0.2"/>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
-                                                </Border.Triggers>
-                                                <Grid HorizontalAlignment="Stretch" Height="70">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="80"/>
-                                                        <ColumnDefinition Width="1*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border x:Name="hoverbg" CornerRadius="5" Opacity="0" Grid.ColumnSpan="2" Background="#10FFFFFF"/>
-                                                    <Grid>
-                                                        <Image Source="/Images/bingocolored.png" Margin="10"/>
-                                                    </Grid>
-                                                    <StackPanel Grid.Column="1" Margin="0,10,3,0">
-                                                        <TextBlock Text="{Binding RoomName}" Style="{StaticResource FlatTextBlockStyle}" 
-                                                           VerticalAlignment="Center" FontSize="18" Foreground="#90FEFEFE"/>
-                                                        <TextBlock Text="{Binding CreationDate, StringFormat='dd/MM/yyyy HH:mm'}" Style="{StaticResource FlatTextBlockStyle}" 
-                                                           VerticalAlignment="Center" FontSize="13" Foreground="#30FEFEFE" Margin="0,5,0,0"/>
-                                                    </StackPanel>
-                                                    <Button Command="{Binding DataContext.EndGameCommand,ElementName=page}"
-                                                    CommandParameter="{Binding }"
-                                                    Style="{StaticResource IconButtonStyleColored}" 
-                                                    Content="&#xe7C1;" HorizontalAlignment="Right"
-                                                            Foreground="{StaticResource Green}"
-                                                            Background="{StaticResource GreenAlpha20}"
-                                                            ToolTip="Finish Game"
-                                                            Grid.Column="2" Margin="0,0,10,0"
-                                                    />
-                                                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed">
-                                                        <Button Command="{Binding DataContext.ContinueRoomCommand,ElementName=page}"
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding ActiveRooms}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border x:Name="activeBoardBorder" BorderThickness="0,0,0,0" CornerRadius="5" Margin="0,0,0,8" Background="#05FFFFFF" BorderBrush="{StaticResource BorderColorBrush}">
+                                                        <behaviors:Interaction.Triggers>
+                                                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=activeBoardBorder}">
+                                                                <behaviors:InvokeCommandAction Command="{Binding DataContext.ContinueRoomCommand,ElementName=page}" 
+                                                                                               CommandParameter="{Binding }"/>
+                                                            </behaviors:EventTrigger>
+                                                        </behaviors:Interaction.Triggers>
+                                                        <Border.Triggers>
+                                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetName="hoverbg" Storyboard.TargetProperty="Opacity"
+                                                                                         To="1" Duration="0:0:0.2"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetName="hoverbg" Storyboard.TargetProperty="Opacity"
+                                                                                         To="0" Duration="0:0:0.2"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger>
+                                                        </Border.Triggers>
+                                                        <Grid HorizontalAlignment="Stretch" Height="70">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="80"/>
+                                                                <ColumnDefinition Width="1*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border x:Name="hoverbg" CornerRadius="5" Opacity="0" Grid.ColumnSpan="2" Background="#10FFFFFF"/>
+                                                            <Grid>
+                                                                <Image Source="/Images/bingocolored.png" Margin="10"/>
+                                                            </Grid>
+                                                            <StackPanel Grid.Column="1" Margin="0,10,3,0">
+                                                                <TextBlock Text="{Binding RoomName}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                                   VerticalAlignment="Center" FontSize="18" Foreground="#90FEFEFE"/>
+                                                                <TextBlock Text="{Binding CreationDate, StringFormat='dd/MM/yyyy HH:mm'}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                                   VerticalAlignment="Center" FontSize="13" Foreground="#30FEFEFE" Margin="0,5,0,0"/>
+                                                            </StackPanel>
+                                                            <Button Command="{Binding DataContext.EndGameCommand,ElementName=page}"
+                                                            CommandParameter="{Binding }"
+                                                            Style="{StaticResource IconButtonStyleColored}" 
+                                                            Content="&#xe7C1;" HorizontalAlignment="Right"
+                                                                    Foreground="{StaticResource Green}"
+                                                                    Background="{StaticResource GreenAlpha20}"
+                                                                    ToolTip="Finish Game"
+                                                                    Grid.Column="2" Margin="0,0,10,0"
+                                                            />
+                                                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed">
+                                                                <Button Command="{Binding DataContext.ContinueRoomCommand,ElementName=page}"
                                                     
-                                                    Style="{StaticResource IconButtonStyleColored}" 
-                                                    Content="&#xe102;" HorizontalAlignment="Right"
-                                                            Foreground="{StaticResource Green}"
-                                                            Background="{StaticResource GreenAlpha20}"                                                        
-                                                            Margin="0,0,10,0" ToolTip="Continue Game"
-                                                    />
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                            </ScrollViewer>
-                        </Grid>
-                    </Border>
-                </Popup>
-            </Grid>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Top">
-                <Border x:Name="border" Width="380" Height="550" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
-                        Margin="0,0,40,0"
-                        CornerRadius="24"
-                        Padding="0" RenderTransformOrigin="0.5,0.5">
-                    <Border.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Border.RenderTransform>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="250"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Rectangle Width="24" Height="24" Fill="#FFB6BEE7" Canvas.Bottom="-23" Canvas.Right="0"/>
-                                <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
-                                         Canvas.Bottom="-48" Canvas.Right="0"/>
-                            </Canvas>
-                            <Border CornerRadius="24,24,0,24" BorderThickness="0">
-                                <Border.Background>
-                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                        <GradientStop Color="#FFE7E0B6"/>
-                                        <GradientStop Color="#FFB6BEE7" Offset="0.60"/>
-                                    </LinearGradientBrush>
-                                </Border.Background>
+                                                            Style="{StaticResource IconButtonStyleColored}" 
+                                                            Content="&#xe102;" HorizontalAlignment="Right"
+                                                                    Foreground="{StaticResource Green}"
+                                                                    Background="{StaticResource GreenAlpha20}"                                                        
+                                                                    Margin="0,0,10,0" ToolTip="Continue Game"
+                                                            />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Grid>
                             </Border>
-                            <Image Source="/Images/createboard.png" Margin="60,40,60,0" Stretch="UniformToFill"/>
-                        </Grid>
-                        <StackPanel Grid.Row="1" Margin="20,0">
-                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Create a new room" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap"
-                                       TextAlignment="Left" Margin="0,20">                                
-                                <Run Text="Let’s create a new board and start playing bingo as soon as possible."/>
-                                <LineBreak/>
-                                <LineBreak/>
-                                <Run Text="You can use the pre-saved templates for even more convenient and fast bingo."/>
-
-                            </TextBlock>
-                        </StackPanel>
-                        <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="Create room"                                 
-                                Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"
-                                Command="{Binding CreateNewRoomCommand}"/>
+                        </Popup>
                     </Grid>
-                </Border>
-                <Border x:Name="border1" Width="380" Height="550" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"                        
-                        Margin="0,0,40,0"
-                        CornerRadius="24"
-                        Padding="0" RenderTransformOrigin="0.5,0.5">
-                    <Border.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Border.RenderTransform>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="250"/>
-                            <RowDefinition Height="1*"/>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Rectangle Width="24" Height="24" Fill="#f18ec0" Canvas.Bottom="-23" Canvas.Right="0"/>
-                                <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
-                                         Canvas.Bottom="-48" Canvas.Right="0"/>
-                            </Canvas>
-                            <Border CornerRadius="24,24,0,24">
-                                <Border.Background>
-                                    <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                        <GradientStop Color="#FF6B4CAC"/>
-                                        <GradientStop Color="#f18ec0" Offset="0.69"/>
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                            </Border>
-                            <Image Source="/Images/connect.png" Stretch="UniformToFill"  Margin="40,20,40,0"/>
-                        </Grid>
-                        <StackPanel Grid.Row="1" Margin="20,0">
-                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Connect to the room" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
-                                       TextAlignment="Left" Margin="0,20">                                
-                                <Run Text="Just paste the link, click connect and start playing."/>
-                                <LineBreak/>
-                                <Run Text="App works with any"/>
-                                <Run Text="bingosync.com" TextDecorations="Underline" Cursor="Hand" MouseLeftButtonDown="Run_MouseLeftButtonDown" Foreground="{StaticResource BingoColorNavy}"/>
-                                <Run Text="links."/>
-                            </TextBlock>
-                            <cnt:InputFieldControl PlaceholderBackgroundColor="{StaticResource AccentColor}" Text="{Binding RoomUrl, Mode=TwoWay}" Placeholder="https://bingosync.com/room/..." Label="Link" Margin="0,10"/>
-                        </StackPanel>
-                        <Button Style="{StaticResource FlatButtonStylePrimary}" Visibility="{Binding IsBoardConnecting, Converter={StaticResource NotBoolToVisibilityConverter}}"
-                                Command="{Binding GetRoomConnectionInfoCommand}" IsEnabled="{Binding CanConnect}"
-                                Content="Connect" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20" />
-                        <cnt:SpinerControl Visibility="{Binding IsBoardConnecting, Converter={StaticResource BoolToVisConverter}}"
-                            IsSmall="True" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Bottom" 
-                                           Margin="20,0,20,20" SpinerColor="{StaticResource AccentColorBrush}"/>
-                    </Grid>
-                </Border>
-                <StackPanel x:Name="stackPanel" RenderTransformOrigin="0.5,0.5">
-                    <StackPanel.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </StackPanel.RenderTransform>
-                    <Border Width="490" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
-                        Margin="0,0,0,40"
-                        CornerRadius="24"
-                        Padding="0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="190"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Top">
+                        <Border x:Name="border" Width="380" Height="550" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
+                                Margin="0,0,40,0"
+                                CornerRadius="24"
+                                Padding="0" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
                             <Grid>
-                                <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Rectangle Width="24" Height="24" Fill="#F7A162" Canvas.Top="0" Canvas.Right="-23"/>
-                                    <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
-                                         Canvas.Top="0" Canvas.Right="-48"/>
-                                </Canvas>
-                                <Border CornerRadius="24,0,24,24">
-                                    <Border.Background>
-                                        <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                            <GradientStop Color="#f5a720"/>
-                                            <GradientStop Color="#f7a164" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                </Border>
-                                <Image Source="/Images/history.png" Stretch="UniformToFill"  Margin="20,20,20,0"/>
-                            </Grid>
-                            <StackPanel Grid.Column="1" Margin="20,0">
-                                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Games history" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
-                                       TextAlignment="Left" Margin="0,10">                                
-                                    <Run Text="The application saves the history of all your games. You can always see when and with whom you played."/>
-                                </TextBlock>
-                            </StackPanel>
-                            <Button Grid.Column="1" Style="{StaticResource FlatTextButtonStyle}"
-                                    Command="{Binding OpenHistoryCommand}"                                        
-                                        HorizontalAlignment="Left" HorizontalContentAlignment="Left"                                    
-                                        Content="View history" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
-                        </Grid>
-                    </Border>
-                    <Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
-                        Margin="0,0,0,0"
-                        CornerRadius="24"
-                        Padding="0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="190"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Column="1">
-                                <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Rectangle Width="24" Height="24" Fill="#84DEDE" Canvas.Bottom="0" Canvas.Left="-23"/>
-                                    <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
-                                         Canvas.Bottom="0" Canvas.Left="-48"/>
-                                </Canvas>
-                                <Border CornerRadius="24,24,24,0">
-                                    <Border.Background>
-                                        <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                            <GradientStop Color="#88e1e1"/>
-                                            <GradientStop Color="#028491" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                    <Image Source="/Images/boardmanager.png" Stretch="UniformToFill"  Margin="-20,-20,0,0"/>
-                                </Border>
-                            </Grid>
-                            <StackPanel Grid.Column="0" Margin="20,0">
-                                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Board manager" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
-                                       TextAlignment="Left" Margin="0,20">                                
-                                    <Run Text="Change boards, add new squares, create new boards! All this is available here."/>
-                                </TextBlock>
-                            </StackPanel>
-                            <Button Style="{StaticResource FlatTextButtonStyle}"
-                                    Command="{Binding OpenBoardManagerCommand}"
-                                    Content="Open manager" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
-                        </Grid>
-                    </Border>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="250"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Rectangle Width="24" Height="24" Fill="#FFB6BEE7" Canvas.Bottom="-23" Canvas.Right="0"/>
+                                        <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
+                                                 Canvas.Bottom="-48" Canvas.Right="0"/>
+                                    </Canvas>
+                                    <Border CornerRadius="24,24,0,24" BorderThickness="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+                                                <GradientStop Color="#FFE7E0B6"/>
+                                                <GradientStop Color="#FFB6BEE7" Offset="0.60"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Image Source="/Images/createboard.png" Margin="60,40,60,0" Stretch="UniformToFill"/>
+                                </Grid>
+                                <StackPanel Grid.Row="1" Margin="20,0">
+                                    <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Create a new room" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap"
+                                               TextAlignment="Left" Margin="0,20">                                
+                                        <Run Text="Let’s create a new board and start playing bingo as soon as possible."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="You can use the pre-saved templates for even more convenient and fast bingo."/>
 
-                    <!--<Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
-                        Margin="0,0,0,0"
-                        CornerRadius="24"
-                        Padding="0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="190"/>
-                            </Grid.ColumnDefinitions>
-                            <Border CornerRadius="0,24,24,0" Grid.Column="1">
-                                <Border.Background>
-                                    <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                        <GradientStop Color="#88e1e1"/>
-                                        <GradientStop Color="#028491" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                                <Image Source="/Images/practice.png" Stretch="UniformToFill"  Margin="20,20,20,0"/>
+                                    </TextBlock>
+                                </StackPanel>
+                                <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="Create room"                                 
+                                        Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"
+                                        Command="{Binding CreateNewRoomCommand}"/>
+                            </Grid>
+                        </Border>
+                        <Border x:Name="border1" Width="380" Height="550" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"                        
+                                Margin="0,0,40,0"
+                                CornerRadius="24"
+                                Padding="0" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="250"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Rectangle Width="24" Height="24" Fill="#f18ec0" Canvas.Bottom="-23" Canvas.Right="0"/>
+                                        <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
+                                                 Canvas.Bottom="-48" Canvas.Right="0"/>
+                                    </Canvas>
+                                    <Border CornerRadius="24,24,0,24">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+                                                <GradientStop Color="#FF6B4CAC"/>
+                                                <GradientStop Color="#f18ec0" Offset="0.69"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <Image Source="/Images/connect.png" Stretch="UniformToFill"  Margin="40,20,40,0"/>
+                                </Grid>
+                                <StackPanel Grid.Row="1" Margin="20,0">
+                                    <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Connect to the room" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                               TextAlignment="Left" Margin="0,20">                                
+                                        <Run Text="Just paste the link, click connect and start playing."/>
+                                        <LineBreak/>
+                                        <Run Text="App works with any"/>
+                                        <Run Text="bingosync.com" TextDecorations="Underline" Cursor="Hand" MouseLeftButtonDown="Run_MouseLeftButtonDown" Foreground="{StaticResource BingoColorNavy}"/>
+                                        <Run Text="links."/>
+                                    </TextBlock>
+                                    <cnt:InputFieldControl PlaceholderBackgroundColor="{StaticResource AccentColor}" Text="{Binding RoomUrl, Mode=TwoWay}" Placeholder="https://bingosync.com/room/..." Label="Link" Margin="0,10"/>
+                                </StackPanel>
+                                <Button Style="{StaticResource FlatButtonStylePrimary}" Visibility="{Binding IsBoardConnecting, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                        Command="{Binding GetRoomConnectionInfoCommand}" IsEnabled="{Binding CanConnect}"
+                                        Content="Connect" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20" />
+                                <cnt:SpinerControl Visibility="{Binding IsBoardConnecting, Converter={StaticResource BoolToVisConverter}}"
+                                    IsSmall="True" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Bottom" 
+                                                   Margin="20,0,20,20" SpinerColor="{StaticResource AccentColorBrush}"/>
+                            </Grid>
+                        </Border>
+                        <StackPanel x:Name="stackPanel" RenderTransformOrigin="0.5,0.5">
+                            <StackPanel.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </StackPanel.RenderTransform>
+                            <Border Width="490" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
+                                Margin="0,0,0,40"
+                                CornerRadius="24"
+                                Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="190"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Rectangle Width="24" Height="24" Fill="#F7A162" Canvas.Top="0" Canvas.Right="-23"/>
+                                            <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
+                                                 Canvas.Top="0" Canvas.Right="-48"/>
+                                        </Canvas>
+                                        <Border CornerRadius="24,0,24,24">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+                                                    <GradientStop Color="#f5a720"/>
+                                                    <GradientStop Color="#f7a164" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+                                        <Image Source="/Images/history.png" Stretch="UniformToFill"  Margin="20,20,20,0"/>
+                                    </Grid>
+                                    <StackPanel Grid.Column="1" Margin="20,0">
+                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Games history" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                               TextAlignment="Left" Margin="0,10">                                
+                                            <Run Text="The application saves the history of all your games. You can always see when and with whom you played."/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Button Grid.Column="1" Style="{StaticResource FlatTextButtonStyle}"
+                                            Command="{Binding OpenHistoryCommand}"                                        
+                                                HorizontalAlignment="Left" HorizontalContentAlignment="Left"                                    
+                                                Content="View history" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                </Grid>
                             </Border>
-                            <StackPanel Grid.Column="0" Margin="20,0">
-                                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Bingo practicing" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
-                                       TextAlignment="Left" Margin="0,20">                                
-                                    <Run Text="Just paste the link, click connect and start playing"/>
-                                </TextBlock>
-                            </StackPanel>
-                            <Button Style="{StaticResource FlatTextButtonStyle}" Content="Start practice" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
-                        </Grid>
-                    </Border>-->
-                </StackPanel>
-            </StackPanel>
-        </Grid>
+                            <Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
+                                Margin="0,0,0,0"
+                                CornerRadius="24"
+                                Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="190"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="1">
+                                        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Rectangle Width="24" Height="24" Fill="#84DEDE" Canvas.Bottom="0" Canvas.Left="-23"/>
+                                            <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
+                                                 Canvas.Bottom="0" Canvas.Left="-48"/>
+                                        </Canvas>
+                                        <Border CornerRadius="24,24,24,0">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+                                                    <GradientStop Color="#88e1e1"/>
+                                                    <GradientStop Color="#028491" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Image Source="/Images/boardmanager.png" Stretch="UniformToFill"  Margin="-20,-20,0,0"/>
+                                        </Border>
+                                    </Grid>
+                                    <StackPanel Grid.Column="0" Margin="20,0">
+                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Board manager" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                               TextAlignment="Left" Margin="0,20">                                
+                                            <Run Text="Change boards, add new squares, create new boards! All this is available here."/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Button Style="{StaticResource FlatTextButtonStyle}"
+                                            Command="{Binding OpenBoardManagerCommand}"
+                                            Content="Open manager" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                </Grid>
+                            </Border>
 
-        <cnt:ModalWindowControl Title="Connecting to Room" 
-                                IsOpen="{Binding IsConnectModalVisible, Mode=TwoWay}" 
-                                CloseCommand="{Binding ConnectToRoomCancelCommand}"
-                                IsTitleVisible="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotConverter}}">
-            <Grid>
-                <StackPanel Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotBoolToVisibilityConverter}}">
-                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.RoomName}" Placeholder="Room Name" Label="Room Name" Margin="40,0,40,10"/>
-                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Creator}" Placeholder="Creator" Label="Creator" Margin="40,0,40,10"/>
-                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Game}" Placeholder="Game" Label="Game" Margin="40,0,40,10"/>
-                    <cnt:InputFieldControl Text="{Binding Credentials.NickName, Mode=TwoWay}" Placeholder="Nickname" Label="Nickname" Margin="40,0,40,10"/>
-                    <TextBlock Visibility="{Binding IsEmptyNickName, Converter={StaticResource BoolToVisConverter}}" Text="Please type NickName!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
-                    <cnt:InputFieldControl IsPassword="True" Password="{Binding Credentials.Password, Mode=TwoWay}" Placeholder="Password" Label="Password" Margin="40,0,40,50"/>
-                    <TextBlock Visibility="{Binding IsIncorrectPassword, Converter={StaticResource BoolToVisConverter}}" Text="Incorrect Password!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
-                    <TextBlock Visibility="{Binding IsEmptyPassword, Converter={StaticResource BoolToVisConverter}}" Text="Please type Password!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
-                    <cnt:SwitchControl Text="Connect As Spectator" Margin="45,-15,0,30" IsChecked="{Binding Credentials.IsSpectator, Mode=TwoWay}"/>
-                    <Button Style="{StaticResource FlatButtonStylePrimary}" Command="{Binding ConnectToRoomCommand}" Content="Connect" Width="250" HorizontalAlignment="Center"/>
-                </StackPanel>
-                <Grid Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding RoomInfo.RoomName, StringFormat='Connecting To {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
-                                   Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <cnt:ConnectingControl />
-                        <Button Content="Cancel" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
-                                Width="180"/>
+                            <!--<Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
+                                Margin="0,0,0,0"
+                                CornerRadius="24"
+                                Padding="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="190"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border CornerRadius="0,24,24,0" Grid.Column="1">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+                                                <GradientStop Color="#88e1e1"/>
+                                                <GradientStop Color="#028491" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Image Source="/Images/practice.png" Stretch="UniformToFill"  Margin="20,20,20,0"/>
+                                    </Border>
+                                    <StackPanel Grid.Column="0" Margin="20,0">
+                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Bingo practicing" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                               TextAlignment="Left" Margin="0,20">                                
+                                            <Run Text="Just paste the link, click connect and start playing"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Button Style="{StaticResource FlatTextButtonStyle}" Content="Start practice" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                </Grid>
+                            </Border>-->
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
-            </Grid>
-        </cnt:ModalWindowControl>
-        <!---->
-        <cnt:ModalWindowControl Title="Create New Room" IsOpen="{Binding IsNewRoomModalVisible, Mode=TwoWay}"
-                                CloseCommand="{Binding CreateRoomCancelCommand}"
-                                IsTitleVisible="{Binding IsBoardCreating, Converter={StaticResource NotConverter}}">
-            <Grid>
-                <!---->
-                <StackPanel Visibility="{Binding IsBoardCreating, Converter={StaticResource NotBoolToVisibilityConverter}}">
-                    <cnt:InputFieldControl Text="{Binding NewRoom.RoomName, Mode=TwoWay}" Placeholder="Room Name" Label="Room Name" Margin="40,0,40,10"
-                                               IsError="{Binding NewRoom.IsRoomNameError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-                    <cnt:InputFieldControl Text="{Binding NewRoom.NickName, Mode=TwoWay}" Placeholder="Creator" Label="Creator" Margin="40,0,40,10"
-                                               IsError="{Binding NewRoom.IsNickNameError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-                    <cnt:InputFieldControl IsPassword="True" Password="{Binding NewRoom.Password, Mode=TwoWay}" Placeholder="Password" Label="Password" Margin="40,0,40,10"
-                                               IsError="{Binding NewRoom.IsPasswordError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
 
-                    <cnt:SelectFieldControl Placeholder="Mode" Label="Mode" ItemsSource="{Binding RoomLockoutModes}" 
-                                            Margin="40,0,40,10"
-                                            SelectedCurrentItem="{Binding NewRoom.RoomLockoutMode, Mode=TwoWay}"                                               
-                                            DisplayProperty="Name" IsRequiered="True"/>
-
-                    <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource BoolToVisConverter}}">
-                        <cnt:SelectFieldControl Placeholder="Preset" Label="Preset" ItemsSource="{Binding Presets}" 
-                                                    Margin="40,0,40,5"
-                                                    SelectedCurrentItem="{Binding NewRoom.BoardPreset, Mode=TwoWay}"
-                                                    IsError="{Binding NewRoom.IsBoardPresetError}" ErrorMessage="Requiered field!"
-                                                    DisplayProperty="PresetName" IsRequiered="True"/>
-
-                        <Button Content="Use JSON" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
-                                    Command="{Binding UsingPresetSwitchCommand}"
-                                    HorizontalAlignment="Right" Margin="50,0,50,0"/>
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource NotBoolToVisibilityConverter}}">
-                        <cnt:InputFieldControl Placeholder="Paste JSON here..." Label="JSON" Margin="40,0,40,5" Text="{Binding NewRoom.BoardJSON, Mode=TwoWay}"
-                                                   IsError="{Binding NewRoom.IsBoardJsonError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-                        <Button Content="Use Presets" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
-                                    Command="{Binding UsingPresetSwitchCommand}"
-                                    HorizontalAlignment="Right" Margin="50,0,50,0"/>
-                    </StackPanel>
-
+                <cnt:ModalWindowControl Title="Connecting to Room" 
+                                        IsOpen="{Binding IsConnectModalVisible, Mode=TwoWay}" 
+                                        CloseCommand="{Binding ConnectToRoomCancelCommand}"
+                                        IsTitleVisible="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotConverter}}">
                     <Grid>
-                        <Border Height="1" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
-                                    Margin="40,10"/>
-                        <TextBlock Background="{StaticResource BackgroundColorBrushDark}"                                        
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       Text="More options" Padding="10,0"
-                                       Style="{StaticResource FlatTextBlockStyle}"/>
-
+                        <StackPanel Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                            <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.RoomName}" Placeholder="Room Name" Label="Room Name" Margin="40,0,40,10"/>
+                            <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Creator}" Placeholder="Creator" Label="Creator" Margin="40,0,40,10"/>
+                            <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Game}" Placeholder="Game" Label="Game" Margin="40,0,40,10"/>
+                            <cnt:InputFieldControl Text="{Binding Credentials.NickName, Mode=TwoWay}" Placeholder="Nickname" Label="Nickname" Margin="40,0,40,10"/>
+                            <TextBlock Visibility="{Binding IsEmptyNickName, Converter={StaticResource BoolToVisConverter}}" Text="Please type NickName!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
+                            <cnt:InputFieldControl IsPassword="True" Password="{Binding Credentials.Password, Mode=TwoWay}" Placeholder="Password" Label="Password" Margin="40,0,40,50"/>
+                            <TextBlock Visibility="{Binding IsIncorrectPassword, Converter={StaticResource BoolToVisConverter}}" Text="Incorrect Password!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
+                            <TextBlock Visibility="{Binding IsEmptyPassword, Converter={StaticResource BoolToVisConverter}}" Text="Please type Password!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
+                            <cnt:SwitchControl Text="Connect As Spectator" Margin="45,-15,0,30" IsChecked="{Binding Credentials.IsSpectator, Mode=TwoWay}"/>
+                            <Button Style="{StaticResource FlatButtonStylePrimary}" Command="{Binding ConnectToRoomCommand}" Content="Connect" Width="250" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <Grid Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource BoolToVisConverter}}">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding RoomInfo.RoomName, StringFormat='Connecting To {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
+                                            Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                <cnt:ConnectingControl />
+                                <Button Content="Cancel" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
+                                        Width="180"/>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
-                    <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-                        <cnt:SwitchControl Text="Hide Card Initialy" IsChecked="{Binding NewRoom.HideCard, Mode=TwoWay}" Margin="50,0,0,10"/>
-                        <cnt:SwitchControl Text="Create as spectator" IsChecked="{Binding NewRoom.AsSpectator, Mode=TwoWay}" Margin="50,0,0,10"/>
-                        <cnt:SwitchControl Text="Auto Board Reveal" IsChecked="{Binding NewRoom.IsAutoBoardReveal, Mode=TwoWay}" Margin="50,0,0,10"/>
-                    </StackPanel>
-                    <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" 
-                                Command="{Binding CreateNewRoomFinalyCommand}"
-                                Content="Create Room" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0"/>
-                </StackPanel>
+                </cnt:ModalWindowControl>
                 <!---->
-                <Grid Visibility="{Binding IsBoardCreating, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding NewRoom.RoomName, StringFormat='Creating {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
-                                   Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <cnt:CreatingControl />
-                        <Button Content="Cancel" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
-                                Width="180"/>
-                    </StackPanel>
-                </Grid>
-            </Grid>
-        </cnt:ModalWindowControl>
+                <cnt:ModalWindowControl Title="Create New Room" 
+                                        IsOpen="{Binding IsNewRoomModalVisible, Mode=TwoWay}"
+                                        CloseCommand="{Binding CreateRoomCancelCommand}"
+                                        IsTitleVisible="{Binding IsBoardCreating, Converter={StaticResource NotConverter}}">
+                    <Grid>
+                        <!---->
+                        <StackPanel Visibility="{Binding IsBoardCreating, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                            <cnt:InputFieldControl Text="{Binding NewRoom.RoomName, Mode=TwoWay}" Placeholder="Room Name" Label="Room Name" Margin="40,0,40,10"
+                                                        IsError="{Binding NewRoom.IsRoomNameError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
+                            <cnt:InputFieldControl Text="{Binding NewRoom.NickName, Mode=TwoWay}" Placeholder="Creator" Label="Creator" Margin="40,0,40,10"
+                                                        IsError="{Binding NewRoom.IsNickNameError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
+                            <cnt:InputFieldControl IsPassword="True" Password="{Binding NewRoom.Password, Mode=TwoWay}" Placeholder="Password" Label="Password" Margin="40,0,40,10"
+                                                        IsError="{Binding NewRoom.IsPasswordError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
 
+                            <cnt:SelectFieldControl Placeholder="Mode" Label="Mode" ItemsSource="{Binding RoomLockoutModes}" 
+                                                    Margin="40,0,40,10"
+                                                    SelectedCurrentItem="{Binding NewRoom.RoomLockoutMode, Mode=TwoWay}"                                               
+                                                    DisplayProperty="Name" IsRequiered="True"/>
+
+                            <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource BoolToVisConverter}}">
+                                <cnt:SelectFieldControl Placeholder="Preset" Label="Preset" ItemsSource="{Binding Presets}" 
+                                                            Margin="40,0,40,5"
+                                                            SelectedCurrentItem="{Binding NewRoom.BoardPreset, Mode=TwoWay}"
+                                                            IsError="{Binding NewRoom.IsBoardPresetError}" ErrorMessage="Requiered field!"
+                                                            DisplayProperty="PresetName" IsRequiered="True"/>
+
+                                <Button Content="Use JSON" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
+                                            Command="{Binding UsingPresetSwitchCommand}"
+                                            HorizontalAlignment="Right" Margin="50,0,50,0"/>
+                            </StackPanel>
+                            <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                <cnt:InputFieldControl Placeholder="Paste JSON here..." Label="JSON" Margin="40,0,40,5" Text="{Binding NewRoom.BoardJSON, Mode=TwoWay}"
+                                                            IsError="{Binding NewRoom.IsBoardJsonError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
+                                <Button Content="Use Presets" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
+                                            Command="{Binding UsingPresetSwitchCommand}"
+                                            HorizontalAlignment="Right" Margin="50,0,50,0"/>
+                            </StackPanel>
+
+                            <Grid>
+                                <Border Height="1" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                                            Margin="40,10"/>
+                                <TextBlock Background="{StaticResource BackgroundColorBrushDark}"                                        
+                                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                Text="More options" Padding="10,0"
+                                                Style="{StaticResource FlatTextBlockStyle}"/>
+
+                            </Grid>
+                            <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                                <cnt:SwitchControl Text="Hide Card Initialy" IsChecked="{Binding NewRoom.HideCard, Mode=TwoWay}" Margin="50,0,0,10"/>
+                                <cnt:SwitchControl Text="Create as spectator" IsChecked="{Binding NewRoom.AsSpectator, Mode=TwoWay}" Margin="50,0,0,10"/>
+                                <cnt:SwitchControl Text="Auto Board Reveal" IsChecked="{Binding NewRoom.IsAutoBoardReveal, Mode=TwoWay}" Margin="50,0,0,10"/>
+                            </StackPanel>
+                            <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" 
+                                        Command="{Binding CreateNewRoomFinalyCommand}"
+                                        Content="Create Room" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                        </StackPanel>
+                        <!---->
+                        <Grid Visibility="{Binding IsBoardCreating, Converter={StaticResource BoolToVisConverter}}">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding NewRoom.RoomName, StringFormat='Creating {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
+                                            Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
+                                <cnt:CreatingControl />
+                                <Button Content="Cancel" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
+                                        Width="180"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </cnt:ModalWindowControl>
+            </Grid>
+        </Viewbox>
         <StackPanel x:Name="stackPanel1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="40,20"
                     Orientation="Horizontal" RenderTransformOrigin="0.5,0.5">
             <StackPanel.RenderTransform>
@@ -673,19 +677,19 @@
                 </TransformGroup>
             </StackPanel.RenderTransform>
             <TextBlock  Style="{StaticResource FlatTextBlockStyle}"
-                       Foreground="#1BFEFEFE"  
-                       FontSize="12" Text="Created by: "
+                        Foreground="#1BFEFEFE"  
+                        FontSize="12" Text="Created by: "
                         VerticalAlignment="Center">
             </TextBlock>
             <TextBlock Style="{StaticResource FlatTextBlockStyle}"
-                       Foreground="#25FEFEFE"  
-                       FontSize="12" Text="DirefulLemur0"
-                       VerticalAlignment="Center">
+                        Foreground="#25FEFEFE"  
+                        FontSize="12" Text="DirefulLemur0"
+                        VerticalAlignment="Center">
             </TextBlock>
             <Image Height="20" Width="20" Source="/Images/discord.png" Margin="8,0,0,0" VerticalAlignment="Center"
-                   MouseLeftButtonDown="Discord_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Discord"/>
+                    MouseLeftButtonDown="Discord_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Discord"/>
             <Image Height="20" Width="20" Source="/Images/twitch.png" Margin="8,0,0,0" VerticalAlignment="Center"
-                   MouseLeftButtonDown="Twitch_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Twitch"/>
+                    MouseLeftButtonDown="Twitch_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Twitch"/>
 
         </StackPanel>
         <TextBlock x:Name="textBlock"  Style="{StaticResource FlatTextBlockStyle}"
@@ -701,6 +705,5 @@
                 </TransformGroup>
             </TextBlock.RenderTransform>
         </TextBlock>
-
     </Grid>
 </Page>
