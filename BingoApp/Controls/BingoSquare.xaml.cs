@@ -106,6 +106,11 @@ namespace BingoApp.Controls
 
         private void Border_KeyDown(object sender, KeyEventArgs e)
         {
+            if (CurrentPlayerColor == BingoColor.blank)
+            {
+                tblScore.Foreground = App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
+            }
+
             if (e.Key == Key.Space && e.KeyboardDevice.Modifiers == ModifierKeys.None)
             {
                 e.Handled = true;
@@ -146,6 +151,11 @@ namespace BingoApp.Controls
 
         private void Border_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (CurrentPlayerColor == BingoColor.blank)
+            {
+                tblScore.Foreground = App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
+            }
+
             if (canChangeValue)
             {
                 if (e.Delta > 0)
@@ -166,6 +176,14 @@ namespace BingoApp.Controls
         {
             e.Handled= true;
             Square.IsGoal = !Square.IsGoal;
+        }
+
+        private void control_Initialized(object sender, EventArgs e)
+        {
+            if (CurrentPlayerColor == BingoColor.blank)
+            {
+                tblScore.Foreground = App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
+            }
         }
     }
 }

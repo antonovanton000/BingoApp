@@ -145,7 +145,7 @@ namespace BingoApp.Classes
                             Color = (BingoColor)Enum.Parse(typeof(BingoColor), playerjObj["color"].Value<string>()),
                             NickName = playerjObj["name"].Value<string>()
                         };
-
+                        
                         room.ChosenColor = room.CurrentPlayer.Color;
                     }
 

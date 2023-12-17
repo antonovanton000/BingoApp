@@ -9,6 +9,7 @@
              d:DataContext="{d:DesignInstance Type=models:Square, IsDesignTimeCreatable=False}"              
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              d:DesignHeight="110" d:DesignWidth="110"
+             Initialized="control_Initialized"
              x:Name="control">
     <UserControl.Resources>
         <cl:BingoCollorBackgroundConverter x:Key="BingoCollorBackgroundConverter"/>
@@ -88,6 +89,7 @@
 
             <TextBlock Visibility="{Binding Square.IsScoreVisible ,ElementName=control, Converter={StaticResource BoolToVisConverter}}"
                         HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"
+                        x:Name="tblScore"
                         Text="{Binding Square.Score, ElementName=control}"  
                         FontSize="14" Foreground="{Binding CurrentPlayerColor,ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}" 
                         FontFamily="{StaticResource HelveticaLight}"/>

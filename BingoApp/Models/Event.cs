@@ -198,6 +198,7 @@ namespace BingoApp.Models
         revealed,
         goal,
         color,
+        newcard,
         none
     }
 }

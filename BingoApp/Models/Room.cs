@@ -254,7 +254,7 @@ namespace BingoApp.Models
                     {
                         var chatEvent = new Event()
                         {
-                            Type = (EventType)Enum.Parse(typeof(EventType), item["type"].Value<string>()),
+                            Type = (EventType)Enum.Parse(typeof(EventType), item["type"].Value<string>().Replace("-","")),
                             Timestamp = App.UnixTimeStampToDateTime(item["timestamp"].Value<double>()),
 
                             Player = new Player()

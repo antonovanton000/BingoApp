@@ -122,7 +122,7 @@ namespace BingoApp.Classes
             {
                 var chatEvent = new Event()
                 {
-                    Type = (EventType)Enum.Parse(typeof(EventType), jobj["type"].Value<string>()),
+                    Type = (EventType)Enum.Parse(typeof(EventType), jobj["type"].Value<string>().Replace("-", "")),
                     Timestamp = App.UnixTimeStampToDateTime(jobj["timestamp"].Value<double>()),
 
                     Player = new Player()
