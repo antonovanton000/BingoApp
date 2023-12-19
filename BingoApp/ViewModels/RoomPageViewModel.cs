@@ -108,6 +108,12 @@ namespace BingoApp.ViewModels
         Room? room;
 
         [ObservableProperty]
+        bool isPotentialBingoVisible = false;
+
+        [ObservableProperty]
+        BingoColor potentialBingoColor = BingoColor.blank;
+
+        [ObservableProperty]
         string chatMessage;
                 
         [ObservableProperty]
@@ -622,6 +628,14 @@ namespace BingoApp.ViewModels
             IsRefreshing = true;
             await Room.RefreshRoomAsync();
             IsRefreshing = false;
+        }
+
+        [RelayCommand]
+        void PlayerClick(Player player)
+        {
+            Room.UpdatePlayersGoals();
+            PotentialBingoColor = player.Color;
+            IsPotentialBingoVisible = !IsPotentialBingoVisible;
         }
     }
 }

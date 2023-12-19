@@ -51,11 +51,15 @@ namespace BingoApp.Models
         [ObservableProperty]
         bool isMarking = false;
 
+        [ObservableProperty]
+        bool isPotentialBingo = false;
+
         public bool IsScoreVisible => !IsMarked && Score > 0;
         public bool IsGoalVisible => !IsMarked && IsGoal;
 
         public bool HasOnlyOneColor => SquareColors.Where(i => i != BingoColor.blank).Count() == 1;
 
         public bool IsMarked { get => SquareColors.Count > 0 && SquareColors.Any(i => i != BingoColor.blank); }
+        
     }
 }

@@ -236,6 +236,7 @@ namespace BingoApp.Models
                 {
                     item.SquaresCount = Board.GetColorCount(item.Color);
                     item.LinesCount = Board.GetLinesCount(item.Color);
+                    item.PotentialBingos = Board.GetPotentialBingos(item);
                 }
             }
         }
@@ -380,7 +381,7 @@ namespace BingoApp.Models
             var stringContent = new StringContent(json.ToString());
             try
             {
-                var resp = await client.PutAsync(goalSelectedUrl, stringContent);
+                var resp = await client.PutAsync(goalSelectedUrl, stringContent);                
                 return resp.IsSuccessStatusCode;
             }
             catch (Exception)

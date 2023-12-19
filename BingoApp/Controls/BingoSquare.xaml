@@ -83,6 +83,10 @@
             <Grid Background="{Binding Square.SquareColors[0], ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}"
                   Visibility="{Binding Square.HasOnlyOneColor, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
             <Grid Background="{StaticResource AccentColorBrush}" Opacity="0" x:Name="hover"/>
+            <Grid Visibility="{Binding IsPotentialBingoVisible,ElementName=control, Converter={StaticResource BoolToVisConverter}}">
+                <Grid Background="{Binding PotentialBingoColor,ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}" Opacity="0.2" x:Name="potential"
+                      Visibility="{Binding Square.IsPotentialBingo, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
+            </Grid>
             <TextBlock Text="{Binding Square.Name, ElementName=control}" TextWrapping="Wrap" Padding="4"
                        TextAlignment="Center" HorizontalAlignment="Center" 
                        VerticalAlignment="Center" Foreground="#FEFEFE" FontFamily="{StaticResource HelveticaThin}" FontSize="14"/>

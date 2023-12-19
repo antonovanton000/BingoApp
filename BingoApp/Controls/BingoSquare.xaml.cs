@@ -87,7 +87,32 @@ namespace BingoApp.Controls
         public static readonly DependencyProperty MarkCommandParameterProperty =
             DependencyProperty.Register("MarkCommandParameter", typeof(object), typeof(BingoSquare), new PropertyMetadata(null));
 
-                        
+
+
+        public BingoColor PotentialBingoColor
+        {
+            get { return (BingoColor)GetValue(PotentialBingoColorProperty); }
+            set { SetValue(PotentialBingoColorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PotentialBingoColor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PotentialBingoColorProperty =
+            DependencyProperty.Register("PotentialBingoColor", typeof(BingoColor), typeof(BingoSquare), new PropertyMetadata(BingoColor.blank));
+
+
+
+        public bool IsPotentialBingoVisible
+        {
+            get { return (bool)GetValue(IsPotentialBingoVisibleProperty); }
+            set { SetValue(IsPotentialBingoVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsPotentialBingoVisible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsPotentialBingoVisibleProperty =
+            DependencyProperty.Register("IsPotentialBingoVisible", typeof(bool), typeof(BingoSquare), new PropertyMetadata(false));
+
+
+
         public bool IsScoreVisible => (Square?.Score ?? 0 ) > 0;
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)

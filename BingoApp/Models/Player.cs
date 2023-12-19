@@ -26,5 +26,8 @@ namespace BingoApp.Models
         
         [ObservableProperty]
         int linesCount;
+
+        [ObservableProperty]
+        string potentialBingos;
     }
 }
