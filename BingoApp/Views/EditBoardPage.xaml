@@ -113,12 +113,17 @@
                         <CheckBox IsChecked="{Binding IsAllSelected}" x:Name="checkAll" Command="{Binding SelectUnselectAllCommand}" CommandParameter="{Binding IsChecked,ElementName=checkAll}" Style="{StaticResource FlatCheckBoxStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13,0,0"/>
                         <TextBlock  Style="{StaticResource FlatTextBlockStyle}" FontSize="20"  HorizontalAlignment="Left" Margin="57,10,0,0">
                             <Run Text="Sqaures"/>
-                            <Run Text="{Binding BoardPreset.SquareCount,StringFormat=({0})}"/>
+                            <Run Text="{Binding BoardPreset.Squares.Count, StringFormat=({0}), Mode=OneWay}"/>
                         </TextBlock>
                         <StackPanel Visibility="Visible"
                             VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal"
                                     Margin="0,0,5,0">
 
+                            <Grid Margin="0,0,20,0">
+                                <Button Command="{Binding RemoveDuplicatesCommand}" Style="{StaticResource FlatButtonStyle}" 
+                                        Content="Remove duplicates" Width="160" Margin="15,0,0,0"
+                                        HorizontalAlignment="Right"/>
+                            </Grid>
                             <Grid>
                                 <TextBox Text="{Binding SearchQueue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBoxStyle}" Width="300" x:Name="tbxSearch" KeyDown="tbxSearch_KeyDown"/>
                                 <TextBlock x:Name="Placeholder" IsHitTestVisible="False" TextWrapping="Wrap" Text="Search..." Margin="20,12,0,10" Foreground="DarkGray" FontSize="16" FontFamily="Segoe UI Light">
@@ -314,7 +319,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <cnt:ModalWindowControl Title="Change Image" IsOpen="{Binding IsModalOpen, Mode=TwoWay}">
+        <cnt:ModalWindowControl Visibility="Collapsed" Title="Change Image" IsOpen="{Binding IsModalOpen, Mode=TwoWay}">
             <Grid>
                 <!---->
                 <StackPanel Visibility="{Binding IsImageChanging, Converter={StaticResource NotBoolToVisibilityConverter}}"

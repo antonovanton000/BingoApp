@@ -21,6 +21,8 @@
     <None Remove="GameJsons\Elden Ring (Baby Season 2).json" />
     <None Remove="GameJsons\Elden Ring (Season 1).json" />
     <None Remove="GameJsons\Elden Ring (Season 2).json" />
+    <None Remove="GameJsons\Sekiro %28RU%29 Blackout.json" />
+    <None Remove="GameJsons\Sekiro %28RU%29.json" />
     <None Remove="GameJsons\Sekiro.json" />
     <None Remove="Images\bingo.png" />
     <None Remove="Images\bingocolored.png" />
@@ -44,6 +46,8 @@
     <None Remove="PresetImages\Elden Ring %28Season 1%29.jpg" />
     <None Remove="PresetImages\Elden Ring %28Season 2%29.jpg" />
     <None Remove="PresetImages\Elden Ring (Baby Season 2).jpg" />
+    <None Remove="PresetImages\Sekiro (RU) Blackout.jpg" />
+    <None Remove="PresetImages\Sekiro (RU).jpg" />
     <None Remove="PresetImages\Sekiro.jpg" />
     <None Remove="Sounds\beep.wav" />
     <None Remove="Sounds\chat.wav" />
@@ -55,6 +59,12 @@
 
   <ItemGroup>
     <Content Include="GameJsons\Elden Ring %28Baby Season 2%29.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Sekiro (RU) Blackout.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GameJsons\Sekiro (RU).json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="GameJsons\Sekiro.json">
@@ -98,6 +108,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PresetImages\Elden Ring (Season 2).jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Sekiro %28RU%29.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PresetImages\Sekiro %28RU%29 Blackout.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="PresetImages\Sekiro.jpg">

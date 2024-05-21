@@ -7,7 +7,7 @@
              StartupUri="MainWindow.xaml"
     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <Application.Resources>
-        <system:String x:Key="AppVersion">Version: 1.0.3</system:String>
+        <system:String x:Key="AppVersion">Version: 1.0.5</system:String>
 
         <FontFamily x:Key="HelveticaThin">pack://application:,,,/Fonts/#HelveticaNeueCyr-Thin</FontFamily>
         <FontFamily x:Key="HelveticaLight">pack://application:,,,/Fonts/#HelveticaNeueCyr-Light</FontFamily>

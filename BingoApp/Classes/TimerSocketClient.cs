@@ -27,6 +27,7 @@ namespace BingoApp.Classes
         public event EventHandler<ConnectionChangedEventArgs> ConnectionChangedEvent;
         public event EventHandler<SettingsRecievedEventArgs> SettingsRecievedEvent;
         public event EventHandler<StartRecievedEventArgs> StartRecievedEvent;
+        public event EventHandler<StartRecievedEventArgs> StopRecievedEvent;
 
         private bool keepListening = true;
 
@@ -89,6 +90,16 @@ namespace BingoApp.Classes
                         StartTime = localTime
                     });
                 }
+                if (jobj["type"].Value<string>() == "stop")
+                {
+                    var timeString = jobj["time"].Value<string>();
+                    var utcDateTime = DateTime.ParseExact(timeString, "yyyy-MM-dd HH:mm:ss", CultureInfo.CurrentCulture);
+                    var localTime = utcDateTime.ToLocalTime();
+                    StopRecievedEvent?.Invoke(this, new StartRecievedEventArgs()
+                    {
+                        StartTime = localTime
+                    });
+                }
 
             }
         }
@@ -115,6 +126,16 @@ namespace BingoApp.Classes
             var bytes = Encoding.UTF8.GetBytes(jobj.ToString());
             await ws.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
+
+        public async Task SendStopToServerAsync()
+        {
+            var jobj = new JObject();
+            jobj["type"] = "stop";
+            jobj["time"] = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
+            var bytes = Encoding.UTF8.GetBytes(jobj.ToString());
+            await ws.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+        }
+
 
         public async Task DisconnectAsync()
         {

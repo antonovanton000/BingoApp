@@ -54,7 +54,10 @@ namespace BingoApp.ViewModels
         [ObservableProperty]
         int soundsVolume;
 
-        private Uri revealSound = new Uri(System.Environment.CurrentDirectory + "/Sounds/reveal.wav", UriKind.Relative);
+        [ObservableProperty]
+        bool isDebug;
+
+        private Uri revealSound = new Uri(System.Environment.CurrentDirectory + "\\Sounds\\reveal.wav", UriKind.Absolute);
 
 
         [RelayCommand]
@@ -79,9 +82,22 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         void TestSound()
         {
-            dingPlayer.Open(revealSound);
-            dingPlayer.Volume = SoundsVolume * 0.01d;
-            dingPlayer.Play();
+            try
+            {
+                dingPlayer.Open(revealSound);
+                dingPlayer.Volume = SoundsVolume * 0.01d;
+                dingPlayer.Play();
+
+                if (IsDebug)
+                {
+                    var debugMessage = $"Reveal sound path: {revealSound}\r\nSoundsVolume: {SoundsVolume}\r\nPlayer.Volume: {dingPlayer.Volume}\r\n----------------------\r\n";
+                    System.IO.File.AppendAllText(System.IO.Path.Combine(App.Location, "logs.txt"), debugMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(System.IO.Path.Combine(App.Location, "errors.txt"), $"Error: {ex.Message}\r\n-------------------\r\n");
+            }
         }
 
         private void Frame_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
@@ -106,6 +122,7 @@ namespace BingoApp.ViewModels
             FeedColorChanged = BingoApp.Properties.Settings.Default.IsColorChanged;
             FeedConnections = BingoApp.Properties.Settings.Default.IsConnections;
             IsSoundsOn = BingoApp.Properties.Settings.Default.IsSoundsOn;
+            IsDebug = BingoApp.Properties.Settings.Default.IsDebug;
             SoundsVolume = BingoApp.Properties.Settings.Default.SoundsVolume;
         }
 
@@ -123,6 +140,7 @@ namespace BingoApp.ViewModels
             BingoApp.Properties.Settings.Default.IsConnections = FeedConnections;
             BingoApp.Properties.Settings.Default.SoundsVolume = SoundsVolume;
             BingoApp.Properties.Settings.Default.IsSoundsOn = IsSoundsOn;
+            BingoApp.Properties.Settings.Default.IsDebug = IsDebug;
             BingoApp.Properties.Settings.Default.Save();
         }
 

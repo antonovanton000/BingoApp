@@ -53,6 +53,15 @@ var sendTask = Task.Run(async () =>
             var bytes = Encoding.UTF8.GetBytes(jobj.ToString());
             await ws.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
         }
+
+        if (input == "stop")
+        {
+            var jobj = new JObject();
+            jobj["type"] = "stop";
+            jobj["time"] = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss");
+            var bytes = Encoding.UTF8.GetBytes(jobj.ToString());
+            await ws.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+        }
     }
 });
 

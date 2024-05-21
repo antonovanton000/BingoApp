@@ -94,7 +94,7 @@ namespace BingoApp.Classes
             {
                 var room = await Task.Run<Room>(async () =>
                 {
-                    var room = new Room(roomInfo.RoomName, roomInfo.RoomId);
+                    var room = new Room(roomInfo.RoomName, roomInfo.RoomId, roomInfo.CsrfMiddlewareToken);
                     var responseMessage = await response.Content.ReadAsStringAsync(token);
                     if (responseMessage.Contains("Incorrect Password"))
                     {
@@ -228,7 +228,7 @@ namespace BingoApp.Classes
                         roomId = responseMessage.Substring(startPosition, length);
                     }
 
-                    var room = new Room(boardModel.RoomName, roomId);
+                    var room = new Room(boardModel.RoomName, roomId, csrfToken, boardModel.BoardJSON);
                     stringToFind = "var temporarySocketKey = \"";
                     if (responseMessage.IndexOf(stringToFind) != -1)
                     {
@@ -314,6 +314,7 @@ namespace BingoApp.Classes
             room.ChosenColor = oldroom.ChosenColor;
             room.IsCreatorMode = oldroom.IsCreatorMode;
             room.IsAutoBoardReveal = oldroom.IsAutoBoardReveal;
+            room.BoardJSON = oldroom.BoardJSON;
 
             for (int i = 0; i < oldroom.Board.Squares.Count; i++)
             {

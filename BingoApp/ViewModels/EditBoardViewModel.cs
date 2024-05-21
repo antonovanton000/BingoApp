@@ -272,6 +272,38 @@ namespace BingoApp.ViewModels
         }
 
         [RelayCommand]
+        void RemoveDuplicates()
+        {
+            var noduplicates = new List<PresetSquare>();
+            foreach (var item in BoardPreset.Squares)
+            {
+                if (!noduplicates.Any(i => i.Name == item.Name))
+                    noduplicates.Add(item);
+            }
+
+            var difference = BoardPreset.Squares.Count - noduplicates.Count;
+
+            if (difference > 0) 
+            {
+                MainWindow.ShowMessage($"{difference} duplicate sqares found!\r\nDo you want to remove it?", MessageNotificationType.YesNo, () =>
+                {
+                    BoardPreset.Squares.Clear();
+                    foreach (var item in noduplicates)
+                    {
+                        BoardPreset.Squares.Add(item);
+                    }
+
+                    MainWindow.ShowToast(new ToastInfo() { Title = "All duplicate sqares successfully deleted!" });
+                });
+            }
+            else
+            {
+                MainWindow.ShowToast(new ToastInfo() { Title = "No duplicate squares found!" });
+            }
+
+        }
+
+        [RelayCommand]
         void AddNewSquare()
         {
             BoardPreset.Squares.Add(new PresetSquare() { Name = "New Sqare" });

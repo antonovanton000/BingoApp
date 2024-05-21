@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using static System.Net.WebRequestMethods;
 
 namespace BingoApp.Models
 {
@@ -29,6 +30,7 @@ namespace BingoApp.Models
         private const string goalSelectedUrl = baseUrl + "/api/select";
         private const string boardRevealedUrl = baseUrl + "/api/revealed";
         private const string roomSettingsUrl = baseUrl + "/room/{0}/room-settings";
+        private const string newBoardUrl = baseUrl + "/api/new-card";
 
         [ObservableProperty]
         BingoColor chosenColor;
@@ -85,7 +87,6 @@ namespace BingoApp.Models
         [ObservableProperty]
         ObservableCollection<Player> players = new ObservableCollection<Player>();
 
-
         public IEnumerable<Player> ActualPlayers => Players.Where(i => !i.IsSpectator);
         public string Spectators => string.Join(", ", Players.Where(i => i.IsSpectator).Select(i => i.NickName));
 
@@ -110,16 +111,24 @@ namespace BingoApp.Models
 
         [ObservableProperty]
         PlayerCredentials playerCredentials;
+        
+        public event EventHandler NewCardEvent;
+        
+        public string CsrfMiddlewareToken { get; set; }
+
+        public string? BoardJSON { get; set; }
 
         public Room()
         {
             wsClient = new WsClient(this);
+            wsClient.NewCardEvent += WsClient_NewCardEvent;
             Players = new ObservableCollection<Player>();
         }
-        public Room(string roomName, string roomId)
+        public Room(string roomName, string roomId, string csrfMiddlewareToken, string? boardJSON = null)
         {
             Players = new ObservableCollection<Player>();
             wsClient = new WsClient(this);
+            wsClient.NewCardEvent += WsClient_NewCardEvent;
             ChatMessages = new ObservableCollection<Event>();
             RoomName = roomName;
             RoomId = roomId;
@@ -130,6 +139,30 @@ namespace BingoApp.Models
                 OnPropertyChanged(nameof(Spectators));
                 OnPropertyChanged(nameof(HasSpectators));
             };
+            CsrfMiddlewareToken = csrfMiddlewareToken;
+            BoardJSON = boardJSON;
+        }
+
+        private async void WsClient_NewCardEvent(object? sender, EventArgs e)
+        {
+            if (RoomSettings.HideCard)
+            {
+                IsRevealed = false;
+            }
+
+            await Task.Delay(2000);
+            var newboard = await GetBoardAsync();
+            if (newboard != null)
+            {
+                MainWindow.ShowToast(new ToastInfo() { Title = "New board created!" });
+                Board = newboard;
+            }
+            else
+            {
+                MainWindow.ShowToast(new ToastInfo() { Title = "Error happend when new board created!", ToastType = ToastType.Error });
+            }
+
+            NewCardEvent?.Invoke(sender, e);
         }
 
         public async Task InitRoom(HttpClient httpClient)
@@ -393,7 +426,7 @@ namespace BingoApp.Models
 
         public async Task DisconnectAsync()
         {
-            await wsClient.DisconnectAsync();
+            await wsClient.DisconnectAsync();            
         }
 
         public async Task SaveAsync()
@@ -411,6 +444,7 @@ namespace BingoApp.Models
 
         public async Task SaveToHistoryAsync()
         {
+            this.BoardJSON = "";
             var json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
             var dirName = System.IO.Path.Combine(App.Location, "HistoryRooms");
@@ -436,6 +470,30 @@ namespace BingoApp.Models
             var fileName = System.IO.Path.Combine(dirName, RoomName + "_" + RoomId + ".json");
             if (System.IO.File.Exists(fileName))
                 System.IO.File.Delete(fileName);
+        }
+
+        public async Task GenerateNewBoardAsync()
+        {
+            if (!IsCreatorMode || string.IsNullOrEmpty(BoardJSON))
+                return;
+
+            var jobj = new JObject();
+            jobj["hide_card"] = RoomSettings.HideCard;
+            jobj["csrfmiddlewaretoken"] = CsrfMiddlewareToken;
+            jobj["variant_type"] = RoomSettings.VariantId;
+            jobj["game_type"] = RoomSettings.GameId;
+            jobj["lockout_mode"] = RoomSettings.LockoutMode == "Lockout" ? 1 : 2;
+            jobj["custom_json"] = BoardJSON;
+            jobj["seed"] = "";
+            jobj["room"] = RoomId;
+
+
+            var stringContent = new StringContent(jobj.ToString());
+            var response = await client.PostAsync(newBoardUrl, stringContent);
+            if (!response.IsSuccessStatusCode)
+            {
+                MainWindow.ShowToast(new ToastInfo() { ToastType = ToastType.Error, Title="Error", Detail="Error happend when new board created!" });
+            }            
         }
 
         public async Task RefreshRoomAsync()

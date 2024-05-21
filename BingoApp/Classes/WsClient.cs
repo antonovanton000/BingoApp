@@ -22,6 +22,8 @@ namespace BingoApp.Classes
 
         private Room ActiveRoom { get; set; }
 
+        public event EventHandler NewCardEvent;
+
         public WsClient()
         {
             ActiveRoom = null;
@@ -41,7 +43,7 @@ namespace BingoApp.Classes
             WS = new ClientWebSocket();
             if (CTS != null) CTS.Dispose();
             CTS = new CancellationTokenSource();
-            await WS.ConnectAsync(new Uri(url), CTS.Token);            
+            await WS.ConnectAsync(new Uri(url), CTS.Token);
             ActiveRoom.IsConnectedToServer = true;
             await Task.Factory.StartNew(ReceiveLoop, CTS.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
@@ -86,7 +88,7 @@ namespace BingoApp.Classes
                         ActiveRoom.IsConnectedToServer = false;
                     }
                     outputStream.Position = 0;
-                    ResponseReceived(outputStream);
+                    await ResponseReceived(outputStream);
                 }
             }
             catch (TaskCanceledException) { }
@@ -106,7 +108,7 @@ namespace BingoApp.Classes
 
         }
 
-        private void ResponseReceived(MemoryStream inputStream)
+        private async Task ResponseReceived(MemoryStream inputStream)
         {
             var message = Encoding.UTF8.GetString(inputStream.ToArray());
             var jobj = JObject.Parse(message);
@@ -118,7 +120,7 @@ namespace BingoApp.Classes
                 return;
             }
 
-            App.Current.Dispatcher.Invoke(() =>
+            await App.Current.Dispatcher.InvokeAsync(async () =>
             {
                 var chatEvent = new Event()
                 {
@@ -189,9 +191,9 @@ namespace BingoApp.Classes
                     ActiveRoom.UpdatePlayersGoals();
                 }
                 else if (jobj["type"]?.Value<string>() == "color")
-                {                    
+                {
                     ActiveRoom.AddNewPlayer(jobj["player"] as JObject);
-                    ActiveRoom.UpdatePlayersGoals();                    
+                    ActiveRoom.UpdatePlayersGoals();
                 }
                 else if (jobj["type"]?.Value<string>() == "connection")
                 {
@@ -213,6 +215,7 @@ namespace BingoApp.Classes
                     // if the card was never revealed show what the seed was in the chat anyway
                     //$("#bingo-chat .new-card-message .seed-hidden").text(ROOM_SETTINGS.seed).removeClass('seed-hidden').addClass('seed');
                     //    refreshBoard();
+                    NewCardEvent?.Invoke(this, EventArgs.Empty);                    
                 }
                 else if (jobj["type"]?.Value<string>() == "chat")
                 {

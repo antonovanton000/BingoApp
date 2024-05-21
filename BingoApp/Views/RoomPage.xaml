@@ -128,6 +128,18 @@
                                     Visibility="{Binding IsRefreshing, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
                             <cnt:SpinerControl IsSmall="True" SpinerColor="#40FEFEFE" Margin="10,0,0,0"
                                                Visibility="{Binding IsRefreshing, Converter={StaticResource BoolToVisConverter}}"/>
+                            <Grid Margin="10,0,0,0" Visibility="{Binding Room.IsCreatorMode, Converter={StaticResource BoolToVisConverter}}">
+                                <Button Style="{StaticResource IconButtonStyle}" FontSize="18"  Foreground="#40FEFEFE"
+                                        Command="{Binding NewBoardCommand}" ToolTip="Create new Board"
+                                        Visibility="{Binding IsRefreshing, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                    <Grid>
+                                        <TextBlock Text="&#xECAA;" FontSize="20"/>
+                                        <TextBlock Text="&#xE117;" FontSize="8" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                                   Foreground="#AAFEFEFE"/>
+                                    </Grid>
+                                </Button>
+                            </Grid>
+
                         </StackPanel>
                     </StackPanel>
 
@@ -393,10 +405,10 @@
                             BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
                             Background="{StaticResource BackgroundBrush}"
                             Visibility="{Binding IsAutoRevealBoardVisible, Mode=OneWay, Converter={StaticResource BoolToVisConverter}}">
-                        <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="Start Game" HorizontalAlignment="Center"
+                                <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="Start Game" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" Width="160"
                                 Command="{Binding StartGameCommand}"/>
-                    </Border>
+                            </Border>
                         </Grid>
                     </Viewbox>
                 </Grid>
@@ -611,7 +623,7 @@
                                         <TextBlock Text="{Binding NickName}" VerticalAlignment="Center" FontWeight="Medium" MaxWidth="180" TextTrimming="CharacterEllipsis"
                                                    Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"/>
                                     </StackPanel>
-                                   
+
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -623,7 +635,7 @@
                     </ItemsControl>
                 </Grid>
                 <Border Grid.Column="1" Margin="0,0,100,0">
-                    
+
                     <Grid Margin="80,0,0,0" Visibility="{Binding IsTimerVisible, Converter={StaticResource BoolToVisConverter}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
@@ -647,23 +659,29 @@
                                            Visibility="{Binding IsAfterRevealTimerStarted,Converter={StaticResource BoolToVisConverter}}"
                                            FontFamily="{StaticResource HelveticaThin}" FontSize="60" Foreground="{StaticResource Green}"/>
 
-
-
-                                <StackPanel Margin="30,15,0,0" Orientation="Horizontal"  VerticalAlignment="Top"
+                                <StackPanel Margin="30,15,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top"
                                             Visibility="{Binding IsTimerButtonsVisible, Converter={StaticResource BoolToVisConverter}}">
-                                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="Start" Width="120" 
+                                        <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="Start" Width="120" 
                                             Visibility="{Binding IsStartVisible, Converter={StaticResource BoolToVisConverter}}"
                                             Command="{Binding StartTimerCommand}"
                                             Margin="0,0,20,0" HorizontalAlignment="Left"/>
-                                    <Button Style="{StaticResource FlatButtonStyle}" Content="Pause" Width="120" 
+                                        <Button Style="{StaticResource FlatButtonStyle}" Content="Pause" Width="120" 
                                             Visibility="{Binding IsPauseVisible, Converter={StaticResource BoolToVisConverter}}"                                        
                                             Command="{Binding PauseTimerCommand}"                                        
                                             Margin="0,0,20,0" HorizontalAlignment="Left"/>
-                                    <Button Style="{StaticResource FlatButtonStylePrimaryRed}" Content="Reset" Width="120"
+                                        <Button Style="{StaticResource FlatButtonStylePrimaryRed}" Content="Reset" Width="120"
                                             Visibility="{Binding IsResetVisible, Converter={StaticResource BoolToVisConverter}}"                                        
                                             Command="{Binding ResetTimerCommand}"                                        
                                             HorizontalAlignment="Left"/>
 
+                                    </StackPanel>
+                                    <Grid Visibility="{Binding Room.IsCreatorMode, Converter={StaticResource BoolToVisConverter}}">
+                                        <Button Style="{StaticResource FlatButtonStylePrimaryRed}" Content="Stop" Width="120"
+                                        Visibility="{Binding IsStopVisible, Converter={StaticResource BoolToVisConverter}}"                                        
+                                        Command="{Binding StopTimerCommand}"                                        
+                                        HorizontalAlignment="Left"/>
+                                    </Grid>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
@@ -671,7 +689,7 @@
                 </Border>
             </Grid>
         </Grid>
-        
+
         <Ellipse Height="10" Width="10" Fill="{StaticResource Green}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
                  Visibility="{Binding Room.IsConnectedToServer, Converter={StaticResource BoolToVisConverter}}"/>
         <Ellipse Height="10" Width="10" Fill="{StaticResource Danger}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"

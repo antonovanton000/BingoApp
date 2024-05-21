@@ -31,7 +31,6 @@ namespace BingoApp
     {
         private static MainWindow instance;
 
-
         public MainWindow()
         {
             InitializeComponent();
