@@ -1,0 +1,243 @@
+﻿<Page x:Class="BingoApp.Views.GameManagerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:cnt="clr-namespace:BingoApp.Controls"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:BingoApp.Views"
+      xmlns:vm="clr-namespace:BingoApp.ViewModels"
+      xmlns:m="clr-namespace:BingoApp.Models"
+      mc:Ignorable="d" 
+      d:DesignHeight="940" d:DesignWidth="1440"
+      Background="{StaticResource GradientBackgroundBrush}"
+      x:Name="page"
+      Title="CreateRoomPage">
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:GameManagerViewModel/>
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Grid>
+        <Grid Margin="40,40,40,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="stackPanel" Grid.Row="0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource bm_boardmanager}" FontWeight="Light" FontSize="40" />
+            </StackPanel>
+            <Grid x:Name="grid" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,20,0" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Button Content="{DynamicResource bm_createnewgame}" Style="{StaticResource FlatButtonStylePrimaryWithPlus}"
+                        Width="180" Command="{Binding CreateNewGameCommand}"/>
+            </Grid>
+            <Grid x:Name="grid1" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,0" BorderThickness="0" Focusable="False">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{DynamicResource bm_games}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="20" Margin="0,0,0,20"/>
+                        <ItemsControl ItemsSource="{Binding Games}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="m:Game">
+                                    <Grid Width="250" Height="250" Margin="0,0,20,0">
+                                        <Border Width="250" Height="220" Background="{StaticResource BackgroundBrush}"
+                                            BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1" CornerRadius="8" x:Name="borderTemplate"
+                                            ClipToBounds="True">
+                                            <behaviors:Interaction.Triggers>
+                                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=borderTemplate}">
+                                                    <behaviors:InvokeCommandAction Command="{Binding DataContext.OpenGameCommand, ElementName=page}" CommandParameter="{Binding }" />
+                                            </behaviors:EventTrigger>
+                                        </behaviors:Interaction.Triggers>
+                                            <Border.Triggers>
+                                                <EventTrigger RoutedEvent="MouseEnter">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetName="hover"
+                                                                         Storyboard.TargetProperty="Opacity"/>
+                                                            <DoubleAnimation Duration="0:0:0.2" To="1.03" Storyboard.TargetName="imgST"
+                                                                         Storyboard.TargetProperty="ScaleX"/>
+                                                            <DoubleAnimation Duration="0:0:0.2" To="1.03" Storyboard.TargetName="imgST"
+                                                                         Storyboard.TargetProperty="ScaleY"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                                <EventTrigger RoutedEvent="MouseLeave">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Duration="0:0:0.2" To="0" Storyboard.TargetName="hover"
+                                                                         Storyboard.TargetProperty="Opacity"/>
+                                                            <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetName="imgST"
+                                                                         Storyboard.TargetProperty="ScaleX"/>
+                                                            <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetName="imgST"
+                                                                         Storyboard.TargetProperty="ScaleY"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Border.Triggers>
+                                            <Border CornerRadius="8">
+                                                <Border.Clip>
+                                                    <RectangleGeometry Rect="0,0,248,218" RadiusX="8" RadiusY="8"/>
+                                                </Border.Clip>
+                                                <Grid ClipToBounds="True">
+                                                    <Image Source="{Binding ImageCover}" Stretch="UniformToFill" Opacity="1" RenderTransformOrigin="0.5,0.5">
+                                                        <Image.RenderTransform>
+                                                            <ScaleTransform x:Name="imgST" ScaleX="1" ScaleY="1"/>
+                                                        </Image.RenderTransform>
+                                                    </Image>
+                                                    <Border CornerRadius="0,0,8,8" VerticalAlignment="Bottom" Background="#C0000000">
+                                                        <StackPanel Margin="10,15">
+                                                            <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="20" Margin="0,0,0,0"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                    <Border x:Name="hover" CornerRadius="8" BorderThickness="0" 
+                                                Background="#10FFFFFF" Opacity="0"/>
+                                                    <Border HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                Background="#D0000000" CornerRadius="0,8,0,8">
+                                                        <!--<StackPanel Orientation="Horizontal" Margin="3,3">
+                                                    <Button Style="{StaticResource IconButtonStyleColored}" 
+                                                        Command="{Binding DataContext.CopyJSONCommand, ElementName=page}" CommandParameter="{Binding }"
+                                                        Content="{DynamicResource bm_json}" FontFamily="Segoe UI" FontSize="12" Foreground="{StaticResource Yellow}" ToolTip="{DynamicResource bm_copyjson}"
+                                                        Margin="0,0,3,0"/>
+                                                    <Button Style="{StaticResource IconButtonStyleColored}" 
+                                                        Command="{Binding DataContext.DuplicatePresetCommand, ElementName=page}" CommandParameter="{Binding }"
+                                                        Content="&#xe8c8;" Foreground="{StaticResource Green}" ToolTip="{DynamicResource bm_duplicate}"
+                                                        Margin="0,0,3,0"/>
+                                                    <Button Style="{StaticResource IconButtonStyleColored}" 
+                                                        Command="{Binding DataContext.DeletePresetCommand, ElementName=page}" CommandParameter="{Binding }"
+                                                        Content="&#xe107;" Foreground="{StaticResource Danger}" ToolTip="{DynamicResource bm_delete}"/>
+                                                </StackPanel>-->
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </Grid>
+        <cnt:ModalWindowControl Title="{DynamicResource bm_newgame}" IsOpen="{Binding IsModalOpen, Mode=TwoWay}" d:Visibility="Collapsed">
+            <Grid>
+                <!---->
+                <StackPanel Visibility="{Binding IsGameCreating, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                    <cnt:InputFieldControl Text="{Binding NewGame.Name, Mode=TwoWay}" Placeholder="{DynamicResource bm_gamename}" Label="{DynamicResource bm_gamename}" Margin="40,0,40,10"
+                                               IsError="{Binding NewGame.IsGameNameError}" ErrorMessage="Requiered field!"
+                                           IsRequiered="True"/>
+                    
+                    
+                    <TextBlock Text="{DynamicResource bm_youcanaddgameco}" Foreground="#20FEFEFE"
+                               Margin="40,10,0,0"  Style="{StaticResource FlatTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="40,20,20,0" Style="{StaticResource FlatButtonStylePrimaryNoArrow}"
+                                HorizontalAlignment="Left" Padding="30,0" Command="{Binding OpenFileCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="{StaticResource SegoeMDL2}" Text="&#xe838;"
+                                           Margin="0,0,0,0"/>
+                                <TextBlock Text="{DynamicResource bm_choosefilefromp}" Margin="7,-3,0,0"/>
+                            </StackPanel>
+                        </Button>
+                        <TextBlock Text="{Binding NewGame.CoverFilePath}" VerticalAlignment="Center"
+                                   Style="{StaticResource FlatTextBlockStyle}" Margin="0,15,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="Or" Style="{StaticResource FlatTextBlockStyle}"
+                               Foreground="#20FEFEFE" Margin="40,15,0,0"/>
+                    <cnt:InputFieldControl Text="{Binding NewGame.CoverWebLink, Mode=TwoWay}" Placeholder="{DynamicResource bm_pasteimagelinkf}" Label="{DynamicResource bm_weblink}" Margin="40,0,40,10"/>
+                    <TextBlock Visibility="{Binding NewGame.IsWebLinkBad, Converter={StaticResource BoolToVisConverter}}" 
+                               Style="{StaticResource FlatTextBlockStyle}" 
+                               Text="{DynamicResource bm_theweblinkmustb}" 
+                               Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
+
+                    <TextBlock Visibility="{Binding NewGame.IsDownloadError, Converter={StaticResource BoolToVisConverter}}" 
+                               Style="{StaticResource FlatTextBlockStyle}" 
+                               Text="{DynamicResource bm_anerroroccurred}" 
+                               Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
+
+                    <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" 
+                                Command="{Binding CreateGameFinallyCommand}"
+                                Content="{DynamicResource bm_creategame}" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+                </StackPanel>
+                <Grid Visibility="{Binding IsGameCreating, Converter={StaticResource BoolToVisConverter}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding NewGame.Name, StringFormat={StaticResource bm_creating0}}" Style="{StaticResource FlatTextBlockStyle}"
+                                   Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <cnt:SpinerControl SpinerColor="{StaticResource AccentBrush}" HorizontalAlignment="Center"
+                                               Margin="40"/>
+                    </StackPanel>
+                </Grid>
+                <!---->
+            </Grid>
+        </cnt:ModalWindowControl>
+    </Grid>
+</Page>

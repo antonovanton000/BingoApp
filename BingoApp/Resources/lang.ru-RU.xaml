@@ -1,0 +1,366 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"                    
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <s:String x:Key="AppVersion">Версия: </s:String>
+    <s:String x:Key="settings">Настройки</s:String>
+    <s:String x:Key="practice">Тренировка</s:String>
+    
+    <!--MESSAGES-->
+    <s:String x:Key="mes_error">Ошибка</s:String>
+    <s:String x:Key="mes_warning">Предупреждение</s:String>
+    <s:String x:Key="mes_wronglink">Неправильная ссылка!</s:String>
+    <s:String x:Key="mes_boardnotfound">Доска не найдена!</s:String>
+    <s:String x:Key="mes_youpassedwrongj">Вы передали неправильный json!</s:String>
+    <s:String x:Key="mes_doyourealywantt">Вы действительно хотите закончить игру {0}?</s:String>
+    <s:String x:Key="mes_clicktoreveal">Нажмите, чтобы открыть</s:String>
+    <s:String x:Key="mes_waitingforgames">Ожидание начала игры</s:String>
+    <s:String x:Key="mes_yourgamenotfini" xml:space="preserve">Ваша игра не завершена!&#x0a;&#x0a;Вы уверены, что хотите уйти?</s:String>
+    <s:String x:Key="mes_areyousureyouwa">Вы уверены, что хотите уйти?</s:String>
+    <s:String x:Key="mes_success">Успех</s:String>
+    <s:String x:Key="mes_roomidcopied">Room Id скопирован!</s:String>
+    <s:String x:Key="mes_doyourealywanttoend">Вы действительно хотите закончить эту игру?</s:String>
+    <s:String x:Key="mes_spectator">Зритель</s:String>
+    <s:String x:Key="mes_player">Игрок</s:String>
+    <s:String x:Key="mes_connected">подключен</s:String>
+    <s:String x:Key="mes_boardrevealed">Доска открыта</s:String>
+    <s:String x:Key="mes_asspectator">как зритель</s:String>
+    <s:String x:Key="mes_disconnected">отключен</s:String>
+    <s:String x:Key="mes_revealedtheboar">открыл доску</s:String>
+    <s:String x:Key="mes_cleared">очистил</s:String>
+    <s:String x:Key="mes_marked">отметил</s:String>
+    <s:String x:Key="mes_changedcolorto">изменил цвет на</s:String>
+    <s:String x:Key="mes_yes">Да</s:String>
+    <s:String x:Key="mes_no">Нет</s:String>
+    <s:String x:Key="mes_ok">Ок</s:String>
+    <s:String x:Key="mes_cancel">Отмена</s:String>
+    <s:String x:Key="mes_playerdisconnec">Игрок отключился</s:String>
+    <s:String x:Key="mes_bingo">Бинго!</s:String>
+    <s:String x:Key="mes_gotbingo">собрал Бинго!</s:String>
+    <s:String x:Key="mes_errorhappendwhe">Произошла ошибка во время создания новой доски!</s:String>
+    <s:String x:Key="mes_newboardcreated">Новая доска создана!</s:String>
+    <s:String x:Key="mes_squarescopied">Квадраты скопированы!</s:String>
+    <s:String x:Key="mes_newpresetname">Имя нового пресета</s:String>
+    <s:String x:Key="mes_youhaveunsavedc" xml:space="preserve">У вас есть несохраненные изменения!&#x0a;&#x0a;Вы уверены, что хотите выйти?</s:String>
+    <s:String x:Key="mes_presetwithname0" xml:space="preserve">Пресет с именем '{0}' уже существует.&#x0a;&#x0a;Хотите заменить его?</s:String>
+    <s:String x:Key="mes_0presetcreated">Пресет {0} создан!</s:String>
+    <s:String x:Key="mes_0duplicatesqare" xml:space="preserve">Найдено {0} дубликатов!&#x0a;&#x0a;Хотите удалить их?</s:String>
+    <s:String x:Key="mes_allduplicatesqa">Все дубликаты успешно удалены!</s:String>
+    <s:String x:Key="mes_noduplicatesqua">Дубликаты не найдены!</s:String>
+    <s:String x:Key="mes_newsqare">Новый квадрат</s:String>
+    <s:String x:Key="mes_jsoncopiedsucce">JSON успешно скопирован!</s:String>
+    <s:String x:Key="mes_presetsaved">Пресет сохранен!</s:String>
+    <s:String x:Key="mes_typenewpresetna">Введите новое имя пресета</s:String>
+    <s:String x:Key="mes_lessthanminutes">меньше минуты назад</s:String>
+    <s:String x:Key="mes_0minuteago">{0} минута назад</s:String>
+    <s:String x:Key="mes_0minutesago">{0} минут назад</s:String>
+    <s:String x:Key="mes_lockout">Локаут</s:String>
+    <s:String x:Key="mes_nonlockout">Не Локаут</s:String>
+    <s:String x:Key="mes_blackout">Блэкаут</s:String>
+    <s:String x:Key="mes_triplebingo">Тройное Бинго</s:String>
+    <s:String x:Key="mes_invitesent">Приглашение отправлено!</s:String>
+    <s:String x:Key="mes_areyousureyouwanttocreatepreset">Вы уверены, что хотите создать пресет с выбранными квадратами?</s:String>
+    <s:String x:Key="mes_areyousureyouwanttocancelpreset">Вы уверены, что хотите отменить создание пресета?</s:String>
+    <s:String x:Key="mes_presetsuccessfu">Пресет успешно создан!</s:String>
+    <s:String x:Key="mes_anotherplayerca">Другой игрок отменил создание пресета!</s:String>
+    <s:String x:Key="mes_invitemessage" xml:space="preserve">Игрок {0},&#x0a; приглашает вас на создание динамического пресета для {1}.&#x0a;Хотите согласиться?</s:String>
+    <s:String x:Key="mes_resultsend">Результаты успешно отправлены</s:String>
+    <s:String x:Key="mes_updateapp" xml:space="preserve">Появилась новая версия приложения!&#x0a;Хотите обновить приложение?</s:String>
+    <s:String x:Key="mes_presetcreatesuccess">Пресет успешно создан!</s:String>
+    <s:String x:Key="mes_gamecreatesuccess">Игра успешно создана!</s:String>
+    <s:String x:Key="mes_gameexists">Игра уже была создана!</s:String>
+    <s:String x:Key="mes_realywantdelete">Вы действительно хотите удалить {0}?</s:String>
+    <s:String x:Key="mes_copy">Копия</s:String>
+    <s:String x:Key="mes_realywantdeletegame" xml:space="preserve">Вы действительно хотите удалить {0}? &#x0a;&#x0a;А также все пресеты в игре?</s:String>
+    <s:String x:Key="mes_none">Нет</s:String>
+    <s:String x:Key="mes_hidden">Скрытый</s:String>
+    <s:String x:Key="mes_changing">Подмена</s:String>
+    <s:String x:Key="mes_squarechanged">{0} изменен на</s:String>
+    <s:String x:Key="mes_squarechangedheader">Квадрат изменен!</s:String>
+    <s:String x:Key="mes_squareunhide">Открыт </s:String>
+    <s:String x:Key="mes_squareunhideheader">Открыт квадрат!</s:String>
+    <s:String x:Key="mes_gotmajoritywin">победил по большенству!</s:String>
+    <s:String x:Key="mes_win">Победа!</s:String>
+    <s:String x:Key="mes_sharepresetmes" xml:space="preserve">Игрок {0} отправил вам пресет {1} &#x0a;&#x0a;Хотите принять пресет?</s:String>
+    <s:String x:Key="mes_downloading">Идет загрузка</s:String>
+    <s:String x:Key="mes_presetsharedsuccess">Пресет успешно получен!</s:String>
+    <s:String x:Key="mes_presetalreadyexist" xml:space="preserve">У вас уже имеется пресет {0}!&#x0a;&#x0a;Хотите заменить пресет?</s:String>
+    <s:String x:Key="mes_screenshotsaved">Скришот успешно скопирован!</s:String>
+    <s:String x:Key="mes_other">Другой</s:String>
+    <s:String x:Key="mes_noconnectiontoserver">Нет связи с сервером!</s:String>
+    <s:String x:Key="mes_roomloaderror">Произошла ошибка во время загрузки комнаты</s:String>
+    <s:String x:Key="mes_roomnotfound">Комната не является активной и была удалена на сервере</s:String>
+    
+    <!--MAIN PAGE-->
+    <s:String x:Key="mp_welcomeMessage">Что мы будем делать сегодня?</s:String>
+    <s:String x:Key="mp_goodmorning">Доброе утро</s:String>
+    <s:String x:Key="mp_goodafternoon">Добрый день</s:String>
+    <s:String x:Key="mp_goodevening">Добрый вечер</s:String>
+    <s:String x:Key="mp_createanewroom">Создать новую комнату</s:String>
+    <s:String x:Key="mp_letscreateanewb">Давайте создадим новую доску и начнем играть в бинго как можно скорее.</s:String>
+    <s:String x:Key="mp_youcanusethepre">Вы можете использовать предварительно сохраненные шаблоны для еще более удобного и быстрого бинго.</s:String>
+    <s:String x:Key="mp_createroom">Создать комнату</s:String>
+    <s:String x:Key="mp_connecttotheroo">Подключиться к комнате</s:String>
+    <s:String x:Key="mp_justpastethelin" xml:space="preserve">Просто вставьте Room Id, нажмите «Подключиться» и начните играть. &#x0A;</s:String>
+    <s:String x:Key="mp_roomid">Room Id</s:String>
+    <s:String x:Key="mp_roomidplaceholder">Введите Room Id...</s:String>
+    <s:String x:Key="mp_connect">Подключиться</s:String>
+    <s:String x:Key="mp_gameshistory">История игр</s:String>
+    <s:String x:Key="mp_theapplications">Приложение сохраняет историю всех ваших игр. Вы всегда можете увидеть, когда и с кем вы играли.</s:String>
+    <s:String x:Key="mp_presetmanager">Менеджер пресетов</s:String>
+    <s:String x:Key="mp_changepresetsad">Изменяйте пресеты, добавляйте новые квадраты, создавайте новые пресеты! Все это доступно здесь.</s:String>
+    <s:String x:Key="mp_viewhistory">Просмотреть историю</s:String>
+    <s:String x:Key="mp_openmanager">Открыть менеджер</s:String>
+    <s:String x:Key="mp_startpractice">Начать тренировку</s:String>
+    <s:String x:Key="mp_bingopracticing">Практика бинго</s:String>
+    <s:String x:Key="mp_ifyouwanttoimpr">Если вы хотите улучшить свои навыки, тренируйтесь в локальном режиме</s:String>
+    <s:String x:Key="mp_imagesprovidedb">Изображения предоставлены freepik.com</s:String>
+    <s:String x:Key="mp_createdby">Создано:</s:String>
+    <s:String x:Key="mp_connectingtoroo">Подключение к комнате</s:String>
+    <s:String x:Key="mp_roomname">Имя комнаты</s:String>
+    <s:String x:Key="mp_creator">Создатель</s:String>
+    <s:String x:Key="mp_game">Игра</s:String>
+    <s:String x:Key="mp_nickname">Псевдоним</s:String>
+    <s:String x:Key="mp_pleasetypenickn">Введите псевдоним!</s:String>
+    <s:String x:Key="mp_password">Пароль</s:String>
+    <s:String x:Key="mp_incorrectpasswo">Неверный пароль!</s:String>
+    <s:String x:Key="mp_pleasetypepassw">Введите пароль!</s:String>
+    <s:String x:Key="mp_connectasspecta">Подключиться как наблюдатель</s:String>
+    <s:String x:Key="mp_cancel">Отмена</s:String>
+    <s:String x:Key="mp_connectingto0">Подключение к {0}...</s:String>
+    <s:String x:Key="mp_createnewroom">Создать новую комнату</s:String>
+    <s:String x:Key="mp_requieredfield">Обязательное поле!</s:String>
+    <s:String x:Key="mp_mode">Режим</s:String>
+    <s:String x:Key="mp_extramode">Доп. режим</s:String>
+    <s:String x:Key="mp_preset">Пресет</s:String>
+    <s:String x:Key="mp_usejson">Использовать JSON</s:String>
+    <s:String x:Key="mp_pastejsonhere">Вставить JSON здесь...</s:String>
+    <s:String x:Key="mp_usepresets">Использовать пресеты</s:String>
+    <s:String x:Key="mp_moreoptions">Дополнительные параметры</s:String>
+    <s:String x:Key="mp_hidecardinitial">Скрыть доску изначально</s:String>
+    <s:String x:Key="mp_createasspectat">Как наблюдатель</s:String>
+    <s:String x:Key="mp_autoboardreveal">Автоматическое открытие</s:String>
+    <s:String x:Key="mp_creating0">Создание {0}...</s:String>
+    <s:String x:Key="mp_practice">Тренировка</s:String>
+    <s:String x:Key="mp_activerooms">Активные  игры</s:String>
+    <s:String x:Key="mp_allyourunfinish">Все ваши незаконченные игры здесь</s:String>
+    <s:String x:Key="mp_collaborativepreset">Совместное создание пресета</s:String>
+    <s:String x:Key="mp_dynamicbasedon">Динамический на основе {0}</s:String>
+    <s:String x:Key="mp_gameinvite" xml:space="preserve">Игрок {0} предлагает сыграть!&#x0a;&#x0a;Хотите принять приглашение?</s:String>
+    <s:String x:Key="mp_news">Новости</s:String>
+    <s:String x:Key="mp_autofogwall">Авто Fog Wall</s:String>
+
+    <!--SETTINGS-->
+    <s:String x:Key="st_settings">Настройки</s:String>
+    <s:String x:Key="st_personalsettings">Персональные настройки</s:String>
+    <s:String x:Key="st_yourdefaultnickname">Ваш псевдоним по умолчанию</s:String>
+    <s:String x:Key="st_typeyournickname">Введите свой псевдоним</s:String>
+    <s:String x:Key="st_nickname">Псевдоним</s:String>
+    <s:String x:Key="st_preferredcolor">Предпочтительный цвет</s:String>
+    <s:String x:Key="st_newroomdefaultsettings">Новые настройки комнаты по умолчанию</s:String>
+    <s:String x:Key="st_roomname">Название комнаты</s:String>
+    <s:String x:Key="st_defaultroomname">Название комнаты по умолчанию</s:String>
+    <s:String x:Key="st_defaultpassword">Пароль по умолчанию</s:String>
+    <s:String x:Key="st_password">Пароль</s:String>
+    <s:String x:Key="st_timersettings">Настройки таймера</s:String>
+    <s:String x:Key="st_startingtimes">Время начала (с)</s:String>
+    <s:String x:Key="st_startingtimeinseconds">Время начала в секундах</s:String>
+    <s:String x:Key="st_timeafterrevealinseconds">Время после показа в секундах</s:String>
+    <s:String x:Key="st_timeafterreveals">Время после показа (с)</s:String>
+    <s:String x:Key="st_timeafterrevealchanging">Время после раскрытия в игровом режиме "Подмена" (с)</s:String>
+    <s:String x:Key="st_timeafterrevealhidden">Время после раскрытия в игровом режиме "Скрытый" (с)</s:String>
+    <s:String x:Key="st_squaresunhidetime">Время открытия скрытых квадратов в режиме "Скрытый" (мин)</s:String>
+    <s:String x:Key="st_squareschangetime">Время изменения квадрата в режиме "Подмена" (м)</s:String>
+    <s:String x:Key="st_squaresunhidetimeshort">Время открытия (м):</s:String>
+    <s:String x:Key="st_squareschangetimeshort">Время смены (м):</s:String>
+    <s:String x:Key="st_roomfeedsettings">Настройки ленты комнаты</s:String>
+    <s:String x:Key="st_playerchat">Чат игрока</s:String>
+    <s:String x:Key="st_goalactions">Действия цели</s:String>
+    <s:String x:Key="st_colorchanged">Цвет изменен</s:String>
+    <s:String x:Key="st_connections">Подключения</s:String>
+    <s:String x:Key="st_soundssettings">Настройки звуков</s:String>
+    <s:String x:Key="st_feednotificationssound">Звук уведомлений ленты</s:String>
+    <s:String x:Key="st_soundsvolume">Громкость звуков</s:String>
+    <s:String x:Key="st_test">Тест</s:String>
+    <s:String x:Key="st_applanguage">Язык приложения</s:String>
+    <s:String x:Key="st_language">Язык</s:String>
+    <s:String x:Key="st_debugmode">Режим отладки</s:String>
+    <s:String x:Key="st_appversion">Версия приложения</s:String>
+    <s:String x:Key="st_localserver">Локальный Веб сервер</s:String>
+    <s:String x:Key="st_localserverport">Локальный порт</s:String>
+    <s:String x:Key="st_localserverenabled">Включить локальный веб сервер</s:String>
+    <s:String x:Key="st_localserverlinks">Ссылки на локальный веб сервер</s:String>
+    <s:String x:Key="st_localserverinfo" xml:space="preserve">Чтобы использовать BingoApp на телефоне или планшете, вы можете запустить локальный сервер приложения. Для этого подключите ваше устройство к одной сети с этим компьютером. Когда вы окажетесь в комнате, перейдите по указанной ниже ссылке.&#x0a;&#x0a;Обратите внимание: для запуска локального сервера требуются права администратора.</s:String>
+    <s:String x:Key="st_sekirolocation">Расположение sekiro.exe</s:String>
+    <s:String x:Key="st_sekiropath">Путь к sekiro.exe</s:String>
+    <s:String x:Key="st_copymodtext">Также нужно установить мод в папку с игрой</s:String>
+    <s:String x:Key="st_modinstalled">Мод установлен!</s:String>
+    <s:String x:Key="st_installmod">Установить мод</s:String>
+    <s:String x:Key="st_deletelmod">Удалить мод</s:String>
+    <s:String x:Key="st_modversion">BingoMod Версия:</s:String>
+    <s:String x:Key="st_updatemod">Обновить мод</s:String>
+    <s:String x:Key="st_downloading">Загрука мода...</s:String>
+    <s:String x:Key="st_modisuptodate">Мод обновлен до последней версии</s:String>
+    
+    <!--BOARDMANAGER-->
+    <s:String x:Key="bm_boardmanager">Менеджер пресетов</s:String>
+    <s:String x:Key="bm_createnew">Создать новый</s:String>
+    <s:String x:Key="bm_createnewgame">Создать новую</s:String>
+    <s:String x:Key="bm_savedpresets">Сохраненные пресеты</s:String>
+    <s:String x:Key="bm_squares">Квадраты:</s:String>
+    <s:String x:Key="bm_json">JSON</s:String>
+    <s:String x:Key="bm_copyjson">Копировать JSON</s:String>
+    <s:String x:Key="bm_duplicate">Дублировать</s:String>
+    <s:String x:Key="bm_delete">Удалить</s:String>
+    <s:String x:Key="bm_newpreset">Новый пресет</s:String>
+    <s:String x:Key="bm_newgame">Новая игра</s:String>
+    <s:String x:Key="bm_presetname">Название пресета</s:String>
+    <s:String x:Key="bm_gamename">Название игры</s:String>
+    <s:String x:Key="bm_pastejsonhere">Вставьте JSON сюда...</s:String>
+    <s:String x:Key="bm_jsonerror">Ошибка JSON!</s:String>
+    <s:String x:Key="bm_youcanaddgameco">Вы можете добавить обложку игры (необязательно)</s:String>
+    <s:String x:Key="bm_choosefilefromp">Выбрать файл с ПК</s:String>
+    <s:String x:Key="bm_pasteimagelinkf">Вставить ссылку на изображение из Интернета</s:String>
+    <s:String x:Key="bm_weblink">Веб-ссылка</s:String>
+    <s:String x:Key="bm_theweblinkmustb">Веб-ссылка должна вести на изображение с расширениями .jpg, .jpeg, .png</s:String>
+    <s:String x:Key="bm_anerroroccurred">Произошла ошибка при загрузке изображения по ссылке.</s:String>
+    <s:String x:Key="bm_createpreset">Создать пресет</s:String>
+    <s:String x:Key="bm_creategame">Создать игру</s:String>
+    <s:String x:Key="bm_creating0">Создание {0}...</s:String>
+    <s:String x:Key="bm_games">Игры</s:String>
+    <s:String x:Key="bm_presets">Пресеты</s:String>
+    <s:String x:Key="bm_deletegame">Удалить игру</s:String>
+    <s:String x:Key="bm_sharepreset">Поделиться пресетом</s:String>
+
+    <!--HISTORY-->
+    <s:String x:Key="hs_history">История</s:String>
+    <s:String x:Key="hs_roomname">Название комнаты</s:String>
+    <s:String x:Key="hs_startdate">Дата начала</s:String>
+    <s:String x:Key="hs_enddate">Дата окончания</s:String>
+    <s:String x:Key="hs_time">Время</s:String>
+    <s:String x:Key="hs_players">Игроки</s:String>
+    <s:String x:Key="hs_deleteroom">Удалить комнату</s:String>
+
+    <!--EDITBOARD-->
+    <s:String x:Key="hs_editingpreset">Редактирование пресета</s:String>
+    <s:String x:Key="hs_copyselectedto">Копировать выбранное в...</s:String>
+    <s:String x:Key="hs_copyasjson">Копировать как JSON</s:String>
+    <s:String x:Key="hs_saveascopy">Сохранить как копию</s:String>
+    <s:String x:Key="hs_savepreset">Сохранить пресет</s:String>
+    <s:String x:Key="hs_presetname">Имя пресета</s:String>
+    <s:String x:Key="hs_presetimage">Изображение пресета</s:String>
+    <s:String x:Key="hs_changeimage">Изменить изображение</s:String>
+    <s:String x:Key="hs_sqaures">Квадраты</s:String>
+    <s:String x:Key="hs_removeduplicate">Удалить дубликаты</s:String>
+    <s:String x:Key="hs_search">Поиск...</s:String>
+    <s:String x:Key="hs_addnotestosqare">Добавить заметки в квадрат</s:String>
+    <s:String x:Key="hs_savenote">Сохранить заметку</s:String>
+    <s:String x:Key="hs_viewasasquare">Просмотреть как квадрат</s:String>
+    <s:String x:Key="hs_duplicate">Дублировать</s:String>
+    <s:String x:Key="hs_delete">Удалить</s:String>
+    <s:String x:Key="hs_addnewsquare">Добавить новый квадрат</s:String>
+    <s:String x:Key="hs_copytonewpreset">Копировать в новый пресет</s:String>
+    <s:String x:Key="hs_presets">Пресеты</s:String>
+    <s:String x:Key="hs_copy">Копировать</s:String>
+    <s:String x:Key="hs_choosefilefromp">Выбрать файл с ПК</s:String>
+    <s:String x:Key="hs_or">Или</s:String>
+    <s:String x:Key="hs_pasteimagelinkf">Вставить ссылку на изображение из Интернета</s:String>
+    <s:String x:Key="hs_weblink">Веб-ссылка</s:String>
+    <s:String x:Key="hs_theweblinkmustb">Веб-ссылка должна указывать на изображение с расширениями .jpg, .jpeg, .png</s:String>
+    <s:String x:Key="hs_anerroroccurred">Произошла ошибка при загрузке изображения по ссылке.</s:String>
+    <s:String x:Key="hs_sendpreset">Отправить пресет</s:String>
+    <s:String x:Key="hs_sendtoplayer">Отправить игроку</s:String>
+    <s:String x:Key="hs_sort">Сортировать по группе</s:String>
+
+    <!--ROOMPAGE-->
+    <s:String x:Key="rp_roominfo">Информация о комнате</s:String>
+    <s:String x:Key="rp_game">Игра:</s:String>
+    <s:String x:Key="rp_mode">Режим:</s:String>
+    <s:String x:Key="rp_seed">Сид:</s:String>
+    <s:String x:Key="rp_refreshroom">Обновить комнату</s:String>
+    <s:String x:Key="rp_createnewboard">Создать новую доску</s:String>
+    <s:String x:Key="rp_changecolor">Изменить цвет</s:String>
+    <s:String x:Key="rp_player">Игрок:</s:String>
+    <s:String x:Key="rp_share">Поделиться</s:String>
+    <s:String x:Key="rp_copyroomid">Копировать Room Id</s:String>
+    <s:String x:Key="rp_finishgame">Завершить игру</s:String>
+    <s:String x:Key="rp_col1">СТ1</s:String>
+    <s:String x:Key="rp_col2">СТ2</s:String>
+    <s:String x:Key="rp_col3">СТ3</s:String>
+    <s:String x:Key="rp_col4">СТ4</s:String>
+    <s:String x:Key="rp_col5">СТ5</s:String>
+    <s:String x:Key="rp_row1">СТР1</s:String>
+    <s:String x:Key="rp_row2">СТР2</s:String>
+    <s:String x:Key="rp_row3">СТР3</s:String>
+    <s:String x:Key="rp_row4">СТР4</s:String>
+    <s:String x:Key="rp_row5">СТР5</s:String>
+    <s:String x:Key="rp_startgame">Начать игру</s:String>
+    <s:String x:Key="rp_feed">Лента</s:String>
+    <s:String x:Key="rp_muteunmutesound">Отключить\Включить звуки</s:String>
+    <s:String x:Key="rp_playerchat">Чат игрока</s:String>
+    <s:String x:Key="rp_goalactions">Действия цели</s:String>
+    <s:String x:Key="rp_colorchanges">Изменение цвета</s:String>
+    <s:String x:Key="rp_connections">Подключения</s:String>
+    <s:String x:Key="rp_0minutesago">0 минут назад</s:String>
+    <s:String x:Key="rp_chatmessage">Сообщение чата</s:String>
+    <s:String x:Key="rp_players">Игроки</s:String>
+    <s:String x:Key="rp_teams">Команды</s:String>
+    <s:String x:Key="rp_spectators" xml:space="preserve">Зрители:&#xA;</s:String>
+    <s:String x:Key="rp_timer">Таймер</s:String>
+    <s:String x:Key="rp_start">Старт</s:String>
+    <s:String x:Key="rp_pause">Пауза</s:String>
+    <s:String x:Key="rp_reset">Сброс</s:String>
+    <s:String x:Key="rp_stop">Стоп</s:String>
+    <s:String x:Key="rp_inviteplayer">Пригласить игрока</s:String>
+    <s:String x:Key="rp_sendinvite">Отправить приглашение</s:String>
+    <s:String x:Key="rp_cancel">Отмена</s:String>
+    <s:String x:Key="rp_therearecurrently">В данный момент нет доступных игроков!</s:String>
+    <s:String x:Key="rp_availableplayers">Доступные игроки</s:String>
+    <s:String x:Key="rp_sendresults">Отправить результаты</s:String>
+    <s:String x:Key="rp_boardshot">Скриншот доски</s:String>
+    <s:String x:Key="rp_copyspectatorlink">Копировать ссылку для зрителя</s:String>
+    <s:String x:Key="rp_linkcopiedsuccess">Ссылка успешно скопирована</s:String>
+
+    <!--DynamicPresetCreation-->
+    <s:String x:Key="dp_dynamicpresetcr">Создание динамического пресета</s:String>
+    <s:String x:Key="dp_tocreateadynami">Чтобы создать динамический пресет, пригласите другого игрока. Затем выберите 13 квадратов из доступных вариантов.</s:String>
+    <s:String x:Key="dp_done">Готово</s:String>
+    <s:String x:Key="dp_player">Игрок</s:String>
+    <s:String x:Key="dp_selected">Выбрано:</s:String>
+    <s:String x:Key="dp_accept">Принять</s:String>
+    <s:String x:Key="dp_ready">Готово!</s:String>
+    <s:String x:Key="dp_inviteplayer">Пригласить игрока</s:String>
+    <s:String x:Key="dp_tocreateapreset">Для создания пресета, пригласите другого игрока, чтобы создать его вместе</s:String>
+    <s:String x:Key="dp_availableplayer">Доступные игроки</s:String>
+    <s:String x:Key="dp_therearecurrent">В данный момент в сети нет доступных игроков!</s:String>
+    <s:String x:Key="dp_sendinvite">Отправить приглашение</s:String>
+    <s:String x:Key="dp_waitingforplaye">Ожидание подтверждения игрока...</s:String>
+    <s:String x:Key="dp_search">Поиск</s:String>
+
+
+    <!--FIRSTLAUNCH-->
+    <s:String x:Key="fl_helloandwelcome">Добро пожаловать в</s:String>
+    <s:String x:Key="fl_beforeyoustarte">Прежде чем мы продолжим, нам нужна некоторая информация от вас.</s:String>
+    <s:String x:Key="fl_pleaseenteranic">Введите никнейм, который вы хотели бы использовать для бинго. Это будет ваше уникальное имя и то, как вас будут видеть другие пользователи. Вы также можете выбрать свой любимый цвет из вариантов ниже.</s:String>
+    <s:String x:Key="fl_nickname">Никнейм</s:String>
+    <s:String x:Key="fl_preferredcolor">Предпочтительный цвет</s:String>
+    <s:String x:Key="fl_youcanskipthiss">Вы можете пропустить этот шаг и сделать это позже. Также вы можете изменить свои данные в любое время в меню настроек. Это совершенно необязательно.</s:String>
+    <s:String x:Key="fl_skip">Пропустить</s:String>
+    <s:String x:Key="fl_continue">Продолжить</s:String>
+
+    <s:String x:Key="bc_orange">Оранжевые</s:String>
+    <s:String x:Key="bc_red">Красные</s:String>
+    <s:String x:Key="bc_blue">Синие</s:String>
+    <s:String x:Key="bc_green">Зеленые</s:String>
+    <s:String x:Key="bc_purple">Фиолетовые</s:String>
+    <s:String x:Key="bc_navy">Индиго</s:String>
+    <s:String x:Key="bc_teal">Тиффани</s:String>
+    <s:String x:Key="bc_brown">Коричневые</s:String>
+    <s:String x:Key="bc_pink">Розовые</s:String>
+    <s:String x:Key="bc_yellow">Желтые</s:String>
+    <s:String x:Key="bc_blank">Blank</s:String>
+
+    <!--NEWS-->
+    <s:String x:Key="an_news">Новости</s:String>
+    
+</ResourceDictionary>

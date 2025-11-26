@@ -1,0 +1,61 @@
+﻿<Page x:Class="WheelGame.Views.FirstLaunchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:WheelGame.Views"
+      xmlns:cnt="clr-namespace:WheelGame.Controls"
+      xmlns:vm="clr-namespace:WheelGame.ViewModels"
+      mc:Ignorable="d" 
+      x:Name="page"
+      d:DesignHeight="900" d:DesignWidth="1200"
+      Background="{StaticResource GradientBackgroundBrush}"
+      Title="FirstLaunchPage">
+    <Page.Resources>
+        
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:FirstLaunchViewModel/>
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Grid ClipToBounds="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="930"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Margin="0,120,0,0">
+
+            <TextBlock x:Name="textBlock1" Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,0,20"
+                       Text="Введите свой никнейм" Width="739" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+
+            <cnt:InputFieldControl x:Name="inputFieldControl" Placeholder="{DynamicResource fl_nickname}" Label="{DynamicResource fl_nickname}" Text="{Binding NickName, Mode=TwoWay}"/>
+
+            <Button x:Name="button1" Style="{StaticResource FlatButtonStylePrimary}" Content="{DynamicResource fl_continue}" Width="250" Command="{Binding ContinueCommand}"
+                    RenderTransformOrigin="0.5,0.5" Margin="0,20,0,0">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,120 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 offset-lg-3 col-md-12 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title" data-i18n="l-appfeatures">Возможности приложения</h1>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="/" data-i18n="l-main">Главная</a></li>
+                        <li><a href="/">BingoApp</a></li>
+                        <li><a href="#" data-i18n="l-appfeatures">Возможности приложения</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+
+<section class="section blog-single">
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-2 col-lg-10 col-md-12 col-12">
+                <div class="single-inner">
+                    <div class="post-details">
+                        <div class="main-content-head">
+                            <div class="meta-information">
+                                <h2 class="mb-5" data-i18n="f-header-1">Новые возможности BingoApp 1.3.0</h2>
+                                <div class="row mt-2 mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-2">Подсветка потенциальных бинго игрока</h3>
+                                        <p class="mt-1" data-i18n="f-text-2">Функция подсветки помогает мгновенно определить игрока, который близок к победе. При нажатии на панель со счетом игрока на доске будут подсвечены потенциальные бинго. Благодаря этому вы можете своевременно оценивать ситуацию, принимать стратегические решения и усиливать азарт игры!</p>
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1 order-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/potentialbingos.gif" />
+                                    </div>
+                                </div>
+                                <div class="row  mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/view_changing.gif" />
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-3">Переключение режимов отображения игроков и команд</h3>
+                                        <p class="mt-1" data-i18n="f-text-3">Удобное переключение режимов позволяет мгновенно менять способ отображения участников. При нажатии на лейбл "Игроки" интерфейс автоматически переключается между индивидуальным и командным представлением, обеспечивая гибкость управления и лучший обзор игровой ситуации.</p>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-4">Остановка таймера после победы</h3>
+                                        <p class="mt-1" data-i18n="f-text-4">После объявления победителя таймер автоматически останавливается, предотвращая ненужное продолжение отсчета. Это гарантирует точную фиксацию времени завершения игры.</p>
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1 order-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/win_timer.gif" />
+                                    </div>
+                                </div>
+                                <div class="row  mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/square_highlight.gif" />
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-5">Показ измененного квадрата в режиме "Смена"</h3>
+                                        <p class="mt-1" data-i18n="f-text-5">В режиме "Смена" бывает сложно определить, какой квадрат изменился и где он находится. Теперь это проще: просто нажмите на сообщение о смене в ленте, и измененный квадрат сразу подсветится на доске, помогая быстро сориентироваться и не упустить важные изменения.</p>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-6">Локальный сервер и возможность открывать комнату с других устройств</h3>
+                                        <p class="mt-1" data-i18n="f-text-6-1">В новой версии BingoApp появилась поддержка локального сервера, позволяющая подключаться к активной комнате с любого устройства внутри вашей сети.</p>
+                                        <p class="mt-1" data-i18n="f-text-6-2">Настройка проста:</p>
+                                        <ul>
+                                            <li data-i18n="f-text-6-3">Укажите порт в настройках приложения (если 5050 занят).</li>
+                                            <li data-i18n="f-text-6-4">Включите запуск локального сервера — приложение запросит права администратора для открытия порта в Брандмауэре Windows.</li>
+                                            <li data-i18n="f-text-6-5">После этого можно создать или подключиться к комнате и зайти на локальный сервер по ссылке http://{IP вашего компьютера}:{ПОРТ} с любого устройства в сети.</li>
+                                        </ul>
+                                        <p class="mt-1" data-i18n="f-text-6-6">При подключении с мобильного телефона вы получите удобный интерфейс, позволяющий видеть игровую доску и все уведомления в ленте, обеспечивая полный контроль над ходом игры.</p>
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/local_server.gif" />
+                                    </div>
+                                </div>
+                                <div class="row  mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/game_overlay.gif" />
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-7">Открытие окна поверх игры</h3>
+                                        <p class="mt-1" data-i18n="[html]f-text-7">
+                                            Теперь в BingoApp можно вывести отдельное окно с доской, списком игроков, таймером и последним уведомлением, закрепив его поверх других приложений. Это удобно для тех, кто хочет следить за игрой, не переключаясь между окнами.
+                                            <br />
+                                            Если ваша игра не поддерживает режим "Окно без рамки", вы можете воспользоваться программой Borderless Gaming для комфортного отображения.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-2 mb-3 mb-lg-5">
+                                    <div class="col-lg-6 col-12 order-lg-0 order-0">
+                                        <h3 class="mb-2" data-i18n="f-header-8">Отправка пресетов другим игрокам</h3>
+                                        <p class="mt-1" data-i18n="f-text-8">Теперь в BingoApp можно легко делиться своими пресетами! Отправьте любому игроку ваш набор квадратов и заметок прямо в приложении, чтобы синхронизировать стратегию и улучшить взаимодействие в игре.</p>
+                                    </div>
+                                    <div class="col-lg-6 col-12 order-lg-1 order-1">
+                                        <img class="image border-radius-15" src="/assets/gifs/preset_share.gif" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .border-radius-15 {
+        border-radius: 15px;
+    }
+</style>

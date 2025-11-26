@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="BingoApp.ModalPopups.ConnectingToRoomModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BingoApp.ModalPopups"
+             xmlns:vm="clr-namespace:BingoApp.ViewModels"
+             xmlns:cnt="clr-namespace:BingoApp.Controls"
+             mc:Ignorable="d" 
+             x:Name="page"
+             d:DesignHeight="850" d:DesignWidth="1200">
+    <UserControl.DataContext>
+        <vm:MainViewModel/>
+    </UserControl.DataContext>
+    <cnt:ModalWindowControl Title="{DynamicResource mp_connectingtoroo}"                                         
+                        IsOpen="{Binding IsConnectModalVisible, Mode=TwoWay}" 
+                        CloseCommand="{Binding ConnectToRoomCancelCommand}"
+                        IsTitleVisible="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotConverter}}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <StackPanel Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.RoomName}" Placeholder="{DynamicResource mp_roomname}" Label="{DynamicResource mp_roomname}" Margin="40,0,40,10"/>
+                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Creator}" Placeholder="{DynamicResource mp_creator}" Label="{DynamicResource mp_creator}" Margin="40,0,40,10"/>
+                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Game}" Placeholder="{DynamicResource mp_game}" Label="{DynamicResource mp_game}" Margin="40,0,40,10" 
+                                       Visibility="{Binding RoomInfo.IsFromBingoApp, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+
+                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.GameAndPreset}" Placeholder="{DynamicResource mp_game}" Label="{DynamicResource mp_game}" Margin="40,0,40,10" 
+                                       Visibility="{Binding RoomInfo.IsFromBingoApp, Converter={StaticResource BoolToVisConverter}}"/>
+                    <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.GameMode}" Placeholder="{DynamicResource mp_mode}" Label="{DynamicResource mp_mode}" Margin="40,0,40,10" 
+                                       Visibility="{Binding RoomInfo.IsFromBingoApp, Converter={StaticResource BoolToVisConverter}}"/>
+
+
+                    <cnt:InputFieldControl Text="{Binding Credentials.NickName, Mode=TwoWay}" Placeholder="{DynamicResource mp_nickname}" Label="{DynamicResource mp_nickname}" Margin="40,0,40,10"/>
+                    <TextBlock Visibility="{Binding IsEmptyNickName, Converter={StaticResource BoolToVisConverter}}" Text="{DynamicResource mp_pleasetypenickn}" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
+                    <cnt:InputFieldControl IsPassword="True" Password="{Binding Credentials.Password, Mode=TwoWay}" Placeholder="{DynamicResource mp_password}" Label="{DynamicResource mp_password}" Margin="40,0,40,50"/>
+                    <TextBlock Visibility="{Binding IsIncorrectPassword, Converter={StaticResource BoolToVisConverter}}" Text="{DynamicResource mp_incorrectpasswo}" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
+                    <TextBlock Visibility="{Binding IsEmptyPassword, Converter={StaticResource BoolToVisConverter}}" Text="{DynamicResource mp_pleasetypepassw}" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
+                    <cnt:SwitchControl Text="{DynamicResource mp_connectasspecta}" Margin="45,-15,0,30" IsChecked="{Binding Credentials.IsSpectator, Mode=TwoWay}"/>
+                    <Button Style="{StaticResource FlatButtonStylePrimary}" Command="{Binding ConnectToRoomCommand}" Content="{DynamicResource mp_connect}" Width="250" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Grid Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource BoolToVisConverter}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding RoomInfo.RoomName, StringFormat={StaticResource mp_connectingto0}}" Style="{StaticResource FlatTextBlockStyle}"
+                            Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <cnt:ConnectingControl />
+                        <Button Content="{DynamicResource mp_cancel}" Style="{StaticResource FlatButtonStyle}" 
+                        Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
+                        Width="180"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </cnt:ModalWindowControl>
+
+</UserControl>

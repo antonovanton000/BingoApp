@@ -1,0 +1,222 @@
+[
+  {
+    "RoomId": "UjtaqLD4SRKXhYVWpINB0g",
+    "BingoType": "Blackout",
+    "GameDate": "2025-02-26T12:15:14.4932813+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 25, 21 ],
+    "LinesCount": [ 12, 4 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "qOW3NSvmQWqYUjm3Cxzaew",
+    "BingoType": "TripleBingo",
+    "GameDate": "2025-02-12T15:24:05.7855467+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 12, 16 ],
+    "LinesCount": [ 1, 3 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "7jwmT0HtReesL7VS8p0M4g",
+    "BingoType": "Blackout",
+    "GameDate": "2025-02-10T12:45:22.7244647+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 25, 18 ],
+    "LinesCount": [ 12, 0 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "-BpMeNXLTK2CNkv0cTXJUA",
+    "BingoType": "TripleBingo",
+    "GameDate": "2025-02-26T15:50:15.5551177+00:00",
+    "PlayersNames": [ "Neverbality", "Dekie", "Rawholt" ],
+    "Score": [ 13, 12, 15 ],
+    "LinesCount": [ 0, 2, 3 ],
+    "PresetName": "Minecraft",
+    "GameName": "Minecraft"
+  },
+  {
+    "RoomId": "UDqmKxQWTpy4BR6Iwp55wQ",
+    "BingoType": "Lockout",
+    "GameDate": "2025-02-28T13:59:46.5470916+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 13, 4 ],
+    "LinesCount": [ 0, 0 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "B2JpLbjMQ3Ozac0H0yW-eg",
+    "BingoType": "Lockout",
+    "GameDate": "2025-02-28T12:09:50.8574715+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 9, 13 ],
+    "LinesCount": [ 1, 0 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "39zpsAX5SoOCuyfZ_fDrbA",
+    "BingoType": "Lockout",
+    "GameDate": "2025-03-05T14:47:33.619621+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 13, 5 ],
+    "LinesCount": [ 0, 0 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "5Kf5axpfQsGDalfmWcYpXA",
+    "BingoType": "Blackout",
+    "GameDate": "2025-03-06T13:39:56.953544+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 25, 16 ],
+    "LinesCount": [ 12, 1 ],
+    "PresetName": "Sekiro RU",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "rwaEkUK2QyqO-49AuUh8Lw",
+    "BingoType": "Blackout",
+    "GameDate": "2025-03-13T18:00:19.9232584+00:00",
+    "PlayersNames": [ "Neverbality", "DirefulLemur0" ],
+    "Score": [ 25, 23 ],
+    "LinesCount": [ 12, 10 ],
+    "PresetName": "Sekiro (RU)",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "bVpbaslHQ1OjpMYwtRJ0Ag",
+    "BingoType": "TripleBingo",
+    "GameDate": "2025-03-19T18:19:59.8547655+00:00",
+    "PlayersNames": [ "Neverbality", "Dekie", "Dekie" ],
+    "Score": [ 8, 14, 14 ],
+    "LinesCount": [ 0, 3, 3 ],
+    "PresetName": "Minecraft (RU) - легкий пресет ",
+    "GameName": "Minecraft"
+  },
+  {
+    "RoomId": "j_aD-Q73TEuObfw1_Ln6Yw",
+    "BingoType": "Blackout",
+    "GameDate": "2025-04-03T13:01:03.438092+00:00",
+    "PlayersNames": [ "Neverbality", "DirefulLemur0" ],
+    "Score": [ 23, 25 ],
+    "LinesCount": [ 9, 12 ],
+    "PresetName": "Sekiro HARDEST Bingo",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "5kqBu3gFRN2j_TP31IXHQw",
+    "BingoType": "TripleBingo",
+    "GameDate": "2025-04-07T12:35:09.5124872+00:00",
+    "PlayersNames": [ "Neverbality", "DirefulLemur0" ],
+    "Score": [ 7, 12 ],
+    "LinesCount": [ 0, 3 ],
+    "PresetName": "Sekiro HARDEST Bingo",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "0hUxZlgiT3-RiGOkqsZpWA",
+    "BingoType": "Lockout",
+    "GameDate": "2025-04-08T14:34:25.4520785+00:00",
+    "PlayersNames": [ "Neverbality" ],
+    "Score": [ 6 ],
+    "LinesCount": [ 0 ],
+    "PresetName": "Far Cry 3 (RU) ",
+    "GameName": null
+  },
+  {
+    "RoomId": "pBodbdyUTUa9FixrIvp73g",
+    "BingoType": "Other",
+    "GameDate": "2025-04-15T18:49:25.2734986+00:00",
+    "PlayersNames": [ "Ghettoblasta" ],
+    "Score": [ 13 ],
+    "LinesCount": [ 0 ],
+    "PresetName": null,
+    "GameName": null
+  },
+  {
+    "RoomId": "G43OiE28Rb-LU31YIKUEzw",
+    "BingoType": "TripleBingo",
+    "GameDate": "2025-04-22T19:42:52.0527205+00:00",
+    "PlayersNames": [ "Neverbality" ],
+    "Score": [ 15 ],
+    "LinesCount": [ 3 ],
+    "PresetName": "Sekiro (RU)",
+    "GameName": null
+  },
+  {
+    "RoomId": "9RgpglS7S72w7VK3rQIbWA",
+    "BingoType": "TripleBingo",
+    "GameDate": "2025-05-02T17:58:52.3782847+00:00",
+    "PlayersNames": [ "Neverbality", "Dekie" ],
+    "Score": [ 17, 13 ],
+    "LinesCount": [ 3, 2 ],
+    "PresetName": "Основной",
+    "GameName": "Minecraft"
+  },
+  {
+    "RoomId": "lGEFnAU4Q4y-cQDNxqDqqw",
+    "BingoType": "Blackout",
+    "GameDate": "2025-05-08T13:07:21.6227082+00:00",
+    "PlayersNames": [ "Neverbality", "DirefulLemur0" ],
+    "Score": [ 25, 20 ],
+    "LinesCount": [ 12, 10 ],
+    "PresetName": "Resurection",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "kwrUWYVFTiieAaaSx2K33g",
+    "BingoType": "Blackout",
+    "GameDate": "2025-05-12T16:53:15.196517+00:00",
+    "PlayersNames": [ "Neverbality", "Дядя Вова", "Dekie" ],
+    "Score": [ 21, 20, 21 ],
+    "LinesCount": [ 4, 5, 4 ],
+    "PresetName": "Основной",
+    "GameName": "Minecraft"
+  },
+  {
+    "RoomId": "lMcZizk5RrCMODvXUqSbHw",
+    "BingoType": "Lockout",
+    "GameDate": "2025-05-14T12:28:44.2992728+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 5, 9 ],
+    "LinesCount": [ 0, 1 ],
+    "PresetName": "Основной",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "jnyfyWzKRcerhuKm4fyy4A",
+    "BingoType": "Lockout",
+    "GameDate": "2025-05-14T14:22:39.468044+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 13, 12 ],
+    "LinesCount": [ 0, 0 ],
+    "PresetName": "Основной",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "0Sxw_zlHSnuivKHpFxFs3g",
+    "BingoType": "Lockout",
+    "GameDate": "2025-05-15T12:11:48.2331356+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 12, 13 ],
+    "LinesCount": [ 0, 0 ],
+    "PresetName": "Основной",
+    "GameName": "Sekiro"
+  },
+  {
+    "RoomId": "514giFRJS5Ot0ReeYzIhFQ",
+    "BingoType": "Lockout",
+    "GameDate": "2025-05-15T13:54:22.8940628+00:00",
+    "PlayersNames": [ "DirefulLemur0", "Neverbality" ],
+    "Score": [ 14, 8 ],
+    "LinesCount": [ 0, 0 ],
+    "PresetName": "Основной",
+    "GameName": "Sekiro"
+  }
+]

@@ -1,4 +1,5 @@
 ﻿using BingoApp.Classes;
+using BingoApp.ModalPopups;
 using BingoApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -89,6 +90,11 @@ namespace BingoApp.Views
                 sb?.Begin();
                 (App.Current as App).IsFirstTimeAppear = true;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

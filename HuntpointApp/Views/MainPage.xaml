@@ -1,0 +1,955 @@
+﻿<Page x:Class="HuntpointApp.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:HuntpointApp.Views"
+      xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="940" d:DesignWidth="1440"
+      Background="{StaticResource GradientBackgroundBrush}"
+      x:Name="page"
+      Loaded="page_Loaded"      
+      Title="MainPage">
+    <Page.DataContext>
+        <vm:MainViewModel />
+    </Page.DataContext>
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="spTitle" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="5">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="spTitle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.99">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl2" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl3" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl4" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl5" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl3" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="pl5" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="55">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.7000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="55">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.7000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border2" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="52"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="55">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border3" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border3" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="55">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.9000000" Value="2">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border4" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:01" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border4" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="55">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:01" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="BacklightAnimation" RepeatBehavior="Forever" AutoReverse="True">
+            <DoubleAnimation From="0.1" To="0.25" Storyboard.TargetName="bgImage" Storyboard.TargetProperty="Opacity"
+                             Duration="0:0:10"/>
+        </Storyboard>
+        <Storyboard x:Key="panel1Animation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="50"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.7000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.7000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard x:Name="WelcomeAnimation_BeginStoryboard" Storyboard="{StaticResource WelcomeAnimation}"/>
+            <BeginStoryboard Storyboard="{StaticResource BacklightAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Grid ClipToBounds="True">
+        <Image Source="/Images/rectlight.png" VerticalAlignment="Bottom" Opacity="0.1"
+               Stretch="Uniform" x:Name="bgImage"/>
+        <Grid Margin="60,40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="110"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <StackPanel Grid.Row="0" x:Name="spTitle">
+                    <StackPanel.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </StackPanel.RenderTransform>
+                    <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{Binding HelloMessage, Mode=OneWay}" FontFamily="{StaticResource Manege}" FontSize="40"/>
+                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource mp_welcomeMessage}" FontFamily="{StaticResource Manege}" Margin="0,5,0,0"/>
+                </StackPanel>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="Test_Click" Content="Test" Visibility="Collapsed"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <StackPanel Orientation="Vertical">
+                    <!--CREATE ROOM PANEL-->
+                    <Border Height="110" Margin="0,0,0,20" CornerRadius="10" x:Name="pl1" ClipToBounds="True"                            
+                            BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" RenderTransformOrigin="0.5,0.5" Padding="15">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="p1scale"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="p1shadow" ShadowDepth="0" Color="#FFB6BEE7" Opacity="0" BlurRadius="5" />
+                        </Border.Effect>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleX"
+                                     To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleY"
+                                     To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p1shadow" Storyboard.TargetProperty="Opacity"
+                                     To="0.6" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl1_img" Storyboard.TargetProperty="Opacity"
+                                              To="0.9" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleX"
+                                     To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleY"
+                                     To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p1shadow" Storyboard.TargetProperty="Opacity"
+                                     To="0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl1_img" Storyboard.TargetProperty="Opacity"
+                                                To="0.6" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=pl1}">
+                                <behaviors:InvokeCommandAction Command="{Binding CreateNewRoomCommand}" />
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="{StaticResource BackgroundColorBrushDark}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsNewRoomPageActive}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource AccentColorBrush3}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Border x:Name="border" Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" 
+                                    Width="250" RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0 0 250 110" RadiusX="10" RadiusY="10"/>
+                                </Border.Clip>
+                                <Image Source="/Images/newgame.jpeg" Stretch="UniformToFill"
+                                       Opacity="0.8" x:Name="pl1_img"/>
+                            </Border>
+                            <Border Margin="-14,-15,-14,-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" 
+                                    Width="250">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                                    <GradientStop Offset="0" Color="{StaticResource BackgroundColorDark}"/>
+                                                    <GradientStop Offset="0.2" Color="{StaticResource BackgroundColorDark}"/>
+                                                    <GradientStop Offset="1" Color="#00000000"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsNewRoomPageActive}" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                                            <GradientStop Offset="0" Color="{StaticResource AccentColor3}"/>
+                                                            <GradientStop Offset="0.2" Color="{StaticResource AccentColor3}"/>
+                                                            <GradientStop Offset="1" Color="#00000000"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
+                            </Border>
+
+                            <TextBlock Text="{DynamicResource mp_createanewroom}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" FontFamily="{StaticResource Manege}"/>
+                        </Grid>
+                    </Border>
+                    <!--END CREATE ROOM PANEL-->
+
+                    <!--CONNECT ROOM PANEL-->
+                    <Border Height="110" Margin="0,0,0,20" CornerRadius="10" x:Name="pl2" ClipToBounds="True"
+                            BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"  RenderTransformOrigin="0.5,0.5" Padding="15">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="p2scale"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="p2shadow" ShadowDepth="0" Color="#FFB6BEE7" Opacity="0" BlurRadius="5" />
+                        </Border.Effect>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleX"
+             To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleY"
+             To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p2shadow" Storyboard.TargetProperty="Opacity"
+             To="0.6" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl2_img" Storyboard.TargetProperty="Opacity"
+  To="0.95" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleX"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleY"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p2shadow" Storyboard.TargetProperty="Opacity"
+             To="0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl2_img" Storyboard.TargetProperty="Opacity"
+    To="0.8" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=pl2}">
+                                <behaviors:InvokeCommandAction Command="{Binding ShowConnectModalCommand}" />
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="{StaticResource BackgroundColorBrushDark}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsConnectToRoomPageActive}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource AccentColorBrush3}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Border x:Name="border1" Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" Width="250" RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0 0 250 110" RadiusX="10" RadiusY="10"/>
+                                </Border.Clip>
+                                <Image Source="/Images/connect.jpeg" Stretch="UniformToFill"
+                                        Opacity="0.8" x:Name="pl2_img"/>
+                            </Border>
+                            <Border Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" Width="250">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                                    <GradientStop Offset="0" Color="{StaticResource BackgroundColorDark}"/>
+                                                    <GradientStop Offset="0.2" Color="{StaticResource BackgroundColorDark}"/>
+                                                    <GradientStop Offset="1" Color="#00000000"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsConnectToRoomPageActive}" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                                            <GradientStop Offset="0" Color="{StaticResource AccentColor3}"/>
+                                                            <GradientStop Offset="0.2" Color="{StaticResource AccentColor3}"/>
+                                                            <GradientStop Offset="1" Color="#00000000"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <TextBlock Text="{DynamicResource mp_connect}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" FontFamily="{StaticResource Manege}"/>
+                            <Border Background="{StaticResource Danger}" Width="25" Height="25" CornerRadius="15"
+                                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="-12,-10"
+                                    Visibility="{Binding ActiveRoomsCount, Converter={StaticResource CountToVisibilityConverter}}">
+                                <TextBlock Text="{Binding ActiveRoomsCount}" Foreground="White" Padding="0" Margin="0,-2,0,0"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+
+                        </Grid>
+                    </Border>
+                    <!--END CONNECT ROOM PANEL-->
+
+                    <!--PRESET MANAGER PANEL-->
+                    <Border Height="110" Background="{StaticResource BackgroundColorBrushDark}" Margin="0,0,0,20" CornerRadius="10" x:Name="pl3"
+                            BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"  RenderTransformOrigin="0.5,0.5" Padding="15" ClipToBounds="True">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="p3scale"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="p3shadow" ShadowDepth="0" Color="#FFB6BEE7" Opacity="0" BlurRadius="5" />
+                        </Border.Effect>
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=pl3}">
+                                <behaviors:InvokeCommandAction Command="{Binding OpenBoardManagerCommand}" />
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleX"
+                                            To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleY"
+                                            To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p3shadow" Storyboard.TargetProperty="Opacity"
+                                            To="0.6" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl3_img" Storyboard.TargetProperty="Opacity"
+                                            To="0.95" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleX"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleY"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p3shadow" Storyboard.TargetProperty="Opacity"
+             To="0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl3_img" Storyboard.TargetProperty="Opacity"
+To="0.8" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <Grid>
+                            <Border x:Name="border2" Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" Width="250" RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0 0 250 110" RadiusX="10" RadiusY="10"/>
+                                </Border.Clip>
+                                <Image Source="/Images/manager.jpeg" Stretch="UniformToFill"
+                                       Opacity="0.8" x:Name="pl3_img"/>
+                            </Border>
+                            <Border Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" Width="250">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                        <GradientStop Offset="0" Color="{StaticResource BackgroundColorDark}"/>
+                                        <GradientStop Offset="0.2" Color="{StaticResource BackgroundColorDark}"/>
+                                        <GradientStop Offset="1" Color="#00000000"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <TextBlock Text="{DynamicResource mp_presetmanager}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" FontFamily="{StaticResource Manege}"/>
+                        </Grid>
+                    </Border>
+                    <!--END PRESET MANAGER PANEL-->
+
+                    <!--HISTORY PAENL-->
+                    <Border Height="110" Background="{StaticResource BackgroundColorBrushDark}" Margin="0,0,0,20" CornerRadius="10" x:Name="pl4"
+                            BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"  RenderTransformOrigin="0.5,0.5" Padding="15"
+                            ClipToBounds="True">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="p4scale"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="p4shadow" ShadowDepth="0" Color="#FFB6BEE7" Opacity="0" BlurRadius="5" />
+                        </Border.Effect>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleX"
+             To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleY"
+             To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p4shadow" Storyboard.TargetProperty="Opacity"
+             To="0.6" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl4_img" Storyboard.TargetProperty="Opacity"
+To="0.95" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleX"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleY"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p4shadow" Storyboard.TargetProperty="Opacity"
+             To="0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl4_img" Storyboard.TargetProperty="Opacity"
+To="0.8" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=pl4}">
+                                <behaviors:InvokeCommandAction Command="{Binding OpenHistoryCommand}" />
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+
+                        <Grid>
+                            <Border x:Name="border3" Margin="-14,-14,-13,-14" HorizontalAlignment="Right" CornerRadius="0,12,12,0" ClipToBounds="True" Width="250" RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0 0 250 110" RadiusX="12" RadiusY="12"/>
+                                </Border.Clip>
+                                <Image Source="/Images/history.jpeg" Stretch="UniformToFill"
+                                       Opacity="0.8" x:Name="pl4_img"/>
+                            </Border>
+                            <Border Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" Width="250">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                        <GradientStop Offset="0" Color="{StaticResource BackgroundColorDark}"/>
+                                        <GradientStop Offset="0.2" Color="{StaticResource BackgroundColorDark}"/>
+                                        <GradientStop Offset="1" Color="#00000000"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                            <TextBlock Text="{DynamicResource mp_gameshistory}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" FontFamily="{StaticResource Manege}"/>
+                        </Grid>
+                    </Border>
+                    <!--END HISTORY PANEL-->
+
+                    <!--PRACTICE PANEL-->
+                    <Border x:Name="pl5" Height="110" Margin="0,0,0,20" CornerRadius="10" ClipToBounds="True"
+                            BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"  RenderTransformOrigin="0.5,0.5" Padding="15">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="p5scale"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="p5shadow" ShadowDepth="0" Color="#FFB6BEE7" Opacity="0" BlurRadius="5" />
+                        </Border.Effect>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleX"
+             To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleY"
+             To="1.008" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p5shadow" Storyboard.TargetProperty="Opacity"
+             To="0.6" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl5_img" Storyboard.TargetProperty="Opacity"
+                                            To="0.95" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleX"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleY"
+             To="1" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="p5shadow" Storyboard.TargetProperty="Opacity"
+             To="0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="pl5_img" Storyboard.TargetProperty="Opacity"
+                                            To="0.8" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="{StaticResource BackgroundColorBrushDark}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPracticePageActive}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource AccentColorBrush3}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=pl5}">
+                                <behaviors:InvokeCommandAction Command="{Binding OpenPracticeCommand}" />
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+                        <Grid>
+                            <Border x:Name="border4" Margin="-15" HorizontalAlignment="Right" CornerRadius="0,12,12,0" ClipToBounds="True" Width="250" RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <Border.Clip>
+                                    <RectangleGeometry Rect="0 0 250 110" RadiusX="12" RadiusY="12"/>
+                                </Border.Clip>
+                                <Image Source="/Images/practice.jpeg" Stretch="UniformToFill"
+                                       Opacity="0.8" x:Name="pl5_img"/>
+                            </Border>
+                            <Border Margin="-15" HorizontalAlignment="Right" CornerRadius="0,10,10,0" ClipToBounds="True" Width="250">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                                    <GradientStop Offset="0" Color="{StaticResource BackgroundColorDark}"/>
+                                                    <GradientStop Offset="0.2" Color="{StaticResource BackgroundColorDark}"/>
+                                                    <GradientStop Offset="1" Color="#00000000"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsPracticePageActive}" Value="True">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                                            <GradientStop Offset="0" Color="{StaticResource AccentColor3}"/>
+                                                            <GradientStop Offset="0.2" Color="{StaticResource AccentColor3}"/>
+                                                            <GradientStop Offset="1" Color="#00000000"/>
+                                                        </LinearGradientBrush>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <TextBlock Text="{DynamicResource mp_practice}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" HorizontalAlignment="Left"
+                                       VerticalAlignment="Center" FontFamily="{StaticResource Manege}"/>
+                        </Grid>
+                    </Border>
+                    <!--END PRACTICE PANEL-->
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="0">
+
+            </Grid>
+            <Grid Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Margin="40,-40,-60,-40">
+
+                <Frame NavigationUIVisibility="Hidden" x:Name="subframe" JournalOwnership="OwnsJournal" Source="{Binding CurrentPageUri}" />
+
+                <!--CONNECT TO ROOM-->
+
+                <!--END CONNECT TO ROOM-->
+            </Grid>
+        </Grid>
+        <!--FOOTER-->
+        <StackPanel x:Name="stackPanel1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="40,20"
+            Orientation="Horizontal" RenderTransformOrigin="0.5,0.5">
+            <StackPanel.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StackPanel.RenderTransform>
+            <TextBlock  Style="{StaticResource FlatTextBlockStyle}"
+                Foreground="#1BFEFEFE"  
+                FontSize="12" Text="{DynamicResource mp_createdby}"
+                VerticalAlignment="Center">
+            </TextBlock>
+            <TextBlock Style="{StaticResource FlatTextBlockStyle}"
+                Foreground="#25FEFEFE"  
+                FontSize="12" Text="DirefulLemur0"
+                VerticalAlignment="Center">
+            </TextBlock>
+            <Image Height="20" Width="20" Source="/Images/discord.png" Margin="8,0,0,0" VerticalAlignment="Center"
+            MouseLeftButtonDown="Discord_Click" Cursor="Hand" ToolTip="Discord">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image Height="20" Width="20" Source="/Images/twitch.png" Margin="8,0,0,0" VerticalAlignment="Center"
+            MouseLeftButtonDown="Twitch_Click" Cursor="Hand" ToolTip="Twitch">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+        </StackPanel>
+        <TextBlock x:Name="textBlock"  Style="{StaticResource FlatTextBlockStyle}"
+            Foreground="#1BFEFEFE"  HorizontalAlignment="Left" VerticalAlignment="Bottom"
+            FontSize="12" Text="{DynamicResource mp_imagesprovidedb}" Cursor="Hand"
+            Margin="40,0,20,20" MouseLeftButtonDown="Freepik_Click" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <TextBlock x:Name="textBlock1" Style="{StaticResource FlatTextBlockStyle}"
+                   Foreground="#1BFEFEFE"  HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   FontSize="12" 
+                   Margin="40,0,20,40">
+            <Run Text="Beta Version: "></Run>
+            <Run Text="{Binding AppVersion}"></Run>
+        </TextBlock>
+
+        <!--END FOOTER-->
+    </Grid>
+</Page>

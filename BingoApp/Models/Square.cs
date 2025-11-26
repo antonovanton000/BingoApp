@@ -20,12 +20,18 @@ namespace BingoApp.Models
         private void Colors_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(HasOnlyOneColor));
+            OnPropertyChanged(nameof(IsMarked));
+            OnPropertyChanged(nameof(SquareColorsSorted));
+            OnPropertyChanged(nameof(FirstColor));
         }
 
         [ObservableProperty]           
         string slot;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(HasOnlyOneColor))]
+        [NotifyPropertyChangedFor(nameof(SquareColorsSorted))]
+        [NotifyPropertyChangedFor(nameof(FirstColor))]
         [NotifyPropertyChangedFor(nameof(IsMarked))]
         [NotifyPropertyChangedFor(nameof(IsScoreVisible))]
         [NotifyPropertyChangedFor(nameof(IsGoalVisible))]
@@ -54,12 +60,32 @@ namespace BingoApp.Models
         [ObservableProperty]
         bool isPotentialBingo = false;
 
-        public bool IsScoreVisible => !IsMarked && Score > 0;
+        [ObservableProperty]
+        string notes;
+
+        public BingoColor FirstColor => (SquareColors.Count > 0 ? SquareColors.FirstOrDefault() : BingoColor.blank);
+
+        public IEnumerable<BingoColor> SquareColorsSorted => SquareColors.OrderBy(i => (int)i);
+
+
+        public bool IsScoreVisible => Score > 0;
         public bool IsGoalVisible => !IsMarked && IsGoal;
+        public bool HasOnlyOneColor => SquareColors.Count == 1;
+        public bool IsMarked  => SquareColors.Count > 0;
 
-        public bool HasOnlyOneColor => SquareColors.Where(i => i != BingoColor.blank).Count() == 1;
+        [ObservableProperty]
+        bool isBingoAnimate;
 
-        public bool IsMarked { get => SquareColors.Count > 0 && SquareColors.Any(i => i != BingoColor.blank); }
-        
+        [ObservableProperty]
+        bool isHidden = false;
+
+        [ObservableProperty]
+        bool isReplaceNewAnimate;
+
+        [ObservableProperty]
+        bool isSelectedBingo;
+
+        [ObservableProperty]
+        bool isInSelectedLine;
     }
 }

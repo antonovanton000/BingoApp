@@ -17,19 +17,25 @@ namespace BingoApp.Models
         string roomName;
         
         [ObservableProperty]
-        string creator;
-        
+        string creatorName;
+                     
         [ObservableProperty]
-        string game;
-        
+        [NotifyPropertyChangedFor(nameof(GameAndPreset))]
+        string gameName;
+
         [ObservableProperty]
-        string encodedRoomUUID;
-        
+        [NotifyPropertyChangedFor(nameof(GameAndPreset))]
+        string presetName;
+
         [ObservableProperty]
-        string csrfMiddlewareToken;
-        
+        GameMode gameMode;
+
         [ObservableProperty]
-        string roomActionUrl;
-        
+        ExtraGameMode extraGameMode;
+
+        public string GameAndPreset => $"{GameName} - {PresetName}";
+
+        [ObservableProperty]
+        bool isFromBingoApp;
     }
 }

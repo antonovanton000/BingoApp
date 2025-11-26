@@ -3,26 +3,29 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+
 
 namespace BingoApp.Models
 {
     public partial class BoardPreset : ObservableObject
     {
-        [ObservableProperty]
-        string presetName;
+
+        public BoardPreset()
+        {
+            Squares = new ObservableCollection<PresetSquare>();
+            Exceptions = new ObservableCollection<PresetSquareException>();
+        }
 
         [ObservableProperty]
-        string filePath;
+        string presetName = default!;
+
+        [ObservableProperty]
+        string filePath = default!;
 
 
         [ObservableProperty]
-        string json;
+        string json = default!;
 
         [ObservableProperty]
         int squareCount;
@@ -30,63 +33,8 @@ namespace BingoApp.Models
         [ObservableProperty]
         ObservableCollection<PresetSquare> squares = new ObservableCollection<PresetSquare>();
 
-        [JsonIgnore]
-        [ObservableProperty] 
-        string coverFilePath;
-
-        [JsonIgnore]
         [ObservableProperty]
-        string coverWebLink;
-
-        [JsonIgnore]
-        public ImageSource ImageCover
-        {
-            get
-            {
-                var bi = new BitmapImage();
-                var imgPath = System.IO.Path.Combine(App.Location,"PresetImages", PresetName + ".jpg");
-                if (System.IO.File.Exists(imgPath))
-                {
-                    bi = ToImage(System.IO.File.ReadAllBytes(imgPath));
-                }
-                else
-                {
-                    bi = new BitmapImage(new Uri("pack://application:,,,/Images/presetcard.png"));
-                }
-
-                return bi;
-            }
-        }
-
-        private BitmapImage ToImage(byte[] array)
-        {
-            using (var ms = new System.IO.MemoryStream(array))
-            {
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad; // here
-                image.StreamSource = ms;
-                image.EndInit();
-                return image;
-            }
-        }
-
-        public static byte[] ExtractResource(string filename)
-        {
-            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            using (Stream resfilestream = a.GetManifestResourceStream(filename))
-            {
-                if (resfilestream == null) return null;
-                byte[] ba = new byte[resfilestream.Length];
-                resfilestream.Read(ba, 0, ba.Length);
-                return ba;
-            }
-        }
-
-        public void RefreshImageCover()
-        {
-            OnPropertyChanged(nameof(ImageCover));
-        }
+        ObservableCollection<PresetSquareException> exceptions = new ObservableCollection<PresetSquareException>();
 
         [JsonIgnore]
         [ObservableProperty]
@@ -100,12 +48,42 @@ namespace BingoApp.Models
         [ObservableProperty]
         bool isJsonError;
 
-        [JsonIgnore]
-        [ObservableProperty]
-        bool isWebLinkBad;
+        public void LoadSquares()
+        {
+            if (!string.IsNullOrEmpty(Json))
+            {
+                if (Json.Contains("//---EXCEPTIONS---//"))
+                {
+                    var squaresJson = Json.Split(new string[] { "//---EXCEPTIONS---//" }, StringSplitOptions.None)[0];
+                    var exceptionsJson = Json.Split(new string[] { "//---EXCEPTIONS---//" }, StringSplitOptions.None)[1];
+                    Squares = JsonConvert.DeserializeObject<ObservableCollection<PresetSquare>>(squaresJson);
+                    Exceptions = JsonConvert.DeserializeObject<ObservableCollection<PresetSquareException>>(exceptionsJson);
+                }
+                else
+                {
+                    Squares = JsonConvert.DeserializeObject<ObservableCollection<PresetSquare>>(Json);
+                }
+            }
+        }
 
-        [JsonIgnore]
+        public List<PresetSquare> GetSquares()
+        {
+            var list = new List<PresetSquare>();
+            list.AddRange(Squares.Where(i => string.IsNullOrEmpty(i.Group)));
+            foreach (var group in Squares.GroupBy(i => i.Group).Where(i => !string.IsNullOrEmpty(i.Key)))
+            {
+                if (group.Count() > 0)
+                    list.Add(group.OrderBy(x => Guid.NewGuid()).First());
+            }
+            return list.OrderBy(x => Guid.NewGuid()).ToList();
+        }
+
         [ObservableProperty]
-        bool isDownloadError;
+        bool isCustom;
+
+        [ObservableProperty]
+        string game = default!;
+
+        public string PresetAndGame => $"{Game} - {PresetName}";
     }
 }

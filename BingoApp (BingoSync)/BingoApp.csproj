@@ -1,0 +1,226 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+    <Title>BingoApp</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\HelveticaNeueCyr-Light.ttf" />
+    <None Remove="Fonts\HelveticaNeueCyr-Thin.ttf" />
+    <None Remove="Fonts\SEGMDL2.TTF" />
+    <None Remove="GamesImages\Far Cry 3.jpg" />
+    <None Remove="GamesImages\Minecraft.jpg" />
+    <None Remove="Images\bingo.png" />
+    <None Remove="Images\bingocolored.png" />
+    <None Remove="Images\boardmanager.png" />
+    <None Remove="Images\br_bg.png" />
+    <None Remove="Images\congrats.json" />
+    <None Remove="Images\connect.png" />
+    <None Remove="Images\createboard.png" />
+    <None Remove="Images\discord.png" />
+    <None Remove="Images\gamepad.png" />
+    <None Remove="Images\history.png" />
+    <None Remove="Images\instagram.png" />
+    <None Remove="Images\Logo.png" />
+    <None Remove="Images\practice.png" />
+    <None Remove="Images\presetcard.png" />
+    <None Remove="Images\tl_bg.png" />
+    <None Remove="Images\twitch.png" />
+    <None Remove="notes.json" />
+    <None Remove="Sounds\beep-timer.wav" />
+    <None Remove="Sounds\beep.wav" />
+    <None Remove="Sounds\bingo.wav" />
+    <None Remove="Sounds\chat.wav" />
+    <None Remove="Sounds\connected.wav" />
+    <None Remove="Sounds\disconnected.wav" />
+    <None Remove="Sounds\goal.wav" />
+    <None Remove="Sounds\new-square.wav" />
+    <None Remove="Sounds\reveal.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="GamesImages\Dark Souls I.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GamesImages\Dark Souls III.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GamesImages\Elden Ring.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GamesImages\Far Cry 3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GamesImages\Minecraft.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GamesImages\Sekiro.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LocalWebServer\bingoRoom.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Dark Souls I\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Elden Ring\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Far Cry 3\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Minecraft\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Сложный.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Resurection.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Dark Souls III\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon.ico" />
+    <Content Include="notes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\beep-timer.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\bingo.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\chat.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\connected.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\disconnected.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\goal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\new-square.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\reveal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
+    <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
+    <PackageReference Include="LottieSharp" Version="2.4.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.5" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\HelveticaNeueCyr-Light.ttf" />
+    <Resource Include="Fonts\HelveticaNeueCyr-Thin.ttf" />
+    <Resource Include="Fonts\SEGMDL2.TTF" />
+    <Resource Include="Images\bingo.png" />
+    <Resource Include="Images\bingocolored.png" />
+    <Resource Include="Images\boardmanager.png" />
+    <Resource Include="Images\br_bg.png" />
+    <Resource Include="Images\congrats.json" />
+    <Resource Include="Images\connect.png" />
+    <Resource Include="Images\createboard.png" />
+    <Resource Include="Images\discord.png" />
+    <Resource Include="Images\gamepad.png" />
+    <Resource Include="Images\history.png" />
+    <Resource Include="Images\instagram.png" />
+    <Resource Include="Images\Logo.png" />
+    <Resource Include="Images\practice.png" />
+    <Resource Include="Images\presetcard.png" />
+    <Resource Include="Images\tl_bg.png" />
+    <Resource Include="Images\twitch.png" />
+    <Content Include="Sounds\beep.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\CreatingControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TextAreaFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\SelectFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ModalPopups\DownloadPresetModal.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Views\GameManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\BoardManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RoomHistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SettingsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\HistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EditBoardPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SocketTestPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

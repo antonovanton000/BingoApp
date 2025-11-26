@@ -1,0 +1,96 @@
+﻿@using System.Globalization
+@model SocketServer.Controllers.BingoPlayer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "Заявка на бинго";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 offset-lg-3 col-md-12 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">@title</h1>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="/">Главная</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+
+<div class="contact-us section">
+    <div class="container">
+        <div class="row">            
+            <div class="col-lg-6 col-12 m-auto">
+                <div class="contact-form">
+                    <h3 class="form-title">Хотите поиграть в бинго?</h3>
+                    <p class="mb-3">Оставте свои данные и мы с вами свяжемся!</p>
+                    <form class="form" method="post" action="/home/findbingoplayerform">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Никнейм</label>
+                                    <input name="Name" class="form-input" type="text" placeholder="Как вас называть" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Игра</label>
+                                    <select name="Game" class="form-select" placeholder="Игра" required="required">
+                                        <option value=""></option>
+                                        <option value="Sekiro">Sekiro: Shadows Die Twice</option>
+                                        <option value="EldenRing">Elden Ring</option>
+                                        <option value="DarkSoulsIII">Dark Souls III</option>
+                                        <option value="Minecraft">Minecraft</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Ваш уровень игры</label>
+                                    <select name="GameLevel" class="form-select" placeholder="Уровень знания игры" required="required">
+                                        <option value=""></option>
+                                        <option value="Новичок">Новичок</option>
+                                        <option value="Средний">Средний</option>
+                                        <option value="Продвинутый">Продвинутый</option>
+                                        <option value="Эксперт">Эксперт</option>
+                                        <option value="Спидранер">Спидранер</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group my-3">
+                                    <h5>Как с вами связаться?</h5>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Discord" type="text" placeholder="Discord" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Vk" type="text" placeholder="Vk" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Other" type="text" placeholder="Другой способ" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="button">
+                                    <button type="submit" class="btn">Отправить заявку</button>
+                                </div>
+                            </div>                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -93,7 +93,7 @@
                                               BorderThickness="0"
                                               IsHitTestVisible="{Binding ElementName=infoPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
                                               Content="&#xe946;" x:Name="btnInfo"
-                                              VerticalAlignment="Center" ToolTip="Room Info" Foreground="#40FEFEFE">
+                                              VerticalAlignment="Center" ToolTip="{DynamicResource rp_roominfo}" Foreground="#40FEFEFE">
                                 </ToggleButton>
                                 <Popup IsOpen="{Binding IsChecked, ElementName=btnInfo}" x:Name="infoPopup" StaysOpen="False"
                                    AllowsTransparency="True">
@@ -102,18 +102,18 @@
                                     Padding="15">
                                         <StackPanel>
                                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                                <TextBlock Text="Game:" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0" />
+                                                <TextBlock Text="{DynamicResource rp_game}" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0" />
                                                 <TextBlock Text="{Binding Room.RoomSettings.Game}" Style="{StaticResource FlatTextBlockStyle}" 
                                        TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE"
                                        Margin="0,0,5,0"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                                <TextBlock Text="Mode:" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{DynamicResource rp_mode}" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
                                                 <TextBlock Text="{Binding Room.RoomSettings.LockoutMode}" Style="{StaticResource FlatTextBlockStyle}" 
                                        TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                                                <TextBlock Text="Seed:" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{DynamicResource rp_seed}" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
                                                 <TextBlock Text="{Binding Room.RoomSettings.Seed}" Style="{StaticResource FlatTextBlockStyle}" 
                                        TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
                                             </StackPanel>
@@ -132,7 +132,7 @@
                                                 FontFamily="{StaticResource SegoeMDL2}"
                                                 Style="{StaticResource SubHeaderTextBlockBlockStyle}" Margin="0,0,5,0"/>
 
-                        <TextBlock Text="Player:" FontSize="15" Foreground="#20FEFEFE"
+                        <TextBlock Text="{DynamicResource rp_player}" FontSize="15" Foreground="#20FEFEFE"
                                                 FontFamily="{StaticResource HelveticaThin}"
                                                 Style="{StaticResource SubHeaderTextBlockBlockStyle}" Margin="0,0,5,0"/>
                         <TextBlock Text="{Binding Room.CurrentPlayer.NickName}" FontSize="15" 
@@ -144,6 +144,16 @@
                     </StackPanel>
                 </Grid>
                 <Border Grid.Column="1" Padding="0,0,100,0">
+                    <Grid>
+                        <Button Style="{StaticResource FlatButtonStyle}" x:Name="btnShare" ToolTip="{DynamicResource rp_share}" Width="200" HorizontalAlignment="Right"
+                                Command="{Binding SendResultsCommand}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE72d;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
+                                           Margin="0,0,10,0"/>
+                                <TextBlock Text="{DynamicResource rp_sendresults}" FontSize="14" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                 </Border>
             </Grid>
             <Grid x:Name="grid1" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
@@ -181,17 +191,17 @@
                                         <RowDefinition Height="110"/>
                                         <RowDefinition Height="110"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="0" Style="{StaticResource FlatTextBlockStyle}" Text="COL1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="1" Style="{StaticResource FlatTextBlockStyle}" Text="COL2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="2" Style="{StaticResource FlatTextBlockStyle}" Text="COL3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="3" Style="{StaticResource FlatTextBlockStyle}" Text="COL4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="4" Style="{StaticResource FlatTextBlockStyle}" Text="COL5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="0" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_col1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="1" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_col2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="2" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_col3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="3" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_col4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="4" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_col5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="1" Style="{StaticResource FlatTextBlockStyle}" Text="ROW1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="2" Style="{StaticResource FlatTextBlockStyle}" Text="ROW2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="3" Style="{StaticResource FlatTextBlockStyle}" Text="ROW3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="4" Style="{StaticResource FlatTextBlockStyle}" Text="ROW4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="5" Style="{StaticResource FlatTextBlockStyle}" Text="ROW5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="1" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_row1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="2" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_row2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="3" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_row3}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="4" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_row4}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Opacity="0.5" FontSize="12" Grid.Column="5" Grid.Row="5" Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource rp_row5}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
                                     <cnt:BingoSquare Grid.Row="1" Grid.Column="0" Square="{Binding Room.Board.Squares[0], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
                                     <cnt:BingoSquare Grid.Row="1" Grid.Column="1" Square="{Binding Room.Board.Squares[1], Mode=TwoWay}" CurrentPlayerColor="{Binding Room.CurrentPlayer.Color}"/>
@@ -235,7 +245,7 @@
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Opacity="0.4" Margin="0,5,8,0" Text="&#xed0c;" FontSize="18" Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource SegoeMDL2}"/>
-                            <TextBlock Opacity="0.4" Text="Feed" FontSize="18" Style="{StaticResource SubHeaderTextBlockBlockStyle}"/>
+                            <TextBlock Opacity="0.4" Text="{DynamicResource rp_feed}" FontSize="18" Style="{StaticResource SubHeaderTextBlockBlockStyle}"/>
                         </StackPanel>
                         <Border Padding="10,10,5,10" Margin="0,0,20,20" Grid.Row="1" Grid.Column="0" Background="{StaticResource BackgroundBrush}" 
                                 CornerRadius="12" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}">
@@ -344,7 +354,7 @@
                                        Margin="0,4,8,0"
                                        Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="20"
                                        FontFamily="{StaticResource SegoeMDL2}"/>
-                            <TextBlock Opacity="0.4" Text="Players" Grid.Row="0" 
+                            <TextBlock Opacity="0.4" Text="{DynamicResource rp_players}" Grid.Row="0" 
                                        Margin="0,0,0,0"
                                        Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"/>
                         </StackPanel>
@@ -389,12 +399,12 @@
                     <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
                         <TextBlock Opacity="0.4" Text="&#xe823;" Grid.Row="0" FontSize="18" Margin="0,3,8,0" 
                                    Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource SegoeMDL2}"/>
-                        <TextBlock Opacity="0.4" Text="Timer" Grid.Row="0" FontSize="18" Margin="0,0,0,0" 
+                        <TextBlock Opacity="0.4" Text="{DynamicResource rp_timer}" Grid.Row="0" FontSize="18" Margin="0,0,0,0" 
                                    Style="{StaticResource SubHeaderTextBlockBlockStyle}"/>
                     </StackPanel>
                     <Grid Grid.Row="1">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding TimerString}"                                         
+                            <TextBlock Text="{Binding Room.TimerString}"                                         
                                        FontFamily="{StaticResource HelveticaThin}" FontSize="60" Foreground="#FEFEFE"/>
 
                         </StackPanel>

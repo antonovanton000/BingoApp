@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BingoApp.Models
 {
@@ -25,7 +26,7 @@ namespace BingoApp.Models
 
         bool ContainsOnly(IEnumerable<Square> squares, BingoColor color)
         {
-            var listOfColors = new List<BingoColor>() { color, BingoColor.blank};            
+            var listOfColors = new List<BingoColor>() { color, BingoColor.blank };
             foreach (var square in squares)
             {
                 foreach (var item in square.SquareColors)
@@ -35,6 +36,20 @@ namespace BingoApp.Models
             }
             return true;
         }
+
+        bool ContainsOrBlank(IEnumerable<Square> squares, BingoColor color)
+        {
+            var listOfColors = new List<BingoColor>() { color, BingoColor.blank };
+            foreach (var square in squares)
+            {
+                foreach (var item in square.SquareColors)
+                {
+                    if (!listOfColors.Contains(item)) return false;
+                }
+            }
+            return true;
+        }
+
 
         public string GetPotentialBingos(Player player)
         {
@@ -57,7 +72,7 @@ namespace BingoApp.Models
                         }
                         res.Add($"Col {col + 1}");
                     }
-                }    
+                }
             }
 
             for (int row = 0; row < 5; row++)
@@ -96,7 +111,11 @@ namespace BingoApp.Models
                 for (int row = 0; row < 5; row++)
                 {
                     if (row == col)
-                        bl_rt.Add(Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col));
+                    {
+                        var sq = Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col);
+                        if (sq != null)
+                            bl_rt.Add(sq);
+                    }
                 }
             }
 
@@ -113,6 +132,78 @@ namespace BingoApp.Models
             }
 
             return string.Join("\r\n", res);
+        }
+
+        public int GetPotentialBingosCount(Player player)
+        {
+            var count = 0;
+            for (int col = 0; col < 5; col++)
+            {
+                var csquares = Squares.Where(i => i.Column == col);
+                if (ContainsOrBlank(csquares, player.Color))
+                {
+                    count++;
+                }
+
+            }
+
+            for (int row = 0; row < 5; row++)
+            {
+                var rsquares = Squares.Where(i => i.Row == row);
+                if (ContainsOrBlank(rsquares, player.Color))
+                {
+                    count++;
+                }
+            }
+
+            var dsquares = Squares.Where(i => i.Row == i.Column);
+
+            if (ContainsOrBlank(dsquares, player.Color))
+            {
+                count++;
+            }
+
+
+            var bl_rt = new List<Square>();
+            for (int col = 4; col >= 0; col--)
+            {
+                for (int row = 0; row < 5; row++)
+                {
+                    if (row == col)
+                    {
+                        var square = Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col);
+                        if (square != null)
+                            bl_rt.Add(square);
+                    }
+                }
+            }
+
+            if (ContainsOrBlank(bl_rt, player.Color))
+            {
+                count++;
+            }
+
+
+            return count;
+        }
+
+        public IEnumerable<Square> GetTLRBDiagonal()
+        {
+            return Squares.Where(i => i.Row == i.Column);
+        }
+
+        public IEnumerable<Square> GetTRLBDiagonal()
+        {
+            var rt_lb = new List<Square>();
+            for (int col = 4; col >= 0; col--)
+            {
+                for (int row = 0; row < 5; row++)
+                {
+                    if (row == col)
+                        rt_lb.Add(Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col));
+                }
+            }
+            return rt_lb;
         }
 
         public int GetLinesCount(BingoColor color)
@@ -139,7 +230,11 @@ namespace BingoApp.Models
                 for (int row = 0; row < 5; row++)
                 {
                     if (row == col)
-                        rt_lb.Add(Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col));
+                    {
+                        var sq = Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col);
+                        if (sq != null)
+                            rt_lb.Add(sq);
+                    }
                 }
             }
 
@@ -149,5 +244,63 @@ namespace BingoApp.Models
 
             return linesCount;
         }
+
+        public async void AnimateBingoLine(BingoColor color, Square square)
+        {
+            if (Squares.Where(i => i.Column == square.Column).Count(i => i.SquareColors.Any(j => j == color)) == 5)
+            {
+                foreach (var s in Squares.Where(i => i.Column == square.Column))
+                {
+                    s.IsBingoAnimate = true;
+                }
+            }
+
+            if (Squares.Where(i => i.Row == square.Row).Count(i => i.SquareColors.Any(j => j == color)) == 5)
+            {
+                foreach (var s in Squares.Where(i => i.Row == square.Row))
+                {
+                    s.IsBingoAnimate = true;
+                }
+
+            }
+
+            //TL-RB
+            if (square.Column == square.Row)
+            {
+                if (Squares.Where(i => i.Row == i.Column).Count(i => i.SquareColors.Any(j => j == color)) == 5)
+                {
+                    foreach (var s in Squares.Where(i => i.Row == i.Column))
+                    {
+                        s.IsBingoAnimate = true;
+                    }
+                }
+            }
+            var rt_lb = new List<Square>();
+            for (int col = 4; col >= 0; col--)
+            {
+                for (int row = 0; row < 5; row++)
+                {
+                    if (row == col)
+                        rt_lb.Add(Squares.FirstOrDefault(i => i.Row == row && i.Column == 4 - col));
+                }
+            }
+            if (rt_lb.Any(i => i.Column == square.Column && i.Row == square.Row))
+            {
+                if (rt_lb.Count(i => i.SquareColors.Any(j => j == color)) == 5)
+                {
+                    foreach (var s in rt_lb)
+                    {
+                        s.IsBingoAnimate = true;
+                    }
+                }
+            }
+            await Task.Delay(1500);
+            foreach (var s in Squares)
+            {
+                s.IsBingoAnimate = false;
+            }
+
+        }
+
     }
 }

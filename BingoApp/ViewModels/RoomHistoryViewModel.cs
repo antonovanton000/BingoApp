@@ -29,11 +29,6 @@ namespace BingoApp.ViewModels
         [ObservableProperty]
         Room? room;
                 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(TimerString))]
-        TimeSpan timerCounter;
-
-        public string TimerString => TimerCounter.ToString(@"hh\:mm\:ss");
 
         [ObservableProperty]
         ICollectionView chatEventsMessages;
@@ -43,8 +38,28 @@ namespace BingoApp.ViewModels
         {
             MainWindow.HideSettingsButton();
             ChatEventsMessages = CollectionViewSource.GetDefaultView(Room.ChatMessages);             
-            TimerCounter = TimeSpan.FromSeconds(Room.CurrentTimerTime);
+        }
 
+        [RelayCommand]
+        async Task SendResults()
+        {
+            var gameResult = new GameResult()
+            {
+                RoomId = Room.RoomId,
+                BingoType = Room.RoomSettings.GameMode.ToString(),
+                PlayersNames = Room.Players.Select(i => i.NickName).ToArray(),
+                Score = Room.Players.Select(i => i.SquaresCount).ToArray(),
+                LinesCount = Room.Players.Select(i => i.LinesCount).ToArray(),
+                GameDate = Room.StartDate ?? DateTime.MinValue,
+                PresetName = Room.RoomSettings.PresetName,
+                GameName = Room.RoomSettings.GameName
+            };
+
+            var res = await App.RestClient.SendGameResult(gameResult);
+            if (res.IsSuccess)
+            {
+                MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("mes_resultsend").ToString() });
+            }
         }
     }
 }

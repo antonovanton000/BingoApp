@@ -1,0 +1,1277 @@
+{
+  "ActualPlayers": [
+    {
+      "Uuid": "CL-Wn6fDROuOVQbvG1yfZA",
+      "NickName": "Player1",
+      "Color": 1,
+      "IsSpectator": false,
+      "SquaresCount": 0,
+      "LinesCount": 0,
+      "PotentialBingos": "",
+      "PotentialBingosCount": 12,
+      "IsAvailable": false
+    }
+  ],
+  "Spectators": "",
+  "HasSpectators": false,
+  "PlayersNames": "Player1",
+  "TimeString": "00:00:00",
+  "CsrfMiddlewareToken": "bgiB3oogWInY2XEtiQz0e01gPrCCI3IgyXdxAWtpOnQY3HW4hvMobl7fnm4FQKFK",
+  "BoardJSON": "[{\"name\":\"⁠10 божественных капель крови в инвентаре\",\"group\":\"капли крови\"},{\"name\":\"Получить стиль Асина\",\"group\":null},{\"name\":\"Напоить Водой из Дворца Жреца Мибу\",\"group\":null},{\"name\":\"Убить 7 разных самураев\",\"group\":null},{\"name\":\"Наложить статус «горение» на любого босса\",\"group\":null},{\"name\":\"Получить протез Сабимару\",\"group\":null},{\"name\":\"Получить встроенное копье\",\"group\":null},{\"name\":\"8 Воспоминаний\",\"group\":\"воспоминание\"},{\"name\":\"Убить босса после 10 телепортаций пера ворона\",\"group\":null},{\"name\":\"Убить 3 дружественных NPC\",\"group\":null},{\"name\":\"20 скилл поинтов на счетчике\",\"group\":\"скилл\"},{\"name\":\"Получить Янтарь из сосновой смолы\",\"group\":null},{\"name\":\"Получить Петарды Синоби\",\"group\":null},{\"name\":\"Убить Филина Отца\",\"group\":\"отец\"},{\"name\":\"Получить учение стиля протеза\",\"group\":null},{\"name\":\"Убить одинокую тень Масанага 2 раза\",\"group\":null},{\"name\":\"Победить Воина в доспехах\",\"group\":null},{\"name\":\"Получить 2 Сакэ\",\"group\":\"сакэ\"},{\"name\":\"Помолиться с 3 бабушками\",\"group\":null},{\"name\":\"Спасти торговца в замке Ассина\",\"group\":null},{\"name\":\"Убить Безголовую обезьяну (дуо)\",\"group\":null},{\"name\":\"Добить босса использовав навык «Дыхание Дракона»\",\"group\":null},{\"name\":\"Убить 1 Безголового\",\"group\":\"безголовый\"},{\"name\":\"Получить Камень чревоношения\",\"group\":\"чревоношение\"},{\"name\":\"Убить призрака обезьяны-воина\",\"group\":\"призраки \"},{\"name\":\"Получить встроенный топор\",\"group\":null},{\"name\":\"Убить двух элитных воинов Асина \",\"group\":\"элитный воин\"},{\"name\":\"30 драже в инвентаре\",\"group\":null},{\"name\":\"Пнуть любого босса 10 раз \",\"group\":null},{\"name\":\"Убить босса после +10 сделанных микири\",\"group\":\"микири\"},{\"name\":\"Убить 3 ситимэнов\",\"group\":\"ситимэн\"},{\"name\":\"4 гремучей ртути в инвентаре\",\"group\":null},{\"name\":\"Найти 7 семечек тыквы\",\"group\":\"семечки\"},{\"name\":\"Вытащить из обезьяны сороконожку 7 раз \",\"group\":\"сороконожка\"},{\"name\":\"⁠Убить 6 разных генералов\",\"group\":\"генералы\"},{\"name\":\"Получить статуэтку Дзидзо Дзиндзы\",\"group\":\"анаяма\"},{\"name\":\"Cобрать 4 Статуэтки Дзидзо\",\"group\":null},{\"name\":\"5 шаров каждого вида в инвентаре\",\"group\":null},{\"name\":\"Победить главу клана Оками\",\"group\":null},{\"name\":\"Подслушать 5 диалогов \",\"group\":null},{\"name\":\"10000 сен\",\"group\":\"сэны\"},{\"name\":\"Убить охотника на синоби\",\"group\":null},{\"name\":\"Получить стиль Мусина\",\"group\":null},{\"name\":\"Получить стиль храма Сэмпо\",\"group\":null},{\"name\":\"Собрать 4 Лазурита\",\"group\":null},{\"name\":\"Убить Филина не попав под его анти-хилл атаку\",\"group\":null},{\"name\":\"5 трупного жировоска в инвентаре\",\"group\":null},{\"name\":\"⁠Убить 20 собак\",\"group\":null},{\"name\":\"Убить 5 разных монахов с нагинатами\",\"group\":null},{\"name\":\"Продать предметы минимум на 1000 сэн без кошельков\",\"group\":null},{\"name\":\"Получить 7 протезов\",\"group\":\"протезы\"},{\"name\":\"20 конфетти в инвентаре\",\"group\":null},{\"name\":\"Получить все боевые стили\",\"group\":null},{\"name\":\"Убить 2 быков\",\"group\":\"бык\"},{\"name\":\"Пройти через 5 потайных дверей\",\"group\":null},{\"name\":\"Убить Гебу\",\"group\":null},{\"name\":\"Продать предметов на 4 500 сэн за раз \",\"group\":null},{\"name\":\"Получить 8 чешуек карпа\",\"group\":\"чешуйки\"},{\"name\":\"Собрать две вертушки\",\"group\":null},{\"name\":\"Убить одинокую тень без парирования \",\"group\":null},{\"name\":\"Получить Колокольчик господина Куро\",\"group\":null},{\"name\":\"⁠Получить Благословение Гокана\",\"group\":null},{\"name\":\"Получить Свежие внутренности змеи\",\"group\":null},{\"name\":\"Убить 2 Змеинных глаз\",\"group\":null},{\"name\":\"Отпарировать зонтом босса 5 раз\",\"group\":null},{\"name\":\"Собрать маску дракона\",\"group\":null},{\"name\":\"Потратить 25 эмблем духа за одну битву с боссом\",\"group\":null},{\"name\":\"Убить ситимэна без конфети\",\"group\":null},{\"name\":\"Наложить статус «яд» на любого босса\",\"group\":null},{\"name\":\"Получить ледяные слезы дракона\",\"group\":null},{\"name\":\"Убить Гебу использовав 7 разных протезов за битву\",\"group\":null},{\"name\":\"Открыть Сила жизни (Стиль с протезом)\",\"group\":null},{\"name\":\"Съесть сладкий рисовый шарик\",\"group\":null},{\"name\":\"Найти 4 разных напитка\",\"group\":null},{\"name\":\"Убить босса только навыком «Итимодзи»\",\"group\":null},{\"name\":\"Убить 3 монахов стилем Сэмпо \",\"group\":null},{\"name\":\"Убить Филина получив статус «Яд» 2 раза \",\"group\":null},{\"name\":\"Достигнуть 20 эмблем духа \",\"group\":null},{\"name\":\"Убить Ханбэя Бессмертного\",\"group\":null},{\"name\":\"Убить 3 змеиных глаза\",\"group\":\"призраки\"},{\"name\":\"Ударить в два колокла\",\"group\":null},{\"name\":\"Убить Божественного дракона\",\"group\":null},{\"name\":\"Убить О'рин\",\"group\":null},{\"name\":\"15 магнетита в инвентаре\",\"group\":null},{\"name\":\"Отпарировать 6 захватов змеиного глаза\",\"group\":null},{\"name\":\"Получить кольцо мятежника\",\"group\":null},{\"name\":\"Убить Шиноби босса без урона\",\"group\":null},{\"name\":\"у Волка ровно 1111 сэн, 111 эмблем, 111 скилл-опыта\",\"group\":null},{\"name\":\"Получить Амулет исцеления\",\"group\":null},{\"name\":\"Победить Генетиро (Туториал)\",\"group\":null},{\"name\":\"У Волка ровно 1713 сэн\",\"group\":null},{\"name\":\"Победить 2 копьеносцев Асина\",\"group\":null},{\"name\":\"Убить 8 разных гекконов\",\"group\":null},{\"name\":\"Получить сушенные внутренности змеи\",\"group\":null},{\"name\":\"Убить 4 белые обезьяны стража\",\"group\":\"обезьяна\"},{\"name\":\"Получить третье воскрешение\",\"group\":null},{\"name\":\"⁠Получить седьмые молитвенные четки\",\"group\":\"бусины\"},{\"name\":\"Убить 2 Воинов одинокой тени\",\"group\":null},{\"name\":\"Съесть последний укус 5 раз\",\"group\":null},{\"name\":\"Получить призрачный кунай\",\"group\":null},{\"name\":\"Открыть Крест Асина (Стиль Асина)\",\"group\":null},{\"name\":\"Убить 2 пьяниц\",\"group\":\"пьяницы\"},{\"name\":\"Стукнуть в демон колокола 5 раз \",\"group\":null},{\"name\":\"Подчинить техникой кукловода 10 разных мобов\",\"group\":null},{\"name\":\"Получить Перо Ворона\",\"group\":null},{\"name\":\"Получить протез зонта\",\"group\":null},{\"name\":\"Получить фляжки всех цветов (4)\",\"group\":null},{\"name\":\"Убить многоножку Жирафа без парирования\",\"group\":null},{\"name\":\"⁠Получить Благословение Ако\",\"group\":null},{\"name\":\"Подчинить босса техникой кукловода\",\"group\":null},{\"name\":\"Получить шар паломничества\",\"group\":null},{\"name\":\"Активировать 40 идолов\",\"group\":\"идолы\"},{\"name\":\"Открыть Атаку тени (Стиль синоби)\",\"group\":null},{\"name\":\"Использовать 3 разные ниндзюцу подряд\",\"group\":null},{\"name\":\"⁠Убить 5 белых гекконов\",\"group\":null},{\"name\":\"⁠Получить Благословение Унго\",\"group\":null},{\"name\":\"Получить большой белый ус\",\"group\":\"карп\"},{\"name\":\"Убить копьеносца Ассина без микири\",\"group\":null},{\"name\":\"Получить счетную дощечку дракона\",\"group\":\"монахиня\"},{\"name\":\"⁠Навыки «Дыхание жизни» максимального уровня (Свет, Тень)\",\"group\":null},{\"name\":\"Убить 2 многоножек\",\"group\":null},{\"name\":\"Убить 2 Великанов в колодках\",\"group\":\"великан\"},{\"name\":\"Убить 5 солдат кидая деньги\",\"group\":null},{\"name\":\"Убить 4 одиноких тени\",\"group\":null},{\"name\":\"⁠Убить 3 собак отражением молнии\",\"group\":null},{\"name\":\"Убить Туманного вельможу\",\"group\":null},{\"name\":\"Убить 9 разных обычных крыс\",\"group\":null},{\"name\":\"⁠Поговорить с Эммой на могилах\",\"group\":null},{\"name\":\"Убить Госпожу Бабочку\",\"group\":null},{\"name\":\"Экипировать огненный топор\",\"group\":null},{\"name\":\"⁠3 больших кошелька в инвентаре\",\"group\":\"кошельки\"},{\"name\":\"⁠Убить босса только Клинком Бессмертных\",\"group\":null},{\"name\":\"Убить великую змею\",\"group\":null},{\"name\":\"Угостить 3 NPC выпивкой\",\"group\":null},{\"name\":\"⁠Получить Благословение Гатиина\",\"group\":\"гатиина\"},{\"name\":\"Получить Парящую смерть\",\"group\":null},{\"name\":\"Убить 2 белые обезьяны с двумя мечами\",\"group\":null},{\"name\":\"Стравить свистком 3 разных зверей\",\"group\":null},{\"name\":\"Купить у обоих вельмож по одному предмету \",\"group\":null},{\"name\":\"Наложить на босса два статус эффекта\",\"group\":null},{\"name\":\"Убить Демона Ненавести\",\"group\":null},{\"name\":\"Убить Генетиро (Замок Асина)\",\"group\":null},{\"name\":\"Убить  Додзюна и его напарника с красными глазами\",\"group\":null},{\"name\":\"10 леденцов каждого вида в инвентаре\",\"group\":\"леденцы\"},{\"name\":\"⁠Получить Благословение Якшарику\",\"group\":null},{\"name\":\"Убить Иссина\",\"group\":null},{\"name\":\"Убить ситимэна воздушным смертельным ударом\",\"group\":null},{\"name\":\"Получить клинок бессмертных\",\"group\":\"клинок\"},{\"name\":\"Убить 10 разных воительниц первоисточника\",\"group\":null}]",
+  "ChosenColor": 1,
+  "SocketTempId": "rCfR5fOvTVirS4SSbbG7dQ",
+  "RoomName": "Player1's Board",
+  "RoomId": "d-P7RFMmRXOswvSY41InuA",
+  "RoomSeed": null,
+  "Board": {
+    "Squares": [
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot1",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Найти 4 разных напитка",
+        "Row": 0,
+        "Column": 0,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "Нефильтрованное сакэ (Иссин или пьяница)\r\nСакэ Ассина (Мибу)\r\nСакэ первоисточника (Торговец Мибу)\r\nОбезьянье вино (где Snakeeye)",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot2",
+        "SquareColors": [
+          10,1
+        ],
+        "Name": "Спасти торговца в замке Ассина",
+        "Row": 0,
+        "Column": 1,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot3",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Победить 2 копьеносцев Асина",
+        "Row": 0,
+        "Column": 2,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot4",
+        "SquareColors": [
+          10,2
+        ],
+        "Name": "Подчинить босса техникой кукловода",
+        "Row": 0,
+        "Column": 3,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot5",
+        "SquareColors": [
+          10,2,1
+        ],
+        "Name": "8 Воспоминаний",
+        "Row": 0,
+        "Column": 4,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "Гебу, Гени, Монахиня, Обезьяны в ширме, Обезьяна, Обезьяна дуо, Батя, Монахиня тру",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot6",
+        "SquareColors": [
+          10,2,1,3
+        ],
+        "Name": "Открыть Крест Асина (Стиль Асина)",
+        "Row": 1,
+        "Column": 0,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "16 скилл поинтов",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot7",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Получить 8 чешуек карпа",
+        "Row": 1,
+        "Column": 1,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "2 хирата (над водой)\r\n2 сэмпо\r\n1 мибу\r\nпод водой\r\n1 мибу\r\n2 хирата",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot8",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Получить встроенный топор",
+        "Row": 1,
+        "Column": 2,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "в хирате в домике",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot9",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Отпарировать зонтом босса 5 раз",
+        "Row": 1,
+        "Column": 3,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "Петарды, Клапан, Зонт\r\nСэны: 1200 \r\nЖелезо: 9\r\nМагнетит: 3\r\nЧ.порох: 5",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot10",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Убить одинокую тень без парирования ",
+        "Row": 1,
+        "Column": 4,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot11",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Получить клинок бессмертных",
+        "Row": 2,
+        "Column": 0,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot12",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Убить 2 белые обезьяны с двумя мечами",
+        "Row": 2,
+        "Column": 1,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot13",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Купить у обоих вельмож по одному предмету ",
+        "Row": 2,
+        "Column": 2,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot14",
+        "SquareColors": [
+          10
+        ],
+        "Name": "⁠Поговорить с Эммой на могилах",
+        "Row": 2,
+        "Column": 3,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot15",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Продать предметов на 4 500 сэн за раз ",
+        "Row": 2,
+        "Column": 4,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot16",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Убить Безголовую обезьяну (дуо)",
+        "Row": 3,
+        "Column": 0,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot17",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Съесть сладкий рисовый шарик",
+        "Row": 3,
+        "Column": 1,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "взять 3 риса, накормить хурмой, отдать рис Куро",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot18",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Собрать 4 Лазурита",
+        "Row": 3,
+        "Column": 2,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "купить два у торговца, превратить в карпа, ситимэн во дворце",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot19",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Убить Туманного вельможу",
+        "Row": 3,
+        "Column": 3,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot20",
+        "SquareColors": [
+          10
+        ],
+        "Name": "15 магнетита в инвентаре",
+        "Row": 3,
+        "Column": 4,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot21",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Убить великую змею",
+        "Row": 4,
+        "Column": 0,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "только после Гени, взять идол в начале сэмпо",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot22",
+        "SquareColors": [
+          10
+        ],
+        "Name": "⁠Убить 3 собак отражением молнии",
+        "Row": 4,
+        "Column": 1,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot23",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Победить Генетиро (Туториал)",
+        "Row": 4,
+        "Column": 2,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot24",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Наложить статус «горение» на любого босса",
+        "Row": 4,
+        "Column": 3,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": null,
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      },
+      {
+        "IsScoreVisible": false,
+        "IsGoalVisible": false,
+        "HasOnlyOneColor": false,
+        "IsMarked": false,
+        "Slot": "slot25",
+        "SquareColors": [
+          10
+        ],
+        "Name": "Получить учение стиля протеза",
+        "Row": 4,
+        "Column": 4,
+        "IsGoal": false,
+        "Score": 0,
+        "IsMarking": false,
+        "IsPotentialBingo": false,
+        "Notes": "получить три протеза\r\nсюрикен петарды копье\r\nили\r\nкопье сабимару, зонт (1600)",
+        "IsBingoAnimate": false,
+        "IsHidden": false,
+        "IsReplaceNewAnimate": false
+      }
+    ]
+  },
+  "StartDate": null,
+  "EndDate": null,
+  "IsGameStarted": false,
+  "IsGameEnded": false,
+  "CurrentTimerTime": 0,
+  "IsAutoBoardReveal": false,
+  "IsCreatorMode": true,
+  "IsConnectedToServer": true,
+  "GameMode": 0,
+  "GameExtraMode": 0,
+  "RoomSettings": {
+    "HideCard": true,
+    "Variant": "Custom (Rand)",
+    "LockoutMode": "Lockout",
+    "Seed": 740012,
+    "Game": "Custom",
+    "GameId": 18,
+    "VariantId": 172
+  },
+  "CurrentPlayer": {
+    "Uuid": "CL-Wn6fDROuOVQbvG1yfZA",
+    "NickName": "Player1",
+    "Color": 1,
+    "IsSpectator": false,
+    "SquaresCount": 0,
+    "LinesCount": 0,
+    "PotentialBingos": null,
+    "PotentialBingosCount": 0,
+    "IsAvailable": false
+  },
+  "ChatMessages": [
+    {
+      "EventType": 0,
+      "Type": 0,
+      "Timestamp": "2025-05-20T11:51:36.055088+05:00",
+      "Message": null,
+      "Player": {
+        "Uuid": "CL-Wn6fDROuOVQbvG1yfZA",
+        "NickName": "Player1",
+        "Color": 1,
+        "IsSpectator": false,
+        "SquaresCount": 0,
+        "LinesCount": 0,
+        "PotentialBingos": null,
+        "PotentialBingosCount": 0,
+        "IsAvailable": false
+      },
+      "Square": null,
+      "Color": 0,
+      "PlayerColor": 1,
+      "Remove": false,
+      "ColorName": "orange",
+      "PlayerColorName": "red",
+      "ChangeColorName": "",
+      "IsItalic": true,
+      "MessageHeader": "Игрок подключен",
+      "MessageText": "Игрок Player1 подключен "
+    },
+    {
+      "EventType": 0,
+      "Type": 0,
+      "Timestamp": "2025-05-20T11:51:36.055088+05:00",
+      "Message": null,
+      "Player": {
+        "Uuid": "CL-Wn6fDROuOVQbvG1yfZA",
+        "NickName": "Player1",
+        "Color": 1,
+        "IsSpectator": false,
+        "SquaresCount": 0,
+        "LinesCount": 0,
+        "PotentialBingos": null,
+        "PotentialBingosCount": 0,
+        "IsAvailable": false
+      },
+      "Square": null,
+      "Color": 0,
+      "PlayerColor": 1,
+      "Remove": false,
+      "ColorName": "orange",
+      "PlayerColorName": "red",
+      "ChangeColorName": "",
+      "IsItalic": true,
+      "MessageHeader": "Игрок подключен",
+      "MessageText": "Игрок Player1 подключен "
+    }
+  ],
+  "Players": [
+    {
+      "Uuid": "CL-Wn6fDROuOVQbvG1yfZA",
+      "NickName": "Player1",
+      "Color": 1,
+      "IsSpectator": false,
+      "SquaresCount": 0,
+      "LinesCount": 0,
+      "PotentialBingos": "",
+      "PotentialBingosCount": 12,
+      "IsAvailable": false
+    }
+  ],
+  "RoomPlayers": [
+    {
+      "Uuid": "CL-Wn6fDROuOVQbvG1yfZA",
+      "NickName": "Player1",
+      "Color": 1,
+      "IsSpectator": false,
+      "SquaresCount": 0,
+      "LinesCount": 0,
+      "PotentialBingos": "",
+      "PotentialBingosCount": 12,
+      "IsAvailable": false
+    }
+  ],
+  "PresetSquares": [
+    {
+      "name": "⁠Получить Благословение Якшарику",
+      "group": null
+    },
+    {
+      "name": "Собрать маску дракона",
+      "group": null
+    },
+    {
+      "name": "Пнуть любого босса 10 раз ",
+      "group": null
+    },
+    {
+      "name": "10 Воспоминаний",
+      "group": "воспоминание"
+    },
+    {
+      "name": "⁠3 больших кошелька в инвентаре",
+      "group": "кошельки"
+    },
+    {
+      "name": "Убить Филина получив статус «Яд» 2 раза ",
+      "group": null
+    },
+    {
+      "name": "Убить О'рин",
+      "group": null
+    },
+    {
+      "name": "Убить Шиноби босса без урона",
+      "group": null
+    },
+    {
+      "name": "Убить 7 разных самураев",
+      "group": null
+    },
+    {
+      "name": "У Волка ровно 1713 сэн",
+      "group": null
+    },
+    {
+      "name": "Получить протез зонта",
+      "group": null
+    },
+    {
+      "name": "20 конфетти в инвентаре",
+      "group": null
+    },
+    {
+      "name": "Вытащить из обезьяны сороконожку 7 раз ",
+      "group": "сороконожка"
+    },
+    {
+      "name": "Получить Колокольчик господина Куро",
+      "group": null
+    },
+    {
+      "name": "Угостить 3 NPC выпивкой",
+      "group": null
+    },
+    {
+      "name": "15 магнетита в инвентаре",
+      "group": null
+    },
+    {
+      "name": "⁠Убить 3 собак отражением молнии",
+      "group": null
+    },
+    {
+      "name": "Получить кольцо мятежника",
+      "group": null
+    },
+    {
+      "name": "Получить стиль Мусина",
+      "group": null
+    },
+    {
+      "name": "Стравить свистком 3 разных зверей",
+      "group": null
+    },
+    {
+      "name": "Экипировать огненный топор",
+      "group": null
+    },
+    {
+      "name": "Получить призрачный кунай",
+      "group": null
+    },
+    {
+      "name": "Получить протез Сабимару",
+      "group": null
+    },
+    {
+      "name": "Победить 2 копьеносцев Асина",
+      "group": null
+    },
+    {
+      "name": "⁠10 божественных капель крови в инвентаре",
+      "group": "капли крови"
+    },
+    {
+      "name": "Убить одинокую тень без парирования ",
+      "group": null
+    },
+    {
+      "name": "4 гремучей ртути в инвентаре",
+      "group": null
+    },
+    {
+      "name": "Съесть сладкий рисовый шарик",
+      "group": null
+    },
+    {
+      "name": "Убить призрака обезьяны-воина",
+      "group": "призраки "
+    },
+    {
+      "name": "Наложить статус «яд» на любого босса",
+      "group": null
+    },
+    {
+      "name": "Получить стиль Асина",
+      "group": null
+    },
+    {
+      "name": "Убить многоножку Жирафа без парирования",
+      "group": null
+    },
+    {
+      "name": "Получить счетную дощечку дракона",
+      "group": "монахиня"
+    },
+    {
+      "name": "Получить Парящую смерть",
+      "group": null
+    },
+    {
+      "name": "Победить Генетиро (Туториал)",
+      "group": null
+    },
+    {
+      "name": "Напоить Водой из Дворца Жреца Мибу",
+      "group": null
+    },
+    {
+      "name": "Убить Иссина",
+      "group": null
+    },
+    {
+      "name": "Убить Туманного вельможу",
+      "group": null
+    },
+    {
+      "name": "Победить Воина в доспехах",
+      "group": null
+    },
+    {
+      "name": "Убить 2 безголовых",
+      "group": "безголовый"
+    },
+    {
+      "name": "Получить клинок бессмертных",
+      "group": "клинок"
+    },
+    {
+      "name": "⁠Убить босса только Клинком Бессмертных",
+      "group": null
+    },
+    {
+      "name": "Убить ситимэна воздушным смертельным ударом",
+      "group": null
+    },
+    {
+      "name": "Получить ледяные слезы дракона",
+      "group": null
+    },
+    {
+      "name": "Помолиться с 3 бабушками",
+      "group": null
+    },
+    {
+      "name": "Убить Генетиро (Замок Асина)",
+      "group": null
+    },
+    {
+      "name": "Убить 2 Змеинных глаз",
+      "group": null
+    },
+    {
+      "name": "у Волка ровно 1111 сэн, 111 эмблем, 111 скилл-опыта",
+      "group": null
+    },
+    {
+      "name": "Убить Филина не попав под его анти-хилл атаку",
+      "group": null
+    },
+    {
+      "name": "Спасти торговца в замке Ассина",
+      "group": null
+    },
+    {
+      "name": "30 драже в инвентаре",
+      "group": null
+    },
+    {
+      "name": "5000 сэн",
+      "group": "сэны"
+    },
+    {
+      "name": "Убить 4 одиноких тени",
+      "group": null
+    },
+    {
+      "name": "Отпарировать зонтом босса 5 раз",
+      "group": null
+    },
+    {
+      "name": "Убить Божественного дракона",
+      "group": null
+    },
+    {
+      "name": "Подслушать 5 диалогов ",
+      "group": null
+    },
+    {
+      "name": "10 леденцов каждого вида в инвентаре",
+      "group": "леденцы"
+    },
+    {
+      "name": "Добить босса использовав навык «Дыхание Дракона»",
+      "group": null
+    },
+    {
+      "name": "Убить 1 Ситимэн воина",
+      "group": "ситимэн"
+    },
+    {
+      "name": "Съесть последний укус 5 раз",
+      "group": null
+    },
+    {
+      "name": "Убить Госпожу Бабочку",
+      "group": null
+    },
+    {
+      "name": "Получить Амулет исцеления",
+      "group": null
+    },
+    {
+      "name": "Убить ситимэна без конфети",
+      "group": null
+    },
+    {
+      "name": "Убить Гебу",
+      "group": null
+    },
+    {
+      "name": "Подчинить босса техникой кукловода",
+      "group": null
+    },
+    {
+      "name": "Убить 10 разных воительниц первоисточника",
+      "group": null
+    },
+    {
+      "name": "Убить босса только навыком «Итимодзи»",
+      "group": null
+    },
+    {
+      "name": "27 скилл поинтов на счетчике",
+      "group": "скилл"
+    },
+    {
+      "name": "Убить красноглазого самурая",
+      "group": "элитный воин"
+    },
+    {
+      "name": "Пройти через 5 потайных дверей",
+      "group": null
+    },
+    {
+      "name": "Получить учение стиля протеза",
+      "group": null
+    },
+    {
+      "name": "Найти 5 семечек тыквы",
+      "group": "семечки"
+    },
+    {
+      "name": "Получить статуэтку Дзидзо Дзиндзы",
+      "group": "анаяма"
+    },
+    {
+      "name": "Отпарировать 6 захватов змеиного глаза",
+      "group": null
+    },
+    {
+      "name": "⁠Получить Благословение Гокана",
+      "group": null
+    },
+    {
+      "name": "Убить босса после +10 сделанных микири",
+      "group": "микири"
+    },
+    {
+      "name": "Убить 2 белые обезьяны с двумя мечами",
+      "group": null
+    },
+    {
+      "name": "Победить главу клана Оками",
+      "group": null
+    },
+    {
+      "name": "Получить 3 сакэ",
+      "group": "сакэ"
+    },
+    {
+      "name": "25 бусин для четок",
+      "group": "бусины"
+    },
+    {
+      "name": "Достигнуть 20 эмблем духа ",
+      "group": null
+    },
+    {
+      "name": "Получить встроенный топор",
+      "group": null
+    },
+    {
+      "name": "Использовать 3 разные ниндзюцу подряд",
+      "group": null
+    },
+    {
+      "name": "⁠Навыки «Дыхание жизни» максимального уровня (Свет, Тень)",
+      "group": null
+    },
+    {
+      "name": "Убить 8 разных гекконов",
+      "group": null
+    },
+    {
+      "name": "Убить Демона Ненавести",
+      "group": null
+    },
+    {
+      "name": "Убить одинокую тень Масанага 2 раза",
+      "group": null
+    },
+    {
+      "name": "Убить 2 Воинов одинокой тени",
+      "group": null
+    },
+    {
+      "name": "⁠Получить Благословение Унго",
+      "group": null
+    },
+    {
+      "name": "Получить Ароматный цветок",
+      "group": "отец"
+    },
+    {
+      "name": "Получить сушенные внутренности змеи",
+      "group": null
+    },
+    {
+      "name": "Наложить на босса два статус эффекта",
+      "group": null
+    },
+    {
+      "name": "Открыть Крест Асина (Стиль Асина)",
+      "group": null
+    },
+    {
+      "name": "⁠Получить Благословение Ако",
+      "group": null
+    },
+    {
+      "name": "Ударить в два колокла",
+      "group": null
+    },
+    {
+      "name": "Убить 4 великанов в колодках",
+      "group": "великан"
+    },
+    {
+      "name": "Получить 7 протезов",
+      "group": "протезы"
+    },
+    {
+      "name": "Убить босса после 10 телепортаций пера ворона",
+      "group": null
+    },
+    {
+      "name": "Убить Безголовую обезьяну (дуо)",
+      "group": null
+    },
+    {
+      "name": "Убить охотника на синоби",
+      "group": null
+    },
+    {
+      "name": "Получить Петарды Синоби",
+      "group": null
+    },
+    {
+      "name": "10 чешуек карпа",
+      "group": "чешуйки"
+    },
+    {
+      "name": "Продать предметы минимум на 1000 сэн без кошельков",
+      "group": null
+    },
+    {
+      "name": "Стукнуть в демон колокола 5 раз ",
+      "group": null
+    },
+    {
+      "name": "Получить большой белый ус",
+      "group": "карп"
+    },
+    {
+      "name": "Собрать две вертушки",
+      "group": null
+    },
+    {
+      "name": "Убить  Додзюна и его напарника с красными глазами",
+      "group": null
+    },
+    {
+      "name": "Получить Янтарь из сосновой смолы",
+      "group": null
+    },
+    {
+      "name": "Получить третье воскрешение",
+      "group": null
+    },
+    {
+      "name": "Наложить статус «горение» на любого босса",
+      "group": null
+    },
+    {
+      "name": "Получить фляжки всех цветов (4)",
+      "group": null
+    },
+    {
+      "name": "Купить у обоих вельмож по одному предмету ",
+      "group": null
+    },
+    {
+      "name": "Активировать 40 идолов",
+      "group": "идолы"
+    },
+    {
+      "name": "Открыть Атаку тени (Стиль синоби)",
+      "group": null
+    },
+    {
+      "name": "Убить 3 дружественных NPC",
+      "group": null
+    },
+    {
+      "name": "Найти 4 разных напитка",
+      "group": null
+    },
+    {
+      "name": "Убить 2 быков",
+      "group": "бык"
+    },
+    {
+      "name": "Убить 2 многоножек",
+      "group": null
+    },
+    {
+      "name": "⁠Поговорить с Эммой на могилах",
+      "group": null
+    },
+    {
+      "name": "⁠Убить 5 белых гекконов",
+      "group": null
+    },
+    {
+      "name": "Продать предметов на 4 500 сэн за раз ",
+      "group": null
+    },
+    {
+      "name": "5 шаров каждого вида в инвентаре",
+      "group": null
+    },
+    {
+      "name": "Получить шар паломничества",
+      "group": null
+    },
+    {
+      "name": "Получить стиль храма Сэмпо",
+      "group": null
+    },
+    {
+      "name": "Убить копьеносца Ассина без микири",
+      "group": null
+    },
+    {
+      "name": "Собрать 4 Лазурита",
+      "group": null
+    },
+    {
+      "name": "Убить 5 солдат кидая деньги",
+      "group": null
+    },
+    {
+      "name": "⁠Убить 20 собак",
+      "group": null
+    },
+    {
+      "name": "Убить 3 монахов стилем Сэмпо ",
+      "group": null
+    },
+    {
+      "name": "Убить Гебу использовав 7 разных протезов за битву",
+      "group": null
+    },
+    {
+      "name": "⁠Убить 6 разных генералов",
+      "group": "генералы"
+    },
+    {
+      "name": "Подчинить техникой кукловода 10 разных мобов",
+      "group": null
+    },
+    {
+      "name": "Убить 5 разных монахов с нагинатами",
+      "group": null
+    },
+    {
+      "name": "Получить встроенное копье",
+      "group": null
+    },
+    {
+      "name": "Потратить 25 эмблем духа за одну битву с боссом",
+      "group": null
+    },
+    {
+      "name": "5 трупного жировоска в инвентаре",
+      "group": null
+    },
+    {
+      "name": "Убить 4 белые обезьяны стража",
+      "group": "обезьяна"
+    },
+    {
+      "name": "Убить Падшую Монахиню",
+      "group": "чревоношение"
+    },
+    {
+      "name": "Убить призрак бабки из Мибу ",
+      "group": "призраки"
+    },
+    {
+      "name": "Получить Свежие внутренности змеи",
+      "group": null
+    },
+    {
+      "name": "Убить великую змею",
+      "group": null
+    },
+    {
+      "name": "Открыть Сила жизни (Стиль с протезом)",
+      "group": null
+    },
+    {
+      "name": "Получить Перо Ворона",
+      "group": null
+    },
+    {
+      "name": "Убить 9 разных обычных крыс",
+      "group": null
+    },
+    {
+      "name": "Cобрать 4 Статуэтки Дзидзо",
+      "group": null
+    },
+    {
+      "name": "Убить 2 пьяниц",
+      "group": "пьяницы"
+    },
+    {
+      "name": "⁠Получить Благословение Гатиина",
+      "group": "гатиина"
+    },
+    {
+      "name": "Убить Ханбэя Бессмертного",
+      "group": null
+    },
+    {
+      "name": "Получить все боевые стили",
+      "group": null
+    }
+  ],
+  "IsRevealed": false,
+  "PlayerCredentials": {
+    "NickName": "Player1",
+    "Password": "123456",
+    "IsSpectator": false
+  },
+  "IsPractice": false,
+  "PresetName": "Основной",
+  "GameName": "Sekiro",
+  "IsHiddenGameInited": false,
+  "CurrentHiddenStep": 1,
+  "LastChangeMinute": 0
+}

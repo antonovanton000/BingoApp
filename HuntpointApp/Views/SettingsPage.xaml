@@ -1,0 +1,311 @@
+﻿<Page x:Class="HuntpointApp.Views.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:HuntpointApp.Views"
+      xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="3040" d:DesignWidth="1440"
+      Background="{StaticResource GradientBackgroundBrush}"
+      x:Name="page"
+      Title="SettingsPage">
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:SettingsViewModel/>
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Grid>
+        <Grid Margin="40,40,40,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="stackPanel" Grid.Row="0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_settings}" FontWeight="Light" FontSize="40" />
+            </StackPanel>
+            <Grid x:Name="grid" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,40" BorderThickness="0" Focusable="False"
+                              Width="940" HorizontalAlignment="Center" Padding="30,0,30,20">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_personalsettings}"/>
+
+                            <TextBlock Text="{DynamicResource st_yourdefaultnickname}" Margin="0,30,0,0" Style="{StaticResource FlatTextBlockStyle}"/>
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_typeyournickname}" Label="{DynamicResource st_nickname}" Text="{Binding NickName, Mode=TwoWay}"/>
+
+                            <TextBlock Text="{DynamicResource st_preferredcolor}" Margin="0,40,0,0" Style="{StaticResource FlatTextBlockStyle}"/>
+                            <WrapPanel Margin="0,20,0,0" x:Name="wrPanel">
+                                <ToggleButton Background="{StaticResource HuntpointColorOrrange}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="orange"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorRed}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="red"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorBlue}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="blue"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorGreen}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="green"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorPurple}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="purple"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorNavy}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="navy"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorTeal}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="teal"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorBrown}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="brown"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorPink}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="pink"/>
+                                <ToggleButton Background="{StaticResource HuntpointColorYellow}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="yellow"/>
+                            </WrapPanel>
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_newroomdefaultsettings}" Margin="0,0,0,20"/>
+
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_defaultroomname}" Label="{DynamicResource st_roomname}" Text="{Binding DefaultRoomName, Mode=TwoWay}"/>
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_defaultpassword}" Label="{DynamicResource st_password}" IsPassword="True" Password="{Binding DefaultPassword, Mode=TwoWay}"/>
+
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,40,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_timersettings}" Margin="0,0,0,20"/>
+
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_startingtimeinseconds}" Label="{DynamicResource st_startingtimes}" 
+                                                   Text="{Binding StartingTime, Mode=TwoWay}"
+                                                   IsNumberOnly="True"/>
+
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_timeafterrevealinseconds}" Label="{DynamicResource st_timeafterreveals}" 
+                                                   Text="{Binding AfterRevealTime, Mode=TwoWay}"
+                                                   IsNumberOnly="True"/>
+
+                            <!--<cnt:InputFieldControl Placeholder="{DynamicResource st_timeafterrevealhidden}" Label="{DynamicResource st_timeafterrevealhidden}" 
+                                                   Text="{Binding AfterRevealTimeHidden, Mode=TwoWay}"
+                                                   IsNumberOnly="True"/>
+
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_timeafterrevealchanging}" Label="{DynamicResource st_timeafterrevealchanging}" 
+                                                   Text="{Binding AfterRevealTimeChanging, Mode=TwoWay}"
+                                                   IsNumberOnly="True"/>
+
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_squaresunhidetime}" Label="{DynamicResource st_squaresunhidetime}" 
+                                                   Text="{Binding UnhideSquareTime, Mode=TwoWay}"
+                                                   IsNumberOnly="True"/>
+
+                            <cnt:InputFieldControl Placeholder="{DynamicResource st_squareschangetime}" Label="{DynamicResource st_squareschangetime}" 
+                                                   Text="{Binding ChangingSquareTime, Mode=TwoWay}"
+                                                   IsNumberOnly="True"/>-->
+
+
+
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,40,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_roomfeedsettings}" Margin="0,0,0,30"/>
+
+                            <cnt:SwitchControl IsChecked="{Binding FeedPlayerChat, Mode=TwoWay}" Text="{DynamicResource st_playerchat}" Margin="0,0,0,15"/>
+                            <cnt:SwitchControl IsChecked="{Binding FeedGoalActions, Mode=TwoWay}" Text="{DynamicResource st_goalactions}" Margin="0,0,0,15"/>
+                            <cnt:SwitchControl IsChecked="{Binding FeedColorChanged, Mode=TwoWay}" Text="{DynamicResource st_colorchanged}" Margin="0,0,0,15"/>
+                            <cnt:SwitchControl IsChecked="{Binding FeedConnections, Mode=TwoWay}" Text="{DynamicResource st_connections}" Margin="0,0,0,15"/>
+
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,40,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_soundssettings}" Margin="0,0,0,30"/>
+
+                            <cnt:SwitchControl IsChecked="{Binding IsSoundsOn, Mode=TwoWay}" Text="{DynamicResource st_feednotificationssound}" Margin="0,0,0,15"/>
+                            <TextBlock Text="{DynamicResource st_soundsvolume}" Margin="0,20,0,10" Style="{StaticResource FlatTextBlockStyle}"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <Slider Height="40" Width="300" Minimum="0" Maximum="100" Value="{Binding SoundsVolume, Mode=TwoWay}"  
+                                        HorizontalAlignment="Left" Style="{StaticResource SliderStyle1}" Margin="0,0,0,40" Focusable="False"
+                                        VerticalAlignment="Center"/>
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource st_test}" Width="100" VerticalAlignment="Center" Margin="20,0,0,35"
+                                        Command="{Binding TestSoundCommand}">
+
+                                </Button>
+                            </StackPanel>
+
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_applanguage}" Margin="0,0,0,30"/>
+                            <cnt:SelectFieldControl ItemsSource="{Binding Languages}" SelectedCurrentItem="{Binding CurLanguage, Mode=TwoWay}" 
+                                                    Placeholder="{DynamicResource st_language}" DisplayProperty="LanguageName" />
+
+                            <!--<Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_localserver}" Margin="0,0,0,30"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{StaticResource st_localserverinfo}" TextWrapping="Wrap" Margin="0,0,0,20"/>
+                            <cnt:InputFieldControl Placeholder="5050" Label="{DynamicResource st_localserverport}" 
+                                                   Text="{Binding LocalServerPort, Mode=TwoWay}"
+                                                   IsNumberOnly="True" Margin="0,0,0,40" IsEnabled="{Binding IsStartLocalServer, Converter={StaticResource NotConverter}}"/>
+
+                            <cnt:SwitchControl IsChecked="{Binding IsStartLocalServer, Mode=TwoWay}" Text="{DynamicResource st_localserverenabled}" Margin="0,0,0,15"/>
+
+                            <cnt:TextAreaFieldControl Label="{DynamicResource st_localserverlinks}" IsReadOnly="True" Text="{Binding LocalServerLinks}"
+                                                      Visibility="{Binding IsStartLocalServer, Converter={StaticResource BoolToVisConverter}}"/>-->
+
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Nightreign" Margin="0,0,0,30"/>
+
+                            <Grid Margin="0,0,0,20">
+                                <cnt:InputFieldControl Placeholder="Расположение nightreign.exe" Label="Путь к nightreign.exe" 
+                                                   Text="{Binding NightreignPath, Mode=TwoWay}"
+                                                   IsNumberOnly="False" Margin="0,0,55,0"/>
+                                <Button Style="{StaticResource IconButtonStyle}" Content="&#xE197;" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,29,5,0" 
+                                        Command="{Binding SelectNightreignExeCommand}"/>
+
+                            </Grid>
+                            <StackPanel Orientation="Vertical" Visibility="{Binding IsNightreignExeSetted, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Visible">
+                                <TextBlock Style="{StaticResource FlatTextBlockStyle}"  TextWrapping="Wrap" Margin="0,0,0,20">
+                                    <Run Text="{DynamicResource st_menginetext}"/>
+                                    <Hyperlink Command="{Binding OpenModEngineDownloadCommand}" Foreground="{StaticResource AccentBrush}">
+                                        <Run Text="{DynamicResource st_menginelink}"/>
+                                    </Hyperlink>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsModEngineInstalled, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,5,20" Foreground="{StaticResource Success}">                                    
+                                        <Run Text="&#xEC61; " FontFamily="{StaticResource SegoeMDL2}"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,10,20" Foreground="{StaticResource Success}">                                                                          
+                                        <Run Text="{DynamicResource st_modengineinstalled}"/>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,40,0,20">                                
+                                    <Run Text="{DynamicResource st_copymodtext}"/>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsModCopied, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,5,20" Foreground="{StaticResource Success}">                                    
+                                      <Run Text="&#xEC61; " FontFamily="{StaticResource SegoeMDL2}"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,10,20" Foreground="{StaticResource Success}">                                                                          
+                                      <Run Text="{DynamicResource st_modinstalled}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Width="160" Content="{DynamicResource st_installmod}" HorizontalAlignment="Left"
+                                            Visibility="{Binding IsModCopied, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                            Command="{Binding CopyModCommand}"/>
+                                    <Button Style="{StaticResource FlatButtonStylePrimaryRed}" Width="140" Content="{DynamicResource st_deletelmod}" HorizontalAlignment="Left" 
+                                            Visibility="{Binding IsModCopied, Converter={StaticResource BoolToVisConverter}}"
+                                            Command="{Binding RemoveModCommand}"/>
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,30,0,20"
+                                        Text="{DynamicResource st_savefiletext}" />
+
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Width="140" Content="{DynamicResource st_makecopy}" HorizontalAlignment="Left" Margin="0,0,20,0"
+                                            Command="{Binding CreateSaveBackupCommand}"/>
+                                    
+                                    <Button Style="{StaticResource FlatButtonStyle}" Width="160" Content="{DynamicResource st_openfolder}" HorizontalAlignment="Left"
+                                        Command="{Binding OpenSaveFolderCommand}"/>
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,0,20" Visibility="{Binding IsSteamIdSetted, Converter={StaticResource BoolToVisConverter}}">
+                                    <Run Text="{DynamicResource st_steamuser}"/>
+                                    <LineBreak/>
+                                    <LineBreak/>
+                                    <Run Text="{Binding SteamPlayerId}"/>
+                                    <Run Text="-"/>
+                                    <Run Text="{Binding SteamPlayerName}"/>
+                                </TextBlock>
+                                <Button Style="{StaticResource FlatTextButtonStyleNoArrow}" Content="{DynamicResource st_clear}" Command="{Binding CleanSteamPlayerCommand}"
+                                        HorizontalAlignment="Left"
+                                        Visibility="{Binding IsSteamIdSetted, Converter={StaticResource BoolToVisConverter}}"/>
+
+                            </StackPanel>
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Sekiro" Margin="0,0,0,30"/>
+
+                            <Grid Margin="0,0,0,20">
+                                <cnt:InputFieldControl Placeholder="{DynamicResource st_sekirolocation}" Label="{DynamicResource st_sekiropath}" 
+                                                       Text="{Binding SekiroExePath, Mode=TwoWay}"
+                                                       IsNumberOnly="False" Margin="0,0,55,0"/>
+                                <Button Style="{StaticResource IconButtonStyle}" Content="&#xE197;" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,29,5,0" 
+                                        Command="{Binding SelectSekiroExeCommand}"/>
+
+                            </Grid>
+                            <StackPanel Orientation="Vertical" Visibility="{Binding IsSekiroExeSetted, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Visible">
+                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,0,20">                                
+                                    <Run Text="{DynamicResource st_copymodtext}"/>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding IsSekiroModCopied, Converter={StaticResource BoolToVisConverter}}">
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,5,20" Foreground="{StaticResource Success}">                                    
+                                        <Run Text="&#xEC61; " FontFamily="{StaticResource SegoeMDL2}"/>
+                                    </TextBlock>
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,10,20" Foreground="{StaticResource Success}">                                                                          
+                                        <Run Text="{DynamicResource st_modinstalled}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Width="160" Content="{DynamicResource st_installmod}" HorizontalAlignment="Left"
+                                            Visibility="{Binding IsSekiroModCopied, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                            Command="{Binding DownloadSekiroModCommand}"/>
+                                    <Button Style="{StaticResource FlatButtonStylePrimaryRed}" Width="140" Content="{DynamicResource st_deletelmod}" HorizontalAlignment="Left" 
+                                            Visibility="{Binding IsSekiroModCopied, Converter={StaticResource BoolToVisConverter}}"
+                                            Command="{Binding RemoveSekiroModCommand}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Margin="0,0,0,20" Visibility="{Binding IsSekiroModCopied, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Visible">
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,0,20">
+                                        <Run Text="{DynamicResource st_modversion}"/>
+                                        <Run Text="{Binding SekiroModVersion}"/>
+                                        <Run Text="  "/>
+                                        <Run Text="{DynamicResource st_servermodversion}"/>
+                                        <Run Text="{Binding SekiroServerModVersion}"/>
+                                    </TextBlock>
+
+                                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource st_updatemod}" HorizontalAlignment="Left" Width="140"
+                                            Command="{Binding DownloadSekiroModCommand}" Visibility="{Binding IsSekiroModUpToDate, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+
+                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,5,20" Foreground="{StaticResource Success}"
+                                           Visibility="{Binding IsSekiroModUpToDate, Converter={StaticResource BoolToVisConverter}}">                                    
+                                            <Run Text="&#xEC61; " FontFamily="{StaticResource SegoeMDL2}"/>
+                                            <Run Text="{DynamicResource st_modisuptodate}"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource st_appversion}" Margin="0,0,0,30"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{Binding Version}" Margin="0,0,0,30"/>
+
+                            <Border Height="1" BorderThickness="0,1,0,0" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20,0,40" />
+                            <cnt:SwitchControl IsChecked="{Binding IsDebug, Mode=TwoWay}" Text="{DynamicResource st_debugmode}" Margin="0,0,0,15"/>
+
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

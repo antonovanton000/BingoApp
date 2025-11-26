@@ -1,0 +1,743 @@
+﻿using HuntpointApp.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.AspNetCore.SignalR.Client;
+using System;
+using System.Buffers.Text;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
+namespace HuntpointApp.Classes
+{
+    public partial class HuntpointSignalRHub : ObservableObject
+    {
+        [ObservableProperty]
+        bool isHubConnected;
+
+        private string _playerId = "";
+
+        public event EventHandler<InvitePlayerEventArgs>? OnInvitePlayerRecieved;
+        public event EventHandler<AcceptInviteEventArgs>? OnAcceptInviteRecieved;
+        public event EventHandler<RejectInviteEventArgs>? OnRejectInviteRecieved;
+        public event EventHandler<CheckSquareEventArgs>? OnCheckSquareRecieved;
+        public event EventHandler<UncheckSquareEventArgs>? OnUncheckSquareRecieved;
+        public event EventHandler<ChangeSquareEventArgs>? OnChangeSquareRecieved;
+        public event EventHandler<string>? OnStartPresetCreationRecieved;
+        public event EventHandler<string>? OnPlayerReadyRecieved;
+        public event EventHandler<string>? OnPlayerNotReadyRecieved;
+        public event EventHandler<string>? OnPresetCreatedRecieved;
+        public event EventHandler<string>? OnPresetCreationCanceledRecieved;
+        public event EventHandler<string>? OnCancelInviteRecieved;
+        public event EventHandler<GameInviteEventArgs>? OnGameInviteRecieved;
+        public event EventHandler<RoomTimerSettingsEventArgs>? OnRoomTimerSettingsRecieved;
+        public event EventHandler<RoomTimeSyncEventArgs>? OnRoomTimeSyncRecieved;
+        public event EventHandler<string>? OnStartGameRecieved;
+        public event EventHandler<string>? OnPauseGameRecieved;
+        public event EventHandler<string>? OnResumeGameRecieved;
+        public event EventHandler<string>? OnStopGameRecieved;
+        public event EventHandler<string>? OnPlayerDisconnected;
+        public event EventHandler<Player>? OnPlayerConnected;
+        public event EventHandler<Player>? OnPlayerReconnected;
+        public event EventHandler<SharePresetEventArgs>? OnSharePresetRecieved;
+        public event EventHandler<Event>? OnNewEventRecieved;
+        public event EventHandler<string>? OnReconnecting;
+        public event EventHandler<string>? OnReconnected;
+        public event EventHandler<string>? OnDisconnected;
+        public event EventHandler<string>? OnConnected;
+        public event EventHandler<PlayerColorChangedEventArgs>? OnPlayerColorChangedRecieved;
+        public event EventHandler<MarkObjectiveEventArgs>? OnMarkObjectiveRecieved;
+        public event EventHandler<MarkObjectiveEventArgs>? OnUnmarkObjectiveRecieved;
+        public event EventHandler<Board>? OnNewBoardRecieved;
+        public event EventHandler<string>? OnPlayerFinishedRecieved;
+        public event EventHandler<ApplySpEffectEventArgs>? OnApplySpEffectRecieved;
+
+        HubConnection connection;
+        public HuntpointSignalRHub()
+        {
+            connection = new HubConnectionBuilder()
+                           .WithUrl($"{App.TimerSocketScheme}://{App.TimerSocketAddress}/huntpointhub")
+                           .Build();
+
+            connection.HandshakeTimeout = TimeSpan.FromSeconds(3);
+            connection.KeepAliveInterval = TimeSpan.FromSeconds(3);
+
+            InitHubEndpoints();
+        }
+
+        private void InitHubEndpoints()
+        {
+            connection.On<string, string, string, string, string>("InvitePlayer", (creatorId, nickname, presetId, presetName, presetJSON) =>
+            {
+                OnInvitePlayerRecieved?.Invoke(this, new InvitePlayerEventArgs()
+                {
+                    CreatorId = creatorId,
+                    NickName = nickname,
+                    PresetId = presetId,
+                    PresetName = presetName,
+                    PresetJSON = presetJSON
+                });
+            });
+
+            connection.On<string, string>("AcceptInvite", (playerId, nickName) =>
+            {
+                OnAcceptInviteRecieved?.Invoke(this, new AcceptInviteEventArgs()
+                {
+                    PlayerId = playerId,
+                    NickName = nickName,
+                });
+
+            });
+
+            connection.On<string>("CancelInvitePlayer", (presetId) =>
+            {
+                OnCancelInviteRecieved?.Invoke(this, presetId);
+            });
+
+            connection.On<string>("RejectInvite", (nickName) =>
+            {
+                OnRejectInviteRecieved?.Invoke(this, new RejectInviteEventArgs()
+                {
+                    NickName = nickName
+                });
+            });
+
+            connection.On<string, string>("CheckSquare", (playerId, squareId) =>
+            {
+                OnCheckSquareRecieved?.Invoke(this, new CheckSquareEventArgs()
+                {
+                    PlayerId = playerId,
+                    SquareId = squareId
+                });
+            });
+
+            connection.On<string, string>("UncheckSquare", (playerId, squareId) =>
+            {
+                OnUncheckSquareRecieved?.Invoke(this, new UncheckSquareEventArgs()
+                {
+                    PlayerId = playerId,
+                    SquareId = squareId
+                });
+            });
+
+            connection.On<string>("StartPresetCreation", (presetId) =>
+            {
+                OnStartPresetCreationRecieved?.Invoke(this, presetId);
+            });
+
+            connection.On<string>("PlayerReady", (playerId) =>
+            {
+                OnPlayerReadyRecieved?.Invoke(this, playerId);
+            });
+
+            connection.On<string>("PlayerNotReady", (playerId) =>
+            {
+                OnPlayerNotReadyRecieved?.Invoke(this, playerId);
+            });
+
+            connection.On<string>("PresetCreated", (presetId) =>
+            {
+                OnPresetCreatedRecieved?.Invoke(this, presetId);
+            });
+
+            connection.On<string>("PresetCreated", (presetId) =>
+            {
+                OnPresetCreatedRecieved?.Invoke(this, presetId);
+            });
+
+            connection.On<string>("PresetCreationCanceled", (playerId) =>
+            {
+                OnPresetCreationCanceledRecieved?.Invoke(this, playerId);
+            });
+
+            connection.On<string, string>("GameInvite", (nickName, data) =>
+            {
+                OnGameInviteRecieved?.Invoke(this, new GameInviteEventArgs() { NickName = nickName, Data = data });
+            });
+
+            connection.On<string, string, string>("ChangeSquare", (roomId, slotId, newName) =>
+            {
+                OnChangeSquareRecieved?.Invoke(this, new ChangeSquareEventArgs() { RoomId = roomId, SlotId = slotId, NewName = newName });
+            });
+
+            connection.On<string, int, int, int, int>("AutoBoardRevealSettings", (roomId, startTime, afterRevealTime, unhideTime, changeTime) =>
+            {
+                OnRoomTimerSettingsRecieved?.Invoke(this, new RoomTimerSettingsEventArgs() { RoomId = roomId, StartTime = startTime, AfterRevealTime = afterRevealTime, UnhideTime = unhideTime, ChangeTime = changeTime });
+            });
+
+            connection.On<string>("StartRoomGame", (roomId) =>
+            {
+                OnStartGameRecieved?.Invoke(this, roomId);
+            });
+
+            connection.On<string>("PauseRoomGame", (roomId) =>
+            {
+                OnPauseGameRecieved?.Invoke(this, roomId);
+            });
+
+            connection.On<string>("ResumeRoomGame", (roomId) =>
+            {
+                OnResumeGameRecieved?.Invoke(this, roomId);
+            });
+
+            connection.On<string>("StopRoomGame", (roomId) =>
+            {
+                OnStopGameRecieved?.Invoke(this, roomId);
+            });
+
+            connection.On<string>("PlayerConnected", (json) =>
+            {
+                var roomPlayer = JsonConvert.DeserializeObject<Player>(json);
+                if (roomPlayer != null)
+                {
+                    OnPlayerConnected?.Invoke(this, roomPlayer);
+                }
+            });
+
+            connection.On<string>("PlayerDisconnected", (playerId) =>
+            {
+                OnPlayerDisconnected?.Invoke(this, playerId);
+            });
+
+            connection.On<string>("PlayerReconnected", json =>
+            {
+                var roomPlayer = JsonConvert.DeserializeObject<Player>(json);
+                if (roomPlayer != null)
+                {
+                    OnPlayerReconnected?.Invoke(this, roomPlayer);
+                }
+            });
+
+            connection.On<string>("NewEvent", json =>
+            {
+                var newEvent = JsonConvert.DeserializeObject<Event>(json);
+                if (newEvent != null)
+                {
+                    newEvent.Timestamp = newEvent.Timestamp.ToLocalTime();
+                    OnNewEventRecieved?.Invoke(this, newEvent);
+                }
+            });
+
+            connection.On<string, int>("RoomCurrentTimeSync", (roomId, currentTime) =>
+            {
+                OnRoomTimeSyncRecieved?.Invoke(this, new RoomTimeSyncEventArgs() { RoomId = roomId, CurrentTime = currentTime });
+            });
+
+            connection.On<string, string, string, string, string>("PresetReceived", (fromPlayerName, gameName, presetName, squaresFileName, notesFileName) =>
+            {
+                OnSharePresetRecieved?.Invoke(this, new SharePresetEventArgs()
+                {
+                    FromPlayerName = fromPlayerName,
+                    GameName = gameName,
+                    PresetName = presetName,
+                    SquaresFileName = squaresFileName,
+                    NotesFileName = notesFileName
+                });
+            });
+
+            connection.On<string, HuntpointColor>("PlayerColorChanged", (playerId, color) =>
+            {
+                OnPlayerColorChangedRecieved?.Invoke(this, new PlayerColorChangedEventArgs() { PlayerId = playerId, Color = color });
+            });
+
+            connection.On<string, HuntpointColor>("MarkObjective", (slot, color) =>
+            {
+                OnMarkObjectiveRecieved?.Invoke(this, new MarkObjectiveEventArgs() { Slot = slot, Color = color });
+            });
+
+            connection.On<string, HuntpointColor>("UnmarkObjective", (slot, color) =>
+            {
+                OnUnmarkObjectiveRecieved?.Invoke(this, new MarkObjectiveEventArgs() { Slot = slot, Color = color });
+            });
+
+            connection.On<string>("Connected", playerId =>
+            {
+                OnConnected?.Invoke(this, playerId);
+            });
+
+            connection.On<string>("NewBoard", boardJson =>
+            {
+                var board = JsonConvert.DeserializeObject<Board>(boardJson);
+                if (board != null)
+                {
+                    OnNewBoardRecieved?.Invoke(this, board);
+                }
+            });
+
+            connection.On<string>("PlayerFinished", (playerId) => 
+            {
+                OnPlayerFinishedRecieved?.Invoke(this, playerId);
+            });
+
+            connection.On<string, uint>("SpEffectApplied", (playerId, flagId) =>
+            {
+                OnApplySpEffectRecieved?.Invoke(this, new ApplySpEffectEventArgs()
+                {
+                    PlayerId = playerId,
+                    FlagId = flagId
+                });
+            });
+
+            connection.Reconnecting += Connection_Reconnecting;
+
+            connection.Reconnected += Connection_Reconnected;
+
+            connection.Closed += Connection_Closed;
+        }
+
+        private async Task Connection_Closed(Exception? arg)
+        {
+            IsHubConnected = connection.State == HubConnectionState.Connected;
+            OnDisconnected?.Invoke(this, arg?.Message ?? "");
+        }
+
+        private async Task Connection_Reconnected(string? arg)
+        {
+            IsHubConnected = connection.State == HubConnectionState.Connected;
+            OnReconnected?.Invoke(this, arg ?? "");
+        }
+
+        private async Task Connection_Reconnecting(Exception? arg)
+        {
+            IsHubConnected = connection.State == HubConnectionState.Connected;
+            OnReconnected?.Invoke(this, arg?.Message ?? "");
+        }
+
+        public async Task ConnectAsync(string playerId)
+        {
+            _playerId = playerId;
+            try
+            {
+                if (connection.State == HubConnectionState.Disconnected)
+                {
+                    await connection.StartAsync();
+                    IsHubConnected = connection.State == HubConnectionState.Connected;
+
+                    await connection.SendAsync("Connect", _playerId);
+                }
+            }
+            catch (Exception ex)
+            {
+                IsHubConnected = false;
+            }
+        }
+
+        public async Task ConnectToRoomHub(string roomId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.SendAsync("ConnectToRoom", roomId);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public async Task DisconnectFromRoomHub(string roomId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                
+                await connection.SendAsync("DisconnectFromRoom", roomId);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        public async Task InvitePlayerAsync(HuntpointAppPlayer creator, HuntpointAppPlayer player, string presetId, string presetName, string presetJSON)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("InvitePlayer", creator.Id, player.Id, presetId, presetName, presetJSON);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public async Task CancelInvitePlayerAsync(HuntpointAppPlayer player, string presetId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("CancelInvitePlayer", presetId, player.Id);
+            }
+            catch (Exception)
+            { }
+        }
+
+        public async Task AcceptInviteAsync(string presetId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("AcceptInvite", presetId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task RejectInviteAsync(string presetId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("RejectInvite", presetId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task ApplySpEffectAsync(string roomId, string playerId, int flagId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                await connection.InvokeAsync("ApplySpEffect", roomId, playerId, flagId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task CheckSquareAsync(string presetId, string playerId, string squareId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("CheckSquare", presetId, playerId, squareId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task UncheckSquareAsync(string presetId, string playerId, string squareId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("UncheckSquare", presetId, playerId, squareId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendStartPresetCreationAsync(string presetId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("StartPresetCreation", presetId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendPlayerReadyAsync(string presetId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("PlayerReady", presetId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendPlayerNotReadyAsync(string presetId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("PlayerNotReady", presetId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendPresetCreatedAsync(string presetId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("PresetCreated", presetId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendPresetCreationCanceledAsync(string presetId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("PresetCreationCanceled", presetId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendChangeSquareAsync(string roomId, string slotId, string newName)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("ChangeSquare", roomId, slotId, newName);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendRoomTimerSettings(string roomId, int startTime, int afterRevealTime, int unhideTime, int changeTime)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("AutoBoardRevealSettings", roomId, startTime, afterRevealTime, unhideTime, changeTime);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendCurrentRoomTime(string roomId, int currentTime)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("RoomCurrentTimeSync", roomId, currentTime);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendStartGame(string roomId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("StartRoomGame", roomId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendPauseGame(string roomId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("PauseRoomGame", roomId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendStopGame(string roomId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("StopRoomGame", roomId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendResumeGame(string roomId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("ResumeRoomGame", roomId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendRevealBoard(string roomId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+
+                await connection.InvokeAsync("RevealBoard", roomId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendMarkObjective(string roomId, string slotId, HuntpointColor color)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                await connection.InvokeAsync("MarkObjective", roomId, slotId, color);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendPlayerChangeColor(string roomId, HuntpointColor color)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                await connection.InvokeAsync("PlayerChangeColor", roomId, color);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendChatMessage(string roomId, string message)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                await connection.InvokeAsync("SendChatMessage", roomId, message);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendClearSharedPreset(string presetFileName, string notesFileName)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                await connection.InvokeAsync("ClearSharedPreset", presetFileName, notesFileName);
+            }
+            catch (Exception) { }
+        }
+
+        public async Task SendFinishRun(string roomId, string playerId)
+        {
+            try
+            {
+                if (connection.State != HubConnectionState.Connected)
+                    await connection.StartAsync();
+                await connection.InvokeAsync("FinishRun", roomId, playerId);
+            }
+            catch (Exception) { }
+        }
+
+        public class InvitePlayerEventArgs : EventArgs
+        {
+            public string CreatorId { get; set; } = default!;
+            public string NickName { get; set; } = default!;
+            public string PresetId { get; set; } = default!;
+            public string PresetName { get; set; } = default!;
+            public string PresetJSON { get; set; } = default!;
+        }
+
+        public class AcceptInviteEventArgs : EventArgs
+        {
+            public string PlayerId { get; set; } = default!;
+
+            public string NickName { get; set; } = default!;
+        }
+
+        public class RejectInviteEventArgs : EventArgs
+        {
+            public string NickName { get; set; } = default!;
+        }
+
+        public class CheckSquareEventArgs : EventArgs
+        {
+            public string PlayerId { get; set; } = default!;
+            public string SquareId { get; set; } = default!;
+        }
+
+        public class UncheckSquareEventArgs : EventArgs
+        {
+            public string PlayerId { get; set; } = default!;
+            public string SquareId { get; set; } = default!;
+        }
+
+        public class GameInviteEventArgs : EventArgs
+        {
+            public string NickName { get; set; } = default!;
+            public string Data { get; set; } = default!;
+        }
+
+        public class ChangeSquareEventArgs : EventArgs
+        {
+            public string RoomId { get; set; } = default!;
+            public string SlotId { get; set; } = default!;
+            public string NewName { get; set; } = default!;
+        }
+
+        public class RoomTimerSettingsEventArgs : EventArgs
+        {
+            public string RoomId { get; set; } = default!;
+            public int StartTime { get; set; }
+            public int AfterRevealTime { get; set; }
+            public int UnhideTime { get; set; }
+            public int ChangeTime { get; set; }
+        }
+
+        public class RoomTimeSyncEventArgs : EventArgs
+        {
+            public string RoomId { get; set; } = default!;
+
+            public int CurrentTime { get; set; }
+        }
+
+        public class SharePresetEventArgs : EventArgs
+        {
+            public string FromPlayerName { get; set; } = default!;
+            public string GameName { get; set; } = default!;
+            public string PresetName { get; set; } = default!;
+            public string SquaresFileName { get; set; } = default!;
+            public string NotesFileName { get; set; } = default!;
+
+        }
+
+        public class PlayerColorChangedEventArgs : EventArgs
+        {
+            public string PlayerId { get; set; } = default!;
+            public HuntpointColor Color { get; set; } = default!;
+        }
+
+        public class MarkObjectiveEventArgs : EventArgs
+        {
+            public string Slot { get; set; } = default!;
+            public HuntpointColor Color { get; set; } = default!;
+        }
+
+        public class ApplySpEffectEventArgs : EventArgs
+        {
+            public string PlayerId { get; set; } = default!;
+            public uint FlagId { get; set; }
+        }
+    }
+}

@@ -1,11 +1,14 @@
-﻿using BingoApp.Models;
+﻿using BingoApp.Classes;
+using BingoApp.Models;
 using BingoApp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GongSolutions.Wpf.DragDrop;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -18,7 +21,7 @@ using System.Windows.Data;
 
 namespace BingoApp.ViewModels
 {
-    public partial class EditBoardViewModel : MyBaseViewModel
+    public partial class EditBoardViewModel : MyBaseViewModel, IDropTarget
     {
 
         public EditBoardViewModel()
@@ -37,7 +40,7 @@ namespace BingoApp.ViewModels
                     e.Cancel = !leaveunsaved;
                     if (!leaveunsaved)
                     {
-                        MainWindow.ShowMessage("You have unsaved changes!\r\n\r\nAre you sure you want to leave?", MessageNotificationType.YesNo,
+                        MainWindow.ShowMessage($"{App.Current.FindResource("mes_youhaveunsavedc")}", MessageNotificationType.YesNo,
                             new Action(async () =>
                             {
                                 leaveunsaved = true;
@@ -58,13 +61,22 @@ namespace BingoApp.ViewModels
 
         bool IsPresetChanged()
         {
-            var newjson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            var squaresJson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            var exceptionJson = JsonConvert.SerializeObject(BoardPreset.Exceptions, Formatting.None);
+
+            var newjson = squaresJson + "\r\n//---EXCEPTIONS---//" + "\r\n" + exceptionJson;
             return firstJson != newjson || firstName != BoardPreset.PresetName;
         }
 
         string firstJson;
 
         string firstName;
+
+        [ObservableProperty]
+        bool isSquaresVisible = true;
+
+        [ObservableProperty]
+        bool isExceptionsVisible = false;
 
         [ObservableProperty]
         ObservableCollection<BoardPreset> presets = new ObservableCollection<BoardPreset>();
@@ -74,128 +86,88 @@ namespace BingoApp.ViewModels
 
         [ObservableProperty]
         bool isModalOpen = false;
+        
+        [ObservableProperty]
+        bool isSendToPlayerPopupVisible;
 
         [ObservableProperty]
-        bool isImageChanging = false;
+        BingoAppPlayer selectedPlayer;
+
+        public ObservableCollection<BingoAppPlayer> AvailablePlayers { get; set; } = [];
 
         [RelayCommand]
         async Task Appearing()
         {
             MainWindow.HideSettingsButton();
             await LoadPresets();
+            await LoadNotes();
             BoardSqaresCollection = CollectionViewSource.GetDefaultView(BoardPreset.Squares);
-            firstJson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            BoardSqaresCollection2 = CollectionViewSource.GetDefaultView(BoardPreset.Squares);
+
+            var squaresJson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            var exceptionJson = JsonConvert.SerializeObject(BoardPreset.Exceptions, Formatting.None);
+
+            firstJson = squaresJson + "\r\n//---EXCEPTIONS---//" + "\r\n" + exceptionJson;            
             firstName = BoardPreset.PresetName;
             (App.Current.MainWindow as MainWindow).frame.Navigating += Frame_Navigating;
         }
 
+        List<SquareNote> notes = [];
+
+        async Task LoadNotes()
+        {
+            try
+            {
+                var notesPath = System.IO.Path.Combine(App.Location, "notes.json");
+                if (System.IO.File.Exists(notesPath))
+                {
+                    var json = await System.IO.File.ReadAllTextAsync(notesPath);
+                    if (json != null)
+                    {
+                        notes = JsonConvert.DeserializeObject<List<SquareNote>>(json);
+                    }
+                    else
+                        return;
+                }
+
+                if (notes == null)
+                    notes = [];
+
+                foreach (var item in notes)
+                {
+                    var square = BoardPreset.Squares.FirstOrDefault(i => i.Name.ToLower() == item.SquareName.ToLower());
+                    if (square != null)
+                    {
+                        square.Notes = item.Note;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
 
         async Task LoadPresets()
         {
-            var folderPath = System.IO.Path.Combine(App.Location, "GameJsons");
-            var files = System.IO.Directory.GetFiles(folderPath, "*.json");
             Presets.Clear();
-            foreach (var file in files)
+            var presets = await PresetCollection.GetPresetsAsync();
+            foreach (var item in presets)
             {
-                var preset = new BoardPreset()
-                {
-                    PresetName = System.IO.Path.GetFileNameWithoutExtension(file),
-                    FilePath = file,
-                };
-
-                Presets.Add(preset);
+                Presets.Add(item);
             }
         }
-
-
-        [RelayCommand]
-        void OpenFile()
-        {
-            var fo = new OpenFileDialog();
-            fo.DefaultExt = ".jpg";
-            fo.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
-
-            if (fo.ShowDialog() == true)
-            {
-                BoardPreset.CoverFilePath = fo.FileName;
-            }        
-        }
-
-        [RelayCommand]
-        void ChangeImage()
-        {            
-            IsImageChanging = false;
-            IsModalOpen = true;
-        }
-
-
-        [RelayCommand]
-        async Task ChangeImageFinally()
-        {
-            var imgPath = System.IO.Path.Combine(App.Location, "PresetImages", BoardPreset.PresetName + ".jpg");
-
-            var needDelete = false;
-            if (System.IO.File.Exists(imgPath))
-            {
-                needDelete = true;
-            }
-
-            if (!string.IsNullOrEmpty(BoardPreset.CoverFilePath))
-            {                
-                if (needDelete)
-                {
-                    System.IO.File.Delete(imgPath);
-                }
-                System.IO.File.Copy(BoardPreset.CoverFilePath, imgPath, true);
-            }
-
-            if (!string.IsNullOrEmpty(BoardPreset.CoverWebLink))
-            {
-
-                if (BoardPreset.CoverWebLink.Contains(".jpg") || BoardPreset.CoverWebLink.Contains(".jpeg")
-                    || BoardPreset.CoverWebLink.Contains(".png"))
-                {
-                    IsImageChanging = true;
-                    var client = new HttpClient();
-                    try
-                    {
-                        var bytes = await client.GetByteArrayAsync(BoardPreset.CoverWebLink);
-                        if (needDelete)
-                        {
-                            System.IO.File.Delete(imgPath);
-                        }
-                        await System.IO.File.WriteAllBytesAsync(imgPath, bytes);
-                        IsImageChanging = false;
-                    }
-                    catch (Exception)
-                    {
-                        IsImageChanging = false;
-                        BoardPreset.IsDownloadError = true;
-                        return;
-                    }
-                }
-                else
-                {
-                    BoardPreset.IsWebLinkBad = true;
-                    return;
-                }
-            }
-            BoardPreset.RefreshImageCover();
-            IsImageChanging = false;
-            IsModalOpen = false;
-        }
-
+        
         [ObservableProperty]
         bool isAnySelected;
 
         [RelayCommand]
         async Task CopySelectedTo(BoardPreset preset)
         {
-            var json = await  System.IO.File.ReadAllTextAsync(preset.FilePath);
+            var json = await System.IO.File.ReadAllTextAsync(preset.FilePath);
             var jarr = JArray.Parse(json);
             preset.Json = json;
             preset.SquareCount = jarr.Count;
-            
+
             foreach (var item in jarr)
             {
                 preset.Squares.Add(new PresetSquare() { Name = item["name"].Value<string>() });
@@ -209,7 +181,7 @@ namespace BingoApp.ViewModels
             var newjson = JsonConvert.SerializeObject(preset.Squares, Formatting.Indented);
             await System.IO.File.WriteAllTextAsync(preset.FilePath, newjson);
 
-            MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = "Squares copied!" });
+            MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("mes_squarescopied").ToString() });
             await LoadPresets();
 
         }
@@ -217,14 +189,15 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         async Task CopySelectedToNewBoard()
         {
-            MainWindow.InputDialog("New preset name", new Action<string>(async (s) => {
+            MainWindow.InputDialog("New preset name", new Action<string>(async (s) =>
+            {
 
                 var newjson = JsonConvert.SerializeObject(BoardPreset.Squares.Where(i => i.IsChecked).ToArray(), Formatting.Indented);
                 var directoryPath = System.IO.Path.GetDirectoryName(BoardPreset.FilePath);
                 var newPath = System.IO.Path.Combine(directoryPath, s + ".json");
                 if (System.IO.File.Exists(newPath))
                 {
-                    MainWindow.ShowMessage($"Preset with name '{s}' already exist.\r\n\r\nDo you want to replace it?", MessageNotificationType.YesNo, async () =>
+                    MainWindow.ShowMessage(string.Format(App.Current.FindResource("mes_presetwithname0").ToString(), s), MessageNotificationType.YesNo, async () =>
                     {
                         var imgPath = System.IO.Path.Combine(App.Location, "PresetImages", BoardPreset.PresetName + ".jpg");
                         if (System.IO.File.Exists(imgPath))
@@ -235,7 +208,7 @@ namespace BingoApp.ViewModels
                         }
 
                         await System.IO.File.WriteAllTextAsync(newPath, newjson);
-                        MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"{s} preset created!" });
+                        MainWindow.ShowToast(new ToastInfo() { Title = $"{App.Current.FindResource("mes_success")}", Detail = string.Format(App.Current.FindResource("mes_0presetcreated").ToString(), s) });
                         await LoadPresets();
                     });
                 }
@@ -252,10 +225,10 @@ namespace BingoApp.ViewModels
 
                     await System.IO.File.WriteAllTextAsync(newPath, newjson);
 
-                    MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"{s} preset created!" });
+                    MainWindow.ShowToast(new ToastInfo() { Title = $"{App.Current.FindResource("mes_success")}", Detail = string.Format(App.Current.FindResource("mes_0presetcreated").ToString(), s) });
                     await LoadPresets();
                 }
-            }), "", "Type new preset name");
+            }), "", App.Current.FindResource("mes_typenewpresetna").ToString());
         }
 
         [RelayCommand]
@@ -268,7 +241,13 @@ namespace BingoApp.ViewModels
         void DuplicateSquare(PresetSquare square)
         {
             var index = BoardPreset.Squares.IndexOf(square);
-            BoardPreset.Squares.Insert(index + 1, square);
+            var newSquare = new PresetSquare()
+            {
+                Name = square.Name,
+                Group = square.Group,
+            };
+
+            BoardPreset.Squares.Insert(index + 1, newSquare);
         }
 
         [RelayCommand]
@@ -283,9 +262,9 @@ namespace BingoApp.ViewModels
 
             var difference = BoardPreset.Squares.Count - noduplicates.Count;
 
-            if (difference > 0) 
+            if (difference > 0)
             {
-                MainWindow.ShowMessage($"{difference} duplicate sqares found!\r\nDo you want to remove it?", MessageNotificationType.YesNo, () =>
+                MainWindow.ShowMessage(string.Format(App.Current.FindResource("mes_0duplicatesqare").ToString(), difference), MessageNotificationType.YesNo, () =>
                 {
                     BoardPreset.Squares.Clear();
                     foreach (var item in noduplicates)
@@ -293,12 +272,12 @@ namespace BingoApp.ViewModels
                         BoardPreset.Squares.Add(item);
                     }
 
-                    MainWindow.ShowToast(new ToastInfo() { Title = "All duplicate sqares successfully deleted!" });
+                    MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_allduplicatesqa").ToString() });
                 });
             }
             else
             {
-                MainWindow.ShowToast(new ToastInfo() { Title = "No duplicate squares found!" });
+                MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_noduplicatesqua").ToString() });
             }
 
         }
@@ -306,15 +285,25 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         void AddNewSquare()
         {
-            BoardPreset.Squares.Add(new PresetSquare() { Name = "New Sqare" });
+            BoardPreset.Squares.Add(new PresetSquare() { Name = App.Current.FindResource("mes_newsqare").ToString() });
         }
 
+        [RelayCommand]
+        void AddNewBellow(PresetSquare square)
+        {
+            var index = BoardPreset.Squares.IndexOf(square);
+            BoardPreset.Squares.Insert(index + 1, new PresetSquare() { Name = App.Current.FindResource("mes_newsqare").ToString() });
+        }
 
         [RelayCommand]
-        void CopyAsJson()
+        void SortSquares()
         {
-            Clipboard.SetText(firstJson);
-            MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"JSON copied successfully!" });
+            var sorted = BoardPreset.Squares.OrderByDescending(i => i.Group).ToList();
+            BoardPreset.Squares.Clear();
+            foreach (var item in sorted)
+            {
+                BoardPreset.Squares.Add(item);
+            }
         }
 
         [ObservableProperty]
@@ -372,21 +361,23 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         async Task Save()
         {
-            var newjson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.Indented);
+            foreach (var item in BoardPreset.Squares)
+            {
+                item.Name = item.Name.Trim();
+                item.Group = item.Group?.Trim();
+            }
+
+            var squaresJson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            var exceptionJson = JsonConvert.SerializeObject(BoardPreset.Exceptions, Formatting.None);
+
+            var newjson = squaresJson + "\r\n//---EXCEPTIONS---//" + "\r\n" + exceptionJson;
             if (firstName != BoardPreset.PresetName)
             {
                 System.IO.File.Delete(BoardPreset.FilePath);
                 var directoryPath = System.IO.Path.GetDirectoryName(BoardPreset.FilePath);
                 var newPath = System.IO.Path.Combine(directoryPath, BoardPreset.PresetName + ".json");
                 await System.IO.File.WriteAllTextAsync(newPath, newjson);
-                var imgPath = System.IO.Path.Combine(App.Location, "PresetImages", firstName + ".jpg");
-                if (System.IO.File.Exists(imgPath))
-                {
-                    directoryPath = System.IO.Path.GetDirectoryName(imgPath);
-                    newPath = System.IO.Path.Combine(directoryPath, BoardPreset.PresetName + ".jpg");
-                    System.IO.File.Copy(imgPath, newPath, true);
-                    System.IO.File.Delete(imgPath);
-                }
+                
                 BoardPreset.FilePath = newPath;
             }
             else
@@ -394,28 +385,309 @@ namespace BingoApp.ViewModels
                 await System.IO.File.WriteAllTextAsync(BoardPreset.FilePath, newjson);
             }
 
-            BoardPreset.Json = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            BoardPreset.Json = newjson;
             firstJson = BoardPreset.Json;
             firstName = BoardPreset.PresetName;
-            MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"Preset saved!" });
+            MainWindow.ShowToast(new ToastInfo() { Title = $"{App.Current.FindResource("mes_success")}", Detail = App.Current.FindResource("mes_presetsaved").ToString() });
         }
 
         [RelayCommand]
         async Task SaveAsCopy()
         {
-            MainWindow.InputDialog("New preset name", new Action<string>(async (s) =>
+            MainWindow.InputDialog(App.Current.FindResource("mes_newpresetname").ToString(), new Action<string>(async (s) =>
             {
                 if (!string.IsNullOrEmpty(s))
                 {
                     var newjson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.Indented);
-                    var directoryPath = System.IO.Path.GetDirectoryName(BoardPreset.FilePath);
+
+                    var directoryPath = System.IO.Path.Combine(App.Location, "CustomPresets");
                     var newPath = System.IO.Path.Combine(directoryPath, s + ".json");
                     await System.IO.File.WriteAllTextAsync(newPath, newjson);
 
-                    MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = $"{s} preset created!" });
+                    MainWindow.ShowToast(new ToastInfo() { Title = $"{App.Current.FindResource("mes_success")}", Detail = string.Format(App.Current.FindResource("mes_0presetcreated").ToString(), s) });
                 }
-            }), BoardPreset.PresetName + " - Copy", "Type new preset name");
+            }), BoardPreset.PresetName + " - Copy", App.Current.FindResource("mes_typenewpresetna").ToString());
         }
 
+        [RelayCommand]
+        async Task SaveNotes(PresetSquare square)
+        {
+            try
+            {
+                var note = notes.FirstOrDefault(i => i.SquareName.ToLower() == square.Name.ToLower());
+                if (note == null)
+                {
+                    note = new();
+                    note.SquareName = square.Name;
+                    note.Note = square.Notes;
+                    notes.Add(note);
+                }
+                else
+                {
+                    note.Note = square.Notes;
+                }
+                var json = JsonConvert.SerializeObject(notes);
+                var notesPath = System.IO.Path.Combine(App.Location, "notes.json");
+                await System.IO.File.WriteAllTextAsync(notesPath, json);
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+        }
+
+        [RelayCommand]
+        void ShowSquares()
+        {
+            IsSquaresVisible = true;
+            IsExceptionsVisible = false;
+        }
+
+        [RelayCommand]
+        void ShowExceptions()
+        {
+            IsSquaresVisible = false;
+            IsExceptionsVisible = true;
+        }
+
+        [RelayCommand]
+        void AddNewExtension()
+        {
+            BoardPreset.Exceptions.Add(new PresetSquareException());
+        }
+
+        [ObservableProperty]
+        PresetSquareException? currentException;
+
+        [RelayCommand]
+        void AddExceptionOpenModal(PresetSquareException exception)
+        {
+            if (exception == null)
+            {
+                exception = new PresetSquareException();
+                BoardPreset.Exceptions.Add(exception);
+            }
+            
+            CurrentException = exception;
+            BoardSqaresCollection2.Filter = item =>
+            {
+                PresetSquare square = item as PresetSquare;
+                return !(CurrentException.SquareNames.Contains(square.Name)) && SearchQueue2!= null && square.Name.ToLower().Contains(SearchQueue2?.ToLower());
+            };
+            IsModalOpen = true;
+        }
+        
+        [RelayCommand]
+        void CloseAddSquareModal()
+        {
+            SearchQueue2 = null;
+            IsModalOpen = false;
+            CurrentException = null;
+        }
+
+        [RelayCommand]
+        void AddSquareToException(PresetSquare square)
+        {
+            if (CurrentException!=null && square!=null)
+            {
+                CurrentException.SquareNames.Add(square.Name);
+                BoardSqaresCollection2.Filter = item =>
+                {
+                    PresetSquare square = item as PresetSquare;
+                    return !(CurrentException.SquareNames.Contains(square.Name)) && SearchQueue2 != null && square.Name.ToLower().Contains(SearchQueue2?.ToLower());
+                };
+            }
+        }
+
+        [ObservableProperty]
+        ICollectionView boardSqaresCollection2;
+
+        [ObservableProperty]
+        string searchQueue2;
+
+        [RelayCommand]
+        void Search2()
+        {
+            EnterSearch2();
+        }
+
+        public void EnterSearch2()
+        {
+            if (SearchQueue2 == null)
+                return;
+
+            BoardSqaresCollection2.Filter = item =>
+            {
+                PresetSquare square = item as PresetSquare;
+                return square.Name.ToLower().Contains(SearchQueue2.ToLower());
+            };
+        }
+
+        [RelayCommand]
+        void ClearSearch2()
+        {
+            SearchQueue2 = "";
+            BoardSqaresCollection2.Filter = item =>
+            {
+                PresetSquare square = item as PresetSquare;
+                return !(CurrentException.SquareNames.Contains(square.Name)) && SearchQueue2 != null && square.Name.ToLower().Contains(SearchQueue2?.ToLower());
+            };
+        }
+
+        [RelayCommand]
+        void DeleteException(PresetSquareException exception)
+        {
+            BoardPreset.Exceptions.Remove(exception);
+        }
+
+        
+        public void DeleteSquareFromException(PresetSquareException exception, string squareName)
+        {
+            exception.SquareNames.Remove(squareName);
+        }
+
+        #region SharePreset
+
+        [RelayCommand]
+        void CopyAsJson()
+        {
+            Clipboard.SetText(firstJson);
+            MainWindow.ShowToast(new ToastInfo() { Title = $"{App.Current.FindResource("mes_success")}", Detail = App.Current.FindResource("mes_jsoncopiedsucce").ToString() });
+        }
+
+        [RelayCommand]
+        async Task SendToPlayer()
+        {
+            IsSendToPlayerPopupVisible = true;
+            await GetAvailablePlayers();
+        }
+
+        [RelayCommand]
+        async Task RefreshAvailablePlayers()
+        {
+            await GetAvailablePlayers();
+        }
+
+        async Task GetAvailablePlayers()
+        {
+            var resp = await App.RestClient.GetAvailablePlayersAsync(App.CurrentPlayer.Id);
+            if (resp.IsSuccess)
+            {
+                AvailablePlayers.Clear();
+                foreach (var item in resp.Data)
+                {
+                    AvailablePlayers.Add(item);
+                }
+            }
+        }
+
+        [RelayCommand]
+        async Task SendPreset()
+        {
+            if (SelectedPlayer == null) return;
+
+            var presetNotes = BoardPreset.Squares
+                .Where(i => !string.IsNullOrEmpty(i.Notes))
+                .Select(i => new SquareNote() { SquareName = i.Name, Note = i.Notes })
+                .ToArray();
+
+            var presetJson = JsonConvert.SerializeObject(BoardPreset.Squares, Formatting.None);
+            var presetNotesJson = JsonConvert.SerializeObject(presetNotes, Formatting.None);
+
+            var sendPreset = new SendPresetModel()
+            {
+                FromPlayerId = App.CurrentPlayer.Id,
+                ToPlayerId = SelectedPlayer.Id,
+                SquaresJson = presetJson,
+                NotesJson = presetNotesJson,
+                GameName = BoardPreset.Game,
+                PresetName = BoardPreset.PresetName
+            };
+
+            IsSendToPlayerPopupVisible = false;
+            var resp = await App.RestClient.SharePreset(sendPreset);
+            if (resp.IsSuccess)
+            {
+                MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("mes_invitesent").ToString() });
+            }
+        }
+
+
+        #endregion
+
+
+        #region Drag and Drop
+
+        PresetSquare _dragedSquare;
+
+        public void StartDrag(IDragInfo dragInfo)
+        {
+            var square = (PresetSquare)dragInfo.SourceItem;
+            if (square != null)
+            {
+                _dragedSquare = square;
+                _dragedSquare.IsDraging = true;
+                dragInfo.Effects = DragDropEffects.Move;
+            }
+        }
+
+        public bool CanStartDrag(IDragInfo dragInfo)
+        {
+            return true;
+        }
+
+        public void Dropped(IDropInfo dropInfo)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)
+        {
+            _dragedSquare.IsDraging = false;
+            //throw new NotImplementedException();
+        }
+
+        public void DragCancelled()
+        {
+            _dragedSquare.IsDraging = false;
+            //throw new NotImplementedException();
+        }
+
+        public bool TryCatchOccurredException(Exception exception)
+        {
+            return true;
+            //throw new NotImplementedException();
+        }
+
+        public IEnumerable SortDropTargetItems(IEnumerable items)
+        {
+            //throw new NotImplementedException();
+            return items;
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            if (dropInfo.Data is PresetSquare)
+            {
+                _dragedSquare = dropInfo.Data as PresetSquare;
+                if (_dragedSquare != null)
+                    _dragedSquare.IsDraging = true;
+
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.Move;
+            }
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            if (_dragedSquare != null)
+            {
+                _dragedSquare.IsDraging = false;
+            }
+            //throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,242 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\ManegeDemo-Light.ttf" />
+    <None Remove="Fonts\Segoe Fluent Icons.ttf" />
+    <None Remove="GamesImages\Elden Ring Nightreign.jpg" />
+    <None Remove="Images\bl_corner.png" />
+    <None Remove="Images\br_corner.png" />
+    <None Remove="Images\connect.jpeg" />
+    <None Remove="Images\edge_hor.png" />
+    <None Remove="Images\edge_vert.png" />
+    <None Remove="Images\history.jpeg" />
+    <None Remove="Images\mainimg.jpg" />
+    <None Remove="Images\mainimg_frame.png" />
+    <None Remove="Images\manager.jpeg" />
+    <None Remove="Images\newgame.jpeg" />
+    <None Remove="Images\nightreign_logo.png" />
+    <None Remove="Images\obj_legendary.png" />
+    <None Remove="Images\obj_rare.png" />
+    <None Remove="Images\obj_regular.png" />
+    <None Remove="Images\obj_unique.png" />
+    <None Remove="Images\practice.jpeg" />
+    <None Remove="Images\rectlight.png" />
+    <None Remove="Images\sekiro.png" />
+    <None Remove="Images\tl_corner.png" />
+    <None Remove="Images\tr_corner.png" />
+    <None Remove="MapPatterns\mapping.json" />
+    <None Remove="MapPatterns\_mapping\bosses\adel.png" />
+    <None Remove="MapPatterns\_mapping\bosses\caligo.png" />
+    <None Remove="MapPatterns\_mapping\bosses\fulghor.png" />
+    <None Remove="MapPatterns\_mapping\bosses\gladius.png" />
+    <None Remove="MapPatterns\_mapping\bosses\gnoster.png" />
+    <None Remove="MapPatterns\_mapping\bosses\heolstor.png" />
+    <None Remove="MapPatterns\_mapping\bosses\libra.png" />
+    <None Remove="MapPatterns\_mapping\maps\crater.jpg" />
+    <None Remove="MapPatterns\_mapping\maps\default.jpg" />
+    <None Remove="MapPatterns\_mapping\maps\rotted woods.jpg" />
+    <None Remove="NightreignHelper\nighreign-helper\NightreignRandomizerHelper.dll" />
+    <None Remove="NightreignHelper\nighreign-helper\NightreignRandomizerHelper_config.ini" />
+    <None Remove="NightreignHelper\nightreign-with-helper.me3" />
+    <None Remove="Presets\Elden Ring Nightreign\Основной.json" />
+    <None Remove="Presets\Sekiro\Основной.json" />
+    <None Remove="Sounds\finish.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="GamesImages\Elden Ring Nightreign.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GamesImages\Sekiro.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Logo.ico" />    
+    <Content Include="MapPatterns\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="NightreignHelper\nighreign-helper\NightreignRandomizerHelper.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="NightreignHelper\nighreign-helper\NightreignRandomizerHelper_config.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="NightreignHelper\nightreign-with-helper.me3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="Presets\Elden Ring Nightreign\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="Presets\Sekiro\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="Sekiro\dinput8.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>    
+    <Content Include="Sekiro\modengine.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\beep-timer.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\beep.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\bingo.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\chat.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\connected.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\disconnected.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\finish.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\goal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\new-square.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\reveal.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
+    <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
+    <PackageReference Include="LottieSharp" Version="2.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+    <PackageReference Include="Moravuscz.WPFZoomPanel" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\ManegeDemo-Light.ttf" />
+    <Resource Include="Fonts\Segoe Fluent Icons.ttf" />
+    <Resource Include="Images\bl_corner.png" />
+    <Resource Include="Images\br_corner.png" />
+    <Resource Include="Images\congrats.json" />
+    <Resource Include="Images\connect.jpeg" />
+    <Resource Include="Images\discord.png" />
+    <Resource Include="Images\edge_hor.png" />
+    <Resource Include="Images\edge_vert.png" />
+    <Resource Include="Images\history.jpeg" />
+    <Resource Include="Images\instagram.png" />
+    <Resource Include="Images\mainimg.jpg" />
+    <Resource Include="Images\mainimg_frame.png" />
+    <Resource Include="Images\manager.jpeg" />
+    <Resource Include="Images\newgame.jpeg" />
+    <Resource Include="Images\nightreign_logo.png" />
+    <Resource Include="Images\obj_legendary.png" />
+    <Resource Include="Images\obj_rare.png" />
+    <Resource Include="Images\obj_regular.png" />
+    <Resource Include="Images\obj_unique.png" />
+    <Resource Include="Images\practice.jpeg" />
+    <Resource Include="Images\presetcard.png" />
+    <Resource Include="Images\rectlight.png" />
+    <Resource Include="Images\sekiro.png" />
+    <Resource Include="Images\tl_corner.png" />
+    <Resource Include="Images\tr_corner.png" />
+    <Resource Include="Images\twitch.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BoardWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\HuntpointObjective.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\ButtonWithFlyout.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\InputFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\ModalWindowControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\SelectFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\SwitchControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TextAreaFieldControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Popups\DownloadPresetModal.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Views\BoardManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\StormTimerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\PracticePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\EditBoardPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\FirstLaunchPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\GameManagerPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\HistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MainPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ConnectToRoomPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RoomHistoryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\WelcomeAboutAppPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RoomPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SettingsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

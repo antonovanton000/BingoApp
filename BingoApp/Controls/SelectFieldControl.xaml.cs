@@ -93,7 +93,7 @@ namespace BingoApp.Controls
             SelectFieldControl c = sender as SelectFieldControl;
             if (c != null)
             {
-                c.OnSelectedItemChanged(c.SelectedCurrentItem);
+                c.OnSelectedItemChanged(c.SelectedCurrentItem);                                
             }
         }
        
@@ -109,6 +109,18 @@ namespace BingoApp.Controls
                     var sb = FindResource("goUp") as Storyboard;
                     sb.Begin();
                     IsPlaceholderUp = true;
+                }
+                if (!string.IsNullOrEmpty(DisplayProperty))
+                {
+                    try
+                    {
+                        var t = item.GetType();
+                        var prop = t.GetProperty(DisplayProperty);
+                        var val = prop.GetValue(item);
+                        chb.Text = val.ToString();
+                    }
+                    catch(Exception)
+                    { }
                 }
             }
             else

@@ -1,0 +1,280 @@
+﻿<Window x:Class="HuntpointApp.BoardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HuntpointApp"
+        xmlns:lottie="clr-namespace:LottieSharp.WPF;assembly=LottieSharp"
+        xmlns:cl="clr-namespace:HuntpointApp.Classes"
+        xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+        xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"        
+        ShowInTaskbar="False"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"        
+        x:Name="window"
+        Title="BoardWindow" Height="820" Width="550">
+    <Window.DataContext>
+        <vm:RoomPageViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <cl:HuntpointCollorNameConverter x:Key="HuntpointCollorNameConverter"/>
+        <cl:HuntpointCollorBackgroundConverter x:Key="HuntpointCollorBackgroundConverter"/>
+        <cl:HuntpointCollorBackgroundTransparentConverter x:Key="HuntpointCollorBackgroundTransparentConverter"/>
+        <cl:CheckedCollorConverter x:Key="CheckedCollorConverter"/>
+        <cl:TooltipTimeConverter x:Key="TooltipTimeConverter"/>
+        <cl:EqualVisibilityConverter x:Key="EqualVisibilityConverter"/>
+        <cl:StormStateToTextConverter x:Key="StormStateToTextConverter"/>
+    </Window.Resources>
+    <Grid Background="#01000000" MouseDown="Grid_MouseDown">
+        <Viewbox Stretch="Uniform">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="220"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="grBoard">
+                    <Border Background="{StaticResource BackgroundBrush}" Margin="5" CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="{StaticResource AccentColor}" Opacity="0.9" BlurRadius="10"/>
+                        </Border.Effect>
+                        <Grid Width="450" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="41"/>
+                                <RowDefinition Height="41"/>
+                                <RowDefinition Height="41"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="42"/>
+                            </Grid.RowDefinitions>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[0]}" Grid.Row="0" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[1]}" Grid.Row="1" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[2]}" Grid.Row="2" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[3]}" Grid.Row="3" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[4]}" Grid.Row="4" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[5]}" Grid.Row="5" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[6]}" Grid.Row="6" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[7]}" Grid.Row="7" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[8]}" Grid.Row="8" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[9]}" Grid.Row="9" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[10]}" Grid.Row="11" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[11]}" Grid.Row="12" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[12]}" Grid.Row="13" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[13]}" Grid.Row="14" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[14]}" Grid.Row="15" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[15]}" Grid.Row="16" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[16]}" Grid.Row="18" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[17]}" Grid.Row="19" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[18]}" Grid.Row="20" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[19]}" Grid.Row="22" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                        </Grid>
+                    </Border>
+                    <Border Width="465" Margin="0,5" CornerRadius="5"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                                 
+                    Background="{StaticResource BackgroundBrush}"
+                    Visibility="{Binding Room.IsBoardHided, Converter={StaticResource BoolToVisConverter}}" 
+                    x:Name="revealPanel">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="{StaticResource AccentColor}" Opacity="0.9" BlurRadius="10"/>
+                        </Border.Effect>
+                        <behaviors:Interaction.Triggers>
+                            <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=revealPanel}">
+                                <behaviors:InvokeCommandAction Command="{Binding RevealBoardCommand}" />
+                            </behaviors:EventTrigger>
+                        </behaviors:Interaction.Triggers>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="boardHidePanel" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.01" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="boardHidePanel" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.01" Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                        <Grid>
+                            <Image Source="/Images/tl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                            <Image Source="/Images/tr_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                            <Image Source="/Images/bl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                            <Image Source="/Images/br_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                            <Border Background="#08FFFFFF" x:Name="boardHidePanel" Visibility="Collapsed"/>
+                            <TextBlock Text="{Binding RevealPanelText}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Style="{StaticResource FlatTextBlockStyle}"/>
+                        </Grid>
+                    </Border>
+                    <Border Width="465" Margin="0,5" CornerRadius="5"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                                                                 
+                    Background="{StaticResource BackgroundBrush}"
+                    Visibility="{Binding Room.IsAutoRevealBoardVisible, Mode=OneWay, Converter={StaticResource BoolToVisConverter}}">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="{StaticResource AccentColor}" Opacity="0.9" BlurRadius="10"/>
+                        </Border.Effect>
+                        <Grid>
+                            <Image Source="/Images/tl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                            <Image Source="/Images/tr_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                            <Image Source="/Images/bl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                            <Image Source="/Images/br_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                            <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource rp_startgame}" HorizontalAlignment="Center"
+                        VerticalAlignment="Center" Width="160" Command="{Binding StartGameCommand}"/>
+                        </Grid>
+                    </Border>
+                    <Grid Margin="-22,10,0,0" HorizontalAlignment="Left" Visibility="{Binding Room.IsBoardHided, Converter={StaticResource NotBoolToVisibilityConverter}}" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="41"/>
+                            <RowDefinition Height="41"/>
+                            <RowDefinition Height="41"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="42"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="0" Text="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="1" Text="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="2" Text="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="3" Text="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="4" Text="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="5" Text="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="6" Text="7" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="7" Text="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="8" Text="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="9" Text="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="11" Text="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="12" Text="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="13" Text="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="14" Text="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="15" Text="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="16" Text="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#a386d8" Grid.Row="18" Text="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#a386d8" Grid.Row="19" Text="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#a386d8" Grid.Row="20" Text="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#715335" Grid.Row="22" Text="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding Room.ActualPlayers}" Margin="0,5,0,0"
+                        VerticalAlignment="Top" 
+                        Visibility="{Binding IsTeamView, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,50,10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="40" Height="40" CornerRadius="5" BorderThickness="1"
+                            BorderBrush="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                            VerticalAlignment="Center" Margin="0,0,10,0" x:Name="plbadge">
+                                            <behaviors:Interaction.Triggers>
+                                                <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=plbadge}">
+                                                    <behaviors:InvokeCommandAction Command="{Binding DataContext.PlayerClickCommand, ElementName=page}" CommandParameter="{Binding }"/>
+                                                </behaviors:EventTrigger>
+                                            </behaviors:Interaction.Triggers>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                                                <TextBlock Text="{Binding Score}" Style="{StaticResource FlatTextBlockStyle}" Foreground="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                                           Margin="0,0,0,0" FontSize="20" VerticalAlignment="Center" FontFamily="{StaticResource Manege}"  FontWeight="SemiBold"/>
+                                            </StackPanel>
+                                        </Border>
+                                        <TextBlock Text="{Binding NickName}" VerticalAlignment="Center" FontWeight="Medium" MaxWidth="180" TextTrimming="CharacterEllipsis"
+                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource Manege}" FontSize="20"
+                                   />
+
+                                        <TextBlock Text="&#xE7C1;" VerticalAlignment="Center" FontFamily="{StaticResource SegoeMDL2}" FontSize="20" Foreground="{StaticResource Success}" 
+                                   Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisConverter}}" Margin="5,0,0,0"/>
+                                        <Border BorderThickness="1" BorderBrush="{StaticResource WinBrush}" Visibility="{Binding IsFirstLegendaryMarked, Converter={StaticResource BoolToVisConverter}}"
+                                Height="20" Width="20" CornerRadius="10" Margin="5,0,0,0">
+                                            <TextBlock Text="&#xF146;" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="{StaticResource SegoeMDL2}" FontSize="14" 
+                                       Foreground="{StaticResource WinBrush}" Margin="-1,0,0,0" />
+                                        </Border>
+
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <ItemsControl ItemsSource="{Binding Room.PlayerTeams}" Margin="0,5,0,0"
+                  VerticalAlignment="Top" Visibility="{Binding IsTeamView, Converter={StaticResource BoolToVisConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,50,10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="60" Height="30" CornerRadius="4" BorderThickness="1"
+                                BorderBrush="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                                VerticalAlignment="Center" Margin="0,0,10,0" x:Name="plbadge">
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                                                <TextBlock Text="{Binding Players[0].Score}" Style="{StaticResource FlatTextBlockStyle}" Foreground="White"
+                                           Margin="0,0,5,0"  FontFamily="{StaticResource Manege}"/>
+
+                                            </StackPanel>
+                                        </Border>
+                                        <TextBlock VerticalAlignment="Center" FontWeight="Medium" MaxWidth="180" TextTrimming="CharacterEllipsis"
+                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18" FontFamily="{StaticResource Manege}">
+                            <Run Text="{Binding Color, Converter={StaticResource HuntpointCollorNameConverter}}" />
+                            <Run Text="{Binding Players.Count, StringFormat='({0})', Mode=OneWay}" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Grid>
+            </Grid>
+        </Viewbox>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Style="{StaticResource IconButtonStyle}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                Content="&#xE10A;" Click="Button_Click"/>
+        </Grid>
+    </Grid>
+</Window>

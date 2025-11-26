@@ -5,7 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:cnt="clr-namespace:BingoApp.Controls"
       xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:dd="urn:gong-wpf-dragdrop"
       xmlns:local="clr-namespace:BingoApp.Views"
+      xmlns:m="clr-namespace:BingoApp.Models"
       xmlns:vm="clr-namespace:BingoApp.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="940" d:DesignWidth="1440"
@@ -31,6 +33,31 @@
                 <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <DataTemplate x:Key="AdornerTemplate">
+            <Grid>
+                <Border BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                        CornerRadius="6" Margin="0,0,0,10" Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" Padding="15,9">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Style="{StaticResource FlatCheckBoxStyle}" 
+                                  VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Text="{Binding Name}" Background="Transparent" BorderThickness="0"
+                                 CaretBrush="#FEFEFE"  FontSize="16" IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                                 Foreground="#FEFEFE" VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="2" Text="{Binding Group}" Background="Transparent" BorderThickness="0,0,0,1"
+                                CaretBrush="#FEFEFE" BorderBrush="{StaticResource BorderColorBrush}"
+                                FontSize="16" IsReadOnly="True" IsReadOnlyCaretVisible="False"
+                                Foreground="#FEFEFE" VerticalAlignment="Center" Margin="0,0,10,0"/>
+
+                    </Grid>
+                </Border>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
     <Page.DataContext>
         <vm:EditBoardViewModel/>
@@ -65,13 +92,127 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Grid.RenderTransform>
-                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Editing Preset" FontWeight="Light" FontSize="40" />
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                    <Button Click="CopyTo_Click" IsEnabled="{Binding IsAnySelected}" Style="{StaticResource FlatButtonStyle}" Content="Copy selected to..." Width="160" Margin="15,0,0,0"
-                        HorizontalAlignment="Right"/>
-                    <Button Style="{StaticResource FlatButtonStyle}" Command="{Binding CopyAsJsonCommand}" Content="Copy as JSON" Width="160" Margin="15,0,0,0"/>
-                    <Button Style="{StaticResource FlatButtonStyle}" Command="{Binding SaveAsCopyCommand}" Content="Save as copy" Width="160" Margin="15,0,0,0"/>
-                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Command="{Binding SaveCommand}" Content="Save preset" Width="160" Margin="15,0,0,0"/>
+                <StackPanel Margin="0,-10,0,0" HorizontalAlignment="Left">
+                    <cnt:InputFieldControl Label="{DynamicResource hs_presetname}" Placeholder="{DynamicResource hs_presetname}" 
+                           Text="{Binding BoardPreset.PresetName, Mode=TwoWay}"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="400"
+                       Margin="0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,10,0">
+
+                    <Grid>
+                        <ToggleButton Style="{StaticResource IconToggleButtonStyle}" Content="&#xE712;" Grid.Column="1" VerticalAlignment="Top" Margin="0,8,20,0"
+              x:Name="btnaddons" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Right"                                      
+              IsHitTestVisible="{Binding ElementName=addonPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"/>
+
+                        <Grid>
+                            <Popup IsOpen="{Binding IsChecked, ElementName=btnaddons}" x:Name="addonPopup" StaysOpen="False"
+           AllowsTransparency="True" PlacementTarget="{Binding ElementName=btnaddons}"
+           Placement="Left">
+                                <Border Margin="0,10,0,0"
+                Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" 
+                VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" 
+                BorderBrush="{StaticResource BorderColorBrush}"                                     
+                Padding="15" Width="270">
+                                    <StackPanel>
+                                        <Button Style="{StaticResource MenuButtonStyle}" IsEnabled="{Binding IsAnySelected}"
+                        Content="{DynamicResource hs_copyselectedto}"  Click="CopyTo_Click" />
+                                        <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding SaveAsCopyCommand}" 
+                        Content="{DynamicResource hs_saveascopy}" Click="CloseAddonPopup_Click"/>
+                                        <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding RemoveDuplicatesCommand}"
+                        Content="{DynamicResource hs_removeduplicate}" Click="CloseAddonPopup_Click"/>
+                                        <Button Style="{StaticResource MenuButtonStyle}" Command="{Binding SortSquaresCommand}"
+                        Content="{DynamicResource hs_sort}" Click="CloseAddonPopup_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <ToggleButton Style="{StaticResource FlatToggleButtonStyle}" x:Name="btnShare" Margin="0,0,20,0"
+                  IsHitTestVisible="{Binding ElementName=sharePopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                  ToolTip="{DynamicResource rp_share}" Padding="15,5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE72d;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
+                   Margin="0,0,10,0"/>
+                                <TextBlock Text="{DynamicResource bm_sharepreset}" FontSize="14" VerticalAlignment="Center" Margin="0,-2,0,0"/>
+                            </StackPanel>
+                        </ToggleButton>
+                        <Popup IsOpen="{Binding IsChecked, ElementName=btnShare}" x:Name="sharePopup" StaysOpen="False" AllowsTransparency="True">
+                            <Border Margin="0,10,0,0"
+                                    Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" 
+                                    VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" 
+                                    BorderBrush="{StaticResource BorderColorBrush}"                                     
+                                    Padding="15" MinWidth="240">
+                                <Grid>
+                                    <StackPanel>
+                                        <Button Style="{StaticResource MenuButtonStyle}" Content="{DynamicResource hs_copyasjson}" 
+                                                Command="{Binding CopyAsJsonCommand}" Margin="0,0,0,10" Click="ClosePopup_Click"/>
+
+                                        <Button Style="{StaticResource MenuButtonStyle}" Content="{DynamicResource hs_sendtoplayer}" 
+                                                Command="{Binding SendToPlayerCommand}" Margin="0,0,0,10" Click="ClosePopup_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Popup>
+                        <Popup IsOpen="{Binding IsSendToPlayerPopupVisible}" x:Name="invitePopup" StaysOpen="False"
+                               AllowsTransparency="True">
+                            <Border Margin="0,10,0,0"
+                                    Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" 
+                                    VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" 
+                                    BorderBrush="{StaticResource BorderColorBrush}"                                     
+                                    Padding="15" Width="270">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{DynamicResource rp_availableplayers}" Style="{StaticResource FlatTextBlockStyle}"
+                                               TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="{StaticResource PrimaryTextBrush}"
+                                               VerticalAlignment="Center"/>
+                                    <Button Style="{StaticResource IconButtonStyle}" Content="&#xE149;" Grid.Row="0" HorizontalAlignment="Right"
+                                            VerticalAlignment="Center" Command="{Binding RefreshAvailablePlayersCommand}"
+                                            ToolTip="Refresh"/>
+                                    <StackPanel Grid.Row="1">
+                                        <Grid Height="200">
+                                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                                <ListView ItemsSource="{Binding AvailablePlayers}" Background="Transparent" BorderThickness="0"
+                                                          ItemContainerStyle="{StaticResource ListViewContainerStyle}" SelectionMode="Single"
+                                                          SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate DataType="m:BingoAppPlayer">
+                                                            <Border Padding="5,10" CornerRadius="8">
+                                                                <Grid>
+                                                                    <TextBlock Text="{Binding NickName}" Style="{StaticResource SubHeaderTextBlockBlockStyle}"
+                                                       FontSize="15"/>
+                                                                </Grid>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </ScrollViewer>
+                                            <Grid Visibility="{Binding AvailablePlayers.Count, Converter={StaticResource NotCountToVisibilityConverter}}">
+                                                <TextBlock Text="{DynamicResource rp_therearecurrently}" HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                                                           Style="{StaticResource FlatTextBlockStyle}"/>
+                                            </Grid>
+                                        </Grid>
+
+                                        <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource hs_sendpreset}" 
+                                                Command="{Binding SendPresetCommand}" Margin="0,0,0,10" Click="CloseInvitePopup_Click"
+                                                IsEnabled="{Binding SelectedPlayer, Converter={StaticResource NullToBool}}"/>
+
+                                        <Button Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource rp_cancel}" 
+                                                Margin="0,0,0,10" Click="CloseInvitePopup_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </Popup>
+                    </Grid>
+
+                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Command="{Binding SaveCommand}" Content="{DynamicResource hs_savepreset}" Width="160" />
+
                 </StackPanel>
             </Grid>
             <Grid x:Name="grid1" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
@@ -83,203 +224,302 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Grid.RenderTransform>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="400"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Margin="0,0">
-                    <StackPanel Margin="0,-10,0,0">
-                        <cnt:InputFieldControl Label="Preset Name" Placeholder="Preset Name" 
-                                                   Text="{Binding BoardPreset.PresetName, Mode=TwoWay}"
-                                                   HorizontalAlignment="Stretch" VerticalAlignment="Top" 
-                                               Margin="0,0,60,40"/>
-                        <TextBlock Text="Preset Image" Style="{StaticResource FlatTextBlockStyle}" Margin="15,0,0,15"/>
-                        <Grid Height="220" HorizontalAlignment="Center" Margin="-55,0,0,0">
-                            <Border Width="250" Height="220" CornerRadius="4" BorderThickness="1"
-                                    BorderBrush="{StaticResource BorderColorBrush}" HorizontalAlignment="Center">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{Binding BoardPreset.ImageCover}" Stretch="UniformToFill" />
-                                </Border.Background>
-                            </Border>
-                            <Button Content="Change Image" Style="{StaticResource FlatButtonStyle}" Width="160"
-                                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                                    Margin="45,0,0,-60" Command="{Binding ChangeImageCommand}"/>
-                        </Grid>
 
+                <Grid Margin="0,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleButton Content="Квадраты" Style="{StaticResource FlatToggleButtonCheckedStyle}" Width="140" Margin="0,0,20,0" 
+                                          IsChecked="{Binding IsSquaresVisible}" Command="{Binding ShowSquaresCommand}"/>
+                        <ToggleButton Content="Исключения" Style="{StaticResource FlatToggleButtonCheckedStyle}" Width="140"
+                                          IsChecked="{Binding IsExceptionsVisible}" Command="{Binding ShowExceptionsCommand}"/>
                     </StackPanel>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Grid Margin="0,0,0,0" Focusable="False">
-                        <CheckBox IsChecked="{Binding IsAllSelected}" x:Name="checkAll" Command="{Binding SelectUnselectAllCommand}" CommandParameter="{Binding IsChecked,ElementName=checkAll}" Style="{StaticResource FlatCheckBoxStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13,0,0"/>
-                        <TextBlock  Style="{StaticResource FlatTextBlockStyle}" FontSize="20"  HorizontalAlignment="Left" Margin="57,10,0,0">
-                            <Run Text="Sqaures"/>
-                            <Run Text="{Binding BoardPreset.Squares.Count, StringFormat=({0}), Mode=OneWay}"/>
-                        </TextBlock>
-                        <StackPanel Visibility="Visible"
-                            VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal"
-                                    Margin="0,0,5,0">
-
-                            <Grid Margin="0,0,20,0">
-                                <Button Command="{Binding RemoveDuplicatesCommand}" Style="{StaticResource FlatButtonStyle}" 
-                                        Content="Remove duplicates" Width="160" Margin="15,0,0,0"
-                                        HorizontalAlignment="Right"/>
-                            </Grid>
-                            <Grid>
-                                <TextBox Text="{Binding SearchQueue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBoxStyle}" Width="300" x:Name="tbxSearch" KeyDown="tbxSearch_KeyDown"/>
-                                <TextBlock x:Name="Placeholder" IsHitTestVisible="False" TextWrapping="Wrap" Text="Search..." Margin="20,12,0,10" Foreground="DarkGray" FontSize="16" FontFamily="Segoe UI Light">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsFocused, ElementName=tbxSearch}" Value="false" />
-                                                        <Condition Binding="{Binding Text, ElementName=tbxSearch}" Value="" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <MultiDataTrigger.Setters>
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </MultiDataTrigger.Setters>
-                                                </MultiDataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
+                    <Grid Grid.Row="1" Visibility="{Binding IsSquaresVisible, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Collapsed">
+                        <Grid Margin="0,0,0,0" Focusable="False">
+                            <Grid VerticalAlignment="Top" Margin="0,0,5,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="300"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsAllSelected}" x:Name="checkAll" Command="{Binding SelectUnselectAllCommand}" CommandParameter="{Binding IsChecked,ElementName=checkAll}" Style="{StaticResource FlatCheckBoxStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,13,0,0"/>
+                                <TextBlock  Style="{StaticResource FlatTextBlockStyle}" FontSize="20"  HorizontalAlignment="Left" Margin="57,10,0,0">
+        <Run Text="{DynamicResource hs_sqaures}"/>
+        <Run Text="{Binding BoardPreset.Squares.Count, StringFormat=({0}), Mode=OneWay}"/>
                                 </TextBlock>
-                                <Button x:Name="btnSearch" Command="{Binding SearchCommand}" Content="&#xE1A3;" HorizontalAlignment="Right" Margin="0,0,3,0">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=tbxSearch}" Value="">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </DataTrigger.EnterActions>
-                                                    <DataTrigger.ExitActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </DataTrigger.ExitActions>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button x:Name="btnClear" Command="{Binding ClearSearchCommand}" Content="&#xE10A;" HorizontalAlignment="Right" Margin="0,0,43,0">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Text, ElementName=tbxSearch}" Value="">
-                                                    <DataTrigger.EnterActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </DataTrigger.EnterActions>
-                                                    <DataTrigger.ExitActions>
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
-                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                                                                </ObjectAnimationUsingKeyFrames>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </DataTrigger.ExitActions>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
+                                <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="{DynamicResource hs_addnewsquare}" Width="220"
+                                        Command="{Binding AddNewSquareCommand}" VerticalAlignment="Center" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                                <Grid Grid.Column="2">
+                                    <TextBox Text="{Binding SearchQueue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBoxStyle}" Width="300" x:Name="tbxSearch" KeyDown="tbxSearch_KeyDown"/>
+                                    <TextBlock x:Name="Placeholder" IsHitTestVisible="False" TextWrapping="Wrap" Text="{DynamicResource hs_search}" Margin="20,12,0,10" Foreground="DarkGray" FontSize="16" FontFamily="Segoe UI Light">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsFocused, ElementName=tbxSearch}" Value="false" />
+                                                            <Condition Binding="{Binding Text, ElementName=tbxSearch}" Value="" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <Button x:Name="btnSearch" Command="{Binding SearchCommand}" Content="&#xE1A3;" HorizontalAlignment="Right" Margin="0,0,3,0">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=tbxSearch}" Value="">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Button x:Name="btnClear" Command="{Binding ClearSearchCommand}" Content="&#xE10A;" HorizontalAlignment="Right" Margin="0,0,43,0">
+                                        <Button.Style>
+                                            <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=tbxSearch}" Value="">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
                             </Grid>
-                        </StackPanel>
-                    </Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,60,0,74" Focusable="False" Padding="0,4,0,4">
-                        <ItemsControl ItemsSource="{Binding BoardSqaresCollection}" Focusable="False">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
-                                            CornerRadius="6" Margin="0,0,0,10"
-                                            Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" Padding="15,9">
+                        </Grid>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,60,0,0" Padding="0,4,0,4" Focusable="False">
+                            <ItemsControl ItemsSource="{Binding BoardSqaresCollection}" 
+              AllowDrop="True"
+              dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True"                                      
+              dd:DragDrop.UseVisualSourceItemSizeForDragAdorner="True">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="m:PresetSquare">
                                         <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="40"/>
-                                                <ColumnDefinition Width="1*"/>
-                                                <ColumnDefinition Width="200"/>
-                                            </Grid.ColumnDefinitions>
-                                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Style="{StaticResource FlatCheckBoxStyle}" 
-                                                        VerticalAlignment="Center"
-                                                        CommandParameter="{Binding }"
-                                                        Command="{Binding DataContext.CheckSquareCommand, ElementName=page}"/>
-                                            <TextBox Grid.Column="1" Text="{Binding Name}" Background="Transparent" BorderThickness="0"
-                                                        CaretBrush="#FEFEFE"
-                                                        FontSize="16"
-                                                        Foreground="#FEFEFE" VerticalAlignment="Center"/>
-                                            <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                                            <Rectangle StrokeThickness="2" Stroke="{StaticResource BorderColorBrush}" RadiusX="6" RadiusY="6" StrokeDashArray="3,4"
+                                                       Margin="0,0,0,10" Visibility="{Binding IsDraging, Converter={StaticResource BoolToVisConverter}}"
+                                                       Height="56" Fill="{StaticResource BackgroundBrush}">
+                                            </Rectangle>
+                                            <Border BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                                                    CornerRadius="6" Margin="0,0,0,10"
+                                                    Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" Padding="15,9"
+                                                        Visibility="{Binding IsDraging, Converter={StaticResource NotBoolToVisibilityConverter}}">
                                                 <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="40"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="180"/>
+                                                        <ColumnDefinition Width="200"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Style="{StaticResource FlatCheckBoxStyle}" 
+                                                            VerticalAlignment="Center"
+                                                            CommandParameter="{Binding }"
+                                                            Command="{Binding DataContext.CheckSquareCommand, ElementName=page}"/>
+                                                    <TextBox Grid.Column="1" Text="{Binding Name}" Background="Transparent" BorderThickness="0"
+                                                            CaretBrush="#FEFEFE" GotFocus="tbxName_GotFocus" KeyDown="tbxName_KeyPressed"
+                                                            FontSize="16"                                       
+                                                            Foreground="#FEFEFE" VerticalAlignment="Center"/>
+                                                    <TextBox Grid.Column="2" Text="{Binding Group}" Background="Transparent" BorderThickness="0,0,0,1"
+                                                            CaretBrush="#FEFEFE" BorderBrush="{StaticResource BorderColorBrush}"
+                                                            FontSize="16"
+                                                            Foreground="#FEFEFE" VerticalAlignment="Center" Margin="0,0,10,0"/>             
+                                                    <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Right">
+                                                        <Grid>
+                                                            <ToggleButton Style="{StaticResource IconToggleButtonStyle}" 
+                                                                          Foreground="{StaticResource Purple}"
+                                                                          Background="{StaticResource PurpleAlpha20}"
+                                                                          BorderThickness="0"
+                                                                          Content="&#xE25C;" ToolTip="{DynamicResource hs_addnotestosqare}" Margin="0,0,10,0"                                                            
+                                                                          x:Name="btnViewNotes"
+                                                                          IsHitTestVisible="{Binding ElementName=notePopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"/>
+                                                            <Popup x:Name="notePopup" 
+                                                                   IsOpen="{Binding IsChecked, ElementName=btnViewNotes}" StaysOpen="False"
+                                                                   AllowsTransparency="True" Placement="Bottom">
+                                                                <Border Background="#181818" BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1"
+                                                                        Focusable="False" Width="310" Height="250" CornerRadius="8">
+                                                                    <Grid Margin="10">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="1*"/>
+                                                                            <RowDefinition Height="55"/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <TextBox Style="{StaticResource FlatTextBoxStyle}"
+                                                                                 Text="{Binding Notes}"
+                                                                                 TextWrapping="Wrap"
+                                                                                 AcceptsReturn="True"
+                                                                                 VerticalContentAlignment="Top"
+                                                                                 VerticalScrollBarVisibility="Auto"/>
+                                                                        <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource hs_savenote}"
+                                                                                Grid.Row="1" Margin="10,5,10,0"
+                                                                                CommandParameter="{Binding }"
+                                                                                Click="SaveNote_Click"
+                                                                                Command="{Binding DataContext.SaveNotesCommand,ElementName=page}"/>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Popup>
+                                                        </Grid>
 
-                                                    <ToggleButton Style="{StaticResource IconToggleButtonStyle}" 
-                                                            Foreground="{StaticResource Blue}"
-                                                            Background="{StaticResource BlueAlpha20}"
-                                                                    BorderThickness="0"
-                                                            Content="&#xE7B3;" ToolTip="View as a square" Margin="0,0,10,0"                                                            
-                                                            x:Name="btnViewSquare"
-                                                            IsHitTestVisible="{Binding ElementName=sqarePopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"/>
-                                                    <Popup x:Name="sqarePopup" 
-                                                            IsOpen="{Binding IsChecked, ElementName=btnViewSquare}" StaysOpen="False"
-                                                            AllowsTransparency="True" Placement="Bottom">
-                                                        <Border Background="#181818" BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1"
-                                                                Focusable="False" Width="110" Height="110">
-                                                            <Grid>
-                                                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Padding="4"
-                                                                            TextAlignment="Center" HorizontalAlignment="Center" 
-                                                                            VerticalAlignment="Center" Foreground="#FEFEFE" FontFamily="{StaticResource HelveticaThin}" FontSize="14"/>
-                                                                <TextBlock Visibility="Visible"
-                                                                            HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"
-                                                                            Text="3"  
-                                                                            FontSize="14" Foreground="{StaticResource BingoColorRed}" 
-                                                                            FontFamily="{StaticResource HelveticaLight}"/>
+                                                        <Grid>
+                                                            <ToggleButton Style="{StaticResource IconToggleButtonStyle}" 
+                                                                            Foreground="{StaticResource Blue}"
+                                                                            Background="{StaticResource BlueAlpha20}"
+                                                                            BorderThickness="0"
+                                                                            Content="&#xE7B3;" ToolTip="{DynamicResource hs_viewasasquare}" Margin="0,0,10,0"                                                            
+                                                                            x:Name="btnViewSquare"
+                                                                            IsHitTestVisible="{Binding ElementName=sqarePopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"/>
+                                                            <Popup x:Name="sqarePopup" 
+                                                                    IsOpen="{Binding IsChecked, ElementName=btnViewSquare}" StaysOpen="False"
+                                                                    AllowsTransparency="True" Placement="Bottom">
+                                                                <Border Background="#181818" BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1"
+                                                                        Focusable="False" Width="110" Height="110" CornerRadius="10">
+                                                                    <Grid>
+                                                                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Padding="4"
+                                                                                    TextAlignment="Center" HorizontalAlignment="Center" 
+                                                                                    VerticalAlignment="Center" Foreground="#FEFEFE" FontFamily="{StaticResource HelveticaThin}" FontSize="14"/>
+                                                                        <TextBlock Visibility="Visible"
+                                                                                    HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"
+                                                                                    Text="3"  
+                                                                                    FontSize="14" Foreground="{StaticResource BingoColorRed}" 
+                                                                                    FontFamily="{StaticResource HelveticaLight}"/>
 
-                                                                <TextBlock Visibility="Visible" 
-                                                                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
-                                                                            FontFamily="{StaticResource SegoeMDL2}" Text="&#xe082;" Foreground="#FEFEFE"/>
-
-                                                            </Grid>
-                                                        </Border>
-                                                    </Popup>
+                                                                        <TextBlock Visibility="Visible" 
+                                                                                    HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
+                                                                                    FontFamily="{StaticResource SegoeMDL2}" Text="&#xe082;" Foreground="#FEFEFE"/>
+                                                                    </Grid>
+                                                                </Border>
+                                                            </Popup>
+                                                        </Grid>
+                                                        <Button Style="{StaticResource IconButtonStyleColored}" 
+                                                                Foreground="{StaticResource Green}"
+                                                                Background="{StaticResource GreenAlpha20}"
+                                                                Content="&#xe8c8;" ToolTip="{DynamicResource hs_duplicate}" Margin="0,0,10,0"
+                                                                CommandParameter="{Binding }"
+                                                                Command="{Binding DataContext.DuplicateSquareCommand,ElementName=page}"/>
+                                                        <Button Style="{StaticResource IconButtonStyleColored}" 
+                                                                Foreground="{StaticResource Danger}"
+                                                                Background="{StaticResource DangerAlpha20}"
+                                                                Content="&#xe107;" ToolTip="{DynamicResource hs_delete}" Margin="0,0,10,0"
+                                                                CommandParameter="{Binding }"
+                                                                Command="{Binding DataContext.DeleteSquareCommand,ElementName=page}"/>
+                                                    </StackPanel>
                                                 </Grid>
-                                                <Button Style="{StaticResource IconButtonStyleColored}" 
-                                                        Foreground="{StaticResource Green}"
-                                                        Background="{StaticResource GreenAlpha20}"
-                                                        Content="&#xe8c8;" ToolTip="Duplicate" Margin="0,0,10,0"
-                                                        CommandParameter="{Binding }"
-                                                        Command="{Binding DataContext.DuplicateSquareCommand,ElementName=page}"/>
-                                                <Button Style="{StaticResource IconButtonStyleColored}" 
-                                                        Foreground="{StaticResource Danger}"
-                                                        Background="{StaticResource DangerAlpha20}"
-                                                        Content="&#xe107;" ToolTip="Delete" Margin="0,0,10,0"
-                                                        CommandParameter="{Binding }"
-                                                        Command="{Binding DataContext.DeleteSquareCommand,ElementName=page}"/>
-                                            </StackPanel>
+                                            </Border>
                                         </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
-                    <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="Add New Square" Width="180" Margin="0,0,20,20"
-                                    Command="{Binding AddNewSquareCommand}" VerticalAlignment="Bottom"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid Grid.Row="1" Visibility="{Binding IsExceptionsVisible, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Visible">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="Добавить исключение" Width="220"
+                                    Command="{Binding AddExceptionOpenModalCommand}" VerticalAlignment="Center" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False" Width="860" Margin="0,20,0,0">
+                                <ItemsControl ItemsSource="{Binding BoardPreset.Exceptions}" Padding="30">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="m:PresetSquareException">
+                                            <Border BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1"
+                                                     Padding="15" CornerRadius="12" Margin="0,0,0,15">
+                                                <Grid>
+                                                    <StackPanel>
+                                                        <ItemsControl ItemsSource="{Binding SquareNames}" x:Name="ic">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <StackPanel Orientation="Vertical"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid Margin="0,0,0,0" Height="50">
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="1*"/>
+                                                                            <ColumnDefinition Width="40"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock Text="{Binding .}" Style="{StaticResource FlatTextBlockStyle}" VerticalAlignment="Center"
+                                                                               />
+                                                                        <Button Style="{StaticResource IconButtonStyleColored}" Content="&#xE10A;" VerticalAlignment="Center"
+                                                                                Foreground="{StaticResource Danger}" Background="{StaticResource DangerAlpha20}"
+                                                                                Width="30" Height="30" FontSize="14" Grid.Column="1" Click="DeleteSquareFromException_Click"
+                                                                                Tag="{Binding ElementName=ic, Path=DataContext}"
+                                                                                />
 
+                                                                        <Border BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="0,1,0,0"
+                                                                            Height="1" VerticalAlignment="Bottom" Opacity="0.5" Grid.ColumnSpan="2"/>
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                        <Button Style="{StaticResource FlatTextButtonTextBlockStyle}"                                                            
+                                                            Command="{Binding DataContext.AddExceptionOpenModalCommand, ElementName=page}"
+                                                            CommandParameter="{Binding }" HorizontalAlignment="Left" Margin="0,5,0,0"
+                                                            Foreground="{StaticResource AccentBrush}">
+                                                            <TextBlock>
+                                                            <Run Text="&#xE109;" FontFamily="{StaticResource SegoeMDL2}"/>
+                                                            <Run Text="Добавить квадрат"/>
+                                                            </TextBlock>
+                                                        </Button>
+                                                    </StackPanel>
+                                                    <Button Style="{StaticResource IconButtonStyleColored}" Content="&#xE107;" VerticalAlignment="Top"
+                                                            HorizontalAlignment="Right" Margin="0,-40,-30,0"
+                                                            Foreground="#AEAEAE" Background="{StaticResource Danger}"
+                                                            CommandParameter="{Binding .}"
+                                                            Command="{Binding ElementName=page, Path=DataContext.DeleteExceptionCommand}"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
                 </Grid>
+
             </Grid>
         </Grid>
         <Grid x:Name="flyoutPlace" Background="#01000000" MouseDown="flyoutPlace_PreviewMouseDown"
@@ -294,11 +534,11 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="55"/>
                     </Grid.RowDefinitions>
-                    <Button Margin="10,5,10,0" Content="Copy to New Preset" 
+                    <Button Margin="10,5,10,0" Content="{DynamicResource hs_copytonewpreset}" 
                             Click="HideFlyout_Click"
                             Command="{Binding CopySelectedToNewBoardCommand}"
                             Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Grid.Row="0"/>
-                    <TextBlock Text="Presets" Style="{StaticResource FlatTextBlockStyle}" FontSize="14" Foreground="#40FEFEFE"
+                    <TextBlock Text="{DynamicResource hs_presets}" Style="{StaticResource FlatTextBlockStyle}" FontSize="14" Foreground="#40FEFEFE"
                                Grid.Row="1" Margin="10,10,0,20"/>
                     <ListView Background="{StaticResource BackgroundBrush}" BorderThickness="0,1" 
                               BorderBrush="{StaticResource BorderColorBrush}" ItemsSource="{Binding Presets}" ItemContainerStyle="{StaticResource ListViewContainerStyle}" 
@@ -307,62 +547,143 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="40">
-                                    <TextBlock Margin="5,0" Text="{Binding PresetName}" Style="{StaticResource FlatTextBlockStyle}" Foreground="#FEFEFE" VerticalAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Margin="5,0" Text="{Binding PresetAndGame}" Style="{StaticResource FlatTextBlockStyle}" Foreground="#FEFEFE" VerticalAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                     <Button IsEnabled="{Binding SelectedItem,ElementName=lvPresets, Converter={StaticResource NullToBool}}"
                             Command="{Binding CopySelectedToCommand}" CommandParameter="{Binding SelectedItem,ElementName=lvPresets}"
-                            Margin="10,3" Content="Copy" Style="{StaticResource FlatButtonStyle}" Grid.Row="2"
+                            Margin="10,3" Content="{DynamicResource hs_copy}" Style="{StaticResource FlatButtonStyle}" Grid.Row="2"
                             Click="HideFlyout_Click"/>
                 </Grid>
             </Border>
         </Grid>
-        <cnt:ModalWindowControl Visibility="Collapsed" Title="Change Image" IsOpen="{Binding IsModalOpen, Mode=TwoWay}">
-            <Grid>
-                <!---->
-                <StackPanel Visibility="{Binding IsImageChanging, Converter={StaticResource NotBoolToVisibilityConverter}}"
-                            Margin="0,40,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Margin="40,20,20,0" Style="{StaticResource FlatButtonStylePrimaryNoArrow}"
-                                HorizontalAlignment="Left" Padding="30,0" Command="{Binding OpenFileCommand}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontFamily="{StaticResource SegoeMDL2}" Text="&#xe838;"
-                                           Margin="0,0,0,0"/>
-                                <TextBlock Text="Choose File From PC" Margin="7,-3,0,0"/>
-                            </StackPanel>
-                        </Button>
-                        <TextBlock Text="{Binding BoardPreset.CoverFilePath}" VerticalAlignment="Center"
-                                   Style="{StaticResource FlatTextBlockStyle}" Margin="0,15,0,0"/>
-                    </StackPanel>
-                    <TextBlock Text="Or" Style="{StaticResource FlatTextBlockStyle}"
-                               Foreground="#20FEFEFE" Margin="40,15,0,0"/>
-                    <cnt:InputFieldControl Text="{Binding BoardPreset.CoverWebLink, Mode=TwoWay}" Placeholder="Paste image link from Internet" Label="WebLink" Margin="40,0,40,10"/>
-                    <TextBlock Visibility="{Binding BoardPreset.IsWebLinkBad, Converter={StaticResource BoolToVisConverter}}" 
-                               Style="{StaticResource FlatTextBlockStyle}" 
-                               Text="The web link must be to an image with an extensions .jpg, .jpeg, .png" 
-                               Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
 
-                    <TextBlock Visibility="{Binding BoardPreset.IsDownloadError, Converter={StaticResource BoolToVisConverter}}" 
-                               Style="{StaticResource FlatTextBlockStyle}" 
-                               Text="An error occurred while downloading the image from the link." 
-                               Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
 
-                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" 
-                                Command="{Binding ChangeImageFinallyCommand}"
-                                Content="Change Image" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0"/>
-                </StackPanel>
-                <Grid Visibility="{Binding IsImageChanging, Converter={StaticResource BoolToVisConverter}}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding NewPreset.PresetName, StringFormat='Creating {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
-                                   Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <cnt:SpinerControl SpinerColor="{StaticResource AccentBrush}" HorizontalAlignment="Center"
-                                               Margin="40"/>
-                    </StackPanel>
+        <Grid x:Name="modalBg" Background="#10000000" d:Visibility="Collapsed" Visibility="{Binding IsModalOpen, Converter={StaticResource BoolToVisConverter}}" Panel.ZIndex="1000" 
+              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"
+                Background="{StaticResource BackgroundColorBrushDark}"                    
+                CornerRadius="20" RenderTransformOrigin="0.5,0.5" Margin="120,50">
+                <Grid Margin="20">
+                    <Button Style="{StaticResource IconButtonStyleBig}" Content="&#xe106;" 
+                        HorizontalAlignment="Right" FontSize="17" VerticalAlignment="Top" Margin="0" Command="{Binding CloseAddSquareModalCommand}"/>
+                    <TextBlock Text="Добавление квадрата в исключение" Style="{StaticResource SubHeaderTextBlockBlockStyle}" 
+                            HorizontalAlignment="Center" Margin="0,20,0,40" />
+                    <Grid Margin="40,60,40,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="90"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="90"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0" Margin="0,20,0,0" Height="50" HorizontalAlignment="Center">
+                                <TextBox x:Name="tbxSearch2" Text="{Binding SearchQueue2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBoxStyle}" Width="500" KeyDown="tbxSearch2_KeyDown"/>
+                                <TextBlock x:Name="Placeholder2" IsHitTestVisible="False" TextWrapping="Wrap" Text="{DynamicResource hs_search}" Margin="20,12,0,10" Foreground="DarkGray" FontSize="16" FontFamily="Segoe UI Light">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsFocused, ElementName=tbxSearch2}" Value="false" />
+                                                        <Condition Binding="{Binding Text, ElementName=tbxSearch2}" Value="" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Button x:Name="btnSearch2" Command="{Binding Search2Command}" Content="&#xE1A3;" HorizontalAlignment="Right" Margin="0,0,3,0">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=tbxSearch2}" Value="">
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                    <DataTrigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.ExitActions>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button x:Name="btnClear2" Command="{Binding ClearSearch2Command}" Content="&#xE10A;" HorizontalAlignment="Right" Margin="0,0,43,0">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=tbxSearch2}" Value="">
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                    <DataTrigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                                </ObjectAnimationUsingKeyFrames>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.ExitActions>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding BoardSqaresCollection2}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="30"/>
+                                                    <ColumnDefinition Width="1*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button Style="{StaticResource IconButtonStyleColored}" Content="&#xE10B;" Grid.Column="0" 
+                                                        Foreground="{StaticResource Success}" Background="{StaticResource SuccessAlpha20}"
+                                                        CommandParameter="{Binding .}" Width="30" Height="30" FontSize="14"
+                                                        Command="{Binding DataContext.AddSquareToExceptionCommand, ElementName=page}"/>
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource FlatTextBlockStyle}" FontSize="16" Padding="10"
+                               Grid.Column="1"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Grid.Row="2"
+                                    Content="Готово" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0" Command="{Binding CloseAddSquareModalCommand}"/>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <!---->
-            </Grid>
-        </cnt:ModalWindowControl>
+            </Border>
+        </Grid>
     </Grid>
 </Page>

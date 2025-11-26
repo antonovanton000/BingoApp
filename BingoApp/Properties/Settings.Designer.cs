@@ -12,7 +12,7 @@ namespace BingoApp.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.14.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -205,7 +205,7 @@ namespace BingoApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("930")]
+        [global::System.Configuration.DefaultSettingValueAttribute("830")]
         public double Height {
             get {
                 return ((double)(this["Height"]));
@@ -217,7 +217,7 @@ namespace BingoApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1470")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1370")]
         public double Width {
             get {
                 return ((double)(this["Width"]));
@@ -260,6 +260,174 @@ namespace BingoApp.Properties {
             }
             set {
                 this["IsDebug"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ru-RU")]
+        public string AppLanguage {
+            get {
+                return ((string)(this["AppLanguage"]));
+            }
+            set {
+                this["AppLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PlayerId {
+            get {
+                return ((string)(this["PlayerId"]));
+            }
+            set {
+                this["PlayerId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int BoardAnalyzeTimeHidden {
+            get {
+                return ((int)(this["BoardAnalyzeTimeHidden"]));
+            }
+            set {
+                this["BoardAnalyzeTimeHidden"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int BoardAnalyzeTimeChanging {
+            get {
+                return ((int)(this["BoardAnalyzeTimeChanging"]));
+            }
+            set {
+                this["BoardAnalyzeTimeChanging"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int BoardUnhideSqaresTime {
+            get {
+                return ((int)(this["BoardUnhideSqaresTime"]));
+            }
+            set {
+                this["BoardUnhideSqaresTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int BoardChangeSqaureTime {
+            get {
+                return ((int)(this["BoardChangeSqaureTime"]));
+            }
+            set {
+                this["BoardChangeSqaureTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5050")]
+        public int LocalServerPort {
+            get {
+                return ((int)(this["LocalServerPort"]));
+            }
+            set {
+                this["LocalServerPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsStartLocalServer {
+            get {
+                return ((bool)(this["IsStartLocalServer"]));
+            }
+            set {
+                this["IsStartLocalServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double BWTop {
+            get {
+                return ((double)(this["BWTop"]));
+            }
+            set {
+                this["BWTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double BWLeft {
+            get {
+                return ((double)(this["BWLeft"]));
+            }
+            set {
+                this["BWLeft"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double BWHeight {
+            get {
+                return ((double)(this["BWHeight"]));
+            }
+            set {
+                this["BWHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double BWWidth {
+            get {
+                return ((double)(this["BWWidth"]));
+            }
+            set {
+                this["BWWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BWIsPositionSaved {
+            get {
+                return ((bool)(this["BWIsPositionSaved"]));
+            }
+            set {
+                this["BWIsPositionSaved"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SekiroExePath {
+            get {
+                return ((string)(this["SekiroExePath"]));
+            }
+            set {
+                this["SekiroExePath"] = value;
             }
         }
     }

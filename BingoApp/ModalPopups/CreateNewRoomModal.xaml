@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="BingoApp.ModalPopups.CreateNewRoomModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BingoApp.ModalPopups"
+             xmlns:vm="clr-namespace:BingoApp.ViewModels"
+             xmlns:cnt="clr-namespace:BingoApp.Controls"
+             mc:Ignorable="d" 
+             x:Name="page"
+             d:DesignHeight="950" d:DesignWidth="1300">
+    <UserControl.DataContext>
+        <vm:MainViewModel/>
+    </UserControl.DataContext>
+    <cnt:ModalWindowControl Title="{DynamicResource mp_createnewroom}"                                                          
+                        IsOpen="{Binding IsNewRoomModalVisible, Mode=TwoWay}"                                        
+                        CloseCommand="{Binding CreateNewRoomCancelCommand}"
+                        IsTitleVisible="{Binding IsBoardCreating, Converter={StaticResource NotConverter}}">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid>
+                <!---->
+                <StackPanel Visibility="{Binding IsBoardCreating, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                    <cnt:InputFieldControl Text="{Binding NewRoom.RoomName, Mode=TwoWay}" Placeholder="{DynamicResource mp_roomname}" Label="{DynamicResource mp_roomname}" Margin="40,0,40,10"
+                                    IsError="{Binding NewRoom.IsRoomNameError}" ErrorMessage="{DynamicResource mp_requieredfield}" IsRequiered="True"/>
+                    <cnt:InputFieldControl Text="{Binding NewRoom.NickName, Mode=TwoWay}" Placeholder="{DynamicResource mp_creator}" Label="{DynamicResource mp_creator}" Margin="40,0,40,10"
+                                    IsError="{Binding NewRoom.IsNickNameError}" ErrorMessage="{DynamicResource mp_requieredfield}" IsRequiered="True"/>
+                    <cnt:InputFieldControl IsPassword="True" Password="{Binding NewRoom.Password, Mode=TwoWay}" Placeholder="{DynamicResource mp_password}" Label="{DynamicResource mp_password}" Margin="40,0,40,10"
+                                    IsError="{Binding NewRoom.IsPasswordError}" ErrorMessage="{DynamicResource mp_requieredfield}" IsRequiered="True"/>
+                    <Grid Margin="40,0,40,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <cnt:SelectFieldControl Placeholder="{DynamicResource mp_mode}" Label="{DynamicResource mp_mode}" ItemsSource="{Binding RoomLockoutModes}"                                     
+                                    SelectedCurrentItem="{Binding NewRoom.RoomLockoutMode, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"                                               
+                                    DisplayProperty="Name" IsRequiered="True" Margin="0,0,10,0"/>
+                        <cnt:SelectFieldControl Placeholder="{DynamicResource mp_extramode}" Label="{DynamicResource mp_extramode}" ItemsSource="{Binding RoomExtraModes}" 
+                                     Grid.Column="1" Margin="10,0,0,0" IsEnabled="{Binding NewRoom.IsAutoBoardReveal}"
+                                     SelectedCurrentItem="{Binding NewRoom.RoomExtraMode, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"                                               
+                                     DisplayProperty="Name" IsRequiered="True"/>
+                    </Grid>
+                    <StackPanel Visibility="{Binding IsUsingDynamicPreset, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                        <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource BoolToVisConverter}}">
+                            <cnt:SelectFieldControl Placeholder="{DynamicResource mp_preset}" Label="{DynamicResource mp_preset}" ItemsSource="{Binding Presets}" 
+                                            Margin="40,0,40,5"
+                                            SelectedCurrentItem="{Binding NewRoom.BoardPreset, Mode=TwoWay}"
+                                            IsError="{Binding NewRoom.IsBoardPresetError}" ErrorMessage="{DynamicResource mp_requieredfield}"
+                                            DisplayProperty="PresetAndGame" IsRequiered="True"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="50,0,50,0">
+                                <Button Content="{DynamicResource mp_collaborativepreset}" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
+                            Command="{Binding DynamicPresetCreateCommand}" 
+                            Visibility="{Binding IsDynamicCreateVisible, Converter={StaticResource BoolToVisConverter}}"/>
+
+                                <Button Content="{DynamicResource mp_usejson}" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
+                                Command="{Binding UsingPresetSwitchCommand}" HorizontalAlignment="Right" Margin="20,0,0,0"
+                                />
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                            <cnt:InputFieldControl Placeholder="{DynamicResource mp_pastejsonhere}" Label="JSON" Margin="40,0,40,5" Text="{Binding NewRoom.BoardJSON, Mode=TwoWay}"
+                                        IsError="{Binding NewRoom.IsBoardJsonError}" ErrorMessage="{DynamicResource mp_requieredfield}" IsRequiered="True"/>
+                            <Button Content="{DynamicResource mp_usepresets}" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
+                        Command="{Binding UsingPresetSwitchCommand}"
+                        HorizontalAlignment="Right" Margin="50,0,50,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding IsUsingDynamicPreset, Converter={StaticResource BoolToVisConverter}}">
+                        <cnt:InputFieldControl Placeholder="{DynamicResource mp_preset}" Label="{DynamicResource mp_preset}" 
+                 Margin="40,0,40,5" IsRequiered="True" Text="{Binding NewRoom.DynamicPresetName}" IsReadOnly="True"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="50,0,50,0">
+                            <Button Content="{DynamicResource mp_usepresets}" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
+                        Command="{Binding UsePresetCommand}"
+                        HorizontalAlignment="Right" Margin="50,0,50,0"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid>
+                        <Border Height="1" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                        Margin="40,10"/>
+                        <TextBlock Background="{StaticResource BackgroundColorBrushDark}"                                        
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Text="{DynamicResource mp_moreoptions}" Padding="10,0"
+                            Style="{StaticResource FlatTextBlockStyle}"/>
+
+                    </Grid>
+                    <WrapPanel Margin="0,20,0,0" Orientation="Horizontal">
+                        <cnt:SwitchControl Text="{DynamicResource mp_hidecardinitial}" IsChecked="{Binding NewRoom.HideCard, Mode=TwoWay}" Margin="50,0,0,20"/>
+                        <cnt:SwitchControl Text="{DynamicResource mp_autoboardreveal}" IsChecked="{Binding NewRoom.IsAutoBoardReveal, Mode=TwoWay}" Margin="50,0,0,20" 
+                                       SwitchCommand="{Binding AutoRevealSwitchCommand}"/>
+                        <cnt:SwitchControl Text="{DynamicResource mp_createasspectat}" IsChecked="{Binding NewRoom.AsSpectator, Mode=TwoWay}" Margin="50,0,0,20"/>
+                        <cnt:SwitchControl Text="{DynamicResource mp_autofogwall}" IsChecked="{Binding NewRoom.IsAutoFogWall, Mode=TwoWay}" Margin="50,0,0,20" 
+                                           Visibility="{Binding NewRoom.IsGameSekiro, Converter={StaticResource BoolToVisConverter}}"/>
+                    </WrapPanel>
+                    <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" 
+                    Command="{Binding CreateNewRoomFinalyCommand}"
+                    Content="{DynamicResource mp_createroom}" Width="250" HorizontalAlignment="Center" Margin="0,30,0,0"/>
+                </StackPanel>
+                <!---->
+                <Grid Visibility="{Binding IsBoardCreating, Converter={StaticResource BoolToVisConverter}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding NewRoom.RoomName, StringFormat={StaticResource mp_creating0}}" Style="{StaticResource FlatTextBlockStyle}"
+                        Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <cnt:CreatingControl />
+                        <Button Content="{DynamicResource mp_cancel}" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
+                    Width="180"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </cnt:ModalWindowControl>
+</UserControl>

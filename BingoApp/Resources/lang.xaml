@@ -1,0 +1,366 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"                    
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <s:String x:Key="AppVersion">Version: </s:String>
+    <s:String x:Key="settings">Settings</s:String>
+    <s:String x:Key="practice">Practice</s:String>
+
+    <!--MESSAGES-->
+    <s:String x:Key="mes_error">Error</s:String>
+    <s:String x:Key="mes_warning">Warning</s:String>
+    <s:String x:Key="mes_wronglink">Wrong link!</s:String>
+    <s:String x:Key="mes_boardnotfound">Board not found!</s:String>
+    <s:String x:Key="mes_youpassedwrongj">You passed wrong json!</s:String>
+    <s:String x:Key="mes_doyourealywantt" xml:space="preserve">Do you realy want to finish&#xD;{0} game?</s:String>
+    <s:String x:Key="mes_clicktoreveal">Click to reveal</s:String>
+    <s:String x:Key="mes_waitingforgames">Waiting for game started</s:String>
+    <s:String x:Key="mes_yourgamenotfini" xml:space="preserve">Your game not finished!&#xD;&#xD;Are you sure you want to leave?</s:String>
+    <s:String x:Key="mes_areyousureyouwa">Are you sure you want to leave?</s:String>
+    <s:String x:Key="mes_success">Success</s:String>
+    <s:String x:Key="mes_roomidcopied">Room Id copied!</s:String>
+    <s:String x:Key="mes_doyourealywanttoend">Do you realy want to end this game?</s:String>
+    <s:String x:Key="mes_spectator">Spectator</s:String>
+    <s:String x:Key="mes_player">Player</s:String>
+    <s:String x:Key="mes_connected">connected</s:String>
+    <s:String x:Key="mes_boardrevealed">Board revealed</s:String>
+    <s:String x:Key="mes_asspectator">as spectator</s:String>
+    <s:String x:Key="mes_disconnected">disconnected</s:String>
+    <s:String x:Key="mes_revealedtheboar">revealed the board</s:String>
+    <s:String x:Key="mes_cleared">cleared</s:String>
+    <s:String x:Key="mes_marked">marked</s:String>
+    <s:String x:Key="mes_changedcolorto">changed color to</s:String>
+    <s:String x:Key="mes_yes">Yes</s:String>
+    <s:String x:Key="mes_no">No</s:String>
+    <s:String x:Key="mes_ok">Ok</s:String>
+    <s:String x:Key="mes_cancel">Cancel</s:String>
+    <s:String x:Key="mes_playerdisconnec">Player disconnected</s:String>
+    <s:String x:Key="mes_bingo">Bingo!</s:String>
+    <s:String x:Key="mes_gotbingo">got Bingo!</s:String>
+    <s:String x:Key="mes_errorhappendwhe">Error happend when new board created!</s:String>
+    <s:String x:Key="mes_newboardcreated">New board created!</s:String>
+    <s:String x:Key="mes_squarescopied">Squares copied!</s:String>
+    <s:String x:Key="mes_newpresetname">New preset name</s:String>
+    <s:String x:Key="mes_youhaveunsavedc" xml:space="preserve">You have unsaved changes!&#x0a;&#x0a;Are you sure you want to leave?</s:String>
+    <s:String x:Key="mes_presetwithname0" xml:space="preserve">Preset with name '{0}' already exist.&#x0a;&#x0a;Do you want to replace it?</s:String>
+    <s:String x:Key="mes_0presetcreated">{0} preset created!</s:String>
+    <s:String x:Key="mes_0duplicatesqare" xml:space="preserve">{0} duplicate sqares found!&#x0a;&#x0a;Do you want to remove it?</s:String>
+    <s:String x:Key="mes_allduplicatesqa">All duplicate sqares successfully deleted!</s:String>
+    <s:String x:Key="mes_noduplicatesqua">No duplicate squares found!</s:String>
+    <s:String x:Key="mes_newsqare">New Sqare</s:String>
+    <s:String x:Key="mes_jsoncopiedsucce">JSON copied successfully!</s:String>
+    <s:String x:Key="mes_presetsaved">Preset saved!</s:String>
+    <s:String x:Key="mes_typenewpresetna">Type new preset name</s:String>
+    <s:String x:Key="mes_lessthanminutes">less than minute ago</s:String>
+    <s:String x:Key="mes_0minuteago">{0} minute ago</s:String>
+    <s:String x:Key="mes_0minutesago">{0} minutes ago</s:String>
+    <s:String x:Key="mes_lockout">Lockout</s:String>
+    <s:String x:Key="mes_nonlockout">Non-Lockout</s:String>
+    <s:String x:Key="mes_blackout">Blackout</s:String>
+    <s:String x:Key="mes_triplebingo">Triple Bingo</s:String>
+    <s:String x:Key="mes_invitesent">Invite sent!</s:String>
+    <s:String x:Key="mes_areyousureyouwanttocreatepreset">Are you sure you want to create a preset with the selected squares?</s:String>
+    <s:String x:Key="mes_areyousureyouwanttocancelpreset">Are you sure you want to cancel preset creation?</s:String>
+    <s:String x:Key="mes_presetsuccessfu">Preset successfully created!</s:String>
+    <s:String x:Key="mes_anotherplayerca">Another player cancelled preset creation!</s:String>
+    <s:String x:Key="mes_invitemessage" xml:space="preserve">Player {0},&#x0a;invite you to create a dynamic preset for {1}.&#x0a; Do you want to accept?</s:String>
+    <s:String x:Key="mes_resultsend">Results sent successfully!</s:String>
+    <s:String x:Key="mes_updateapp" xml:space="preserve">New version arrived!&#x0a;Do you want to update app?</s:String>
+    <s:String x:Key="mes_presetcreatesuccess">Preset created successfully!</s:String>
+    <s:String x:Key="mes_gamecreatesuccess">Game created successfully!</s:String>
+    <s:String x:Key="mes_gameexists">Game already exists!</s:String>
+    <s:String x:Key="mes_realywantdelete">Do you realy want to delete {0}?</s:String>
+    <s:String x:Key="mes_copy">Copy</s:String>
+    <s:String x:Key="mes_realywantdeletegame" xml:space="preserve">Do you realy want to delete {0}? &#x0a;&#x0a;And also all presets in the game?</s:String>
+    <s:String x:Key="mes_none">None</s:String>
+    <s:String x:Key="mes_hidden">Hidden</s:String>
+    <s:String x:Key="mes_changing">Changing</s:String>
+    <s:String x:Key="mes_squarechanged">"{0}" changed to</s:String>
+    <s:String x:Key="mes_squarechangedheader">Sqaure Changed!</s:String>
+    <s:String x:Key="mes_squareunhide">Sqaure revealed</s:String>
+    <s:String x:Key="mes_squareunhideheader">Sqaure Revealed!</s:String>
+    <s:String x:Key="mes_gotmajoritywin">won by majority!</s:String>
+    <s:String x:Key="mes_win">Win!</s:String>
+    <s:String x:Key="mes_sharepresetmes" xml:space="preserve">Player {0} sent you {1} preset &#x0a;&#x0a;Do you want to accept it?</s:String>
+    <s:String x:Key="mes_downloading">Downloading</s:String>
+    <s:String x:Key="mes_presetsharedsuccess">Preset recieved successfully!</s:String>
+    <s:String x:Key="mes_presetalreadyexist" xml:space="preserve">You already have {0}!&#x0a;&#x0a;Do you want to replace it?</s:String>
+    <s:String x:Key="mes_screenshotsaved">Screenshot successfully copied!</s:String>
+    <s:String x:Key="mes_other">Other</s:String>
+    <s:String x:Key="mes_noconnectiontoserver">No connection to server!</s:String>
+    <s:String x:Key="mes_roomloaderror">An error oсcurred while loading room!</s:String>
+    <s:String x:Key="mes_roomnotfound">The room is not active and has been deleted on the server</s:String>
+
+    <!--MAIN PAGE-->
+    <s:String x:Key="mp_welcomeMessage">What are we going to do today?</s:String>
+    <s:String x:Key="mp_goodmorning">Good Morning</s:String>
+    <s:String x:Key="mp_goodafternoon">Good Afternoon</s:String>
+    <s:String x:Key="mp_goodevening">Good Evening</s:String>
+    <s:String x:Key="mp_createanewroom">Create a new room</s:String>
+    <s:String x:Key="mp_letscreateanewb">Let’s create a new board and start playing bingo as soon as possible.</s:String>
+    <s:String x:Key="mp_youcanusethepre">You can use the pre-saved templates for even more convenient and fast bingo.</s:String>
+    <s:String x:Key="mp_createroom">Create room</s:String>
+    <s:String x:Key="mp_connecttotheroo">Connect to the room</s:String>
+    <s:String x:Key="mp_justpastethelin">Just paste the Room Id, click connect and start playing.</s:String>
+    <s:String x:Key="mp_roomid">Room Id</s:String>
+    <s:String x:Key="mp_roomidplaceholder">Type Room Id...</s:String>
+    <s:String x:Key="mp_connect">Connect</s:String>
+    <s:String x:Key="mp_gameshistory">Games history</s:String>
+    <s:String x:Key="mp_theapplications">The application saves the history of all your games. You can always see when and with whom you played.</s:String>
+    <s:String x:Key="mp_presetmanager">Presets manager</s:String>
+    <s:String x:Key="mp_changepresetsad">Change presets, add new squares, create new presets! All this is available here.</s:String>
+    <s:String x:Key="mp_viewhistory">View history</s:String>
+    <s:String x:Key="mp_openmanager">Open manager</s:String>
+    <s:String x:Key="mp_startpractice">Start practice</s:String>
+    <s:String x:Key="mp_bingopracticing">Bingo practicing</s:String>
+    <s:String x:Key="mp_ifyouwanttoimpr">If you want to improve your skills, practice in local mode</s:String>
+    <s:String x:Key="mp_imagesprovidedb">Images provided by freepik.com</s:String>
+    <s:String x:Key="mp_createdby">Created by:</s:String>
+    <s:String x:Key="mp_connectingtoroo">Connecting to Room</s:String>
+    <s:String x:Key="mp_roomname">Room Name</s:String>
+    <s:String x:Key="mp_creator">Creator</s:String>
+    <s:String x:Key="mp_game">Game</s:String>
+    <s:String x:Key="mp_nickname">Nickname</s:String>
+    <s:String x:Key="mp_pleasetypenickn">Please type NickName!</s:String>
+    <s:String x:Key="mp_password">Password</s:String>
+    <s:String x:Key="mp_incorrectpasswo">Incorrect Password!</s:String>
+    <s:String x:Key="mp_pleasetypepassw">Please type Password!</s:String>
+    <s:String x:Key="mp_connectasspecta">Connect As Spectator</s:String>
+    <s:String x:Key="mp_cancel">Cancel</s:String>
+    <s:String x:Key="mp_connectingto0">Connecting To {0}...</s:String>
+    <s:String x:Key="mp_createnewroom">Create New Room</s:String>
+    <s:String x:Key="mp_requieredfield">Requiered field!</s:String>
+    <s:String x:Key="mp_mode">Mode</s:String>
+    <s:String x:Key="mp_extramode">Extra Mode</s:String>
+    <s:String x:Key="mp_preset">Preset</s:String>
+    <s:String x:Key="mp_usejson">Use JSON</s:String>
+    <s:String x:Key="mp_pastejsonhere">Paste JSON here...</s:String>
+    <s:String x:Key="mp_usepresets">Use Presets</s:String>
+    <s:String x:Key="mp_moreoptions">More options</s:String>
+    <s:String x:Key="mp_hidecardinitial">Hide Card Initialy</s:String>
+    <s:String x:Key="mp_createasspectat">As spectator</s:String>
+    <s:String x:Key="mp_autoboardreveal">Auto Board Reveal</s:String>
+    <s:String x:Key="mp_creating0">Creating {0}...</s:String>
+    <s:String x:Key="mp_practice">Practice</s:String>
+    <s:String x:Key="mp_activerooms">Active Rooms</s:String>
+    <s:String x:Key="mp_allyourunfinish">All your unfinished games are here</s:String>
+    <s:String x:Key="mp_collaborativepreset">Collaborative preset creation</s:String>
+    <s:String x:Key="mp_dynamicbasedon">Dynamic based on {0}</s:String>
+    <s:String x:Key="mp_gameinvite" xml:space="preserve">Player {0} invites you to play!&#x0a;&#x0a; Do you want to accept the invitation?</s:String>
+    <s:String x:Key="mp_news">News</s:String>
+    <s:String x:Key="mp_autofogwall">Auto Fog Wall</s:String>
+
+    <!--SETTINGS-->
+    <s:String x:Key="st_settings">Settings</s:String>
+    <s:String x:Key="st_personalsettings">Personal settings</s:String>
+    <s:String x:Key="st_yourdefaultnickname">Your default Nickname</s:String>
+    <s:String x:Key="st_typeyournickname">Type your Nickname</s:String>
+    <s:String x:Key="st_nickname">Nickname</s:String>
+    <s:String x:Key="st_preferredcolor">Preferred color</s:String>
+    <s:String x:Key="st_newroomdefaultsettings">New Room default settings</s:String>
+    <s:String x:Key="st_roomname">Room Name</s:String>
+    <s:String x:Key="st_defaultroomname">Default room name</s:String>
+    <s:String x:Key="st_defaultpassword">Default password</s:String>
+    <s:String x:Key="st_password">Password</s:String>
+    <s:String x:Key="st_timersettings">Timer settings</s:String>
+    <s:String x:Key="st_startingtimes">Starting time (s)</s:String>
+    <s:String x:Key="st_startingtimeinseconds">Starting time in seconds</s:String>
+    <s:String x:Key="st_timeafterrevealinseconds">Time after reveal in seconds</s:String>
+    <s:String x:Key="st_timeafterreveals">Time after reveal (s)</s:String>
+    <s:String x:Key="st_timeafterrevealchanging">Time after reveal in "Changing" game mode (s)</s:String>
+    <s:String x:Key="st_timeafterrevealhidden">Time after reveal in "Hidden" game mode (s)</s:String>
+    <s:String x:Key="st_squaresunhidetime">The time to reveal hidden squares in "Hidden" mode (m)</s:String>
+    <s:String x:Key="st_squareschangetime">The time to change square in "Changing" mode (m)</s:String>
+    <s:String x:Key="st_squaresunhidetimeshort">Time to reveal (m):</s:String>
+    <s:String x:Key="st_squareschangetimeshort">Time to change (m):</s:String>
+    <s:String x:Key="st_roomfeedsettings">Room feed settings</s:String>
+    <s:String x:Key="st_playerchat">Player Chat</s:String>
+    <s:String x:Key="st_goalactions">Goal Actions</s:String>
+    <s:String x:Key="st_colorchanged">Color Changed</s:String>
+    <s:String x:Key="st_connections">Connections</s:String>
+    <s:String x:Key="st_soundssettings">Sounds settings</s:String>
+    <s:String x:Key="st_feednotificationssound">Feed notifications sound</s:String>
+    <s:String x:Key="st_soundsvolume">Sounds Volume</s:String>
+    <s:String x:Key="st_test">Test</s:String>
+    <s:String x:Key="st_applanguage">App language</s:String>
+    <s:String x:Key="st_language">Language</s:String>
+    <s:String x:Key="st_debugmode">Debug mode</s:String>
+    <s:String x:Key="st_appversion">Application version</s:String>
+    <s:String x:Key="st_localserver">Local Web Server</s:String>
+    <s:String x:Key="st_localserverport">Local Port</s:String>
+    <s:String x:Key="st_localserverenabled">Local Web Server Enabled</s:String>
+    <s:String x:Key="st_localserverlinks">Local Web Server Links</s:String>
+    <s:String x:Key="st_localserverinfo" xml:space="preserve">To use BingoApp on your phone or tablet, you can launch a local server for the application. To do this, connect your device to the same network as this computer. Once you are in the room, follow the link below.&#x0a;&#x0a;Please note: Administrator privileges are required to enable the local server.</s:String>
+    <s:String x:Key="st_sekirolocation">Location of sekiro.exe</s:String>
+    <s:String x:Key="st_sekiropath">Path to sekiro.exe</s:String>
+    <s:String x:Key="st_copymodtext">Mod should be installed in game folder</s:String>
+    <s:String x:Key="st_modinstalled">Mod installed!</s:String>
+    <s:String x:Key="st_installmod">Install Mod</s:String>
+    <s:String x:Key="st_deletelmod">Delete Mod</s:String>
+    <s:String x:Key="st_modversion">BingoMod Version:</s:String>
+    <s:String x:Key="st_updatemod">Update Mod</s:String>
+    <s:String x:Key="st_downloading">Downloading...</s:String>
+    <s:String x:Key="st_modisuptodate">Mod is up to date</s:String>
+    
+    <!--BOARDMANAGER-->
+    <s:String x:Key="bm_boardmanager">Presets Manager</s:String>
+    <s:String x:Key="bm_createnew">Create New</s:String>
+    <s:String x:Key="bm_createnewgame">Create New</s:String>
+    <s:String x:Key="bm_savedpresets">Saved presets</s:String>
+    <s:String x:Key="bm_squares">Squares:</s:String>
+    <s:String x:Key="bm_json">JSON</s:String>
+    <s:String x:Key="bm_copyjson">Copy JSON</s:String>
+    <s:String x:Key="bm_duplicate">Duplicate</s:String>
+    <s:String x:Key="bm_delete">Delete</s:String>
+    <s:String x:Key="bm_newpreset">New Preset</s:String>
+    <s:String x:Key="bm_newgame">New Game</s:String>
+    <s:String x:Key="bm_presetname">Preset Name</s:String>
+    <s:String x:Key="bm_gamename">Game Name</s:String>
+    <s:String x:Key="bm_pastejsonhere">Paste JSON here...</s:String>
+    <s:String x:Key="bm_jsonerror">JSON error!</s:String>
+    <s:String x:Key="bm_youcanaddgameco">You can add game cover to preset (optional)</s:String>
+    <s:String x:Key="bm_choosefilefromp">Choose File From PC</s:String>
+    <s:String x:Key="bm_pasteimagelinkf">Paste image link from Internet</s:String>
+    <s:String x:Key="bm_weblink">WebLink</s:String>
+    <s:String x:Key="bm_theweblinkmustb">The web link must be to an image with an extensions .jpg, .jpeg, .png</s:String>
+    <s:String x:Key="bm_anerroroccurred">An error occurred while downloading the image from the link.</s:String>
+    <s:String x:Key="bm_createpreset">Create Preset</s:String>
+    <s:String x:Key="bm_creategame">Create Game</s:String>
+    <s:String x:Key="bm_creating0">Creating {0}...</s:String>
+    <s:String x:Key="bm_games">Games</s:String>
+    <s:String x:Key="bm_presets">Presets</s:String>
+    <s:String x:Key="bm_deletegame">Delete game</s:String>
+    <s:String x:Key="bm_sharepreset">Share preset</s:String>
+    
+    <!--HISTORY-->
+    <s:String x:Key="hs_history">History</s:String>
+    <s:String x:Key="hs_roomname">Room Name</s:String>
+    <s:String x:Key="hs_startdate">Start Date</s:String>
+    <s:String x:Key="hs_enddate">End Date</s:String>
+    <s:String x:Key="hs_time">Time</s:String>
+    <s:String x:Key="hs_players">Players</s:String>
+    <s:String x:Key="hs_deleteroom">Delete Room</s:String>
+
+    <!--EDITBOARD-->
+    <s:String x:Key="hs_editingpreset">Editing Preset</s:String>
+    <s:String x:Key="hs_copyselectedto">Copy selected to...</s:String>
+    <s:String x:Key="hs_copyasjson">Copy as JSON</s:String>
+    <s:String x:Key="hs_saveascopy">Save as copy</s:String>
+    <s:String x:Key="hs_savepreset">Save preset</s:String>
+    <s:String x:Key="hs_presetname">Preset Name</s:String>
+    <s:String x:Key="hs_presetimage">Preset Image</s:String>
+    <s:String x:Key="hs_changeimage">Change Image</s:String>
+    <s:String x:Key="hs_sqaures">Sqaures</s:String>
+    <s:String x:Key="hs_removeduplicate">Remove duplicates</s:String>
+    <s:String x:Key="hs_search">Search...</s:String>
+    <s:String x:Key="hs_addnotestosqare">Add notes to sqare</s:String>
+    <s:String x:Key="hs_savenote">Save note</s:String>
+    <s:String x:Key="hs_viewasasquare">View as a square</s:String>
+    <s:String x:Key="hs_duplicate">Duplicate</s:String>
+    <s:String x:Key="hs_delete">Delete</s:String>
+    <s:String x:Key="hs_addnewsquare">Add New Square</s:String>
+    <s:String x:Key="hs_copytonewpreset">Copy to New Preset</s:String>
+    <s:String x:Key="hs_presets">Presets</s:String>
+    <s:String x:Key="hs_copy">Copy</s:String>
+    <s:String x:Key="hs_choosefilefromp">Choose File From PC</s:String>
+    <s:String x:Key="hs_or">Or</s:String>
+    <s:String x:Key="hs_pasteimagelinkf">Paste image link from Internet</s:String>
+    <s:String x:Key="hs_weblink">WebLink</s:String>
+    <s:String x:Key="hs_theweblinkmustb">The web link must be to an image with an extensions .jpg, .jpeg, .png</s:String>
+    <s:String x:Key="hs_anerroroccurred">An error occurred while downloading the image from the link.</s:String>
+    <s:String x:Key="hs_sendpreset">Send preset</s:String>
+    <s:String x:Key="hs_sendtoplayer">Send to Player</s:String>
+    <s:String x:Key="hs_sort">Sort by Group</s:String>
+
+    <!--ROOMPAGE-->
+    <s:String x:Key="rp_roominfo">Room Info</s:String>
+    <s:String x:Key="rp_game">Game:</s:String>
+    <s:String x:Key="rp_mode">Mode:</s:String>
+    <s:String x:Key="rp_seed">Seed:</s:String>
+    <s:String x:Key="rp_refreshroom">Refresh Room</s:String>
+    <s:String x:Key="rp_createnewboard">Create new Board</s:String>
+    <s:String x:Key="rp_changecolor">Change Color</s:String>
+    <s:String x:Key="rp_player">Player:</s:String>
+    <s:String x:Key="rp_share">Share</s:String>
+    <s:String x:Key="rp_copyroomid">Copy Room Id</s:String>
+    <s:String x:Key="rp_finishgame">Finish Game</s:String>
+    <s:String x:Key="rp_col1">COL1</s:String>
+    <s:String x:Key="rp_col2">COL2</s:String>
+    <s:String x:Key="rp_col3">COL3</s:String>
+    <s:String x:Key="rp_col4">COL4</s:String>
+    <s:String x:Key="rp_col5">COL5</s:String>
+    <s:String x:Key="rp_row1">ROW1</s:String>
+    <s:String x:Key="rp_row2">ROW2</s:String>
+    <s:String x:Key="rp_row3">ROW3</s:String>
+    <s:String x:Key="rp_row4">ROW4</s:String>
+    <s:String x:Key="rp_row5">ROW5</s:String>
+    <s:String x:Key="rp_startgame">Start Game</s:String>
+    <s:String x:Key="rp_feed">Feed</s:String>
+    <s:String x:Key="rp_muteunmutesound">Mute\Unmute Sounds</s:String>
+    <s:String x:Key="rp_playerchat">Player Chat</s:String>
+    <s:String x:Key="rp_goalactions">Goal Actions</s:String>
+    <s:String x:Key="rp_colorchanges">Color Changes</s:String>
+    <s:String x:Key="rp_connections">Connections</s:String>
+    <s:String x:Key="rp_0minutesago">0 minutes ago</s:String>
+    <s:String x:Key="rp_chatmessage">Chat message</s:String>
+    <s:String x:Key="rp_players">Players</s:String>
+    <s:String x:Key="rp_teams">Teams</s:String>
+    <s:String x:Key="rp_spectators">Spectators:&#xA;</s:String>
+    <s:String x:Key="rp_timer">Timer</s:String>
+    <s:String x:Key="rp_start">Start</s:String>
+    <s:String x:Key="rp_pause">Pause</s:String>
+    <s:String x:Key="rp_reset">Reset</s:String>
+    <s:String x:Key="rp_stop">Stop</s:String>
+    <s:String x:Key="rp_inviteplayer">Invite player</s:String>
+    <s:String x:Key="rp_sendinvite">Send invite</s:String>
+    <s:String x:Key="rp_cancel">Cancel</s:String>
+    <s:String x:Key="rp_therearecurrently">There are currently no players available!</s:String>
+    <s:String x:Key="rp_availableplayers">Available players</s:String>
+    <s:String x:Key="rp_sendresults">Send Game Results</s:String>
+    <s:String x:Key="rp_boardshot">Board Screenshot</s:String>
+    <s:String x:Key="rp_copyspectatorlink">Copy spectator link</s:String>
+    <s:String x:Key="rp_linkcopiedsuccess">Link copied successfully</s:String>
+
+    <!--DynamicPresetCreation-->
+    <s:String x:Key="dp_dynamicpresetcr">Dynamic preset creation</s:String>
+    <s:String x:Key="dp_tocreateadynami">To create a dynamic preset, invite another player. Then select 13 squares from the available options.</s:String>
+    <s:String x:Key="dp_done">Done</s:String>
+    <s:String x:Key="dp_player">Player</s:String>
+    <s:String x:Key="dp_selected">Selected:</s:String>
+    <s:String x:Key="dp_accept">Accept</s:String>
+    <s:String x:Key="dp_ready">Ready!</s:String>
+    <s:String x:Key="dp_inviteplayer">Invite player</s:String>
+    <s:String x:Key="dp_tocreateapreset">To create a preset, invite another player to create a preset together</s:String>
+    <s:String x:Key="dp_availableplayer">Available players</s:String>
+    <s:String x:Key="dp_therearecurrent">There are currently no players available online!</s:String>
+    <s:String x:Key="dp_sendinvite">Send invite</s:String>
+    <s:String x:Key="dp_waitingforplaye">Waiting for player confirmation...</s:String>
+    <s:String x:Key="dp_search">Search</s:String>
+
+
+    <!--FIRSTLAUNCH-->
+    <s:String x:Key="fl_helloandwelcome">Hello and welcome to</s:String>
+    <s:String x:Key="fl_beforeyoustarte">Before you start exploring, we need some information from you.</s:String>
+    <s:String x:Key="fl_pleaseenteranic">Please enter a nickname that you would like to use for bingo. This will be your unique identity and how other users will see you. You can also choose your favorite color from the options below.</s:String>
+    <s:String x:Key="fl_nickname">Nickname</s:String>
+    <s:String x:Key="fl_preferredcolor">Preferred color</s:String>
+    <s:String x:Key="fl_youcanskipthiss">You can skip this step and do it later. Also you can change your data at any time in the settings menu. This is completely optional.</s:String>
+    <s:String x:Key="fl_skip">Skip</s:String>
+    <s:String x:Key="fl_continue">Continue</s:String>
+
+    <s:String x:Key="bc_orange">Orange</s:String>
+    <s:String x:Key="bc_red">Red</s:String>
+    <s:String x:Key="bc_blue">Blue</s:String>
+    <s:String x:Key="bc_green">Green</s:String>
+    <s:String x:Key="bc_purple">Purple</s:String>
+    <s:String x:Key="bc_navy">Navy</s:String>
+    <s:String x:Key="bc_teal">Teal</s:String>
+    <s:String x:Key="bc_brown">Brown</s:String>
+    <s:String x:Key="bc_pink">Pink</s:String>
+    <s:String x:Key="bc_yellow">Yellow</s:String>
+    <s:String x:Key="bc_blank">Blank</s:String>
+
+    <!--NEWS-->
+    <s:String x:Key="an_news">News</s:String>
+
+</ResourceDictionary>

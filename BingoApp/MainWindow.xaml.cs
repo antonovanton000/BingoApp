@@ -1,5 +1,6 @@
 ﻿using BingoApp.Classes;
 using BingoApp.Models;
+using BingoApp.ViewModels;
 using BingoApp.Views;
 using HtmlAgilityPack;
 using System;
@@ -21,6 +22,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Windows.UI.Accessibility;
 
 namespace BingoApp
 {
@@ -60,6 +62,7 @@ namespace BingoApp
 
         public static void NavigateTo(Page page)
         {
+            CloseModal();
             instance.frame.Navigate(page);
         }
 
@@ -76,6 +79,41 @@ namespace BingoApp
         public static void ShowSettingsButton()
         {
             instance.btnSettingsGrid.Visibility = Visibility.Visible;
+        }
+
+        public static void MakeTransparent()
+        {
+            instance.ResizeMode = ResizeMode.NoResize;
+            instance.frameBorder.BorderThickness = new Thickness(0);
+            instance.mainborder.Background = Brushes.Transparent;
+            instance.mainborder.BorderThickness = new Thickness(0);
+            instance.windowTop.Visibility = Visibility.Collapsed;            
+        }
+
+        public static void RemoveTransparent()
+        {
+            instance.ResizeMode = ResizeMode.CanResizeWithGrip;
+            instance.frameBorder.BorderThickness = new Thickness(0,1,0,0);
+            instance.mainborder.BorderThickness = new Thickness(1);
+            instance.mainborder.Background =  App.Current.FindResource("BackgroundBrush") as Brush;
+            instance.windowTop.Visibility = Visibility.Visible;            
+        }
+
+        public static void SetNotificationsCount(int count)
+        {
+            if (count > 0)
+            {
+                instance.lblNotificationsCount.Visibility = Visibility.Visible;
+                instance.lblNotificationsCount.Content = count.ToString();
+                instance.lblNotificationsBadge.Visibility = Visibility.Visible;
+                instance.btnNotifications.Content = char.ConvertFromUtf32(0xE7E7);
+            }
+            else
+            {
+                instance.lblNotificationsCount.Visibility = Visibility.Collapsed;
+                instance.lblNotificationsBadge.Visibility = Visibility.Collapsed;
+                instance.btnNotifications.Content = char.ConvertFromUtf32(0xE91C);
+            }
         }
 
         #region NotificationStuff
@@ -271,25 +309,9 @@ namespace BingoApp
 
         private void window_Loaded(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    StartAuthenticate();
-            //    db = new DbModels.VNSContext();
-            //    var timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(200) };
-            //    timer.Tick += async (s, e) =>
-            //    {
-            //        timer.Stop();
-            //        await db.Products.FirstOrDefaultAsync();
-            //        pbAwaiter.Visibility = Visibility.Collapsed;
-            //        spButtons.Visibility = Visibility.Visible;
-            //    };
-            //    timer.Start();
-            //}
-            //catch (Exception ex)
-            //{
-            //    System.IO.File.WriteAllText("errors.txt", ex.Message);
-            //}
+            
         }
+
         private void frame_Navigated(object sender, NavigationEventArgs e)
         {
             if (NeedClean)
@@ -321,10 +343,29 @@ namespace BingoApp
 
         #endregion
 
-        private void Window_SourceInitialized(object sender, EventArgs e)
+        #region ModalsStuff
+
+        public static void ShowModal(UserControl content, object dataContext)
         {
+            instance.ModalsGrid.Children.Clear();
+            instance.ModalsGrid.Children.Add(content);
+            content.DataContext = dataContext;            
+            instance.ModalsGrid.Visibility = Visibility.Visible;           
+        }
+
+        public static void CloseModal()
+        {
+            instance.ModalsGrid.Visibility = Visibility.Collapsed;
+            instance.ModalsGrid.Children.Clear();            
+        }
+
+        #endregion
+
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {            
             if (Properties.Settings.Default.IsPositionSaved)
             {
+                
                 this.Top = Properties.Settings.Default.Top;
                 this.Left = Properties.Settings.Default.Left;
                 this.Height = Properties.Settings.Default.Height;
@@ -359,6 +400,15 @@ namespace BingoApp
             Properties.Settings.Default.IsPositionSaved = true;
             Properties.Settings.Default.Save();
         }
+
+        private void NotificationsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = new AllNewsViewModel();
+            var page = new AllNewsPage() { DataContext = vm };
+
+            MainWindow.NavigateTo(page);
+        }
+    
     }
 
     public enum MessageNotificationType

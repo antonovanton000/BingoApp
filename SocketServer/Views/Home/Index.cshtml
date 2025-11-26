@@ -1,0 +1,270 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Start Hero Area -->
+<section class="hero-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 col-md-12 col-12">
+                <div class="hero-content">
+                    <h4>BingoApp</h4>
+                    <h1 data-i18n="[html]i-header-1">
+                        Быстро и легко играйте<br /> в бинго с друзьями!
+                    </h1>
+                    <p data-i18n="i-text-1">
+                        Приложение позволяет вам играть в бинго с друзьями в любое время.
+                    </p>
+                    <div class="button">
+                        <a href="@ViewBag.DownloadLink" class="btn "><span data-i18n="l-download">Скачать</span> @ViewBag.Version</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-12">
+                <div class="hero-image wow fadeInRight" data-wow-delay=".4s">
+                    <img class="main-image" src="~/assets/images/screen/main.png" alt="#">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Hero Area -->
+
+<section class="freatures section" id="features">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-12">
+                <div class="image wow fadeInLeft" data-wow-delay=".3s" style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInLeft;">
+                    <img src="~/assets/images/screen/features.png" alt="#">
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="content">
+                    <h3 class="heading wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
+                        <span data-i18n="i-header-2">Главные достоинства</span>
+                        <span data-i18n="i-header-3">
+                            Откройте для себя новый способ весело проводить время с BingoApp.
+                        </span>
+                    </h3>
+                    <!-- Start Single Feature -->
+                    <div class="single-feature wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+                        <div class="f-icon">
+                            <i class="lni lni-display-alt"></i>
+                        </div>
+                        <h4 data-i18n="i-header-4">Простота использования</h4>
+                        <p data-i18n="i-text-4">
+                            Интуитивно понятный интерфейс, который позволяет начать игру в считанные секунды.
+                        </p>
+                    </div>
+                    <!-- End Single Feature -->
+                    <!-- Start Single Feature -->
+                    <div class="single-feature wow fadeInUp" data-wow-delay=".7s" style="visibility: visible; animation-delay: 0.7s; animation-name: fadeInUp;">
+                        <div class="f-icon">
+                            <i class="lni lni-users"></i>
+                        </div>
+                        <h4 data-i18n="i-header-5">Мультиплеер</h4>
+                        <p data-i18n="i-text-5">
+                            Играйте с друзьями или присоединяйтесь к открытым играм с игроками со всего мира.
+                        </p>
+                    </div>
+                    <!-- End Single Feature -->
+                    <!-- Start Single Feature -->
+                    <div class="single-feature wow fadeInUp" data-wow-delay="0.8s" style="visibility: visible; animation-delay: 0.8s; animation-name: fadeInUp;">
+                        <div class="f-icon">
+                            <i class="lni lni-vector"></i>
+                        </div>
+                        <h4 data-i18n="i-header-6">Разнообразие режимов</h4>
+                        <p data-i18n="i-text-6">
+                            Выбирайте из различных игровых режимов, чтобы сделать каждую игру уникальной.
+                        </p>
+                    </div>
+                    <!-- End Single Feature -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="services section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h3 class="wow zoomIn" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: zoomIn;" data-i18n="i-header-7">
+                        Что предлагает приложение
+                    </h3>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;" data-i18n="i-header-8">
+                        Почему BingoApp?
+                    </h2>
+                    <p class="wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-i18n="i-text-8">
+                        Приложение позволяет вам играть в бинго с друзьями в любое время и в любом месте.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="lni lni-user"></i>
+                    </div>
+                    <h4 class="text-title" data-i18n="i-header-9">Персонализация</h4>
+                    <p data-i18n="i-text-9">
+                        Настраивайте свой профиль, настройки доски, цвет по своему вкусу.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="lni lni-support"></i>
+                    </div>
+                    <h4 class="text-title" data-i18n="i-header-10">Регулярные обновления</h4>
+                    <p data-i18n="i-text-10">
+                        Приложение постоянно улучшается и добавляются новые функции.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="lni lni-cloud-network"></i>
+                    </div>
+                    <h4 class="text-title" data-i18n="i-header-11">Собственный сервер</h4>
+                    <p data-i18n="i-text-11">
+                        Подключаясь к нашему серверу мы гарантируем его работоспособность 24 часа 7 дней в неделю.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="lni lni-book"></i>
+                    </div>
+                    <h4 class="text-title" data-i18n="i-header-12">Создание наборов</h4>
+                    <p data-i18n="i-text-12">
+                        Создавайте и редактируйте свои наборы квадратов для любых игр, чтобы сделать каждую игру уникальной.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="lni lni-timer"></i>
+                    </div>
+                    <h4 class="text-title" data-i18n="i-header-13">Синхронизация досок и таймера</h4>
+                    <p data-i18n="i-text-13">
+                        Все игроки видят синхронизированные доски и таймер, что обеспечивает честную и увлекательную игру.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;">
+                <div class="single-service">
+                    <div class="main-icon">
+                        <i class="lni lni-archive"></i>
+                    </div>
+                    <h4 class="text-title" data-i18n="i-header-14">История игр</h4>
+                    <p data-i18n="i-text-14">
+                        Храните всю историю игр в приложении и просматривайте её в любое время.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="testimonials style2 section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h3 class="wow zoomIn" data-wow-delay=".2s" style="visibility: visible; animation-delay: 0.2s; animation-name: zoomIn;" data-i18n="i-header-15">
+                        Готовые пресеты
+                    </h3>
+                    <h2 class="wow fadeInUp" data-wow-delay=".4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;" data-i18n="i-header-16">
+                        Готовые пресеты для популярных игр
+                    </h2>
+                    <p class="wow fadeInUp" data-wow-delay=".6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInUp;" data-i18n="i-text-16">
+                        В BingoApp уже есть готовые пресеты для ваших любимых игр! Наслаждайтесь бинго с друзьями, используя пресеты для следующих игр:
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row testimonial-slider">
+
+            <div class="col-lg-6 col-12 ">                
+                <div class="single-testimonial" style="background-image:url('/assets/images/games/ds1.jpg')">
+                    <div class="inner-content d-flex align-items-center justify-content-center" style="min-height:250px;">                        
+                        <div class="author p-0 m-0">
+                            <h3 class="name text-white text-center">
+                                Dark Souls                                 
+                            </h3>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="col-lg-6 col-12 ">
+                <div class="single-testimonial" style="background-image:url('/assets/images/games/ds2.jpg')">
+                    <div class="inner-content d-flex align-items-center justify-content-center" style="min-height:250px;">
+                        <div class="author p-0 m-0">
+                            <h3 class="name text-white text-center">
+                                Dark Souls II
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-12 ">
+                <div class="single-testimonial" style="background-image:url('/assets/images/games/ds3.jpg')">
+                    <div class="inner-content d-flex align-items-center justify-content-center" style="min-height:250px;">
+                        <div class="author p-0 m-0">
+                            <h3 class="name text-white text-center">
+                                Dark Souls III
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-12 ">
+                <div class="single-testimonial" style="background-image:url('/assets/images/games/er.jpg')">
+                    <div class="inner-content d-flex align-items-center justify-content-center" style="min-height:250px;">
+                        <div class="author p-0 m-0">
+                            <h3 class="name text-white text-center">
+                                Elden Ring
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-12 ">
+                <div class="single-testimonial" style="background-image:url('/assets/images/games/sekiro.jpg')">
+                    <div class="inner-content d-flex align-items-center justify-content-center" style="min-height:250px;">
+                        <div class="author p-0 m-0">
+                            <h3 class="name text-white text-center">
+                                Sekiro: Shadows Die Twice
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 col-12 ">
+                <div class="single-testimonial" style="background-image:url('/assets/images/games/bb.jpg')">
+                    <div class="inner-content d-flex align-items-center justify-content-center" style="min-height:250px;">
+                        <div class="author p-0 m-0">
+                            <h3 class="name text-white text-center">
+                                Bloodborne
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,34 @@
+﻿using HuntpointApp.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace HuntpointApp.Views
+{
+    /// <summary>
+    /// Interaction logic for MapSelectorPage.xaml
+    /// </summary>
+    public partial class MapSelectorPage : Page
+    {
+        public MapSelectorPage()
+        {
+            InitializeComponent();
+        }
+
+        private void MapPatternSelector_CloseClicked(object sender, EventArgs e)
+        {
+            MainViewModel.ShowWelcomeText();
+        }
+    }
+}

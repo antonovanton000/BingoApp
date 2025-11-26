@@ -34,19 +34,21 @@
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="40"/>
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.1000000" Value="40"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
-                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="40"/>
-                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.2000000" Value="40"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
 
         </Storyboard>
@@ -99,6 +101,32 @@
                 <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Key="LinesBgAnimation" AutoReverse="True" RepeatBehavior="Forever">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:50.1000000" Value="-45"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:50.1000000" Value="1.5"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:50.1000000" Value="1.5"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:50" Value="45"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:50" Value="1.5"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:50" Value="1.5"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
     <behaviors:Interaction.Triggers>
         <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
@@ -116,26 +144,43 @@
                 <BeginStoryboard Storyboard="{StaticResource titleAnimation}"/>
                 <BeginStoryboard Storyboard="{StaticResource FirstBorderAnimation}"/>
                 <BeginStoryboard Storyboard="{StaticResource FooterAnimation}"/>
+                <BeginStoryboard Storyboard="{StaticResource LinesBgAnimation}"/>
             </EventTrigger.Actions>
         </EventTrigger>
     </Page.Triggers>
-    <Grid>
-        <Grid>
+    <Grid ClipToBounds="True">
+        <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="0">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
             <Grid.Background>
                 <ImageBrush ImageSource="/Images/tl_bg.png" Stretch="UniformToFill" Opacity="0.3"/>
             </Grid.Background>
         </Grid>
-        <Grid>
+        <Grid x:Name="grid1" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="0">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
             <Grid.Background>
                 <ImageBrush ImageSource="/Images/br_bg.png" Stretch="UniformToFill" Opacity="0.3"/>
             </Grid.Background>
         </Grid>
-        
         <Viewbox Stretch="Uniform" VerticalAlignment="Top">
             <Grid>
+                <!--<Button VerticalAlignment="Top" HorizontalAlignment="Center" Command="{Binding TestCommand}" Content="Test" Click="Button_Click"/>-->
                 <Grid Margin="40,40,40,40">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="110"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" x:Name="spTitle">
@@ -143,7 +188,7 @@
                             <TranslateTransform />
                         </StackPanel.RenderTransform>
                         <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{Binding HelloMessage, Mode=OneWay}" FontWeight="Light" FontSize="40"/>
-                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="What are we going to do today?"/>
+                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource mp_welcomeMessage}"/>
                     </StackPanel>
                     <Grid  Margin="1066,-30,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"
                            Visibility="{Binding IsActiveRoomsVisible, Converter={StaticResource BoolToVisConverter}}">
@@ -222,10 +267,10 @@
                                         <ColumnDefinition Width="80"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Margin="10,5,20,0">
-                                        <TextBlock Text="Active Rooms" Style="{StaticResource FlatTextBlockStyle}"
+                                        <TextBlock Text="{DynamicResource mp_activerooms}" Style="{StaticResource FlatTextBlockStyle}"
                                                VerticalAlignment="Center" Margin="0,0,0,7"
                                                FontSize="18" Foreground="#90FEFEFE"/>
-                                        <TextBlock Text="All your unfinished games are here" Style="{StaticResource FlatTextBlockStyle}"
+                                        <TextBlock Text="{DynamicResource mp_allyourunfinish}" Style="{StaticResource FlatTextBlockStyle}"
                                                VerticalAlignment="Center" TextWrapping="Wrap" 
                                                FontSize="12" Foreground="#20FEFEFE"/>
                                     </StackPanel>
@@ -348,19 +393,54 @@
                             </Border>
                         </Popup>
                     </Grid>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Top">
-                        <Border x:Name="border" Width="380" Height="550" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Top">
+                        <Border x:Name="border" Width="380" Height="680" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
                                 Margin="0,0,40,0"
                                 CornerRadius="24"
+                                VerticalAlignment="Top"
                                 Padding="0" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform/>
+                                    <ScaleTransform x:Name="p1scale"/>
                                     <SkewTransform/>
                                     <RotateTransform/>
                                     <TranslateTransform/>
                                 </TransformGroup>
                             </Border.RenderTransform>
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="p1shadow" ShadowDepth="0" Color="#FFB6BEE7" Opacity="0" BlurRadius="5"
+                                                  />
+                            </Border.Effect>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleX"
+                                                                 To="1.008" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleY"
+                                                                 To="1.008" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p1shadow" Storyboard.TargetProperty="Opacity"
+                                                                 To="0.6" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleX"
+                                                                 To="1" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p1scale" Storyboard.TargetProperty="ScaleY"
+                                                                 To="1" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p1shadow" Storyboard.TargetProperty="Opacity"
+                                                                 To="0" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Border.Triggers>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="250"/>
@@ -375,80 +455,146 @@
                                     <Border CornerRadius="24,24,0,24" BorderThickness="0">
                                         <Border.Background>
                                             <LinearGradientBrush EndPoint="1,1" StartPoint="0,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                                <GradientStop Color="#FFE7E0B6"/>
+                                                <GradientStop Color="#FFE7E0B6" Offset="0"/>
                                                 <GradientStop Color="#FFB6BEE7" Offset="0.60"/>
                                             </LinearGradientBrush>
                                         </Border.Background>
+                                        <Border.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].Offset"
+                                                                         From="0" To="0.6" Duration="0:0:5" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Offset"
+                                                                         From="0.6" To="0.9" Duration="0:0:5" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        <PointAnimation From="0,0" To="0,0.3" Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.StartPoint)"
+                                                                        Duration="0:0:5" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        <PointAnimation From="1,1" To="1,0.7" Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.EndPoint)"
+                                                                        Duration="0:0:5" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Border.Triggers>
                                     </Border>
                                     <Image Source="/Images/createboard.png" Margin="60,40,60,0" Stretch="UniformToFill"/>
                                 </Grid>
                                 <StackPanel Grid.Row="1" Margin="20,0">
-                                    <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Create a new room" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                    <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource mp_createanewroom}" HorizontalAlignment="Left" Margin="0,20,0,0"/>
                                     <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap"
                                                TextAlignment="Left" Margin="0,20">                                
-                                        <Run Text="Let’s create a new board and start playing bingo as soon as possible."/>
+                                        <Run Text="{DynamicResource mp_letscreateanewb}"/>
                                         <LineBreak/>
                                         <LineBreak/>
-                                        <Run Text="You can use the pre-saved templates for even more convenient and fast bingo."/>
+                                        <Run Text="{DynamicResource mp_youcanusethepre}"/>
 
                                     </TextBlock>
                                 </StackPanel>
-                                <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="Create room"                                 
+                                <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" Content="{DynamicResource mp_createroom}"                                 
                                         Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"
                                         Command="{Binding CreateNewRoomCommand}"/>
                             </Grid>
                         </Border>
-                        <Border x:Name="border1" Width="380" Height="550" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"                        
+                        <Border x:Name="border1" Width="380" Height="680" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"                        
                                 Margin="0,0,40,0"
                                 CornerRadius="24"
+                                VerticalAlignment="Top"
                                 Padding="0" RenderTransformOrigin="0.5,0.5">
                             <Border.RenderTransform>
                                 <TransformGroup>
-                                    <ScaleTransform/>
+                                    <ScaleTransform x:Name="p2scale"/>
                                     <SkewTransform/>
                                     <RotateTransform/>
                                     <TranslateTransform/>
                                 </TransformGroup>
                             </Border.RenderTransform>
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="p2shadow" ShadowDepth="0" Color="#f18ec0" Opacity="0" BlurRadius="5"/>
+                            </Border.Effect>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleX"
+                                     To="1.008" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleY"
+                                     To="1.008" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p2shadow" Storyboard.TargetProperty="Opacity"
+                                     To="1" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleX"
+                                     To="1" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p2scale" Storyboard.TargetProperty="ScaleY"
+                                     To="1" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="p2shadow" Storyboard.TargetProperty="Opacity"
+                                     To="0" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Border.Triggers>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="250"/>
                                     <RowDefinition Height="1*"/>
                                 </Grid.RowDefinitions>
                                 <Grid>
-                                    <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <Rectangle Width="24" Height="24" Fill="#f18ec0" Canvas.Bottom="-23" Canvas.Right="0"/>
-                                        <Ellipse Width="48" Height="48" Fill="{StaticResource BackgroundBrush}"
-                                                 Canvas.Bottom="-48" Canvas.Right="0"/>
+                                    <Canvas HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,24" Panel.ZIndex="5">
+                                        <Path Data="M0,0 L0,25 L24,24 A24,24 90 0 1 0,0" Fill="{StaticResource BackgroundBrush}" StrokeThickness="0"/>
                                     </Canvas>
-                                    <Border CornerRadius="24,24,0,24">
+                                    <Border CornerRadius="24,24,0,24" Margin="0,0,0,-25" Panel.ZIndex="0" BorderThickness="0">
                                         <Border.Background>
                                             <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                                <GradientStop Color="#FF6B4CAC"/>
-                                                <GradientStop Color="#f18ec0" Offset="0.69"/>
+                                                <GradientStop Color="#f18ec0" Offset="0"/>
+                                                <GradientStop Color="#6B4CAC" Offset="0.69"/>
                                             </LinearGradientBrush>
                                         </Border.Background>
+                                        <Border.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].Offset"
+                                                                From="0" To="0.69" Duration="0:0:8" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Offset"
+                                                                From="0.69" To="0.9" Duration="0:0:8" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        <PointAnimation From="1,0" To="1,1" Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.StartPoint)"
+                                                                Duration="0:0:12" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        <PointAnimation From="0,1" To="0,0" Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.EndPoint)"
+                                                                Duration="0:0:12" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Border.Triggers>
                                     </Border>
                                     <Image Source="/Images/connect.png" Stretch="UniformToFill"  Margin="40,20,40,0"/>
                                 </Grid>
-                                <StackPanel Grid.Row="1" Margin="20,0">
-                                    <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Connect to the room" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
-                                               TextAlignment="Left" Margin="0,20">                                
-                                        <Run Text="Just paste the link, click connect and start playing."/>
-                                        <LineBreak/>
-                                        <Run Text="App works with any"/>
-                                        <Run Text="bingosync.com" TextDecorations="Underline" Cursor="Hand" MouseLeftButtonDown="Run_MouseLeftButtonDown" Foreground="{StaticResource BingoColorNavy}"/>
-                                        <Run Text="links."/>
-                                    </TextBlock>
-                                    <cnt:InputFieldControl PlaceholderBackgroundColor="{StaticResource AccentColor}" Text="{Binding RoomUrl, Mode=TwoWay}" Placeholder="https://bingosync.com/room/..." Label="Link" Margin="0,10"/>
-                                </StackPanel>
-                                <Button Style="{StaticResource FlatButtonStylePrimary}" Visibility="{Binding IsBoardConnecting, Converter={StaticResource NotBoolToVisibilityConverter}}"
-                                        Command="{Binding GetRoomConnectionInfoCommand}" IsEnabled="{Binding CanConnect}"
-                                        Content="Connect" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20" />
-                                <cnt:SpinerControl Visibility="{Binding IsBoardConnecting, Converter={StaticResource BoolToVisConverter}}"
+                                <Border Grid.Row="1" CornerRadius="0,24,24,24" Panel.ZIndex="5" Background="{StaticResource BackgroundBrush}">
+                                    <Grid>
+                                        <StackPanel Grid.Row="1" Margin="20,0">
+                                            <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource mp_connecttotheroo}" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                                       TextAlignment="Left" Margin="0,20,0,0">                                
+                                                <Run Text="{DynamicResource mp_justpastethelin}"/>
+                                            </TextBlock>
+                                            <cnt:InputFieldControl PlaceholderBackgroundColor="{StaticResource AccentColor}" Text="{Binding RoomId, Mode=TwoWay}" 
+                                                                   Placeholder="{DynamicResource mp_roomidplaceholder}"
+                                                                   Label="{DynamicResource mp_roomid}" Margin="0,0"/>
+                                        </StackPanel>
+                                        <Button Style="{StaticResource FlatButtonStylePrimary}" Visibility="{Binding IsBoardConnecting, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                                Command="{Binding GetRoomConnectionInfoCommand}" IsEnabled="{Binding CanConnect}"
+                                                Content="{DynamicResource mp_connect}" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20" />
+                                        <cnt:SpinerControl Visibility="{Binding IsBoardConnecting, Converter={StaticResource BoolToVisConverter}}"
                                     IsSmall="True" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Bottom" 
                                                    Margin="20,0,20,20" SpinerColor="{StaticResource AccentColorBrush}"/>
+                                    </Grid>
+                                </Border>
                             </Grid>
                         </Border>
                         <StackPanel x:Name="stackPanel" RenderTransformOrigin="0.5,0.5">
@@ -464,6 +610,42 @@
                                 Margin="0,0,0,40"
                                 CornerRadius="24"
                                 Padding="0">
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="p3scale"/>
+                                </Border.RenderTransform>
+                                <Border.Effect>
+                                    <DropShadowEffect x:Name="p3shadow" ShadowDepth="0" Color="#f7a164" Opacity="0" BlurRadius="5"/>
+                                </Border.Effect>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleX"
+                                                                    To="1.008" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleY"
+                                                                    To="1.008" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p3shadow" Storyboard.TargetProperty="Opacity"
+                                                                    To="0.8" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleX"
+                                                                    To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p3scale" Storyboard.TargetProperty="ScaleY"
+                                                                    To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p3shadow" Storyboard.TargetProperty="Opacity"
+                                                                    To="0" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Border.Triggers>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="190"/>
@@ -486,22 +668,58 @@
                                         <Image Source="/Images/history.png" Stretch="UniformToFill"  Margin="20,20,20,0"/>
                                     </Grid>
                                     <StackPanel Grid.Column="1" Margin="20,0">
-                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Games history" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource mp_gameshistory}" HorizontalAlignment="Left" Margin="0,20,0,0"/>
                                         <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
                                                TextAlignment="Left" Margin="0,10">                                
-                                            <Run Text="The application saves the history of all your games. You can always see when and with whom you played."/>
+                                            <Run Text="{DynamicResource mp_theapplications}"/>
                                         </TextBlock>
                                     </StackPanel>
                                     <Button Grid.Column="1" Style="{StaticResource FlatTextButtonStyle}"
                                             Command="{Binding OpenHistoryCommand}"                                        
                                                 HorizontalAlignment="Left" HorizontalContentAlignment="Left"                                    
-                                                Content="View history" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                                Content="{DynamicResource mp_viewhistory}" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
                                 </Grid>
                             </Border>
                             <Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
-                                Margin="0,0,0,0"
+                                Margin="0,0,0,40"
                                 CornerRadius="24"
                                 Padding="0">
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="p4scale"/>
+                                </Border.RenderTransform>
+                                <Border.Effect>
+                                    <DropShadowEffect x:Name="p4shadow" ShadowDepth="0" Color="#FFA665" Opacity="0" BlurRadius="5"/>
+                                </Border.Effect>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleX"
+                                    To="1.008" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleY"
+                                    To="1.008" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p4shadow" Storyboard.TargetProperty="Opacity"
+                                    To="0.4" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleX"
+                                    To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p4scale" Storyboard.TargetProperty="ScaleY"
+                                    To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p4shadow" Storyboard.TargetProperty="Opacity"
+                                    To="0" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Border.Triggers>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
@@ -524,147 +742,112 @@
                                         </Border>
                                     </Grid>
                                     <StackPanel Grid.Column="0" Margin="20,0">
-                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Board manager" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource mp_presetmanager}" HorizontalAlignment="Left" Margin="0,20,0,0"/>
                                         <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
                                                TextAlignment="Left" Margin="0,20">                                
-                                            <Run Text="Change boards, add new squares, create new boards! All this is available here."/>
+                                            <Run Text="{DynamicResource mp_changepresetsad}"/>
                                         </TextBlock>
                                     </StackPanel>
                                     <Button Style="{StaticResource FlatTextButtonStyle}"
                                             Command="{Binding OpenBoardManagerCommand}"
-                                            Content="Open manager" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                            Content="{DynamicResource mp_openmanager}" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
                                 </Grid>
                             </Border>
 
-                            <!--<Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
-                                Margin="0,0,0,0"
+                            <Border Width="480" Height="200" BorderThickness="1" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderColorBrush}"
+                                Margin="0,0,0,40"
                                 CornerRadius="24"
                                 Padding="0">
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="p5scale"/>
+                                </Border.RenderTransform>
+                                <Border.Effect>
+                                    <DropShadowEffect x:Name="p5shadow" ShadowDepth="0" Color="#DFE5AD" Opacity="0" BlurRadius="5"/>
+                                </Border.Effect>
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleX"
+                                    To="1.008" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleY"
+                                    To="1.008" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p5shadow" Storyboard.TargetProperty="Opacity"
+                                    To="0.7" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <EventTrigger.Actions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleX"
+                                    To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p5scale" Storyboard.TargetProperty="ScaleY"
+                                    To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetName="p5shadow" Storyboard.TargetProperty="Opacity"
+                                    To="0" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger.Actions>
+                                    </EventTrigger>
+                                </Border.Triggers>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="190"/>
+                                        <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Border CornerRadius="0,24,24,0" Grid.Column="1">
-                                        <Border.Background>
-                                            <LinearGradientBrush EndPoint="1,0" StartPoint="0,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
-                                                <GradientStop Color="#88e1e1"/>
-                                                <GradientStop Color="#028491" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                        <Image Source="/Images/practice.png" Stretch="UniformToFill"  Margin="20,20,20,0"/>
-                                    </Border>
-                                    <StackPanel Grid.Column="0" Margin="20,0">
-                                        <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="Bingo practicing" HorizontalAlignment="Left" Margin="0,20,0,0"/>
-                                        <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
+                                    <Grid>
+                                        <Canvas HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,24,0" Panel.ZIndex="5">
+                                            <Path Data="M0,0 L25,0 L24,24 A24,24 -90 0 0 0,0" Fill="{StaticResource BackgroundBrush}" StrokeThickness="0"/>
+                                        </Canvas>
+                                        <Border CornerRadius="24,24,0,24" Margin="0,0,-24,0">
+                                            <Border.Background>
+                                                <LinearGradientBrush EndPoint="0,0" StartPoint="1,1" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+                                                    <GradientStop Color="#F1F2B5" Offset="0"/>
+                                                    <GradientStop Color="#135058" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Border.Triggers>
+                                                <EventTrigger RoutedEvent="Loaded">
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[0].Offset"
+                                                                             From="0" To="0.2" Duration="0:0:8" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                            <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.GradientStops)[1].Offset"
+                                                                             From="1" To="0.8" Duration="0:0:8" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                            <PointAnimation From="0,0" To="0.2,0.2" Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.StartPoint)"
+                                                                            Duration="0:0:12" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                            <PointAnimation From="1,1" To="0.8,0.8" Storyboard.TargetProperty="(Border.Background).(LinearGradientBrush.EndPoint)"
+                                                                            Duration="0:0:12" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Border.Triggers>
+                                            <Image Source="/Images/practice.png" Stretch="UniformToFill"  Margin="20,20,40,0"/>
+                                        </Border>
+                                    </Grid>
+                                    <Border Background="{StaticResource BackgroundBrush}" Grid.Column="1" CornerRadius="0,24,24,24">
+                                        <Grid>
+                                            <StackPanel Grid.Column="1" Margin="20,0">
+                                                <TextBlock Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource mp_bingopracticing}" HorizontalAlignment="Left" Margin="0,20,0,0"/>
+                                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Left"
                                                TextAlignment="Left" Margin="0,20">                                
-                                            <Run Text="Just paste the link, click connect and start playing"/>
-                                        </TextBlock>
-                                    </StackPanel>
-                                    <Button Style="{StaticResource FlatTextButtonStyle}" Content="Start practice" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                            <Run Text="{DynamicResource mp_ifyouwanttoimpr}"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Style="{StaticResource FlatTextButtonStyle}" Content="{DynamicResource mp_startpractice}" 
+                                            Command="{Binding OpenPracticeModalCommand}"
+                                            HorizontalContentAlignment="Left" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Margin="20,0,20,20"/>
+                                        </Grid>
+                                    </Border>
                                 </Grid>
-                            </Border>-->
+                            </Border>
                         </StackPanel>
                     </StackPanel>
                 </Grid>
-
-                <cnt:ModalWindowControl Title="Connecting to Room" 
-                                        IsOpen="{Binding IsConnectModalVisible, Mode=TwoWay}" 
-                                        CloseCommand="{Binding ConnectToRoomCancelCommand}"
-                                        IsTitleVisible="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotConverter}}">
-                    <Grid>
-                        <StackPanel Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource NotBoolToVisibilityConverter}}">
-                            <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.RoomName}" Placeholder="Room Name" Label="Room Name" Margin="40,0,40,10"/>
-                            <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Creator}" Placeholder="Creator" Label="Creator" Margin="40,0,40,10"/>
-                            <cnt:InputFieldControl IsReadOnly="True" Text="{Binding RoomInfo.Game}" Placeholder="Game" Label="Game" Margin="40,0,40,10"/>
-                            <cnt:InputFieldControl Text="{Binding Credentials.NickName, Mode=TwoWay}" Placeholder="Nickname" Label="Nickname" Margin="40,0,40,10"/>
-                            <TextBlock Visibility="{Binding IsEmptyNickName, Converter={StaticResource BoolToVisConverter}}" Text="Please type NickName!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-5,0,-15"/>
-                            <cnt:InputFieldControl IsPassword="True" Password="{Binding Credentials.Password, Mode=TwoWay}" Placeholder="Password" Label="Password" Margin="40,0,40,50"/>
-                            <TextBlock Visibility="{Binding IsIncorrectPassword, Converter={StaticResource BoolToVisConverter}}" Text="Incorrect Password!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
-                            <TextBlock Visibility="{Binding IsEmptyPassword, Converter={StaticResource BoolToVisConverter}}" Text="Please type Password!" Style="{StaticResource FlatTextBlockStyle}" Foreground="{StaticResource Danger}" Margin="55,-45,0,0"/>
-                            <cnt:SwitchControl Text="Connect As Spectator" Margin="45,-15,0,30" IsChecked="{Binding Credentials.IsSpectator, Mode=TwoWay}"/>
-                            <Button Style="{StaticResource FlatButtonStylePrimary}" Command="{Binding ConnectToRoomCommand}" Content="Connect" Width="250" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                        <Grid Visibility="{Binding IsConnectingToBoardStarted, Converter={StaticResource BoolToVisConverter}}">
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding RoomInfo.RoomName, StringFormat='Connecting To {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
-                                            Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                <cnt:ConnectingControl />
-                                <Button Content="Cancel" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
-                                        Width="180"/>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </cnt:ModalWindowControl>
-                <!---->
-                <cnt:ModalWindowControl Title="Create New Room" 
-                                        IsOpen="{Binding IsNewRoomModalVisible, Mode=TwoWay}"
-                                        CloseCommand="{Binding CreateRoomCancelCommand}"
-                                        IsTitleVisible="{Binding IsBoardCreating, Converter={StaticResource NotConverter}}">
-                    <Grid>
-                        <!---->
-                        <StackPanel Visibility="{Binding IsBoardCreating, Converter={StaticResource NotBoolToVisibilityConverter}}">
-                            <cnt:InputFieldControl Text="{Binding NewRoom.RoomName, Mode=TwoWay}" Placeholder="Room Name" Label="Room Name" Margin="40,0,40,10"
-                                                        IsError="{Binding NewRoom.IsRoomNameError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-                            <cnt:InputFieldControl Text="{Binding NewRoom.NickName, Mode=TwoWay}" Placeholder="Creator" Label="Creator" Margin="40,0,40,10"
-                                                        IsError="{Binding NewRoom.IsNickNameError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-                            <cnt:InputFieldControl IsPassword="True" Password="{Binding NewRoom.Password, Mode=TwoWay}" Placeholder="Password" Label="Password" Margin="40,0,40,10"
-                                                        IsError="{Binding NewRoom.IsPasswordError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-
-                            <cnt:SelectFieldControl Placeholder="Mode" Label="Mode" ItemsSource="{Binding RoomLockoutModes}" 
-                                                    Margin="40,0,40,10"
-                                                    SelectedCurrentItem="{Binding NewRoom.RoomLockoutMode, Mode=TwoWay}"                                               
-                                                    DisplayProperty="Name" IsRequiered="True"/>
-
-                            <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource BoolToVisConverter}}">
-                                <cnt:SelectFieldControl Placeholder="Preset" Label="Preset" ItemsSource="{Binding Presets}" 
-                                                            Margin="40,0,40,5"
-                                                            SelectedCurrentItem="{Binding NewRoom.BoardPreset, Mode=TwoWay}"
-                                                            IsError="{Binding NewRoom.IsBoardPresetError}" ErrorMessage="Requiered field!"
-                                                            DisplayProperty="PresetName" IsRequiered="True"/>
-
-                                <Button Content="Use JSON" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
-                                            Command="{Binding UsingPresetSwitchCommand}"
-                                            HorizontalAlignment="Right" Margin="50,0,50,0"/>
-                            </StackPanel>
-                            <StackPanel Visibility="{Binding IsUsingPresets, Converter={StaticResource NotBoolToVisibilityConverter}}">
-                                <cnt:InputFieldControl Placeholder="Paste JSON here..." Label="JSON" Margin="40,0,40,5" Text="{Binding NewRoom.BoardJSON, Mode=TwoWay}"
-                                                            IsError="{Binding NewRoom.IsBoardJsonError}" ErrorMessage="Requiered field!" IsRequiered="True"/>
-                                <Button Content="Use Presets" Style="{StaticResource FlatTextButtonStyleNoArrow}" 
-                                            Command="{Binding UsingPresetSwitchCommand}"
-                                            HorizontalAlignment="Right" Margin="50,0,50,0"/>
-                            </StackPanel>
-
-                            <Grid>
-                                <Border Height="1" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
-                                            Margin="40,10"/>
-                                <TextBlock Background="{StaticResource BackgroundColorBrushDark}"                                        
-                                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                Text="More options" Padding="10,0"
-                                                Style="{StaticResource FlatTextBlockStyle}"/>
-
-                            </Grid>
-                            <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-                                <cnt:SwitchControl Text="Hide Card Initialy" IsChecked="{Binding NewRoom.HideCard, Mode=TwoWay}" Margin="50,0,0,10"/>
-                                <cnt:SwitchControl Text="Create as spectator" IsChecked="{Binding NewRoom.AsSpectator, Mode=TwoWay}" Margin="50,0,0,10"/>
-                                <cnt:SwitchControl Text="Auto Board Reveal" IsChecked="{Binding NewRoom.IsAutoBoardReveal, Mode=TwoWay}" Margin="50,0,0,10"/>
-                            </StackPanel>
-                            <Button Style="{StaticResource FlatButtonStylePrimaryWithPlus}" 
-                                        Command="{Binding CreateNewRoomFinalyCommand}"
-                                        Content="Create Room" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0"/>
-                        </StackPanel>
-                        <!---->
-                        <Grid Visibility="{Binding IsBoardCreating, Converter={StaticResource BoolToVisConverter}}">
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding NewRoom.RoomName, StringFormat='Creating {0}...'}" Style="{StaticResource FlatTextBlockStyle}"
-                                            Margin="0,0,0,50" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center"/>
-                                <cnt:CreatingControl />
-                                <Button Content="Cancel" Style="{StaticResource FlatButtonStyle}" Command="{Binding ConnectToRoomCancelCommand}" Margin="0,40,0,0"
-                                        Width="180"/>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                </cnt:ModalWindowControl>
             </Grid>
         </Viewbox>
         <StackPanel x:Name="stackPanel1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="40,20"
@@ -679,7 +862,7 @@
             </StackPanel.RenderTransform>
             <TextBlock  Style="{StaticResource FlatTextBlockStyle}"
                         Foreground="#1BFEFEFE"  
-                        FontSize="12" Text="Created by: "
+                        FontSize="12" Text="{DynamicResource mp_createdby}"
                         VerticalAlignment="Center">
             </TextBlock>
             <TextBlock Style="{StaticResource FlatTextBlockStyle}"
@@ -688,14 +871,36 @@
                         VerticalAlignment="Center">
             </TextBlock>
             <Image Height="20" Width="20" Source="/Images/discord.png" Margin="8,0,0,0" VerticalAlignment="Center"
-                    MouseLeftButtonDown="Discord_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Discord"/>
+                    MouseLeftButtonDown="Discord_Click" Cursor="Hand" ToolTip="Discord">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
             <Image Height="20" Width="20" Source="/Images/twitch.png" Margin="8,0,0,0" VerticalAlignment="Center"
-                    MouseLeftButtonDown="Twitch_Click" Cursor="Hand" Opacity="0.5" ToolTip="My Twitch"/>
+                    MouseLeftButtonDown="Twitch_Click" Cursor="Hand" ToolTip="Twitch">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Opacity" Value="0.5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
 
         </StackPanel>
         <TextBlock x:Name="textBlock"  Style="{StaticResource FlatTextBlockStyle}"
                     Foreground="#1BFEFEFE"  HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    FontSize="12" Text="Images provided by freepik.com" Cursor="Hand"
+                    FontSize="12" Text="{DynamicResource mp_imagesprovidedb}" Cursor="Hand"
                     Margin="40,0,20,20" MouseLeftButtonDown="Freepik_Click" RenderTransformOrigin="0.5,0.5">
             <TextBlock.RenderTransform>
                 <TransformGroup>

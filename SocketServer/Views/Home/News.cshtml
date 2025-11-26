@@ -1,0 +1,60 @@
+﻿@using System.Globalization
+@model List<SocketServer.Controllers.NewsItem>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 offset-lg-3 col-md-12 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">Новости</h1>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="/">Главная</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+
+<section class="section blog-grid-page">
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-2 col-lg-8 col-md-12 col-12">
+                <div class="sidebar">
+                    <!-- Start Single Widget -->
+                    <div class="widget popular-feeds">
+                        <h5 class="widget-title">Новости</h5>
+                        @if (Model.Count > 0)
+                        {
+                            <div class="popular-feed-loop">
+                                @foreach (var item in Model.OrderByDescending(i => i.Date))
+                                {
+
+                                    <div class="single-popular-feed">
+                                        <div class="feed-desc">
+                                            <h6 class="post-title">
+                                                <a href="/home/NewsDetail?fileName=@item.FileName">
+                                                    @item.Title
+                                                </a>
+                                            </h6>
+                                            <span class="time"><i class="lni lni-calendar"></i> @item.Date.ToString("dd MMM yyyy", new CultureInfo("ru-RU"))</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else{
+                            <p>Пока нет новостей...</p>
+                        }
+                    </div>
+                    <!-- End Single Widget -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

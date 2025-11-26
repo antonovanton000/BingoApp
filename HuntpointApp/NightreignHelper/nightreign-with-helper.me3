@@ -1,0 +1,11 @@
+profileVersion = "v1"
+
+natives = [
+    {path = 'nighreign-helper\NightreignRandomizerHelper.dll'}
+]
+
+supports = [
+    {game = "nightreign"}
+]
+
+packages = []

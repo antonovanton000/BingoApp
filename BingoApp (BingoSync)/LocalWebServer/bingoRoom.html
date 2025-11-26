@@ -1,0 +1,1387 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>BingoApp Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <style>
+        :root {
+            --PrimaryColor: #414B4D;
+            --PrimaryLight: #4D6774;
+            --PrimaryDark: #363E40;
+            --TextAndIconsBrush: #FFFFFF;
+            --AccentBrush: #53749d;
+            --AccentBrushDisabled: #6a7685;
+            --PrimaryText: #bdc1c6;
+            --PrimaryTextBrushDarker: #65686b;
+            --SecondaryTextBrush: #000000;
+            --DividerBrush: #76B43C;
+            --BackgroundColor: #202124;
+            --BorderColor: #3c4043;
+            --bc-orrange: #FF9C12;
+            --bc-red: #FF4944;
+            --bc-blue: #409CFF;
+            --bc-green: #31D814;
+            --bc-purple: #822dbf;
+            --bc-navy: #0d48b5;
+            --bc-teal: #419695;
+            --bc-brown: #ab5c23;
+            --bc-pink: #ed86aa;
+            --bc-yellow: #d8d014;
+        }
+
+        html {
+            background: var(--BackgroundColor);
+        }
+
+        .gradient-background-brush {
+            background: linear-gradient(to bottom, #202124 0%, #111114 100%);
+        }
+
+        .bingo-color-orrange {
+            background: linear-gradient(to bottom, #FF9C12 0%, #F98E1E 50%, #D0800F 100%);
+        }
+
+        .bingo-color-red {
+            background: linear-gradient(to bottom, #FF4944 0%, #DA4440 50%, #CE302C 100%);
+        }
+
+        .bingo-color-blue {
+            background: linear-gradient(to bottom, #409CFF 0%, #37A1DE 50%, #088CBD 100%);
+        }
+
+        .bingo-color-green {
+            background: linear-gradient(to bottom, #31D814 0%, #00B500 50%, #20A00A 100%);
+        }
+
+        .bingo-color-purple {
+            background: linear-gradient(to bottom, #822dbf 0%, #7120ab 100%);
+        }
+
+        .bingo-color-navy {
+            background: linear-gradient(to bottom, #0d48b5 0%, #022b75 100%);
+        }
+
+        .bingo-color-teal {
+            background: linear-gradient(to bottom, #419695 0%, #2e7372 100%);
+        }
+
+        .bingo-color-brown {
+            background: linear-gradient(to bottom, #ab5c23 0%, #6d3811 100%);
+        }
+
+        .bingo-color-pink {
+            background: linear-gradient(to bottom, #ed86aa 0%, #cc6e8f 100%);
+        }
+
+        .bingo-color-yellow {
+            background: linear-gradient(to bottom, #d8d014 0%, #c1ba0b 100%);
+        }
+
+        .player-color-orrange {
+            color: #FF9C12;
+        }
+
+        .player-color-red {
+            color: #FF4944;
+        }
+
+        .player-color-blue {
+            color: #409CFF;
+        }
+
+        .player-color-green {
+            color: #31D814;
+        }
+
+        .player-color-purple {
+            color: #822dbf;
+        }
+
+        .player-color-navy {
+            color: #0d48b5;
+        }
+
+        .player-color-teal {
+            color: #419695;
+        }
+
+        .player-color-brown {
+            color: #ab5c23;
+        }
+
+        .player-color-pink {
+            color: #ed86aa;
+        }
+
+        .player-color-yellow {
+            color: #d8d014;
+        }
+
+        .bingo-color {
+            color: #EFBF04;
+        }
+
+        .win-color {
+            color: #EFBF04;
+        }
+
+        .message-color-accent {
+            color: var(--AccentBrush);
+        }
+
+
+        body {
+            background-color: var(--BackgroundColor);
+            color: var(--PrimaryText);
+            padding-top: 20px;
+        }
+
+        .bingo-board {
+            position: relative;
+        }
+
+        .bingo-row {
+            display: flex;
+        }
+
+        .second-color {
+            transform: skew(-0.78rad) translateX(59%) scale(1.2);
+        }
+
+        .square[data-colors="3"] .second-color {
+            transform: skew(-0.78rad) translateX(33%) scale(1.2);
+        }
+
+        .third-color {
+            transform: skew(-0.78rad) translateX(93%) scale(1.2);
+        }
+
+        .square {
+            flex-basis: 20%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            aspect-ratio: 1 / 1;
+            background-color: #181818;
+            border: 1px solid var(--BorderColor);
+            border-radius: 8px;
+            position: relative;
+            font-size: 100%;
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+            color: white;
+        }
+
+            .square .bg-color {
+                width: 100%;
+                height: 100%;
+                border-radius: 8%;
+                position: absolute;
+            }
+
+            .square .hide-panel {
+                z-index: 500;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border-radius: 8px;
+                background: -webkit-repeating-linear-gradient(45deg, #000000 0%, #212121 7%);
+                background: -o-repeating-linear-gradient(45deg, #000000 0%, #212121 7%);
+                background: -moz-repeating-linear-gradient(45deg, #000000 0%, #212121 7%);
+                background: repeating-linear-gradient(45deg, #000000 0%, #212121 7%);
+            }
+
+        .hover-panel {
+            display: none;
+            z-index: 15;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .bingo-row .square:hover .hover-panel {
+            display: block;
+        }
+
+        .bingo-row .square.mark-animate .hover-panel {
+            display: block;
+            background-color: none;
+            box-shadow: inset 0 0 10px #ffffff;
+        }
+
+        .bingo-row .square.change-animate .hover-panel {
+            display: block;
+            background-color: none;
+            box-shadow: inset 0 0 10px #ffffff;
+        }
+
+        .vertical-center {
+            left: 5px;
+            right: 5px;
+            position: absolute;
+            top: 50%;
+            z-index: 500;
+            cursor: pointer;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            line-height: 17px;
+            font-size: 15px;
+        }
+
+        .chatFeed:focus-visible {
+            border: 1px solid var(--BorderColor);
+            border-radius: 10px;
+        }
+
+        .chatFeed {
+            border: 1px solid var(--BorderColor);
+            border-radius: 10px;
+            padding: 10px;
+            height: 100%;
+            background: var(--BackgroundColor);
+            min-height: 46vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+            align-items: stretch;
+            overflow-y: scroll;
+            max-height: 70vh;
+        }
+
+        .feed-item {
+            background-color: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 0px 8px 8px 0px;
+            border-left: 5px solid var(--AccentBrush);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .feed-item-timestamp {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 14px;
+            color: var(--AccentBrush);
+        }
+
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--BackgroundColor);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1005; /* Ensure it is above other content */
+        }
+
+        .btn-reload {
+            padding: 13px 40px;
+            font-size: 18px;
+            border-radius: 40px;
+            background: var(--AccentBrush);
+        }
+
+            .btn-reload:hover {
+                background-color: #6f92bd;
+                border: none;
+            }
+
+        .board-hide-panel {
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: var(--BackgroundColor);
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid var(--BorderColor);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .board-auto-hide-panel {
+            width: 100%;
+            height: 100%;
+            z-index: 1001;
+            background: var(--BackgroundColor);
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid var(--BorderColor);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-panel h2 {
+            font-size: 67px;
+            font-weight: 300;
+        }
+
+        .players-panel {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: start;
+            justify-content: start;
+        }
+
+        .player-item {
+            display: flex;
+            gap: 10px;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .player-score-panel {
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .player-item-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .start-time-timer {
+            color: red;
+        }
+
+        .after-reveal-timer {
+            color: green;
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+        }
+
+            ::-webkit-scrollbar-thumb:window-inactive {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 1s linear infinite
+        }
+
+            .loader::before {
+                content: "";
+                box-sizing: border-box;
+                position: absolute;
+                inset: 0px;
+                border-radius: 50%;
+                border: 5px solid var(--AccentBrush);
+                animation: prixClipFix 2s linear infinite;
+            }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes prixClipFix {
+            0% {
+                clip-path: polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)
+            }
+
+            25% {
+                clip-path: polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)
+            }
+
+            50% {
+                clip-path: polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)
+            }
+
+            75% {
+                clip-path: polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 100%)
+            }
+
+            100% {
+                clip-path: polygon(50% 50%,0 0,100% 0,100% 100%,0 100%,0 0)
+            }
+        }
+
+        .mark-animate {
+            z-index: 10;
+            animation: markSquare 1.5s ease-in-out forwards;
+        }
+
+        .change-animate {
+            z-index: 10;
+            animation: changeSquare 2.5s ease-in-out forwards;
+        }
+
+        @keyframes markSquare {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes changeSquare {
+            0% {
+                transform: scale(1);
+            }
+
+            35% {
+                transform: scale(1.1);
+            }
+
+            40% {
+                transform: rotate(7deg);
+            }
+
+            50% {
+                transform: rotate(0deg);
+            }
+
+            55% {
+                transform: rotate(-7deg);
+            }
+
+            60% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .timeronpause {
+            color: var(--AccentBrush);
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media only screen and (max-device-width: 480px) { /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+            .square {
+                font-size: 140%;
+            }
+
+            .feed-item-timestamp {
+                font-size: 24px;
+            }
+
+            .feed-item-header {
+                font-size: 42px;
+            }
+
+            .feed-item-message {
+                font-size: 35px;
+            }
+
+            .chatFeed {
+                flex-direction: column-reverse;
+                height: 30vh;
+            }
+
+            #roomName, .feed-header {
+                font-size: 45px;
+            }
+
+            .vertical-center {
+                line-height: 28px;
+                font-size: 27px;
+            }
+
+            .timer-panel {
+                position: absolute;
+                top: 5px;
+                right: 15px;
+            }
+
+            #noroom h3 {
+                font-size: 40px;
+            }
+
+            .btn-reload {
+                padding: 20px 40px;
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body class="gradient-background-brush vh-100">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="row mb-lg-3 mb-3">
+                    <div class="col-12">
+                        <h2 id="roomName">Room Name</h2>
+                    </div>
+                </div>
+                <div class="bingo-board">
+                    <div class="bingo-row">
+                        <div class="square" id="slot1" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot2" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot3" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot4" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot5" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                    </div>
+                    <div class="bingo-row">
+                        <div class="square" id="slot6" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot7" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot8" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot9" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot10" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                    </div>
+                    <div class="bingo-row">
+                        <div class="square" id="slot11" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot12" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot13" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot14" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                        </div>
+                        <div class="square" id="slot15" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                    </div>
+                    <div class="bingo-row">
+                        <div class="square" id="slot16" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot17" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot18" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot19" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot20" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                    </div>
+                    <div class="bingo-row">
+                        <div class="square" id="slot21" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot22" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot23" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot24" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                        <div class="square" id="slot25" onclick="squareTapped(this)">
+                            <div class="vertical-center text-container">
+                            </div>
+                            <div class="hide-panel"></div>
+                            <div class="hover-panel"></div>
+                        </div>
+                    </div>
+                    <div class="board-hide-panel" id="hide-panel" style="display:none;" onclick="revealBoard()">
+                        <p>Нажмите чтобы открыть доску...</p>
+                    </div>
+                    <div class="board-auto-hide-panel" id="auto-hide-panel" style="display:none;">
+                        <p>Ожидаем начала игры...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mt-lg-0 mt-5">
+                <div class="row mb-lg-3 mb-4">
+                    <div class="col-12">
+                        <h2 class="feed-header">Лента</h2>
+                    </div>
+                </div>
+                <div class="chatFeed" id="chatFeed"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12 mt-lg-4 mb-lg-0 mt-5 mb-5">
+                <div class="players-panel" id="players-panel">
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="timer-panel">
+                    <h2 id="timer"><span id="hr">00</span>:<span id="min">00</span>:<span id="sec">00</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loader-container" id="loader">
+        <span class="loader"></span>
+    </div>
+    <div class="loader-container" id="noroom" style="display:none;">
+        <h3>Сейчас в BingoApp нет активной комнаты...</h3>
+        <button class="btn btn-primary btn-reload" onclick="window.location.reload()">Обновить</button>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@7.0.5/dist/browser/signalr.min.js"></script>
+    <script>
+        var room = {};
+        let seconds = 0;;
+        var timerStarted = false;
+        let timerId = null;
+        let isMobile = false;
+        detectMobile();
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/bingoHub")
+            .build();
+
+        connection.on("NoRoom", function () {
+            document.getElementById('noroom').style.display = "flex";
+        });
+
+        connection.onclose(function (error) {
+            document.getElementById('noroom').style.display = "flex";
+            console.error("SignalR disconnected", error);
+        });
+
+        connection.on("RecieveRoomInfo", function (json) {
+            try {
+                room = JSON.parse(json);
+                document.getElementById('roomName').innerHTML = room.RoomName;
+                for (var i in room.Board.Squares) {
+                    var square = room.Board.Squares[i];
+
+                    var squareElement = document.querySelector(`#${square.Slot}`);
+                    var textElement = document.querySelector(`#${square.Slot} .text-container`);
+                    textElement.innerHTML = square.Name;
+
+                    var hiddenPanelElement = document.querySelector(`#${square.Slot} .hide-panel`);
+
+                    if (square.IsHidden == true)
+                        hiddenPanelElement.style.display = "block";
+                    else
+                        hiddenPanelElement.style.display = "none";
+
+                    const filtered = square.SquareColors.filter(x => x !== 10);
+                    var marksCount = filtered.length;
+                    squareElement.setAttribute("data-colors", marksCount);
+
+                    if (marksCount > 0) {
+                        // Удалить все элементы с классом bg-color внутри #slot1
+                        squareElement.querySelectorAll('.bg-color').forEach(el => el.remove());
+                        for (var j in filtered) {
+                            var colorIndex = filtered[j];
+                            var bingoColor = getBingoColorByNumber(colorIndex);
+                            // Добавить новый div с классом bg-color bingo-color-red
+                            const newDiv = document.createElement('div');
+                            newDiv.className = 'bg-color';
+                            newDiv.classList.add(bingoColor);
+                            if (j == 1)
+                                newDiv.classList.add("second-color");
+
+                            if (j == 2)
+                                newDiv.classList.add("third-color");
+
+                            squareElement.appendChild(newDiv);
+                        }
+                    }
+                }
+
+                var feedElement = document.getElementById("chatFeed")
+                for (var i = 0; i < room.ChatMessages.length; i++) {
+                    var chatMessage = room.ChatMessages[i];
+                    var chatItem = getEventMessage(chatMessage);
+                    feedElement.append(chatItem);
+                }
+                if (feedElement.childNodes.length > 0) {
+                    if (isMobile) {
+                        feedElement.childNodes[0].scrollIntoView(false);
+                    }
+                    else {
+                        feedElement.childNodes[feedElement.childNodes.length - 1].scrollIntoView(false);
+                    }
+                }
+                if (room.RoomSettings.HideCard == true && room.IsRevealed == false) {
+
+                    document.getElementById('hide-panel').style.display = "flex";
+                }
+
+                if (room.IsAutoRevealBoardVisible == true) {
+                    document.getElementById('auto-hide-panel').style.display = "flex";
+                }
+
+                var playersElement = document.getElementById("players-panel")
+                for (var i = 0; i < room.Players.length; i++) {
+                    var player = room.Players[i];
+                    var playerItem = getPlayerItem(player);
+                    playersElement.appendChild(playerItem);
+                }
+
+                seconds = room.CurrentTimerTime;
+
+                var hms = secondsToHMS(seconds);
+                document.getElementById('hr').innerHTML = prettyNumber(hms.hours);
+                document.getElementById('min').innerHTML = prettyNumber(hms.minutes);
+                document.getElementById('sec').innerHTML = prettyNumber(hms.seconds);
+
+                if (room.IsAutoBoardReveal == true) {
+                    if (room.IsStartTimerStarted) {
+                        timerStarted = true;
+                        startTimer(true);
+                        document.getElementById("timer").className = "start-time-timer";
+                    }
+                    else if (room.IsAfterRevealTimerStarted) {
+                        document.getElementById('auto-hide-panel').style.display = 'none';
+                        startTimer(true);
+                        document.getElementById("timer").className = "after-reveal-timer";
+                    }
+                    else if (room.IsGameTimerStarted) {
+                        document.getElementById("timer").className = "";
+                        startTimer();
+                    }
+                }
+                else {
+                    if (room.IsTimerStarted == true) {
+                        resumeTimer(seconds);
+                    }
+                    else {
+                        if (room.IsTimerOnPause == true) {
+                            document.getElementById("timer").className = "timeronpause";
+                        }
+                    }
+                }
+
+                document.getElementById('loader').style.display = "none";
+            } catch (e) {
+                console.log(e);
+            }
+        });
+
+        connection.on("StartTimeStarted", function (startTimeSecconds) {
+            console.log(`StartTimeStarted Recieved: ${startTimeSecconds}`);
+            resetTimer();
+            seconds = startTimeSecconds;
+            timerStarted = true;
+            startTimer(true);
+            document.getElementById("timer").className = "start-time-timer";
+        });
+
+        connection.on("AfterRevealTimeStarted", function (afterRevealSeconds) {
+            console.log(`AfterRevealTimeStarted Recieved: ${afterRevealSeconds}`);
+            resetTimer();
+            document.getElementById('auto-hide-panel').style.display = 'none';
+            seconds = afterRevealSeconds;
+            startTimer(true);
+            document.getElementById("timer").className = "after-reveal-timer";
+        })
+
+        connection.on("RevealBoard", function () {
+            console.log(`RevealBoard Recieved`);
+            document.getElementById('hide-panel').style.display = "none";
+        });
+
+
+        connection.on("StopGame", function () {
+            console.log(`StopGame Recieved`);
+            resetTimer();
+            document.getElementById('auto-hide-panel').style.display = 'flex';
+        });
+
+        connection.on("StartTimer", function () {
+            console.log(`StartTimer Recieved!`);
+            seconds = 0;
+            document.getElementById("timer").className = "";
+            startTimer();
+        });
+
+        connection.on("PauseTimer", function () {
+            console.log(`Pause Timer Recieved!`);
+            pauseTimer();
+        });
+
+        connection.on("ResumeTimer", function (totalSeconds) {
+            console.log(`ResumeTimer Recieved!`);
+            timerStarted = true;
+            room.CurrentTimerTime = totalSeconds;
+            resumeTimer(totalSeconds);
+        });
+
+        connection.on("ResetTimer", function () {
+            console.log(`ResetTimer Recieved!`);
+            resetTimer();
+        });
+
+        connection.on("RefreshPage", function () {
+            window.location.reload();
+        });
+
+        connection.on("Test", function (test) {
+            console.log(test);
+        });
+
+        connection.on("NewEvent", function (json) {
+            var newevent = JSON.parse(json);
+            console.log(`NewEvent Recieved!`);
+            console.log(newevent);
+
+            var feedElement = document.getElementById("chatFeed")
+            var chatItem = getEventMessage(newevent);
+            feedElement.append(chatItem);
+
+            if (feedElement.childNodes.length > 0) {
+                if (isMobile) {
+                    feedElement.childNodes[0].scrollIntoView(false);
+                }
+                else {
+
+                    feedElement.childNodes[feedElement.childNodes.length - 1].scrollIntoView(false);
+                }
+            }
+
+        });
+
+        connection.on("MarkSquare", function (json) {
+            var square = JSON.parse(json);
+            console.log(`MarkSquare Recieved: ${square.Slot}`);
+            console.log(square);
+
+            var squareElement = document.querySelector(`#${square.Slot}`);
+
+            const filtered = square.SquareColors.filter(x => x !== 10);
+            var marksCount = filtered.length;
+            squareElement.setAttribute("data-colors", marksCount);
+
+            // Удалить все элементы с классом bg-color внутри #slot1
+            squareElement.querySelectorAll('.bg-color').forEach(el => el.remove());
+            for (var j in filtered) {
+                var colorIndex = filtered[j];
+                var bingoColor = getBingoColorByNumber(colorIndex);
+                // Добавить новый div с классом bg-color bingo-color-red
+                const newDiv = document.createElement('div');
+                newDiv.className = 'bg-color';
+                newDiv.classList.add(bingoColor);
+                if (j == 1)
+                    newDiv.classList.add("second-color");
+
+                if (j == 2)
+                    newDiv.classList.add("third-color");
+
+                squareElement.appendChild(newDiv);
+            }
+            if (square.IsMarked) {
+                squareElement.classList.add("mark-animate");
+                setTimeout(function () { squareElement.classList.remove("mark-animate") }, 1500);
+            }
+        });
+
+        connection.on("UnhideSquare", function (slot) {
+            console.log(`UnhideSquare Recieved Slot: ${slot}`);
+            var hiddenPanelElement = document.querySelector(`#${slot} .hide-panel`);
+            hiddenPanelElement.style.display = 'none';
+        });
+
+        connection.on("ChangeSquare", function (slot, newname) {
+            console.log(`ChangeSquare Recieved Slot: ${slot} NewName: ${newname}`);
+            var squareElement = document.querySelector(`#${slot}`);
+            var textElement = document.querySelector(`#${slot} .text-container`);
+            textElement.innerHTML = newname;
+            squareElement.classList.add("change-animate");
+            setTimeout(function () { squareElement.classList.remove("change-animate") }, 2500);
+        });
+
+        connection.on("PlayerConnected", function (json) {
+            var player = JSON.parse(json);
+            console.log(`PlayerConnected Recieved`);
+            console.log(player);
+            var playersElement = document.getElementById("players-panel");
+            var newPlayerItem = getPlayerItem(player);
+            playersElement.appendChild(newPlayerItem);
+        });
+
+        connection.on("PlayerDisconnected", function (playerId) {
+            console.log(`PlayerDisconnected Recieved PlayerId: ${playerId}`);
+            var playersElement = document.getElementById("players-panel");
+            playersElement.removeChild(document.querySelector(`.player-item[data-playerId="${playerId}"]`));
+        });
+
+        connection.on("PlayerChangeColor", function (playerId, newcolor) {
+            console.log(`PlayerChangeColor Recieved PlayerId: ${playerId} NewColor: ${newcolor}`);
+            updatePlayerItemColor(playerId, newcolor);
+        });
+
+        connection.on("UpdatePlayerScores", function (json) {
+            var scores = JSON.parse(json);
+            console.log(`UpdatePlayerScores Recieved`);
+            console.log(scores);
+            for (var i = 0; i < scores.length; i++) {
+                var playerScore = scores[i];
+                updatePlayerItemScore(playerScore.PlayerId, playerScore.Score, playerScore.LinesCount);
+            }
+        });
+
+
+
+        connection.start().then(function () {
+            // Пример отправки сообщения
+            console.log("SignalR Started");
+            connection.invoke("InitRoom");
+        }).catch(function (err) {
+            document.getElementById('noroom').style.display = "flex";
+            return console.error(err.toString());
+        });
+
+        function testConnection() {
+            connection.invoke("Test", "ping");
+        }
+
+        function getEventMessage(event) {
+
+            var mainDivEl = document.createElement("div");
+            mainDivEl.className = "feed-item";
+
+            var messageColorClass = getMessageColorClass(event.Type, event.Player?.Color ?? 0);
+            var headerEl = document.createElement("h4");
+            headerEl.classList.add("feed-item-header");
+            headerEl.classList.add(messageColorClass);
+            headerEl.textContent = event.MessageHeader;
+
+            var messageEl = document.createElement("p");
+            messageEl.classList.add("feed-item-message");
+            if (event.IsItalic)
+                messageEl.style.fontStyle = "italic";
+
+            var spanMessageText = document.createElement("span");
+            spanMessageText.textContent = event.MessageText;
+
+            var spanSquareName = document.createElement("span");
+            spanSquareName.style.fontWeight = "bold";
+            spanSquareName.className = (event.Remove == true) ? "message-color-accent" : messageColorClass;
+            spanSquareName.textContent = event.Square != null ? (" " + event.Square?.Name) : "";
+
+            var spanChangeColor = document.createElement("span");
+            spanChangeColor.style.fontWeight = "bold";
+            spanChangeColor.className = "player-color-" + event.ChangeColorName;
+            spanChangeColor.textContent = " " + event.ChangeColorName;
+
+            messageEl.append(spanMessageText, spanSquareName, spanChangeColor);
+
+
+            var timestampEl = document.createElement("span");
+            timestampEl.className = "feed-item-timestamp";
+            timestampEl.textContent = new Date(event.Timestamp).toLocaleTimeString("ru-RU");
+
+            mainDivEl.append(headerEl);
+            mainDivEl.append(messageEl);
+            mainDivEl.append(timestampEl);
+
+            return mainDivEl;
+        }
+
+        function getPlayerItem(player) {
+            //<div class="player-item">
+            //    <div class="player-score-panel">
+            //        0 (0)
+            //    </div>
+            //    <label class="player-item-name">Player1</label>
+            //</div>
+            var mainDiv = document.createElement("div");
+            mainDiv.className = "player-item";
+
+            mainDiv.setAttribute("data-playerId", player.Uuid);
+
+            var scorePanel = document.createElement("div");
+            scorePanel.classList.add("player-score-panel");
+            scorePanel.classList.add(getBingoColorByNumber(player.Color));
+            scorePanel.textContent = player.SquaresCount + ` (${player.LinesCount})`;
+
+            var playerName = document.createElement("label");
+            playerName.className = "player-item-name";
+            playerName.textContent = player.NickName;
+
+            mainDiv.append(scorePanel, playerName);
+
+            return mainDiv;
+        }
+
+        function updatePlayerItemColor(playerId, color) {
+
+            var mainDiv = document.querySelector(`.player-item[data-playerId="${playerId}"]`);
+            var scorePanel = mainDiv.querySelector(".player-score-panel")
+            scorePanel.className = "";
+            scorePanel.classList.add("player-score-panel");
+            scorePanel.classList.add(getBingoColorByNumber(color));
+        }
+
+        function updatePlayerItemScore(playerId, scount, lcount) {
+            var mainDiv = document.querySelector(`.player-item[data-playerId="${playerId}"]`);
+            var scorePanel = mainDiv.querySelector(".player-score-panel")
+            scorePanel.textContent = scount + ` (${lcount})`;
+        }
+
+        function getBingoColorByNumber(number) {
+            switch (number) {
+                case 0:
+                    return "bingo-color-orange"
+                case 1:
+                    return "bingo-color-red"
+                case 2:
+                    return "bingo-color-blue"
+                case 3:
+                    return "bingo-color-green"
+                case 4:
+                    return "bingo-color-purple"
+                case 5:
+                    return "bingo-color-navy"
+                case 6:
+                    return "bingo-color-teal"
+                case 7:
+                    return "bingo-color-brown"
+                case 8:
+                    return "bingo-color-pink"
+                case 9:
+                    return "bingo-color-yellow"
+                case 10:
+                    return ""
+            }
+        }
+
+        function getEventSubType(eventSubType) {
+            switch (eventSubType) {
+                case 0:
+                    return "connected";
+                case 1:
+                    return "disconnected";
+            }
+        }
+
+        function getEventType(eventType) {
+            switch (eventType) {
+                case 0:
+                    return "connection";
+                case 1:
+                    return "chat";
+                case 2:
+                    return "revealed";
+                case 3:
+                    return "goal";
+                case 4:
+                    return "color";
+                case 5:
+                    return "newcard";
+                case 6:
+                    return "none";
+                case 7:
+                    return "bingo";
+                case 8:
+                    return "newsquare";
+                case 9:
+                    return "unhudesquare";
+                case 10:
+                    return "win";
+            }
+        }
+
+        function getPlayerColorClass(bingoColor) {
+            switch (bingoColor) {
+                case 0:
+                    return "player-color-orange"
+                case 1:
+                    return "player-color-red"
+                case 2:
+                    return "player-color-blue"
+                case 3:
+                    return "player-color-green"
+                case 4:
+                    return "player-color-purple"
+                case 5:
+                    return "player-color-navy"
+                case 6:
+                    return "player-color-teal"
+                case 7:
+                    return "player-color-brown"
+                case 8:
+                    return "player-color-pink"
+                case 9:
+                    return "player-color-yellow"
+                case 10:
+                    return ""
+            }
+        }
+
+        function getMessageColorClass(eventType, playerColor) {
+            var eventTypeText = getEventType(eventType);
+            switch (eventTypeText) {
+                case "connection":
+                    return "message-color-accent";
+                case "chat":
+                    return getPlayerColorClass(playerColor);
+                case "revealed":
+                    return "message-color-accent";
+                case "goal":
+                    return getPlayerColorClass(playerColor);
+                case "bingo":
+                    return "bingo-color";
+                case "win":
+                    return "win-color";
+                case "color":
+                    return "message-color-accent";
+                case "newsquare":
+                    return "message-color-accent";
+                case "unhudesquare":
+                    return "message-color-accent";
+            }
+            return "message-color-accent";
+        }
+
+        function revealBoard() {
+            connection.invoke("RevealBoard");
+        }
+
+        function squareTapped(el) {
+            console.log(el.id);
+            connection.invoke("MarkSquare", el.id);
+        }
+
+        function pauseTimer() {
+            timerStarted = false;
+            document.getElementById("timer").className = "timeronpause";
+        }
+
+        function resetTimer() {
+            document.getElementById("timer").className = "";
+            timerStarted = false;
+            if (timerId !== null) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+            seconds = 0;
+
+            var hms = secondsToHMS(seconds);
+            document.getElementById('hr').innerHTML = prettyNumber(hms.hours);
+            document.getElementById('min').innerHTML = prettyNumber(hms.minutes);
+            document.getElementById('sec').innerHTML = prettyNumber(hms.seconds);
+        }
+
+        function startTimer(isDown) {
+            document.getElementById("timer").className = "";
+            timerStarted = true;
+            if (timerId != null) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+
+            timerId = setInterval(function () {
+                if (timerStarted) {
+                    if (isDown == true) {
+                        if (seconds > 0)
+                            seconds--;
+                    }
+                    else {
+                        seconds++;
+                    }
+                    var hms = secondsToHMS(seconds);
+                    document.getElementById('hr').innerHTML = prettyNumber(hms.hours);
+                    document.getElementById('min').innerHTML = prettyNumber(hms.minutes);
+                    document.getElementById('sec').innerHTML = prettyNumber(hms.seconds);
+                }
+            }, 1000);
+        }
+
+        function resumeTimer(s) {
+            document.getElementById("timer").className = "";
+            if (timerId == null)
+                startTimer();
+            seconds = s;
+            timerStarted = true;
+        }
+
+        function secondsToHMS(totalSeconds) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            return { hours, minutes, seconds };
+        }
+
+        function detectMobile() {
+            const mediaQuery = window.matchMedia("(max-device-width: 480px)");
+
+            function handleMediaQueryChange(event) {
+                var feedElement = document.getElementById("chatFeed");
+                if (event.matches) {
+                    // Code to execute when the device is mobile
+                    console.log("Switched to mobile view");
+                    let isMobile = true;
+                    if (feedElement.childNodes.length > 0)
+                        feedElement.childNodes[0].scrollIntoView(false);
+
+                } else {
+                    // Code to execute when the device is not mobile
+                    console.log("Switched to desktop view");
+                    let isMobile = false;
+                    if (feedElement.childNodes.length > 0)
+                        feedElement.childNodes[feedElement.childNodes.length - 1].scrollIntoView(false);
+                }
+            }
+
+            if (typeof mediaQuery.onchange !== 'object') {
+                mediaQuery.addListener(handleMediaQueryChange);
+            } else {
+                mediaQuery.addEventListener("change", handleMediaQueryChange);
+            }
+            handleMediaQueryChange(mediaQuery); // Initial check
+        }
+
+        function prettyNumber(number) {
+            return number < 10 ? `0${number}` : `${number}`;
+        }
+
+    </script>
+
+</body>
+</html>

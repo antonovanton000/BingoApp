@@ -1,0 +1,1166 @@
+﻿<Page x:Class="HuntpointApp.Views.RoomPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:lottie="clr-namespace:LottieSharp.WPF;assembly=LottieSharp"
+      xmlns:local="clr-namespace:HuntpointApp.Views"
+      xmlns:m="clr-namespace:HuntpointApp.Models"
+      xmlns:cl="clr-namespace:HuntpointApp.Classes"
+      xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+      xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"      
+      mc:Ignorable="d" 
+      d:DesignHeight="1140" d:DesignWidth="1840"
+      Background="{StaticResource GradientBackgroundBrush}"
+      Title="RoomPage"
+      Loaded="page_Loaded"      
+      x:Name="page">
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Resources>
+        <cl:HuntpointCollorNameConverter x:Key="HuntpointCollorNameConverter"/>
+        <cl:HuntpointCollorBackgroundConverter x:Key="HuntpointCollorBackgroundConverter"/>
+        <cl:HuntpointCollorBackgroundTransparentConverter x:Key="HuntpointCollorBackgroundTransparentConverter"/>
+        <cl:HuntpointCollorConverter x:Key="HuntpointCollorConverter"/>
+        <cl:CheckedCollorConverter x:Key="CheckedCollorConverter"/>
+        <cl:TooltipTimeConverter x:Key="TooltipTimeConverter"/>
+        <cl:EqualVisibilityConverter x:Key="EqualVisibilityConverter"/>
+        <cl:StormStateToTextConverter x:Key="StormStateToTextConverter"/>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.9">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid1" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0.9">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-50">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Page.DataContext>
+        <vm:RoomPageViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <Image Source="/Images/rectlight.png" VerticalAlignment="Bottom" Opacity="0.1"
+               Stretch="Uniform"/>
+        <lottie:LottieAnimationView        
+                x:Name="bingoAnimation"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"                
+                Margin="0,0,0,-200"
+                ResourcePath="pack://application:,,,/Images/congrats.json"
+                RepeatCount="2" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" MinWidth="620"/>
+                <ColumnDefinition Width="1*" MinWidth="620"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="grid1" RenderTransformOrigin="0.5 0.5">
+                <Grid.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Grid.RenderTransform>
+                <Viewbox Stretch="Uniform">
+                    <Grid x:Name="grBoard" >
+                        <Border Background="{StaticResource BackgroundBrush}" Margin="5" CornerRadius="5">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{StaticResource AccentColor}" Opacity="0.9" BlurRadius="10"/>
+                            </Border.Effect>
+                            <Grid Width="450" Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="41"/>
+                                    <RowDefinition Height="41"/>
+                                    <RowDefinition Height="41"/>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="42"/>
+                                </Grid.RowDefinitions>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[0]}" Grid.Row="0" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[1]}" Grid.Row="1" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[2]}" Grid.Row="2" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[3]}" Grid.Row="3" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[4]}" Grid.Row="4" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[5]}" Grid.Row="5" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[6]}" Grid.Row="6" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[7]}" Grid.Row="7" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[8]}" Grid.Row="8" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[9]}" Grid.Row="9" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[10]}" Grid.Row="11" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[11]}" Grid.Row="12" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[12]}" Grid.Row="13" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[13]}" Grid.Row="14" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[14]}" Grid.Row="15" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[15]}" Grid.Row="16" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[16]}" Grid.Row="18" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[17]}" Grid.Row="19" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[18]}" Grid.Row="20" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                                <cnt:HuntpointObjective Objective="{Binding Room.Board.Objectives[19]}" Grid.Row="22" MarkCommand="{Binding MarkObjectiveCommand}"/>
+                            </Grid>
+                        </Border>
+                        <Border Width="465" Margin="0,5" CornerRadius="5"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                                 
+                                Background="{StaticResource BackgroundBrush}"
+                                Visibility="{Binding Room.IsBoardHided, Converter={StaticResource BoolToVisConverter}}" 
+                                x:Name="revealPanel">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{StaticResource AccentColor}" Opacity="0.9" BlurRadius="10"/>
+                            </Border.Effect>
+                            <behaviors:Interaction.Triggers>
+                                <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=revealPanel}">
+                                    <behaviors:InvokeCommandAction Command="{Binding RevealBoardCommand}" />
+                                </behaviors:EventTrigger>
+                            </behaviors:Interaction.Triggers>
+                            <Border.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="boardHidePanel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.01" Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="boardHidePanel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.01" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Border.Triggers>
+                            <Grid>
+                                <Image Source="/Images/tl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                                <Image Source="/Images/tr_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                                <Image Source="/Images/bl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                                <Image Source="/Images/br_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                                <Border Background="#08FFFFFF" x:Name="boardHidePanel" Visibility="Collapsed"/>
+                                <TextBlock Text="{Binding RevealPanelText}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                           Style="{StaticResource FlatTextBlockStyle}"/>
+                            </Grid>
+                        </Border>
+                        <Border Width="465" Margin="0,5" CornerRadius="5"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                                                                 
+                                Background="{StaticResource BackgroundBrush}"
+                                Visibility="{Binding Room.IsAutoRevealBoardVisible, Mode=OneWay, Converter={StaticResource BoolToVisConverter}}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="{StaticResource AccentColor}" Opacity="0.9" BlurRadius="10"/>
+                            </Border.Effect>
+                            <Grid>
+                                <Image Source="/Images/tl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                                <Image Source="/Images/tr_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="4" Opacity="0.15"/>
+                                <Image Source="/Images/bl_corner.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                                <Image Source="/Images/br_corner.png" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4" Opacity="0.15"/>
+                                <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource rp_startgame}" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" Width="160" Command="{Binding StartGameCommand}"/>
+                            </Grid>
+                        </Border>
+                        <Grid Margin="-22,10,0,0" HorizontalAlignment="Left" Visibility="{Binding Room.IsBoardHided, Converter={StaticResource NotBoolToVisibilityConverter}}" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="41"/>
+                                <RowDefinition Height="41"/>
+                                <RowDefinition Height="41"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="42"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="0" Text="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="1" Text="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="2" Text="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="3" Text="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="4" Text="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="5" Text="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="6" Text="7" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="7" Text="8" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="8" Text="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#868686" Grid.Row="9" Text="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="11" Text="11" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="12" Text="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="13" Text="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="14" Text="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="15" Text="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#48657a" Grid.Row="16" Text="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#a386d8" Grid.Row="18" Text="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#a386d8" Grid.Row="19" Text="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#a386d8" Grid.Row="20" Text="19" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Foreground="#715335" Grid.Row="22" Text="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </Viewbox>
+            </Grid>
+            <Grid x:Name="grid" Grid.Column="1" Margin="0,0,0,0" RenderTransformOrigin="0.5 0.5">
+                <Grid.RenderTransform>
+                    <TranslateTransform X="0" Y="0"/>
+                </Grid.RenderTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="0,0,70,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,0">
+                        <TextBlock FontSize="35" FontFamily="{StaticResource Manege}" Margin="0,10,0,0"
+                                   Style="{StaticResource HeaderTextBlockBlockStyle}" Text="{Binding Room.RoomName}"
+                                   MaxWidth="360" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                    VerticalAlignment="Center">
+                            <Grid>
+                                <ToggleButton Style="{StaticResource IconToggleButtonStyle}" 
+                                              BorderThickness="0"
+                                              IsHitTestVisible="{Binding ElementName=infoPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                                              Content="&#xe946;" x:Name="btnInfo"
+                                              VerticalAlignment="Center" ToolTip="{DynamicResource rp_roominfo}" Foreground="#40FEFEFE">
+                                </ToggleButton>
+                                <Popup IsOpen="{Binding IsChecked, ElementName=btnInfo}" x:Name="infoPopup" StaysOpen="False"
+                                       AllowsTransparency="True">
+                                    <Border 
+                                        Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"                                 
+                                        Padding="15">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                                <TextBlock Text="{DynamicResource rp_game}" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0" />
+                                                <TextBlock Text="{Binding Room.RoomSettings.GameName}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE"
+                                                           Margin="0,0,5,0"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                                <TextBlock Text="{DynamicResource bm_presetname}" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0" />
+                                                <TextBlock Text="{Binding Room.RoomSettings.PresetName}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE"
+                                                           Margin="0,0,5,0"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                                <TextBlock Text="{DynamicResource mp_extramode}" Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding Room.RoomSettings.ExtraGameMode}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12" Visibility="{Binding IsSekiroGame, Converter={StaticResource BoolToVisConverter}}">
+                                                <TextBlock Text="FirstDeath: " Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                <TextBlock Text="{Binding Room.RoomSettings.IsForFirstDeath}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
+                                            </StackPanel>
+                                            <StackPanel Visibility="{Binding IsNightreignGame, Converter={StaticResource BoolToVisConverter}}">
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12" Visibility="{Binding Room.RoomSettings.IsSameSeedGeneration, Converter={StaticResource BoolToVisConverter}}">
+                                                    <TextBlock Text="Nightreign Seed: " Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="{Binding Room.NightreignSeed}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisConverter}}">
+                                                    <TextBlock Text="Pattern: " Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="{Binding Room.NightreignMapPattern}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,12" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisConverter}}">
+                                                    <TextBlock Text="Pattern Describe: " Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="{Binding Room.PatternDescribe}" Style="{StaticResource FlatTextBlockStyle}" 
+                                                           TextWrapping="Wrap" FontWeight="SemiBold" Foreground="#90FEFEFE" Margin="0,0,5,0"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                            <Button Style="{StaticResource IconButtonStyle}" FontSize="18" Content="&#xE895;" Foreground="#40FEFEFE"
+                                    Margin="10,0,0,0" Command="{Binding RefreshRoomCommand}" ToolTip="{DynamicResource rp_refreshroom}"
+                                    Visibility="{Binding IsRefreshing, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                    VerticalAlignment="Center"/>
+                            <cnt:SpinerControl IsSmall="True" SpinerColor="#40FEFEFE" Margin="10,0,0,0"
+                           Visibility="{Binding IsRefreshing, Converter={StaticResource BoolToVisConverter}}"/>
+                        </StackPanel>
+                        <Grid Margin="10,10,0,0" Visibility="{Binding Room.IsCreatorMode, Converter={StaticResource BoolToVisConverter}}">
+                            <Button Style="{StaticResource IconButtonStyle}" FontSize="18"  Foreground="#40FEFEFE"
+                                    Command="{Binding NewBoardCommand}" ToolTip="{DynamicResource rp_createnewboard}"
+                                    Visibility="{Binding Room.IsCreatorMode, Converter={StaticResource BoolToVisConverter}}">
+                                <Grid>
+                                    <TextBlock Text="&#xECAA;" FontSize="20"/>
+                                    <TextBlock Text="&#xE117;" FontSize="8" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                               Foreground="#AAFEFEFE"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,15,0,0" Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                        <ToggleButton Style="{StaticResource FlatToggleButtonStyle}" 
+                                      x:Name="btnFinishRun"
+                                      BorderBrush="{StaticResource AccentBrush}"
+                                      Width="140" FontSize="15"        
+                                      BorderThickness="1"
+                                      IsHitTestVisible="{Binding ElementName=finishRunPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                                      Content="{StaticResource rp_finishrun}" />
+                        <Popup IsOpen="{Binding IsChecked, ElementName=btnFinishRun}" x:Name="finishRunPopup" StaysOpen="False"
+                               AllowsTransparency="True" Placement="Left">
+                            <Border Padding="10,0" BorderThickness="0">
+                                <Border Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"                     
+                                    Padding="15">
+                                    <StackPanel>
+                                        <TextBlock Text="{DynamicResource mes_surewantendrun}" Style="{StaticResource FlatTextBlockStyle}"/>
+                                        <Grid Margin="0,20,0,0">
+                                            <Button Content="{DynamicResource mes_yes}" Command="{Binding FinishRunCommand}" 
+                                                HorizontalAlignment="Left" Click="CLoseFinishRunPopup_Click"
+                                                Style="{StaticResource FlatButtonStyle}"
+                                                Width="100"/>
+                                            <Button Content="{DynamicResource mes_no}" Click="CLoseFinishRunPopup_Click"
+                                                HorizontalAlignment="Right"
+                                                Style="{StaticResource FlatButtonStyle}"
+                                                Width="100"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1" Margin="0,0,70,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Opacity="0.4" Margin="0,2,8,0" Text="&#xed0c;" FontSize="18" Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource SegoeMDL2}"/>
+                        <TextBlock Opacity="0.4" Text="{DynamicResource rp_feed}" FontSize="18" Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource Manege}"/>
+                    </StackPanel>
+                    <ToggleButton HorizontalAlignment="Right" Margin="0,-10,45,0" Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                            BorderThickness="0" Foreground="#33FEFEFE" ToolTip="{DynamicResource rp_muteunmutesound}"
+                                            Style="{StaticResource IconToggleButtonStyle}" x:Name="btnMuteUnmute"
+                                            Command="{Binding MuteUnmuteCommand}"
+                                            IsChecked="{Binding IsSoundsOn, Mode=TwoWay}">
+                        <Grid>
+                            <TextBlock Text="&#xe767;" Visibility="{Binding IsChecked,ElementName=btnMuteUnmute, Converter={StaticResource BoolToVisConverter}}"/>
+                            <TextBlock Text="&#xe74f;" Visibility="{Binding IsChecked,ElementName=btnMuteUnmute, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </ToggleButton>
+                    <Grid HorizontalAlignment="Right" Margin="0,-10,0,0"  Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                        <ToggleButton Foreground="#33FEFEFE" Style="{StaticResource IconToggleButtonStyle}" 
+                                              x:Name="btnChatSettings"
+                                              BorderThickness="0"
+                                              IsHitTestVisible="{Binding ElementName=chatPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                                              Content="&#xe115;" />
+                        <Popup IsOpen="{Binding IsChecked, ElementName=btnChatSettings}" x:Name="chatPopup" StaysOpen="False"
+                                        AllowsTransparency="True">
+                            <Border Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"                     
+                                            Padding="15">
+                                <StackPanel>
+                                    <CheckBox IsChecked="{Binding IsPlayerChat}" Command="{Binding SaveSettingsCommand}" Margin="0,0,5,10" Style="{StaticResource FlatCheckBoxStyle}" Content="{DynamicResource rp_playerchat}"/>
+                                    <CheckBox IsChecked="{Binding IsGoalActions}" Command="{Binding SaveSettingsCommand}" Margin="0,0,5,10" Style="{StaticResource FlatCheckBoxStyle}" Content="{DynamicResource rp_goalactions}"/>
+                                    <CheckBox IsChecked="{Binding IsColorChanged}" Command="{Binding SaveSettingsCommand}" Margin="0,0,5,10" Style="{StaticResource FlatCheckBoxStyle}" Content="{DynamicResource rp_colorchanges}"/>
+                                    <CheckBox IsChecked="{Binding IsConnections}" Command="{Binding SaveSettingsCommand}" Margin="0,0,5,10" Style="{StaticResource FlatCheckBoxStyle}" Content="{DynamicResource rp_connections}"/>
+                                </StackPanel>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <Border Padding="10,10,10,10" Margin="0,0,0,20" Grid.Row="1" Grid.Column="0" Background="{StaticResource BackgroundBrush}" 
+                                    CornerRadius="12" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="sv">
+                                <ItemsControl ItemsSource="{Binding ChatEventsMessages}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Background="#0AFFFFFF" Margin="0,0,0,5" ToolTipOpening="Grid_ToolTipOpening" ToolTip="{DynamicResource rp_0minutesago}"
+                                                          MouseLeftButtonDown="ChatMessage_MouseLeftButtonDown">
+                                                <Grid.RenderTransform>
+                                                    <TranslateTransform X="0"/>
+                                                </Grid.RenderTransform>
+                                                <Grid.Triggers>
+                                                    <EventTrigger RoutedEvent="Loaded">
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)" From="50" To="0" Duration="0:0:0.2"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </EventTrigger>
+                                                </Grid.Triggers>
+                                                <Border Background="{Binding MessageColor}" Width="3" HorizontalAlignment="Left"/>
+                                                <StackPanel Margin="15,5,10,10">
+                                                    <TextBlock Text="{Binding MessageHeader}"  Foreground="{Binding MessageColor}" FontWeight="Medium" FontSize="18" Margin="0,0,0,4" />
+                                                    <TextBlock FontWeight="Regular" FontSize="15" TextTrimming="CharacterEllipsis" TextWrapping="Wrap">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsItalic}" Value="True">
+                                                                        <Setter Property="FontStyle" Value="Italic"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IsItalic}" Value="False">
+                                                                        <Setter Property="FontStyle" Value="Normal"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                                <Run Text="{Binding MessageText, Mode=OneWay}" Foreground="{StaticResource PrimaryTextBrush}"/>
+                                                                <Run Text="{Binding Objective.Name, Mode=OneWay}" FontWeight="Bold">
+                                                                    <Run.Style>
+                                                                        <Style TargetType="Run">
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding Remove}" Value="False">
+                                                                                    <Setter Property="Foreground" Value="{Binding MessageColor}"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding Remove}" Value="True">
+                                                                                    <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Run.Style>
+                                                                </Run>
+                                                                <Run Text="{Binding ChangeColorName, Mode=OneWay}" FontWeight="Bold" Foreground="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter} }"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                                                    VerticalAlignment="Top" Margin="8">
+                                                    <TextBlock Text="{Binding Timestamp, StringFormat='HH:mm:ss'}" FontFamily="{StaticResource Manege}" Foreground="{StaticResource AccentColorBrush}"
+                                                                        Margin="5,-3,5,0"
+                                                                        FontWeight="Regular" FontSize="15"/>
+                                                    <TextBlock Text="&#xe121;" Foreground="{StaticResource AccentColorBrush}" 
+                                                                       FontFamily="{StaticResource SegoeMDL2}" FontWeight="Medium" FontSize="15"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                            <Grid Grid.Row="1" Margin="0,0,5,0" Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                <TextBox x:Name="tbxChat" Style="{StaticResource FlatTextBoxStyle}" 
+                                                 Background="{StaticResource BackgroundBrush}"                                             
+                                                 KeyDown="tbxChat_KeyDown" FontFamily="{StaticResource Manege}"
+                                                 Text="{Binding ChatMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="16"/>
+                                <TextBlock x:Name="Placeholder" IsHitTestVisible="False" TextWrapping="Wrap" FontFamily="{StaticResource Manege}" Text="{DynamicResource rp_chatmessage}" Margin="10,16,0,0" Foreground="#33FEFEFE" FontSize="16">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding IsFocused, ElementName=tbxChat}" Value="false" />
+                                                        <Condition Binding="{Binding Text, ElementName=tbxChat}" Value="" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <Button Style="{StaticResource IconButtonStyle}" Content="&#xe725;"
+                                                Foreground="{StaticResource AccentColorBrushLight}"
+                                                HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                                Margin="0,0,10,0"
+                                                Command="{Binding SendChatMessageCommand}"
+                                                FontSize="20"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+
+
+                </Grid>
+                <Border Grid.Row="2" Background="{StaticResource BackgroundBrush}" VerticalAlignment="Top" Margin="0,20,70,0"
+                        CornerRadius="12" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" Padding="10">
+                    <Grid Margin="0,5,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="300"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <TextBlock Opacity="0.4" Text="&#xe125;" Margin="0,2,8,0"
+                                               Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="20"
+                                               FontFamily="{StaticResource SegoeMDL2}"/>
+                                    <TextBlock Opacity="0.4" Text="{DynamicResource rp_players}"
+                                               Margin="0,0,0,0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" FontFamily="{StaticResource Manege}"
+                                               Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"
+                                               Visibility="{Binding IsTeamView, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                    </TextBlock>
+                                    <TextBlock Opacity="0.4" Text="{DynamicResource rp_teams}" 
+                                               Margin="0,0,0,0" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                                               Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18"
+                                               Visibility="{Binding IsTeamView, Converter={StaticResource BoolToVisConverter}}"/>
+                                </StackPanel>
+                                <TextBlock Style="{StaticResource FlatTextBlockStyle}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                           TextAlignment="Right" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"
+                                           Margin="0,0,0,0" FontFamily="{StaticResource Manege}"
+                                           Visibility="{Binding Room.HasSpectators, Converter={StaticResource BoolToVisConverter}}">
+                                    <Run Text="&#xEBDA;" FontFamily="{StaticResource SegoeMDL2}"/>
+                                    <Run Text="{DynamicResource rp_spectators}"/>
+                                    <Run Text="{Binding Room.Spectators, Mode=OneWay}"/>
+                                </TextBlock>
+                                <Grid Grid.Row="1">
+                                    <ItemsControl ItemsSource="{Binding Room.ActualPlayers}" Margin="0,5,0,0"
+                                          VerticalAlignment="Top" 
+                                          Visibility="{Binding IsTeamView, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,0,50,10">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Border Width="40" Height="40" CornerRadius="5" BorderThickness="1"
+                                                            BorderBrush="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                                                                Background="{StaticResource BackgroundBrush}"
+                                                            VerticalAlignment="Center" Margin="0,0,10,0" x:Name="plbadge">
+                                                            <behaviors:Interaction.Triggers>
+                                                                <behaviors:EventTrigger EventName="MouseLeftButtonDown" SourceObject="{Binding ElementName=plbadge}">
+                                                                    <behaviors:InvokeCommandAction Command="{Binding DataContext.PlayerClickCommand, ElementName=page}" CommandParameter="{Binding }"/>
+                                                                </behaviors:EventTrigger>
+                                                            </behaviors:Interaction.Triggers>
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsCaster}" Value="True">
+                                                                            <Setter Property="Effect">
+                                                                                <Setter.Value>
+                                                                                    <DropShadowEffect Color="{Binding Color, Converter={StaticResource HuntpointCollorConverter}}" ShadowDepth="0" BlurRadius="25" Direction="0" Opacity="1"/>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                                                                <TextBlock Text="{Binding Score}" Style="{StaticResource FlatTextBlockStyle}" Foreground="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                                                                           Margin="0,0,0,0" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="{StaticResource Manege}"  FontWeight="SemiBold"/>
+                                                            </Grid>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding NickName}" VerticalAlignment="Center" FontWeight="Medium" MaxWidth="180" TextTrimming="CharacterEllipsis"
+                                                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource Manege}" FontSize="20"
+                                                                   />
+
+                                                        <TextBlock Text="&#xE7C1;" VerticalAlignment="Center" FontFamily="{StaticResource SegoeMDL2}" FontSize="20" Foreground="{StaticResource Success}" 
+                                                                   Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisConverter}}" Margin="5,0,0,0"/>
+                                                        <Border BorderThickness="1" BorderBrush="{StaticResource WinBrush}" Visibility="{Binding IsFirstLegendaryMarked, Converter={StaticResource BoolToVisConverter}}"
+                                                                Height="20" Width="20" CornerRadius="10" Margin="5,0,0,0">
+                                                            <TextBlock Text="&#xF146;" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="{StaticResource SegoeMDL2}" FontSize="14" 
+                                                                       Foreground="{StaticResource WinBrush}" Margin="-1,0,0,0" />
+                                                        </Border>
+
+                                                    </StackPanel>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                    <ItemsControl ItemsSource="{Binding Room.PlayerTeams}" Margin="0,5,0,0"
+                                                  VerticalAlignment="Top" Visibility="{Binding IsTeamView, Converter={StaticResource BoolToVisConverter}}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="0,0,50,10">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Border Width="60" Height="30" CornerRadius="4" BorderThickness="1"
+                                                                BorderBrush="{Binding Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                                                                VerticalAlignment="Center" Margin="0,0,10,0" x:Name="plbadge">
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0">
+                                                                <TextBlock Text="{Binding Players[0].Score}" Style="{StaticResource FlatTextBlockStyle}" Foreground="White"
+                                                                           Margin="0,0,5,0"  FontFamily="{StaticResource Manege}"/>
+
+                                                            </StackPanel>
+                                                        </Border>
+                                                        <TextBlock VerticalAlignment="Center" FontWeight="Medium" MaxWidth="180" TextTrimming="CharacterEllipsis"
+                                                                   Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontSize="18" FontFamily="{StaticResource Manege}">
+                                                            <Run Text="{Binding Color, Converter={StaticResource HuntpointCollorNameConverter}}" />
+                                                            <Run Text="{Binding Players.Count, StringFormat='({0})', Mode=OneWay}" />
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid Margin="0,0,0,0" d:Visibility="Visible" Visibility="{Binding IsTimerVisible, Converter={StaticResource BoolToVisConverter}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+                                    <TextBlock Opacity="0.4" Text="&#xe823;" Grid.Row="0" FontSize="18" Margin="0,2,8,0" 
+                                               Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource SegoeMDL2}"/>
+                                    <TextBlock Opacity="0.4" Text="{DynamicResource rp_timer}" Grid.Row="0" FontSize="18" Margin="0,0,0,0" 
+                                               Style="{StaticResource SubHeaderTextBlockBlockStyle}" FontFamily="{StaticResource Manege}"/>
+                                </StackPanel>
+                                <Grid Grid.Row="1">
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding TimerString}" 
+                                                   Visibility="{Binding Room.IsGameTimerStarted,Converter={StaticResource BoolToVisConverter}}" 
+                                                   FontSize="60" FontFamily="{StaticResource Manege}"
+                                                   RenderTransformOrigin="0.5, 0.5">
+                                            <TextBlock.RenderTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </TextBlock.RenderTransform>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="#FEFEFE"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Room.IsTimerOnPause}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource AccentColorBrush}"/>
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard Name="TimerPauseStoryboard">
+                                                                    <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" From="1" To="1.1" Duration="0:0:1" />
+                                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" From="1" To="1.1" Duration="0:0:1" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.EnterActions>
+                                                            <DataTrigger.ExitActions>
+                                                                <StopStoryboard BeginStoryboardName="TimerPauseStoryboard"/>
+                                                            </DataTrigger.ExitActions>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Room.IsGameEnded}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource WinBrush}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding StartingTimerString}" d:Visibility="Collapsed"
+                                                   Visibility="{Binding Room.IsStartTimerStarted,Converter={StaticResource BoolToVisConverter}}"
+                                                   FontSize="60" Foreground="{StaticResource Danger}"  FontFamily="{StaticResource Manege}"/>
+                                        <TextBlock Text="{Binding AfterRevealTimerString}" d:Visibility="Collapsed"
+                                                   Visibility="{Binding Room.IsAfterRevealTimerStarted,Converter={StaticResource BoolToVisConverter}}"
+                                                   FontSize="60" Foreground="{StaticResource Green}"  FontFamily="{StaticResource Manege}"/>
+                                        <StackPanel Margin="0,10,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Top"
+                                                        Visibility="{Binding IsTimerButtonsVisible, Converter={StaticResource BoolToVisConverter}}">
+                                                <Button Style="{StaticResource IconButtonStyleBig}" Content="&#xE102;"
+                                                        Background="{StaticResource SuccessAlpha20}" Foreground="{StaticResource Success}"
+                                                        Visibility="{Binding IsStartVisible, Converter={StaticResource BoolToVisConverter}}"
+                                                        Command="{Binding StartTimerCommand}"
+                                                        Margin="0,0,20,0" HorizontalAlignment="Left"/>
+                                                <Button Style="{StaticResource IconButtonStyleBig}" Content="&#xE103;" d:Visibility="Visible"
+                                                        Background="{StaticResource BlueAlpha20}" Foreground="{StaticResource Blue}"
+                                                        Visibility="{Binding IsPauseVisible, Converter={StaticResource BoolToVisConverter}}"                                        
+                                                        Command="{Binding PauseTimerCommand}"                                        
+                                                        Margin="0,0,20,0" HorizontalAlignment="Left"/>
+                                                <Button Style="{StaticResource IconButtonStyleBig}" Content="&#xE009;" d:Visibility="Visible"
+                                                        Background="{StaticResource DangerAlpha20}" Foreground="{StaticResource Danger}"
+                                                        Visibility="{Binding IsResetVisible, Converter={StaticResource BoolToVisConverter}}"                                        
+                                                        Command="{Binding ResetTimerCommand}"                                        
+                                                        HorizontalAlignment="Left"/>
+
+                                            </StackPanel>
+                                            <Grid Visibility="{Binding Room.IsCreatorMode, Converter={StaticResource BoolToVisConverter}}">
+                                                <Button Style="{StaticResource FlatButtonStylePrimaryRed}" Content="{DynamicResource rp_stop}" Width="120"
+                                                        Visibility="{Binding IsStopVisible, Converter={StaticResource BoolToVisConverter}}"                                        
+                                                        Command="{Binding StopTimerCommand}"                                        
+                                                        HorizontalAlignment="Left"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </Border>
+                <StackPanel Visibility="{Binding IsStormTimerVisible, Converter={StaticResource BoolToVisConverter}}"
+                      Grid.Row="2" VerticalAlignment="Bottom" Margin="10,10" Orientation="Horizontal" RenderTransformOrigin="0.5 0.5">
+                    <TextBlock Text="{Binding CurrentStormState,StringFormat='{}{0}: ', Converter={StaticResource StormStateToTextConverter}}" FontSize="22" Margin="0,0,5,0">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource FlatTextBlockStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Start}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink1}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1AfterShrink}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink2}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Start}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink1}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2AfterShrink}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink2}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock Text="{Binding StormTimer}" FontSize="22">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource FlatTextBlockStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Start}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink1}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1AfterShrink}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink2}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Start}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink1}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2AfterShrink}">
+                                        <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink2}">
+                                        <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+            <Popup IsOpen="{Binding IsMapSelectorVisible}" 
+                   x:Name="mapPatternPopup" Placement="RelativePoint" PlacementTarget="{Binding ElementName=grid}"
+                   StaysOpen="True">
+                <Border Background="{StaticResource BackgroundBrush}"
+                        d:Visibility="Collapsed" BorderThickness="1,0,0,0" BorderBrush="{StaticResource AccentColorBrush2}" 
+                        Width="{Binding ActualWidth, ElementName=grid}" Height="{Binding ActualHeight,ElementName=grid}">
+                    <Grid>
+                        <cnt:MapPatternSelector CloseClicked="MapPatternClose_Clicked" x:Name="mps"/>
+                        <Grid Background="{StaticResource BackgroundBrush}" Margin="10,20" Height="90" VerticalAlignment="Bottom" Visibility="{Binding IsNewEventAdded, Converter={StaticResource BoolToVisConverter}}">
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsNewEventAdded}" Value="True">
+                                            <DataTrigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
+                                                        <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(TranslateTransform.X)" From="50" To="0" Duration="0:0:0.2"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </DataTrigger.EnterActions>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Grid.RenderTransform>
+                                <TranslateTransform X="0"/>
+                            </Grid.RenderTransform>
+                            <Border Background="{Binding NewFeedEvent.MessageColor}" Width="3" HorizontalAlignment="Left"/>
+                            <StackPanel Margin="15,5,10,10">
+                                <TextBlock Text="{Binding NewFeedEvent.MessageHeader}"  Foreground="{Binding NewFeedEvent.MessageColor}" FontWeight="Medium" FontSize="18" Margin="0,0,0,4" />
+                                <TextBlock FontWeight="Regular" FontSize="15" TextTrimming="CharacterEllipsis" TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding NewFeedEvent.IsItalic}" Value="True">
+                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding NewFeedEvent.IsItalic}" Value="False">
+                                                    <Setter Property="FontStyle" Value="Normal"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                        <Run Text="{Binding NewFeedEvent.MessageText, Mode=OneWay}" Foreground="{StaticResource PrimaryTextBrush}"/>
+                                        <Run Text="{Binding NewFeedEvent.Objective.Name, Mode=OneWay}" FontWeight="Bold">
+                                        <Run.Style>
+                                            <Style TargetType="Run">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding NewFeedEvent.Remove}" Value="False">
+                                                        <Setter Property="Foreground" Value="{Binding NewFeedEvent.MessageColor}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding NewFeedEvent.Remove}" Value="True">
+                                                        <Setter Property="Foreground" Value="{StaticResource PrimaryTextBrush}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Run.Style>
+                                        </Run>
+                                        <Run Text="{Binding NewFeedEvent.ChangeColorName, Mode=OneWay}" FontWeight="Bold" Foreground="{Binding NewFeedEvent.Color, Converter={StaticResource HuntpointCollorBackgroundConverter} }"/>
+                                </TextBlock>
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" Margin="8">
+                                <TextBlock Text="{Binding NewFeedEvent.Timestamp, StringFormat='HH:mm:ss'}" Foreground="{StaticResource AccentColorBrush}"
+                                        Margin="5,-3,5,0"
+                                        FontWeight="Regular" FontSize="15"/>
+                                <TextBlock Text="&#xe121;" Foreground="{StaticResource AccentColorBrush}" 
+                                        FontFamily="{StaticResource SegoeMDL2}" FontWeight="Medium" FontSize="15"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+        </Grid>
+
+        <Ellipse Height="10" Width="10" Fill="{StaticResource Green}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
+                 Visibility="{Binding Room.IsConnectedToServer, Converter={StaticResource BoolToVisConverter}}"/>
+        <Ellipse Height="10" Width="10" Fill="{StaticResource Danger}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
+                 Visibility="{Binding Room.IsConnectedToServer, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+
+        <Grid Background="#90000000" Visibility="{Binding IsReconnecting, Converter={StaticResource BoolToVisConverter}}">
+            <Border Height="200" Width="350" BorderBrush="{StaticResource BorderColorBrush}" CornerRadius="8"
+                    Background="{StaticResource BackgroundBrush}" BorderThickness="1" d:Visibility="Collapsed">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Reconnecting..." Style="{StaticResource FlatTextBlockStyle}" Margin="0,0,0,20"/>
+                    <cnt:SpinerControl IsActive="True" IsSmall="True" SpinerColor="{StaticResource AccentBrush}"/>
+                    <Button Content="Cancel" Style="{StaticResource FlatTextButtonStyleNoArrow}" Margin="0,20,0,0"
+                            Command="{Binding ReconnectCancelCommand}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10">
+            <Grid Margin="0,5,0,15" d:Visibility="Visible">
+                <ToggleButton Style="{StaticResource IconToggleButtonStyleBig}" 
+                  Background="#10FFFFFF" Foreground="#909090"
+                  IsHitTestVisible="{Binding ElementName=playerInfoPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                  ToolTip="{DynamicResource rp_player}"
+                  x:Name="btnPlayerInfo" Content="&#xE13D;">
+                </ToggleButton>
+                <Popup IsOpen="{Binding IsChecked, ElementName=btnPlayerInfo}" x:Name="playerInfoPopup" StaysOpen="False"
+           AllowsTransparency="True" Placement="Bottom">
+                    <Border 
+                        Background="{StaticResource BackgroundBrush}" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"                     
+                        Padding="15">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left"
+                                Visibility="{Binding Room.CurrentPlayer.IsSpectator, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                VerticalAlignment="Bottom">
+                            <TextBlock Text="&#xe13D;" FontSize="15" Foreground="#20FEFEFE"
+                                    FontFamily="{StaticResource SegoeMDL2}"
+                                    Style="{StaticResource SubHeaderTextBlockBlockStyle}" Margin="0,0,5,0"/>
+                            <TextBlock Text="{DynamicResource rp_player}" FontSize="15" Foreground="#20FEFEFE"                                                
+                                    Style="{StaticResource SubHeaderTextBlockBlockStyle}" Margin="0,0,5,0" FontFamily="{StaticResource Manege}"/>
+                            <TextBlock Text="{Binding Room.CurrentPlayer.NickName}" FontSize="15"                                    
+                                       FontWeight="Medium" Foreground="{Binding Room.CurrentPlayer.Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                                       Opacity="1" FontFamily="{StaticResource Manege}"
+                                       Style="{StaticResource SubHeaderTextBlockBlockStyle}"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </Grid>
+            <Grid Margin="0,5,0,15">
+                <ToggleButton Style="{StaticResource IconToggleButtonStyleBig}" d:Visibility="Visible"
+                  Visibility="{Binding Room.CurrentPlayer.IsSpectator, Converter={StaticResource NotBoolToVisibilityConverter}}"                  
+                  Background="{Binding Room.CurrentPlayer.Color, Converter={StaticResource HuntpointCollorBackgroundTransparentConverter}}"                  
+                  Foreground="{Binding Room.CurrentPlayer.Color, Converter={StaticResource HuntpointCollorBackgroundConverter}}"
+                  IsHitTestVisible="{Binding ElementName=changeColorPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                  ToolTip="{DynamicResource rp_changecolor}"
+                  x:Name="btnChangeColor" Content="&#xE2b1;">
+                </ToggleButton>
+                <Popup IsOpen="{Binding IsChecked, ElementName=btnChangeColor}" x:Name="changeColorPopup" StaysOpen="False"
+           AllowsTransparency="True" Placement="Bottom">
+                    <Border 
+Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"                     
+Width="375" Padding="15">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource rp_changecolor}" Style="{StaticResource FlatTextBlockStyle}"/>
+                            <WrapPanel Orientation="Horizontal">
+                                <WrapPanel Margin="0,10,0,0" x:Name="wrPanel">
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=orange}"
+Command="{Binding ChangeCollorCommand}" CommandParameter="orange"
+Background="{StaticResource HuntpointColorOrrange}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="orange"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=red}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="red"
+Background="{StaticResource HuntpointColorRed}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="red"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=blue}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="blue"
+Background="{StaticResource HuntpointColorBlue}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="blue"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=green}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="green"
+Background="{StaticResource HuntpointColorGreen}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="green"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=purple}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="purple"
+Background="{StaticResource HuntpointColorPurple}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="purple"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=navy}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="navy"
+Background="{StaticResource HuntpointColorNavy}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="navy"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=teal}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="teal"
+Background="{StaticResource HuntpointColorTeal}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="teal"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=brown}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="brown"
+Background="{StaticResource HuntpointColorBrown}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="brown"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=pink}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="pink"
+Background="{StaticResource HuntpointColorPink}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="pink"/>
+
+                                    <ToggleButton IsChecked="{Binding Room.CurrentPlayer.Color, Mode=OneWay, Converter={StaticResource CheckedCollorConverter}, ConverterParameter=yellow}" 
+Command="{Binding ChangeCollorCommand}" CommandParameter="yellow"
+Background="{StaticResource HuntpointColorYellow}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="yellow"/>
+                                </WrapPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+            </Grid>
+            <Grid Margin="0,5,0,15">
+                <Button Style="{StaticResource IconButtonStyleBig}"
+                        Background="{StaticResource SuccessAlpha20}" Foreground="{StaticResource Success}"
+                        HorizontalAlignment="Right"
+                        Command="{Binding EndGameCommand}"
+                        Content="&#xE7C1;"
+                        ToolTip="{DynamicResource rp_finishgame}"
+                        Visibility="{Binding IsFinishGameVisible, Converter={StaticResource BoolToVisConverter}}">
+                </Button>
+            </Grid>
+            <Grid Margin="0,5,0,15">
+                <ToggleButton Style="{StaticResource IconToggleButtonStyleBig}" x:Name="btnShare" 
+                  Background="{StaticResource PurpleAlpha20}" Foreground="{StaticResource Purple}"                             
+                  IsHitTestVisible="{Binding ElementName=mapPatternPopup, Path=IsOpen, Mode=OneWay, Converter={StaticResource NotConverter}}"
+                  ToolTip="{DynamicResource rp_share}" d:IsHitTestVisible="True"
+                  Content="&#xE72d;">
+                </ToggleButton>
+                <Popup IsOpen="{Binding IsChecked, ElementName=btnShare}" x:Name="sharePopup" StaysOpen="False"
+               AllowsTransparency="True" d:IsOpen="True">
+                    <Grid Background="#01000000">
+                        <Border Margin="5"
+                    Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" 
+                    BorderBrush="{StaticResource BorderColorBrush}"                                     
+                    Padding="0,0,0,5">
+                            <StackPanel>
+                                <Button Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}" Style="{StaticResource MenuButtonStyle}" Click="ClosePopup_Click" Command="{Binding InvitePlayerCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE1E2;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
+                                       Margin="10,0,10,0"/>
+                                        <TextBlock Text="{DynamicResource rp_inviteplayer}" Margin="0,-2,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}" Style="{StaticResource MenuButtonStyle}" Click="ClosePopup_Click" Command="{Binding CopyRoomIdCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE16F;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
+                                       Margin="10,0,10,0"/>
+                                        <TextBlock Text="{DynamicResource rp_copyroomid}" Margin="0,-2,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Visibility="{Binding Room.IsPractice, Converter={StaticResource NotBoolToVisibilityConverter}}" Style="{StaticResource MenuButtonStyle}" Click="ClosePopup_Click" Command="{Binding SendResultsCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE1A5;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
+                                       Margin="10,0,10,0"/>
+                                        <TextBlock Text="{DynamicResource rp_sendresults}" Margin="0,-2,0,0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Style="{StaticResource MenuButtonStyle}" Click="CreateBoardShot_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8A2;" FontFamily="{StaticResource SegoeMDL2}" FontSize="17"
+                                       Margin="10,0,10,0"/>
+                                        <TextBlock Text="{DynamicResource rp_boardshot}" Margin="0,-2,0,0"/>
+                                    </StackPanel>
+                                </Button>
+
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Popup>
+                <Popup IsOpen="{Binding IsInvitePopupVisible}" x:Name="invitePopup" StaysOpen="False"
+           AllowsTransparency="True">
+                    <Border Margin="0,10,0,0"
+                Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Left" 
+                VerticalAlignment="Top" CornerRadius="6" BorderThickness="1" 
+                BorderBrush="{StaticResource BorderColorBrush}"                                     
+                Padding="15" Width="270">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{DynamicResource rp_availableplayers}" Style="{StaticResource FlatTextBlockStyle}"
+                           TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="{StaticResource PrimaryTextBrush}"
+                           VerticalAlignment="Center"/>
+                            <Button Style="{StaticResource IconButtonStyle}" Content="&#xE149;" Grid.Row="0" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Command="{Binding RefreshAvailablePlayersCommand}"
+                        ToolTip="Refresh"/>
+                            <StackPanel Grid.Row="1">
+                                <Grid Height="200">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <ListView ItemsSource="{Binding AvailablePlayers}" Background="Transparent" BorderThickness="0"
+                                  ItemContainerStyle="{StaticResource ListViewContainerStyle}" SelectionMode="Single"
+                                  SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate DataType="m:BingoAppPlayer">
+                                                    <Border Padding="5,10" CornerRadius="8">
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding NickName}" Style="{StaticResource SubHeaderTextBlockBlockStyle}"
+                                                       FontSize="15"/>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </ScrollViewer>
+                                    <Grid Visibility="{Binding AvailablePlayers.Count, Converter={StaticResource NotCountToVisibilityConverter}}">
+                                        <TextBlock Text="{DynamicResource rp_therearecurrently}" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                                       Style="{StaticResource FlatTextBlockStyle}"/>
+                                    </Grid>
+                                </Grid>
+
+                                <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource rp_sendinvite}" 
+                            Command="{Binding SendInviteCommand}" Margin="0,0,0,10" Click="CloseInvitePopup_Click"
+                            IsEnabled="{Binding SelectedPlayer, Converter={StaticResource NullToBool}}"/>
+
+                                <Button Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource rp_cancel}" 
+                            Margin="0,0,0,10" Click="CloseInvitePopup_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Popup>
+            </Grid>
+            <Grid Margin="0,5,0,15" Visibility="{Binding IsNightreignGame, Converter={StaticResource BoolToVisConverter}}">
+                <ToggleButton Style="{StaticResource IconToggleButtonStyleBig}" x:Name="btnMapPattern" 
+                    Background="{StaticResource BlueishAlpha20}" Foreground="{StaticResource Blueish}"
+                    HorizontalAlignment="Right"                    
+                    Content="&#xE707;"
+                    Command="{Binding ShowMapPatternSelectCommand}"
+                    Visibility="{Binding Room.IsRevealed, Converter={StaticResource BoolToVisConverter}}">
+                </ToggleButton>
+            </Grid>
+        </StackPanel>
+        <Button d:Content="&#xE2b4;" Margin="10" Command="{Binding OpenExternalWindowCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Foreground="#40FFFFFF" Visibility="Visible">
+            <Button.Style>
+                <Style BasedOn="{StaticResource IconButtonStyleBig}" TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsExternalWindowOpened}" Value="True">
+                            <Setter Property="Content" Value="&#xE2b3;"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsExternalWindowOpened}" Value="False">
+                            <Setter Property="Content" Value="&#xE2b4;"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsSekiroGame, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Visible">
+            <Image Source="/Images/sekiro.png" Width="42" Margin="0,0,8,8">
+                <Image.Clip>
+                    <RectangleGeometry Rect="0,0,42,42" RadiusX="4" RadiusY="4"/>
+                </Image.Clip>
+            </Image>
+            <Ellipse Height="10" Width="10" Fill="{StaticResource Green}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,3,0"
+                     Visibility="{Binding IsSekiroAttached, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Visible"/>
+            <Ellipse Height="10" Width="10" Fill="{StaticResource Danger}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-3,3,0"
+                     Visibility="{Binding IsSekiroAttached, Converter={StaticResource NotBoolToVisibilityConverter}}" d:Visibility="Visible"/>
+        </Grid>
+    </Grid>
+</Page>

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cnt="clr-namespace:BingoApp.Controls"
         xmlns:local="clr-namespace:BingoApp"
         mc:Ignorable="d"
         Title="BingoApp" Height="930" Width="1470"
@@ -25,7 +26,7 @@
             <DoubleAnimation Storyboard.TargetName="successToast" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleX)" From="0.1" To="1" Duration="0:0:0.2"/>
             <DoubleAnimation Storyboard.TargetName="successToast" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)" From="0.1" To="1" Duration="0:0:0.2"/>
         </Storyboard>
-        
+
         <Storyboard x:Key="hideSuccess">
             <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.2" Storyboard.TargetName="toastGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Collapsed}"/>
@@ -91,13 +92,13 @@
             <DoubleAnimation Storyboard.TargetName="dangerPB" Storyboard.TargetProperty="Width" From="0" To="320"/>
         </Storyboard>
     </Window.Resources>
-    <Border CornerRadius="10,10,0,0" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" Background="{StaticResource BackgroundBrush}">
+    <Border x:Name="mainborder" CornerRadius="10,10,0,0" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" Background="{StaticResource BackgroundBrush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <Border CornerRadius="10,10,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource BackgroundColorBrushDark}" MouseDown="Grid_MouseDown">
+            <Border x:Name="windowTop" CornerRadius="10,10,0,0" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource BackgroundColorBrushDark}" MouseDown="Grid_MouseDown">
                 <Border.Effect>
                     <DropShadowEffect Color="#000" Opacity="0.1"/>
                 </Border.Effect>
@@ -125,13 +126,26 @@
                             </TextBlock>
                         </StackPanel>
                     </Grid>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Grid Background="{StaticResource BlueAlpha20}" Margin="0,1,30,0" x:Name="btnSettingsGrid" Visibility="Collapsed">
-                            <Button Style="{StaticResource IconButtonStyle}" Foreground="{StaticResource AccentColorBrush}" 
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,1,30,0" x:Name="btnSettingsGrid" Visibility="Collapsed">
+                            <Grid>
+                                <Button Style="{StaticResource IconButtonStyle}" Foreground="{StaticResource AccentColorBrush}" 
+                                        Content="&#xe91C;" FontFamily="{StaticResource SegoeMDL2}" 
+                                        FontSize="18" Margin="3,0" ToolTip="{DynamicResource mp_news}" x:Name="btnNotifications"
+                                        Click="NotificationsButton_Click"/>
+                                <Border Background="{StaticResource Danger}" Width="10" Height="10" CornerRadius="7" Visibility="Collapsed"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-19,-19,0"
+                                        x:Name="lblNotificationsBadge">
+                                    <Label x:Name="lblNotificationsCount" Foreground="White" FontSize="6"/>
+                                </Border>
+                            </Grid>
+                            <Grid Background="{StaticResource BlueAlpha20}" Margin="10,0,0,0">
+                                <Button Style="{StaticResource IconButtonStyle}" Foreground="{StaticResource AccentColorBrush}" 
                                     Content="&#xe115;" FontFamily="{StaticResource SegoeMDL2}" 
-                                    FontSize="18" Margin="3,0" ToolTip="Settings" x:Name="btnSettings"
+                                    FontSize="18" Margin="3,0" ToolTip="{DynamicResource settings}" x:Name="btnSettings"
                                     Click="Settings_Click"/>
-                        </Grid>
+                            </Grid>
+                        </StackPanel>
                         <Button Style="{StaticResource IconButtonStyle}" Foreground="{StaticResource AccentColorBrush}" Content="&#xe108;" FontFamily="{StaticResource SegoeMDL2}" Click="Minimize_Click"/>
                         <Button Style="{StaticResource IconButtonStyle}" Foreground="{StaticResource AccentColorBrush}" Content="&#xe15B;" FontFamily="{StaticResource SegoeMDL2}" Click="Expand_Click"/>
                         <Button Style="{StaticResource IconButtonStyle}" Foreground="{StaticResource AccentColorBrush}" Content="&#xe10A;" FontFamily="{StaticResource SegoeMDL2}" Click="Close_Click"/>
@@ -140,11 +154,11 @@
             </Border>
             <Grid Grid.Row="1">
                 <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">-->
-                
-                    <Border MinWidth="930" Grid.Column="1" Padding="0" BorderThickness="0,1,0,0" BorderBrush="#1a1d1f">
-                        <Frame NavigationUIVisibility="Hidden" x:Name="frame" Source="/Views/SplashPage.xaml" Navigated="frame_Navigated"/>
-                    </Border>
-                
+
+                <Border x:Name="frameBorder" MinWidth="930" Grid.Column="1" Padding="0" BorderThickness="0,1,0,0" BorderBrush="#1a1d1f">
+                    <Frame NavigationUIVisibility="Hidden" x:Name="frame" Source="/Views/SplashPage.xaml" Navigated="frame_Navigated"/>
+                </Border>
+
                 <!--</ScrollViewer>-->
             </Grid>
             <Grid x:Name="NotificationGrid" Visibility="Collapsed" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#80000000">
@@ -157,9 +171,9 @@
                         <TextBlock x:Name="tblNotificationMessage" Text="" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryTextBrush}"
                                    TextWrapping="Wrap" Margin="20,0"/>
                         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-                            <Button x:Name="btnNotificationYes" Click="Notification_Yes_Click" Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="Yes" Width="120" Margin="10"/>
-                            <Button x:Name="btnNotificationNo" Click="Notification_No_Click" Style="{StaticResource FlatButtonStyle}" Content="No" Width="120" Margin="10"/>
-                            <Button x:Name="btnNotificationOk" Click="Notification_Ok_Click" Style="{StaticResource FlatButtonStyle}" Content="Оk" Width="120" Margin="10"/>
+                            <Button x:Name="btnNotificationYes" Click="Notification_Yes_Click" Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource mes_yes}" Width="120" Margin="10"/>
+                            <Button x:Name="btnNotificationNo" Click="Notification_No_Click" Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource mes_no}" Width="120" Margin="10"/>
+                            <Button x:Name="btnNotificationOk" Click="Notification_Ok_Click" Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource mes_ok}" Width="120" Margin="10"/>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -196,11 +210,14 @@
                             </Grid>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button x:Name="btnPromtOk" Click="Promt_Ok_Click" Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="Оk" Width="120" Margin="0,0,20,0"/>
-                            <Button x:Name="btnPromtCancel" Click="Promt_Cancel_Click" Style="{StaticResource FlatButtonStyle}" Content="Cancel" Width="120" Margin="0"/>
+                            <Button x:Name="btnPromtOk" Click="Promt_Ok_Click" Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource mes_ok}" Width="120" Margin="0,0,20,0"/>
+                            <Button x:Name="btnPromtCancel" Click="Promt_Cancel_Click" Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource mes_cancel}" Width="120" Margin="0"/>
                         </StackPanel>
                     </Grid>
                 </Border>
+            </Grid>
+            <Grid x:Name="ModalsGrid" Grid.Row="1" Grid.ColumnSpan="2" Background="#40000000" Visibility="Collapsed">
+
             </Grid>
             <Grid x:Name="ErrorMessageGrid" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="#40000000">
                 <Border Height="300" Width="700" Background="{StaticResource BackgroundColorBrush}" CornerRadius="8">

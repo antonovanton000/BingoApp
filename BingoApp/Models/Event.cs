@@ -30,7 +30,6 @@ namespace BingoApp.Models
 
         public string ColorName => Color.ToString();
         public string PlayerColorName => PlayerColor.ToString();
-
         public string ChangeColorName => Type == Models.EventType.color ? ColorName : "";
 
         [JsonIgnore]
@@ -112,7 +111,15 @@ namespace BingoApp.Models
                         return App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
                     case Models.EventType.goal:
                         return PlayerColorBrush;
+                    case Models.EventType.bingo:
+                        return App.Current.FindResource("WinBrush") as LinearGradientBrush;
+                    case Models.EventType.win:
+                        return App.Current.FindResource("WinBrush") as LinearGradientBrush;
                     case Models.EventType.color:
+                        return App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
+                    case Models.EventType.newsquare:
+                        return App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
+                    case Models.EventType.unhudesquare:
                         return App.Current.FindResource("AccentColorBrush") as SolidColorBrush;
                 }
 
@@ -136,17 +143,25 @@ namespace BingoApp.Models
                 {
                     case Models.EventType.connection:
                         if (EventType == EventSubType.connected)
-                            return $"{(Player.IsSpectator ? "Spectator" : "Player")} connected!";
+                            return $"{(Player.IsSpectator ? App.Current.FindResource("mes_spectator").ToString() : App.Current.FindResource("mes_player").ToString())} {App.Current.FindResource("mes_connected")}";
                         else
-                            return "Player disconnected!";
+                            return $"{App.Current.FindResource("mes_playerdisconnec")}";
                     case Models.EventType.chat:
                         return Player.NickName;                        
                     case Models.EventType.revealed:
-                        return "Board revealed";                    
+                        return $"{App.Current.FindResource("mes_boardrevealed")}";                    
                     case Models.EventType.goal:
                         return Player.NickName;
                     case Models.EventType.color:
                         return Player.NickName;                    
+                    case Models.EventType.bingo:
+                        return $"{App.Current.FindResource("mes_bingo")}";
+                    case Models.EventType.win:
+                        return $"{App.Current.FindResource("mes_win")}";
+                    case Models.EventType.newsquare:
+                        return $"{App.Current.FindResource("mes_squarechangedheader")}";
+                    case Models.EventType.unhudesquare:
+                        return $"{App.Current.FindResource("mes_squareunhideheader")}";
                     default:
                         break;
                 }
@@ -162,22 +177,30 @@ namespace BingoApp.Models
                 {
                     case Models.EventType.connection:
                         if (EventType == EventSubType.connected)
-                            return $"{(!Player.IsSpectator ? "Player " : "")}{Player.NickName} connected {(Player.IsSpectator ? "as spectator" : "")}";
+                            return $"{(!Player.IsSpectator ? $"{App.Current.FindResource("mes_player")} " : "")}{Player.NickName} {App.Current.FindResource("mes_connected")} {(Player.IsSpectator ? App.Current.FindResource("mes_asspectator") : "")}";
                         else
-                            return $"Player {Player.NickName} disconnected";
+                            return $"{App.Current.FindResource("mes_player")} {Player.NickName} {App.Current.FindResource("mes_disconnected")}";
                     case Models.EventType.chat:
                         return Message;
                     case Models.EventType.revealed:
-                        return $"Player {Player.NickName} revealed the board";
+                        return $"{App.Current.FindResource("mes_player")} {Player.NickName} {App.Current.FindResource("mes_revealedtheboar")}";
                     case Models.EventType.goal:
                         {
                             if (Remove)
-                                return $"cleared";
+                                return $"{App.Current.FindResource("mes_cleared")}";
                             else
-                                return $"marked";
+                                return $"{App.Current.FindResource("mes_marked")}";
                         }
                     case Models.EventType.color:
-                        return "changed color to";
+                        return $"{App.Current.FindResource("mes_changedcolorto")}";
+                    case Models.EventType.bingo:
+                        return $"{App.Current.FindResource("mes_player")} {Player.NickName} {App.Current.FindResource("mes_gotbingo")}";
+                    case Models.EventType.win:
+                        return $"{App.Current.FindResource("mes_player")} {Player.NickName} {App.Current.FindResource("mes_gotmajoritywin")}";
+                    case Models.EventType.newsquare:
+                        return string.Format(App.Current.FindResource("mes_squarechanged").ToString(), Message);
+                    case Models.EventType.unhudesquare:
+                        return Message;
                 }
                 return "";
             }
@@ -199,6 +222,10 @@ namespace BingoApp.Models
         goal,
         color,
         newcard,
-        none
+        none,
+        bingo,
+        newsquare,
+        unhudesquare,
+        win
     }
 }

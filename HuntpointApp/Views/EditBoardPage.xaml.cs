@@ -1,0 +1,111 @@
+﻿using HuntpointApp.Models;
+using HuntpointApp.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace HuntpointApp.Views
+{
+    /// <summary>
+    /// Interaction logic for EditBoardPage.xaml
+    /// </summary>
+    public partial class EditBoardPage : Page
+    {
+        private EditBoardViewModel _viewModel = default!;
+
+        public EditBoardPage()
+        {
+            InitializeComponent();
+            Loaded += EditBoardPage_Loaded;
+        }
+
+        private void EditBoardPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel = (DataContext as EditBoardViewModel);
+        }
+
+        private void tbxSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var vm = (DataContext as EditBoardViewModel);
+                vm.EnterSearch();
+            }
+        }
+
+        private void flyoutPlace_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            flyoutPlace.Visibility = Visibility.Collapsed;
+            presetSelectFlyout.Visibility = Visibility.Collapsed;            
+        }
+
+        private void presetSelectFlyout_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void CopyTo_Click(object sender, RoutedEventArgs e)
+        {
+            flyoutPlace.Visibility = Visibility.Visible;
+            var flyout = presetSelectFlyout;
+            var button = (sender as Button);
+            var point = button.TransformToAncestor(this)
+                              .Transform(new Point(0, 0));
+
+            flyout.Margin = new Thickness(point.X - flyout.Width + button.Width, point.Y + button.ActualHeight + 5, 0, 0);
+
+            flyout.Visibility = Visibility.Visible;
+        }
+
+        private void CloseInvitePopup_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.IsSendToPlayerPopupVisible = false;
+        }
+
+        private void ClosePopup_Click(object sender, RoutedEventArgs e)
+        {
+            btnShare.IsChecked = false;
+        }
+
+        private void HideFlyout_Click(object sender, RoutedEventArgs e)
+        {
+            flyoutPlace.Visibility = Visibility.Collapsed;
+            presetSelectFlyout.Visibility = Visibility.Collapsed;
+        }
+
+        private void SaveNote_Click(object sender, RoutedEventArgs e)
+        {
+            ((((((sender as Button).Parent as Grid).Parent as Border).Parent as Popup).Parent as Grid).Children[0] as ToggleButton).IsChecked = false;
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void ViewObjective_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton tb)
+            {
+                if (tb.DataContext is PresetObjective po)
+                {
+                    _viewModel.SelectedObjective = new Objective() { Name = po.Name, Type = po.Type, Score = po.Score };
+                }
+            }
+        }
+    }
+}

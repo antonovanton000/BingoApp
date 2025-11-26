@@ -2,32 +2,31 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <AssemblyVersion>1.0.1</AssemblyVersion>
     <FileVersion>1.0.1</FileVersion>
+    <Title>BingoApp</Title>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Classes\BingoEngine.cs" />
+    <Compile Remove="Classes\WsClient.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Fonts\HelveticaNeueCyr-Light.ttf" />
     <None Remove="Fonts\HelveticaNeueCyr-Thin.ttf" />
     <None Remove="Fonts\SEGMDL2.TTF" />
-    <None Remove="GameJsons\Bloodborne.json" />
-    <None Remove="GameJsons\Dark Souls I.json" />
-    <None Remove="GameJsons\Dark Souls II.json" />
-    <None Remove="GameJsons\Dark Souls III.json" />
-    <None Remove="GameJsons\Elden Ring (Baby Season 2).json" />
-    <None Remove="GameJsons\Elden Ring (Season 1).json" />
-    <None Remove="GameJsons\Elden Ring (Season 2).json" />
-    <None Remove="GameJsons\Sekiro %28RU%29 Blackout.json" />
-    <None Remove="GameJsons\Sekiro %28RU%29.json" />
-    <None Remove="GameJsons\Sekiro.json" />
+    <None Remove="GamesImages\Far Cry 3.jpg" />
+    <None Remove="GamesImages\Minecraft.jpg" />
     <None Remove="Images\bingo.png" />
     <None Remove="Images\bingocolored.png" />
     <None Remove="Images\boardmanager.png" />
     <None Remove="Images\br_bg.png" />
+    <None Remove="Images\congrats.json" />
     <None Remove="Images\connect.png" />
     <None Remove="Images\createboard.png" />
     <None Remove="Images\discord.png" />
@@ -39,84 +38,88 @@
     <None Remove="Images\presetcard.png" />
     <None Remove="Images\tl_bg.png" />
     <None Remove="Images\twitch.png" />
-    <None Remove="PresetImages\bloodborne.jpg" />
-    <None Remove="PresetImages\Dark Souls I.jpg" />
-    <None Remove="PresetImages\Dark Souls II.jpg" />
-    <None Remove="PresetImages\Dark Souls III.jpg" />
-    <None Remove="PresetImages\Elden Ring %28Season 1%29.jpg" />
-    <None Remove="PresetImages\Elden Ring %28Season 2%29.jpg" />
-    <None Remove="PresetImages\Elden Ring (Baby Season 2).jpg" />
-    <None Remove="PresetImages\Sekiro (RU) Blackout.jpg" />
-    <None Remove="PresetImages\Sekiro (RU).jpg" />
-    <None Remove="PresetImages\Sekiro.jpg" />
+    <None Remove="Images\wave2.json" />
+    <None Remove="notes.json" />
+    <None Remove="Presets\Sekiro\Турнир.json" />
+    <None Remove="Sekiro\dinput8.dll" />
+    <None Remove="Sekiro\modengine.ini" />
+    <None Remove="Sounds\beep-timer.wav" />
     <None Remove="Sounds\beep.wav" />
+    <None Remove="Sounds\bingo.wav" />
     <None Remove="Sounds\chat.wav" />
     <None Remove="Sounds\connected.wav" />
     <None Remove="Sounds\disconnected.wav" />
     <None Remove="Sounds\goal.wav" />
+    <None Remove="Sounds\new-square.wav" />
     <None Remove="Sounds\reveal.wav" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="GameJsons\Elden Ring %28Baby Season 2%29.json">
+    <Content Include="GamesImages\Dark Souls I.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Sekiro (RU) Blackout.json">
+    <Content Include="GamesImages\Dark Souls III.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Sekiro (RU).json">
+    <Content Include="GamesImages\Elden Ring.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Sekiro.json">
+    <Content Include="GamesImages\Far Cry 3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Dark Souls II.json">
+    <Content Include="GamesImages\Minecraft.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Dark Souls I.json">
+    <Content Include="GamesImages\Sekiro.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Bloodborne.json">
+    <Content Include="LocalWebServer\bingoRoom.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Dark Souls III.json">
+    <Content Include="Presets\Dark Souls I\Основной.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Elden Ring %28Season 1%29.json">
+    <Content Include="Presets\Elden Ring\Основной.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="GameJsons\Elden Ring %28Season 2%29.json">
+    <Content Include="Presets\Far Cry 3\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Minecraft\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Main.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Сложный.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Resurection.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Sekiro\Основной.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Presets\Dark Souls III\Основной.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />
-    <Content Include="PresetImages\Bloodborne.jpg">
+    <Content Include="notes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PresetImages\Dark Souls I.jpg">
+    <Content Include="Presets\Sekiro\Турнир.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PresetImages\Dark Souls II.jpg">
+    <Content Include="Sekiro\dinput8.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PresetImages\Dark Souls III.jpg">
+    <Content Include="Sekiro\modengine.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PresetImages\Elden Ring (Season 1).jpg">
+    <Content Include="Sounds\beep-timer.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="PresetImages\Elden Ring %28Baby Season 2%29.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PresetImages\Elden Ring (Season 2).jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PresetImages\Sekiro %28RU%29.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PresetImages\Sekiro %28RU%29 Blackout.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PresetImages\Sekiro.jpg">
+    <Content Include="Sounds\bingo.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Sounds\chat.wav">
@@ -131,16 +134,30 @@
     <Content Include="Sounds\goal.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sounds\new-square.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sounds\reveal.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.77" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="4.0.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.1" />
+    <PackageReference Include="ksemenenko.ColorThief" Version="1.1.1.4" />
+    <PackageReference Include="LottieSharp" Version="2.4.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="6.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
+    <PackageReference Include="System.Formats.Asn1" Version="9.0.6" />
+  </ItemGroup>
+  <ItemGroup>
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
@@ -151,6 +168,7 @@
     <Resource Include="Images\bingocolored.png" />
     <Resource Include="Images\boardmanager.png" />
     <Resource Include="Images\br_bg.png" />
+    <Resource Include="Images\congrats.json" />
     <Resource Include="Images\connect.png" />
     <Resource Include="Images\createboard.png" />
     <Resource Include="Images\discord.png" />
@@ -162,6 +180,7 @@
     <Resource Include="Images\presetcard.png" />
     <Resource Include="Images\tl_bg.png" />
     <Resource Include="Images\twitch.png" />
+    <Resource Include="Images\wave2.json" />
     <Content Include="Sounds\beep.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -177,10 +196,24 @@
     <Compile Update="Controls\SelectFieldControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ModalPopups\DownloadPresetModal.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Views\NewsDetailPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\GameManagerPage.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\BoardManagerPage.xaml.cs">
       <SubType>Code</SubType>
@@ -200,6 +233,13 @@
     <Compile Update="Views\SocketTestPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

@@ -14,41 +14,25 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
+using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 
 namespace BingoApp.Models
 {
     public partial class Room : ObservableObject
     {
-        private const string baseUrl = "https://bingosync.com";
-        private const string socketUrl = "wss://sockets.bingosync.com/broadcast";
-        private const string boardUrl = baseUrl + "/room/{0}/board";
-        private const string chatHistoryUrl = baseUrl + "/room/{0}/feed";
-        private const string chatUrl = baseUrl + "/api/chat";
-        private const string colorSelectedUrl = baseUrl + "/api/color";
-        private const string goalSelectedUrl = baseUrl + "/api/select";
-        private const string boardRevealedUrl = baseUrl + "/api/revealed";
-        private const string roomSettingsUrl = baseUrl + "/room/{0}/room-settings";
-        private const string newBoardUrl = baseUrl + "/api/new-card";
+        #region Properties
 
         [ObservableProperty]
-        BingoColor chosenColor;
+        string roomName = default!;
 
         [ObservableProperty]
-        string socketTempId;
+        string roomId = default!;
 
         [ObservableProperty]
-        string roomName;
-
-        [ObservableProperty]
-        string roomId;
-
-        [ObservableProperty]
-        string roomSeed;
-
-        [ObservableProperty]
-        Board board;
+        Board board = new();
 
         [ObservableProperty]
         DateTime? startDate;
@@ -63,10 +47,13 @@ namespace BingoApp.Models
         bool isGameEnded = false;
 
         [ObservableProperty]
-        int currentTimerTime;
-
-        [ObservableProperty]
-        bool isAutoBoardReveal;
+        [NotifyPropertyChangedFor(nameof(TimerString))]
+        [NotifyPropertyChangedFor(nameof(StartingTimerString))]
+        [NotifyPropertyChangedFor(nameof(AfterRevealTimerString))]
+        TimeSpan timerCounter;
+        public string TimerString => TimerCounter.ToString(@"hh\:mm\:ss");
+        public string StartingTimerString => (TimeSpan.FromSeconds(RoomSettings.StartTimeSeconds) - TimerCounter).ToString(@"hh\:mm\:ss");
+        public string AfterRevealTimerString => (TimeSpan.FromSeconds(RoomSettings.AfterRevealSeconds) - TimerCounter).ToString(@"hh\:mm\:ss");
 
         [ObservableProperty]
         bool isCreatorMode;
@@ -75,376 +62,383 @@ namespace BingoApp.Models
         bool isConnectedToServer;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsBoardHided))]
-        RoomSettings roomSettings;
+        RoomSettings roomSettings = new();
 
         [ObservableProperty]
-        Player currentPlayer;
+        Player currentPlayer = new();
 
         [ObservableProperty]
-        ObservableCollection<Event> chatMessages = new ObservableCollection<Event>();
+        ObservableCollection<Event> chatMessages = [];
 
         [ObservableProperty]
-        ObservableCollection<Player> players = new ObservableCollection<Player>();
+        ObservableCollection<Player> players = [];
 
-        public IEnumerable<Player> ActualPlayers => Players.Where(i => !i.IsSpectator);
-        public string Spectators => string.Join(", ", Players.Where(i => i.IsSpectator).Select(i => i.NickName));
+        [ObservableProperty]
+        List<Player> roomPlayers = [];
+
+        [ObservableProperty]
+        [JsonIgnore]
+        List<PresetSquare> presetSquares = [];
+
+        public IEnumerable<Player> ActualPlayers => Players.Where(i => !i.IsSpectator).OrderBy(i => i.Color);
+
+        public string Spectators => Players.Where(i => i.IsSpectator).Count().ToString();
 
         public bool HasSpectators => Players?.Any(i => i.IsSpectator) ?? false;
 
         public string PlayersNames => string.Join(", ", Players.Select(i => i.NickName));
 
-        public string TimeString => TimeSpan.FromSeconds(CurrentTimerTime).ToString(@"hh\:mm\:ss");
+        public string TimeString => TimerCounter.ToString(@"hh\:mm\:ss");
+
+        [JsonIgnore]
+        public List<PlayerTeam> PlayerTeams => Players.GroupBy(i => i.Color).Select(i => new PlayerTeam() { Color = i.First().Color, Players = i.ToList() }).OrderBy(i => i.Color).ToList();
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsBoardHided))]
-        bool isRevealed = false;
-
-        [JsonIgnore]
-        public bool IsBoardHided => RoomSettings.HideCard && !IsRevealed;
-
-        [JsonIgnore]
-        WsClient wsClient;
-
-        [JsonIgnore]
-        HttpClient client;
+        string? password;
 
         [ObservableProperty]
-        PlayerCredentials playerCredentials;
-        
-        public event EventHandler NewCardEvent;
-        
-        public string CsrfMiddlewareToken { get; set; }
+        bool isPractice = false;
 
-        public string? BoardJSON { get; set; }
+        [ObservableProperty]
+        bool isHiddenGameInited = false;
+
+        [ObservableProperty]
+        int currentHiddenStep = 1;
+
+        [ObservableProperty]
+        int lastChangeMinute = 0;
+
+        [ObservableProperty]
+        bool isTimerStarted;
+
+        [ObservableProperty]
+        bool isTimerOnPause;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsAutoRevealBoardVisible))]
+        bool isStartTimerStarted = false;
+
+        [ObservableProperty]
+        bool isAfterRevealTimerStarted = false;
+
+        [ObservableProperty]
+        bool isGameTimerStarted = true;
+
+        [ObservableProperty]
+        bool isAutoRevealBoardVisible;
+
+        #endregion
+
+        #region Constructors
 
         public Room()
         {
-            wsClient = new WsClient(this);
-            wsClient.NewCardEvent += WsClient_NewCardEvent;
+            Board = new();
             Players = new ObservableCollection<Player>();
         }
-        public Room(string roomName, string roomId, string csrfMiddlewareToken, string? boardJSON = null)
+
+        public Room(string roomName, string roomId)
         {
             Players = new ObservableCollection<Player>();
-            wsClient = new WsClient(this);
-            wsClient.NewCardEvent += WsClient_NewCardEvent;
             ChatMessages = new ObservableCollection<Event>();
             RoomName = roomName;
             RoomId = roomId;
+        }
 
+        #endregion
+
+        #region Events
+
+        public event EventHandler? NewCardEvent;
+
+        public event EventHandler<Square>? OnMarkSquareRecieved;
+
+        public event EventHandler<UnhideGameSquareEventArgs>? OnUnhideGameStep;
+
+        public event EventHandler<ChangeGameSquareeEventArgs> OnChangeGameStep;
+
+        public event EventHandler? OnBoardReveal;
+
+        public event EventHandler<Player>? OnPlayerConnected;
+
+        public event EventHandler<Player>? OnPlayerDisconnected;
+
+        public event EventHandler<Player>? OnPlayerChangeColor;
+
+        public event EventHandler<PlayerScore[]>? OnUpdatePlayerGoals;
+
+        public event EventHandler<Player>? OnRoomClosed;
+
+        public event EventHandler? OnNewBoardGenerated;
+
+        public event EventHandler? OnRefreshRoom;
+
+        #endregion
+
+        #region Methods
+
+        public async Task InitRoom()
+        {
+            CurrentPlayer = Players.FirstOrDefault(i => i.Id == App.CurrentPlayer.Id) ?? new();
             Players.CollectionChanged += (s, e) =>
             {
                 OnPropertyChanged(nameof(ActualPlayers));
                 OnPropertyChanged(nameof(Spectators));
                 OnPropertyChanged(nameof(HasSpectators));
+                OnPropertyChanged(nameof(RoomPlayers));
+                OnPropertyChanged(nameof(PlayerTeams));
             };
-            CsrfMiddlewareToken = csrfMiddlewareToken;
-            BoardJSON = boardJSON;
+
+            foreach (var item in Players)
+            {
+                item.IsCurrentPlayer = item.Id == CurrentPlayer.Id;
+            }
+            RoomPlayers = Players.ToList();
+            if (!IsPractice)
+            {
+                await ConnectToSocketAsync();
+            }
+            OnPropertyChanged(nameof(ActualPlayers));
+            OnPropertyChanged(nameof(Spectators));
+            OnPropertyChanged(nameof(HasSpectators));
+            OnPropertyChanged(nameof(RoomPlayers));
+            OnPropertyChanged(nameof(PlayerTeams));
         }
 
-        private async void WsClient_NewCardEvent(object? sender, EventArgs e)
+        public async Task ConnectToSocketAsync()
         {
-            if (RoomSettings.HideCard)
-            {
-                IsRevealed = false;
-            }
-
-            await Task.Delay(2000);
-            var newboard = await GetBoardAsync();
-            if (newboard != null)
-            {
-                MainWindow.ShowToast(new ToastInfo() { Title = "New board created!" });
-                Board = newboard;
-            }
-            else
-            {
-                MainWindow.ShowToast(new ToastInfo() { Title = "Error happend when new board created!", ToastType = ToastType.Error });
-            }
-
-            NewCardEvent?.Invoke(sender, e);
+            await App.SignalRHub.ConnectToRoomHub(RoomId);
         }
 
-        public async Task InitRoom(HttpClient httpClient)
-        {
-            client = httpClient;
-            await ConnectToSocketAsync(SocketTempId);
-            Board = await GetBoardAsync();
-            await GetChatFeed(true);
-        }
-
-        private async Task ConnectToSocketAsync(string tempSocketId)
-        {
-            await wsClient.ConnectAsync(socketUrl);
-            await wsClient.SendTempSocketKeyAsync(tempSocketId);
-        }
-
-        public async Task<Board> GetBoardAsync()
-        {
-            var board = new Board();
-            try
-            {
-                var boardJson = await client.GetStringAsync(string.Format(boardUrl, RoomId));
-                var jarray = JArray.Parse(boardJson);
-                var rowindex = 0;
-                var columnindex = 0;
-                foreach (var item in jarray)
-                {
-                    var cell = new Square()
-                    {
-                        Slot = item["slot"].Value<string>(),
-                        Name = item["name"].Value<string>(),
-                        Row = rowindex,
-                        Column = columnindex++,
-                    };
-
-                    var arr = item["colors"].Value<string>().Split(" ");
-                    foreach (var cl in arr)
-                    {
-                        cell.SquareColors.Add((BingoColor)Enum.Parse(typeof(BingoColor), cl));
-                    }
-                    if (columnindex > 4)
-                    {
-                        rowindex++;
-                        columnindex = 0;
-                    }
-
-                    board.Squares.Add(cell);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-            return board;
-        }
-
-        public void AddNewPlayer(JObject playerObj)
-        {
-
-            if (!Players.Any(i => i.Uuid == playerObj["uuid"].Value<string>()))
-            {
-                // insert if the uuid is not already listed
-                var player = new Player()
-                {
-                    IsSpectator = playerObj["is_spectator"].Value<bool>(),
-                    Uuid = playerObj["uuid"].Value<string>(),
-                    NickName = playerObj["name"].Value<string>(),
-                    Color = (BingoColor)Enum.Parse(typeof(BingoColor), playerObj["color"].Value<string>()),
-                };
-                Players.Add(player);
-            }
-            else
-            {
-                // otherwise update the player's color
-                var player = Players.FirstOrDefault(i => i.Uuid == playerObj["uuid"].Value<string>());
-                var newColor = (BingoColor)Enum.Parse(typeof(BingoColor), playerObj["color"].Value<string>());
-                //foreach (var cell in Board.Squares.Where(i => i.Colors.Any(j => j == player.Color)))
-                //{
-                //    cell.Colors.Remove(player.Color);
-                //    cell.Colors.Add(newColor);
-                //}
-                if (CurrentPlayer.Uuid == playerObj["uuid"].Value<string>())
-                    CurrentPlayer.Color = newColor;
-
-                player.Color = newColor;
-            }
-        }
-
-        public void RemovePlayer(string uuid)
-        {
-            var player = Players.FirstOrDefault(i => i.Uuid == uuid);
-            if (player != null)
-            {
-                Players.Remove(player);
-            }
-        }
-
-        public void UpdatePlayersGoals()
+        public void UpdatePlayersGoals(Square? markedSquare = null)
         {
             if (Board != null)
             {
+
+
+
                 foreach (var item in Players)
                 {
+                    var lines = item.LinesCount;
                     item.SquaresCount = Board.GetColorCount(item.Color);
                     item.LinesCount = Board.GetLinesCount(item.Color);
                     item.PotentialBingos = Board.GetPotentialBingos(item);
-                }
-            }
-        }
+                    item.PotentialBingosCount = Board.GetPotentialBingosCount(item);
+                    
 
-        public async Task GetChatFeed(bool isFull)
-        {
-            var response = await client.GetAsync(string.Format(chatHistoryUrl, RoomId) + (isFull ? "?full=true" : ""));
-            if (response.IsSuccessStatusCode)
-            {
-                var chatJson = await response.Content.ReadAsStringAsync();
-                var jobj = JObject.Parse(chatJson);
-                var eventsArray = jobj["events"] as JArray;
-                if (eventsArray != null)
-                {
-                    foreach (JObject item in eventsArray)
+                    if (IsPractice)
                     {
-                        var chatEvent = new Event()
-                        {
-                            Type = (EventType)Enum.Parse(typeof(EventType), item["type"].Value<string>().Replace("-","")),
-                            Timestamp = App.UnixTimeStampToDateTime(item["timestamp"].Value<double>()),
 
-                            Player = new Player()
-                            {
-                                IsSpectator = item["player"]["is_spectator"].Value<bool>(),
-                                Uuid = item["player"]["uuid"].Value<string>(),
-                                NickName = item["player"]["name"].Value<string>(),
-                                Color = (BingoColor)Enum.Parse(typeof(BingoColor), item["player"]["color"].Value<string>())
-                            },
-                            PlayerColor = (BingoColor)Enum.Parse(typeof(BingoColor), item["player_color"].Value<string>())
-                        };
+                        if (item.LinesCount > lines && markedSquare != null)
+                        {
+                            Board.AnimateBingoLine(item.Color, markedSquare);
 
-                        if (item.ContainsKey("event_type"))
-                        {
-                            chatEvent.EventType = (EventSubType)Enum.Parse(typeof(EventSubType), item["event_type"].Value<string>());
-                        }
-                        if (item.ContainsKey("remove"))
-                        {
-                            chatEvent.Remove = item["remove"].Value<bool>();
-                        }
-                        if (item.ContainsKey("square"))
-                        {
-                            var arr = item["square"]["colors"].Value<string>().Split(" ");
-                            var colors = new ObservableCollection<BingoColor>();
-                            foreach (var cl in arr)
+                            if (RoomSettings.GameMode == GameMode.Triple)
                             {
-                                colors.Add((BingoColor)Enum.Parse(typeof(BingoColor), cl));
+                                if (item.LinesCount == 3)
+                                {
+                                    ChatMessages.Add(new Event()
+                                    {
+                                        Type = EventType.bingo,
+                                        Player = item,
+                                        Timestamp = DateTime.Now,
+                                    });
+                                    IsGameEnded = true;
+                                }
                             }
-                            chatEvent.Square = new Square()
+                            if (RoomSettings.GameMode == GameMode.Lockout)
                             {
-                                Slot = item["square"]["slot"].Value<string>(),
-                                Name = item["square"]["name"].Value<string>(),
-                                SquareColors = colors
-                            };
-                        }
-                        if (chatEvent.Type == EventType.chat)
-                        {
-                            chatEvent.Message = item["text"].Value<string>();
-                        }
-                        if (chatEvent.Type == EventType.color)
-                        {
-                            chatEvent.Color = (BingoColor)Enum.Parse(typeof(BingoColor), item["color"].Value<string>());
-                        }
+                                ChatMessages.Add(new Event()
+                                {
+                                    Type = EventType.bingo,
+                                    Player = item,
+                                    Timestamp = DateTime.Now,
+                                });
+                                IsGameEnded = true;
+                            }
+                            if (RoomSettings.GameMode == GameMode.Blackout)
+                            {
+                                if (item.SquaresCount == 25)
+                                {
+                                    ChatMessages.Add(new Event()
+                                    {
+                                        Type = EventType.bingo,
+                                        Player = item,
+                                        Timestamp = DateTime.Now,
+                                    });
+                                    IsGameEnded = true;
+                                }
+                            }
 
-                        ChatMessages.Add(chatEvent);
+                        }
+                    }
+                    else
+                    {
+                        if (item.LinesCount > lines && markedSquare != null)
+                        {
+                            Board.AnimateBingoLine(item.Color, markedSquare);
+                        }
                     }
                 }
-            }
 
+                foreach (var item in RoomPlayers)
+                {
+                    var lines = item.LinesCount;
+                    item.SquaresCount = Board.GetColorCount(item.Color);
+                    item.LinesCount = Board.GetLinesCount(item.Color);
+                    item.PotentialBingos = Board.GetPotentialBingos(item);
+                    item.PotentialBingosCount = Board.GetPotentialBingosCount(item);
+                }
+
+                var playersScore = Players.Select(i => new PlayerScore()
+                {
+                    PlayerId = i.Id,
+                    Score = i.SquaresCount,
+                    LinesCount = i.LinesCount
+                }).ToArray();
+
+                OnUpdatePlayerGoals?.Invoke(this, playersScore);
+            }
         }
 
-        public async Task<bool> RevealTheBoard()
+        public void UpdatePlayerTeams()
         {
-            var json = new JObject();
-            json["room"] = RoomId;
-            var stringContent = new StringContent(json.ToString());
-            var resp = await client.PostAsync(boardRevealedUrl, stringContent);
-            if (resp.IsSuccessStatusCode)
-            {
-                return true;
-            }
-            return false;
+            OnPropertyChanged(nameof(ActualPlayers));
+            OnPropertyChanged(nameof(PlayerTeams));
         }
 
-        public async Task<bool> ChangeCollor(BingoColor color)
+        public async Task RevealTheBoard()
         {
-            var json = new JObject();
-            json["room"] = RoomId;
-            json["color"] = color.ToString();
-            var stringContent = new StringContent(json.ToString());
-            var resp = await client.PostAsync(colorSelectedUrl, stringContent);
-            if (resp.IsSuccessStatusCode)
-            {
-                ChosenColor = color;
-                return true;
-            }
-            return false;
+            if (CurrentPlayer.IsBoardRevealed)
+                return;
+
+            await App.SignalRHub.SendRevealBoard(RoomId, CurrentPlayer.Id);
         }
 
-        public async Task<bool> SendChatMessage(string message)
+        public async Task ChangeColor(BingoColor color)
         {
-            var json = new JObject();
-            json["room"] = RoomId;
-            json["text"] = message;
-            var stringContent = new StringContent(json.ToString());
-            var resp = await client.PostAsync(chatUrl, stringContent);
-            if (resp.IsSuccessStatusCode)
+            CurrentPlayer.Color = color;
+            if (!IsPractice)
             {
-                return true;
+                await App.SignalRHub.SendPlayerChangeColor(RoomId, CurrentPlayer.Color);
             }
-            return false;
         }
 
-        public async Task<bool> MarkSquare(Square square)
+        public async Task SendChatMessage(string message)
         {
-            square.IsMarking = true;
-            var removeColor = false;
-            // the square is blank and we're painting it
-            if (!square.IsMarked)
+            await App.SignalRHub.SendChatMessage(RoomId, message);
+        }
+
+        public async Task SendSelectBingoLine(string playerId, string lineName)
+        {
+            await App.SignalRHub.SendSelectBingoLine(RoomId, playerId, lineName);
+        }
+
+        public async Task MarkSquare(Square square)
+        {
+            if (IsPractice)
             {
-                removeColor = false;
+                square.IsMarking = true;
+                await Task.Delay(200);
+                if (square.SquareColors.Contains(CurrentPlayer.Color))
+                {
+                    square.SquareColors.Remove(CurrentPlayer.Color);
+                    ChatMessages.Add(new Event() { PlayerColor = CurrentPlayer.Color, Player = CurrentPlayer, Square = square, Type = EventType.goal, Remove = true, Timestamp = DateTime.Now });
+                }
+                else
+                {
+                    square.SquareColors.Add(CurrentPlayer.Color);
+                    ChatMessages.Add(new Event() { PlayerColor = CurrentPlayer.Color, Player = CurrentPlayer, Square = square, Type = EventType.goal, Remove = false, Timestamp = DateTime.Now });
+
+                }
+                UpdatePlayersGoals(square);
+                square.IsMarking = false;
             }
-            // the square is colored the same as the chosen color so we're clearing it (or just removing the chosen color from the square's colors)
-            else if (square.SquareColors.Any(i => i == ChosenColor))
-            {
-                removeColor = true;
-            }
-            // the square is a different color, but we allow multiple colors, so add it
-            else if (RoomSettings.LockoutMode != "Lockout")
-            {
-                removeColor = false;
-            }
-            // the square is colored a different color and we don't allow multiple colors, so don't do anything
             else
             {
-                return false;
+                if (RoomSettings.GameMode == GameMode.Lockout)
+                {
+                    if (square.SquareColors.Contains(CurrentPlayer.Color) || square.SquareColors.Count == 0)
+                    {
+                        square.IsMarking = true;
+                        await App.SignalRHub.SendMarkSquare(RoomId, square.Slot, CurrentPlayer.Color);
+                    }
+                }
+                else
+                {
+                    await App.SignalRHub.SendMarkSquare(RoomId, square.Slot, CurrentPlayer.Color);
+                }
             }
-            var json = new JObject();
-            json["room"] = RoomId;
-            json["slot"] = square.Slot.Replace("slot", "");
-            json["color"] = ChosenColor.ToString();
-            json["remove_color"] = removeColor;
-            var stringContent = new StringContent(json.ToString());
-            try
-            {
-                var resp = await client.PutAsync(goalSelectedUrl, stringContent);                
-                return resp.IsSuccessStatusCode;
-            }
-            catch (Exception)
-            {
-                IsConnectedToServer = false;
-            }
-            return false;
+        }
+
+        public void TriggerMarkSquareEvent(Square square)
+        {
+            OnMarkSquareRecieved?.Invoke(this, square);
+        }
+
+        public void TriggerRevealBoard()
+        {
+            OnBoardReveal?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void TriggerNewBoardGenerated()
+        {
+            OnNewBoardGenerated?.Invoke(this, EventArgs.Empty);
+        }
+        public void TriggerPlayerTeamsUpdate()
+        {
+            OnPropertyChanged(nameof(PlayerTeams));
+            OnPropertyChanged(nameof(ActualPlayers));
+            OnPropertyChanged(nameof(Spectators));
+            OnPropertyChanged(nameof(HasSpectators));
         }
 
         public async Task DisconnectAsync()
         {
-            await wsClient.DisconnectAsync();            
+            await App.SignalRHub.DisconnectFromRoomHub(RoomId);
         }
 
         public async Task SaveAsync()
         {
-            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
-
             var dirName = System.IO.Path.Combine(App.Location, "ActiveRooms");
             if (!System.IO.Directory.Exists(dirName))
                 System.IO.Directory.CreateDirectory(dirName);
 
             var fileName = System.IO.Path.Combine(dirName, RoomName + "_" + RoomId + ".json");
+            if (IsPractice)
+            {
+                var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                await System.IO.File.WriteAllTextAsync(fileName, json);
+            }
+            else
+            {
+                var password = !string.IsNullOrEmpty(Password) ? Convert.ToBase64String(Encoding.UTF8.GetBytes(this.Password)) : Password;
+                var json = JsonConvert.SerializeObject(new
+                {
+                    RoomId,
+                    RoomName,
+                    Password = password,
+                    CurrentPlayer
+                }, Formatting.Indented);
 
-            await System.IO.File.WriteAllTextAsync(fileName, json);
+                await System.IO.File.WriteAllTextAsync(fileName, json);
+            }
         }
 
         public async Task SaveToHistoryAsync()
         {
-            this.BoardJSON = "";
+
+            foreach (var item in RoomPlayers)
+            {
+                if (!Players.Any(i => i.Id == item.Id))
+                {
+                    if (!item.IsSpectator)
+                    {
+                        Players.Add(item);
+                    }
+                }
+            }
+
             var json = JsonConvert.SerializeObject(this, Formatting.Indented);
 
             var dirName = System.IO.Path.Combine(App.Location, "HistoryRooms");
@@ -472,110 +466,202 @@ namespace BingoApp.Models
                 System.IO.File.Delete(fileName);
         }
 
+        public static async Task<Room?> LoadRoomFromFile(string roomPath)
+        {
+            try
+            {
+                var roomJson = await System.IO.File.ReadAllTextAsync(roomPath);
+                var oldroom = JsonConvert.DeserializeObject<Room>(roomJson);
+                if (oldroom == null) return null;
+                if (!oldroom.IsPractice)
+                {
+                    oldroom.Password = !string.IsNullOrEmpty(oldroom.Password) ? Encoding.UTF8.GetString(Convert.FromBase64String(oldroom.Password)) : null;
+                }
+                return oldroom;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public async Task GenerateNewBoardAsync()
         {
-            if (!IsCreatorMode || string.IsNullOrEmpty(BoardJSON))
-                return;
+            if (!IsCreatorMode) return;
 
-            var jobj = new JObject();
-            jobj["hide_card"] = RoomSettings.HideCard;
-            jobj["csrfmiddlewaretoken"] = CsrfMiddlewareToken;
-            jobj["variant_type"] = RoomSettings.VariantId;
-            jobj["game_type"] = RoomSettings.GameId;
-            jobj["lockout_mode"] = RoomSettings.LockoutMode == "Lockout" ? 1 : 2;
-            jobj["custom_json"] = BoardJSON;
-            jobj["seed"] = "";
-            jobj["room"] = RoomId;
+            if (RoomSettings.HideCard)
+                CurrentPlayer.IsBoardRevealed = false;
 
-
-            var stringContent = new StringContent(jobj.ToString());
-            var response = await client.PostAsync(newBoardUrl, stringContent);
-            if (!response.IsSuccessStatusCode)
-            {
-                MainWindow.ShowToast(new ToastInfo() { ToastType = ToastType.Error, Title="Error", Detail="Error happend when new board created!" });
-            }            
+            await App.RestClient.GenerateNewBoard(RoomId);
         }
 
         public async Task RefreshRoomAsync()
         {
-            var response = await client.GetAsync(baseUrl + "/room/" + this.RoomId);
-            if (response.IsSuccessStatusCode)
+            var serverRoomResp = await App.RestClient.ConnectToRoom(new ConnectRoomModel()
             {
-                var responseMessage = await response.Content.ReadAsStringAsync();
-                var stringToFind = "var temporarySocketKey = \"";
-                if (responseMessage.IndexOf(stringToFind) != -1)
+                RoomId = RoomId,
+                Password = Password,
+                AsSpectator = CurrentPlayer.IsSpectator,
+                PlayerId = CurrentPlayer.Id
+            });
+            if (serverRoomResp.IsSuccess)
+            {
+                var serverRoom = serverRoomResp.Data;
+                Board = serverRoom.Board;
+
+                ChatMessages.Clear();
+                foreach (var item in serverRoom.ChatMessages)
                 {
-                    var startPosition = responseMessage.IndexOf(stringToFind) + stringToFind.Length;
-                    var endPosition = responseMessage.IndexOf("\";", startPosition);
-                    var length = endPosition - startPosition;
-                    var socketTempId = responseMessage.Substring(startPosition, length);
-                    SocketTempId = socketTempId;
+                    ChatMessages.Add(item);
                 }
-
-                stringToFind = "ROOM_SETTINGS = JSON.parse('";
-                if (responseMessage.IndexOf(stringToFind) != -1)
-                {
-                    var startPosition = responseMessage.IndexOf(stringToFind) + stringToFind.Length;
-                    var endPosition = responseMessage.IndexOf("');", startPosition);
-                    var length = endPosition - startPosition;
-                    var roomSettingsJson = responseMessage.Substring(startPosition, length).Replace("\\u0022", "\"");
-                    var roomjObj = JObject.Parse(roomSettingsJson);
-                    RoomSettings = new RoomSettings()
-                    {
-                        HideCard = roomjObj["hide_card"].Value<bool>(),
-                        Variant = roomjObj["variant"].Value<string>(),
-                        LockoutMode = roomjObj["lockout_mode"].Value<string>(),
-                        Seed = roomjObj["seed"].Value<long>(),
-                        Game = roomjObj["game"].Value<string>(),
-                        GameId = roomjObj["game_id"].Value<int>(),
-                        VariantId = roomjObj["variant_id"].Value<int>()
-                    };
-                }
-
-                stringToFind = "var player = JSON.parse('";
-                if (responseMessage.IndexOf(stringToFind) != -1)
-                {
-                    var startPosition = responseMessage.IndexOf(stringToFind) + stringToFind.Length;
-                    var endPosition = responseMessage.IndexOf("');", startPosition);
-                    var length = endPosition - startPosition;
-                    var playerJson = responseMessage.Substring(startPosition, length).Replace("\\u0022", "\"");
-                    var playerjObj = JObject.Parse(playerJson);
-                    CurrentPlayer = new Player()
-                    {
-                        IsSpectator = playerjObj["is_spectator"].Value<bool>(),
-                        Uuid = playerjObj["uuid"].Value<string>(),
-                        Color = (BingoColor)Enum.Parse(typeof(BingoColor), playerjObj["color"].Value<string>()),
-                        NickName = playerjObj["name"].Value<string>()
-                    };
-
-                    ChosenColor = CurrentPlayer.Color;
-                }
-
-                var doc = new HtmlDocument();
-                doc.LoadHtml(responseMessage);
-                var playerPanel = doc.GetElementbyId("players-panel");
-                var playersEntrys = playerPanel.Elements("div");
 
                 Players.Clear();
-                foreach (var entry in playersEntrys)
+                foreach (var item in serverRoom.Players)
                 {
-                    var player = new Player();
-                    player.Uuid = entry.Attributes["id"].Value;
-                    player.NickName = entry.Elements("span").FirstOrDefault(i => i.Attributes["class"].Value == "playername").InnerText.Trim();
-                    var color = entry.Elements("span").FirstOrDefault(i => i.Attributes["class"].Value.Contains("goalcounter")).Attributes["class"].Value;
-                    color = color.Replace("goalcounter", "").Replace("square", "").Trim();
-                    player.Color = (BingoColor)Enum.Parse(typeof(BingoColor), color);
-
-                    Players.Add(player);
+                    item.IsCurrentPlayer = item.Id == CurrentPlayer.Id;
+                    Players.Add(item);
                 }
-                await ConnectToSocketAsync(SocketTempId);
-                var newboard = await GetBoardAsync();
-                if (newboard!=null)
-                    Board = newboard;
+                RoomPlayers = Players.ToList();
 
-                await GetChatFeed(true);
-
+                TimerCounter = serverRoom.TimerCounter;
+                IsTimerOnPause = serverRoom.IsTimerOnPause;
+                IsTimerStarted = serverRoom.IsTimerStarted;
+                IsGameStarted = serverRoom.IsGameStarted;
+                IsGameEnded = serverRoom.IsGameEnded;
+                LastChangeMinute = serverRoom.LastChangeMinute;
+                CurrentHiddenStep = serverRoom.CurrentHiddenStep;
             }
         }
+
+        public async Task ProcessHiddenGame()
+        {
+            if (Board == null) return;
+            if (PresetSquares == null) return;
+            if (!IsCreatorMode) return;
+
+            await App.SignalRHub.SendUnhideSquareAsync(RoomId, CurrentHiddenStep);
+            CurrentHiddenStep++;
+        }
+
+        public async Task UnhideSquares(string slot)
+        {
+            var square = Board.Squares.FirstOrDefault(i => i.Slot == slot);
+            if (square != null)
+            {
+                square.IsHidden = false;
+                square.IsReplaceNewAnimate = true;
+                await Task.Delay(1000);
+                square.IsReplaceNewAnimate = false;
+            }
+        }
+
+        public async Task ProcessChangingGame(int minute)
+        {
+            if (Board == null) return;
+            if (PresetSquares == null) return;
+            if (!IsCreatorMode) return;
+
+            LastChangeMinute = minute;
+
+            await App.SignalRHub.SendChangeSquareAsync(RoomId, minute);
+        }
+
+        public async Task ChangeSquare(string slot, string name)
+        {
+            var square = Board.Squares.FirstOrDefault(i => i.Slot == slot);
+            if (square != null)
+            {
+                square.Name = name;
+                square.IsReplaceNewAnimate = true;
+                OnChangeGameStep?.Invoke(this, new ChangeGameSquareeEventArgs() { SlotId = slot, NewSquareName = name });
+                await Task.Delay(1000);
+                square.IsReplaceNewAnimate = false;
+            }
+        }
+
+        public RoomServerSync GetRoomServerSyncData()
+        {
+            return new RoomServerSync()
+            {
+                RoomId = RoomId,
+                PresetName = RoomSettings.PresetName,
+                GameName = RoomSettings.GameName,
+                GameMode = RoomSettings.GameMode,
+                GameExtraMode = RoomSettings.ExtraGameMode,
+                IsGameStarted = IsGameStarted,
+                IsGameEnded = IsGameEnded,
+                StartDate = StartDate,
+                EndDate = EndDate,
+                CurrentTimerTime = (int)TimerCounter.TotalSeconds,
+                IsAutoBoardReveal = RoomSettings.IsAutoBoardReveal,
+                CurrentHiddenStep = CurrentHiddenStep,
+                IsHiddenGameInited = IsHiddenGameInited,
+                LastChangeMinute = LastChangeMinute,
+            };
+        }
+
+        public void GeneratePracticeBoard()
+        {
+            if (IsPractice)
+            {
+                var rnd = new Random();
+                var rndSquares = PresetSquares.OrderBy(x => rnd.NextDouble()).Take(25);
+                var boardSqares = new List<Square>();
+
+                var row = 0;
+                var col = 0;
+                var slot = 1;
+                foreach (var square in rndSquares)
+                {
+                    var s = new Square()
+                    {
+                        Name = square.Name,
+                        Row = row,
+                        Column = col,
+                        IsMarking = false,
+                        Slot = $"slot{slot++}"
+                    };
+                    boardSqares.Add(s);
+                    col++;
+                    if (col == 5)
+                    {
+                        col = 0;
+                        row++;
+                    }
+                }
+                Board = new Board() { Squares = new ObservableCollection<Square>(boardSqares) };
+                TriggerNewBoardGenerated();
+            }
+        }
+
+        #endregion
     }
+
+    public enum GameMode
+    {
+        Lockout,
+        Triple,
+        Blackout,
+        Other
+    }
+
+    public enum ExtraGameMode
+    {
+        None,
+        Hidden,
+        Changing
+    }
+
+    public class UnhideGameSquareEventArgs : EventArgs
+    {
+        public string SlotId { get; set; } = default!;
+    }
+
+    public class ChangeGameSquareeEventArgs : EventArgs
+    {
+        public string SlotId { get; set; } = default!;
+
+        public string NewSquareName { get; set; } = default!;
+    }
+
 }

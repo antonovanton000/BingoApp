@@ -1,0 +1,86 @@
+﻿<Page x:Class="HuntpointApp.Views.PracticePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+      xmlns:local="clr-namespace:HuntpointApp.Views"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="1440" d:DesignWidth="670"
+      Title="NewRoomPage"
+      x:Name="page">
+    <Page.DataContext>
+        <vm:PracticeViewModel />
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.0" Value="100"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Border x:Name="border" Margin="0,0,0,0" Padding="40,0,40,40" VerticalAlignment="Stretch" Background="#030406" RenderTransformOrigin="0.5,0.5">
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Grid x:Name="gr_connectRoom" Margin="0,0,0,0">
+            <Grid Margin="0,40,0,0" Visibility="{Binding IsConnectingModalVisible, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                <Grid VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Image Source="/Images/tl_corner.png" Height="80" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.2" />
+                    <Image Source="/Images/tr_corner.png" Height="80" HorizontalAlignment="Right" VerticalAlignment="Top" Opacity="0.2"/>
+                    <TextBlock Text="{DynamicResource mp_practice}" Style="{StaticResource SubHeaderTextBlockBlockStyle2}"
+                           FontFamily="{StaticResource Manege}" HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="35"/>
+                </Grid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="0,90,0,0">
+                        <TextBlock Text="{DynamicResource mp_practicetext}" Style="{StaticResource FlatTextBlockStyle}"
+                                   FontFamily="{StaticResource Manege}" Margin="0,0,0,5" FontSize="19" HorizontalAlignment="Left"/>
+
+                        <cnt:SelectFieldControl Placeholder="{DynamicResource mp_preset}" Label="{DynamicResource mp_preset}" ItemsSource="{Binding Presets}" 
+                                Margin="0,0,0,5"
+                                SelectedCurrentItem="{Binding PracticeRoom.BoardPreset, Mode=TwoWay}"
+                                IsError="{Binding PracticeRoom.IsBoardPresetError}" ErrorMessage="{DynamicResource mp_requieredfield}"
+                                DisplayProperty="PresetAndGame" IsRequiered="True" />
+
+                        <cnt:SelectFieldControl Placeholder="{DynamicResource mp_legendaryobjective}" Label="{DynamicResource mp_legendaryobjective}" ItemsSource="{Binding PracticeRoom.LegendaryObjectives}" 
+                            Margin="0,0,0,5" SelectedCurrentItem="{Binding PracticeRoom.LegendaryObjectiveItem, Mode=TwoWay}" DisplayProperty="Name" 
+                            Visibility="{Binding PracticeRoom.BoardPreset, Converter={StaticResource NullToVisibilityConverter}}"/>
+
+                        <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" 
+                            Command="{Binding StartPracticeCommand}"
+                            Content="{DynamicResource mp_startpractice}" Width="250" HorizontalAlignment="Center" Margin="0,30,0,20"/>
+                    </StackPanel>
+                    <Button Grid.Row="2" Style="{StaticResource FlatTextButtonStyleNoArrow}" VerticalAlignment="Bottom"
+                            Content="{DynamicResource mp_cancel}" Command="{Binding ClosePageCommand}" Width="150"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Page>

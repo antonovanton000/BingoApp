@@ -4,20 +4,79 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>	
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\uploads\apps\**" />
+    <Compile Remove="wwwroot\uploads\files\**" />
+    <Compile Remove="wwwroot\uploads\news\**" />
+    <Content Remove="wwwroot\uploads\apps\**" />
+    <Content Remove="wwwroot\uploads\files\**" />
+    <Content Remove="wwwroot\uploads\news\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\apps\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\files\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\news\**" />
+    <None Remove="wwwroot\uploads\apps\**" />
+    <None Remove="wwwroot\uploads\files\**" />
+    <None Remove="wwwroot\uploads\news\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="RedirectPage.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="bingoRoom.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="RedirectPage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.10.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="MimeKit" Version="4.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\GamesResults.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Home\News.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\images\games\bb.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\images\games\ds1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\images\games\ds2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\images\games\ds3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\images\games\er.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\assets\images\games\sekiro.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\404.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\presets\" />
   </ItemGroup>
 
 </Project>

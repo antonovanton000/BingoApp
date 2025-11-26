@@ -10,7 +10,7 @@ namespace BingoApp.Models
     public partial class Player : ObservableObject
     {
         [ObservableProperty]
-        string uuid;
+        string id;
         
         [ObservableProperty]
         string nickName;
@@ -29,5 +29,21 @@ namespace BingoApp.Models
 
         [ObservableProperty]
         string potentialBingos;
+
+        [ObservableProperty]
+        int potentialBingosCount;
+
+        [ObservableProperty]
+        bool isAvailable;
+
+        [ObservableProperty]
+        bool isCurrentPlayer;
+
+        [ObservableProperty]
+        bool isBoardRevealed;
+
+        [ObservableProperty]
+        string? selectedBingoLine; 
+
     }
 }

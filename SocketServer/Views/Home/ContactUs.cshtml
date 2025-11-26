@@ -1,0 +1,94 @@
+﻿@using System.Globalization
+@model SocketServer.Controllers.ContactInfo
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var title = "";
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 offset-lg-3 col-md-12 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title" data-i18n="l-contactus">Связаться с нами</h1>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="/" data-i18n="l-main">Главная</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+
+<div class="contact-us section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="contact-widget-wrapper">
+                    <div class="main-title">
+                        <h2 data-i18n="c-header-1">Наши контакты</h2>
+                        <p data-i18n="c-text-1">
+                            Мы будем рады, если вы захотите поиграть с нами. Если у вас возникли вопросы, предложения или вам нужна помощь, пожалуйста, свяжитесь с нами.
+                        </p>
+                    </div>
+                    <div class="contact-widget-block">
+                        <h3 class="title" data-i18n="c-discord">Дискорд</h3>
+                        <p><a href="https://discordapp.com/users/742384872584118434" target="_blank"><i class="lni lni-discord"></i> direfullemur0</a></p>
+                        <p><a href="https://discordapp.com/users/272306779688534016" target="_blank"><i class="lni lni-discord"></i> unfamirov</a></p>
+                    </div>
+                    <div class="contact-widget-block">
+                        <h3 class="title" data-i18n="c-youtube">YouTube</h3>
+                        <p><a href="https://www.youtube.com/@@DirefulLemurVODS" target="_blank"><i class="lni lni-youtube"></i> DirefulLemurVODS</a></p>
+                        <p><a href="https://www.youtube.com/@@Never_bality" target="_blank"><i class="lni lni-youtube"></i> Neverbality</a></p>
+                    </div>
+                    <div class="contact-widget-block">
+                        <h3 class="title">Vk</h3>
+                        <p><a href="https://vk.com/id198824785" target="_blank">Илья Амиров</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="contact-form">
+                    <h3 class="form-title" data-i18n="c-header-2">Хотите связаться с нами?</h3>
+                    <p class="mb-3" data-i18n="c-text-2">Оставте свое сообщение здесь и мы с вами свяжемся!</p>
+                    <form class="form" method="post" action="/home/contactusform">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Name" type="text" data-i18n="[placeholder]c-name" placeholder="Как вас называть*" required="required" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Discord" type="text" placeholder="Discord" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Vk" type="text" placeholder="Vk" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="form-group">
+                                    <input name="Other" type="text" data-i18n="[placeholder]c-other" placeholder="Другой способ" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea placeholder="Сообщение" data-i18n="[placeholder]c-message" name="Message" id="message-area" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="button">
+                                    <button type="submit" class="btn" data-i18n="c-send">Отправить сообщение</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

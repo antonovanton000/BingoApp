@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="BingoApp.ModalPopups.PracticeModal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BingoApp.ModalPopups"
+             xmlns:vm="clr-namespace:BingoApp.ViewModels"
+             xmlns:cnt="clr-namespace:BingoApp.Controls"
+             mc:Ignorable="d" 
+             x:Name="page"
+             d:DesignHeight="650" d:DesignWidth="1200">
+    <UserControl.DataContext>
+        <vm:MainViewModel/>
+    </UserControl.DataContext>
+    <cnt:ModalWindowControl Title="{DynamicResource mp_practice}"                                                
+                        IsOpen="{Binding IsPracticeModalVisible, Mode=TwoWay}"
+                        CloseCommand="{Binding ClosePracticeModalCommand}">
+        <Grid>
+            <!---->
+            <StackPanel>
+
+                <cnt:SelectFieldControl Placeholder="{DynamicResource mp_preset}" Label="{DynamicResource mp_preset}" ItemsSource="{Binding Presets}" 
+                        Margin="40,0,40,5"
+                        SelectedCurrentItem="{Binding PracticeRoom.BoardPreset, Mode=TwoWay}"
+                        IsError="{Binding PracticeRoom.IsBoardPresetError}" ErrorMessage="{DynamicResource mp_requieredfield}"
+                        DisplayProperty="PresetAndGame" IsRequiered="True"/>
+
+                <cnt:SelectFieldControl Placeholder="{DynamicResource mp_mode}" Label="{DynamicResource mp_mode}" ItemsSource="{Binding RoomLockoutModes}" 
+                        Margin="40,0,40,10"
+                        SelectedCurrentItem="{Binding PracticeRoom.RoomLockoutMode, Mode=TwoWay}"                                               
+                        DisplayProperty="Name" IsRequiered="True"/>
+
+                <Button Style="{StaticResource FlatButtonStylePrimary}" 
+                    Command="{Binding StartPracticeCommand}"
+                    Content="{DynamicResource mp_startpractice}" Width="250" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+            </StackPanel>
+            <!---->
+        </Grid>
+    </cnt:ModalWindowControl>
+</UserControl>

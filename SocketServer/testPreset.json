@@ -1,0 +1,940 @@
+﻿[
+  {
+    "name": "Прокачать белое оружие на +2",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса в эверджейле",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Использовать золотую лапку после босса",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Купить у торговца 2 любых оружия",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть 10 уровня ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Сделать боссам 5 репостов за игру ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса 1 ночи",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "⁠Убить 2 боссов на 1 уровне",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса без навыков персонажа",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Найти и использовать 3 разные смазки",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в руинах и лагере",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Посетить 2 храма Марики",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса без урона",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Добить босса эверджейла 1 ночи во 2 ночь",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в 2 эверджейлах",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Посетить 3 храма Марики",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса со значком «дракона»",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса 2 ночи",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть 14 уровня",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть 15 уровня",
+    "group": null,
+    "score": 10,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "175 000 рун",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Гладиуса, Зверя Ночи (Трицефал)",
+    "group": null,
+    "score": 15,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Аделя, Барона Ночи (Зияющая пасть)",
+    "group": null,
+    "score": 17,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Гностера, Мудрость Ночи (Разумный мор)",
+    "group": null,
+    "score": 19,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Марис, Бездну Ночи (Авгур)",
+    "group": null,
+    "score": 21,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Либру, Создание Ночи (Равновесный зверь)",
+    "group": null,
+    "score": 23,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Калиго, Миазма Ночи (Излом тумана)",
+    "group": null,
+    "score": 25,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Фульгора, воина Ночного сияния (Рыцарь Тёмного течения)",
+    "group": null,
+    "score": 27,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Победить Хеолстора, Ночного владыку (Аспект Ночи)",
+    "group": null,
+    "score": 30,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "4 любых кузнечных камня в инвентаре ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Воспользоваться ястребом для полета ",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Использовать Высшее Искусство 2 раза за битву с боссом ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Кинуть в босса 10 предметов ",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Использовать серебрянную лапку возле сундука или после боя",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса без использования хилки",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить Скарабея ",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Отпарировать моба/босса щитом и сделать репост ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить моба с сундуком ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Купить Благодать Воскрешения ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 10 собак ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить главных врагов в 2 шахтах",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Прокачать камнем любой щит ",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Открыть 10 сундуков ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Добить босса Высшим Искусством ",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 3 одиночных боссов ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Добить босса находясь не в зоне",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить главных врагов в 3 шахтах",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить главного босса на крыше замка ",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Получить 5 наград за убийство боссов ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "100 000 рун ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Купить любую фляжку у последнего торговца ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть 11 уровня",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть 12 уровня ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть 13 уровня ",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в 2 руинах и 2 лагерях ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в 2 разрушенных мавзолеях ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Получить оружие с пассивкой наложения статусов/элементал. урона своего класса",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Весь инвентарь заполнен оружием минимум редкого качества ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса любой ночи без использования фляги ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса 1 ночи не больше чем на 3 уровне ",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса 2 ночи не больше чем на 6 уровне",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Использовать 3 Высших Искусства в битве с найтлордом ",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Найти Легендарное Оружие ",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Достигнуть максимума фляжек ",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 2 Могущественных Боссов",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 3 Могущественных Боссов ",
+    "group": null,
+    "score": 10,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Использовать Высшее Искусство 3 раза на одном боссе",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Найти 2 Легендарных Оружия ",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Найти 3 Легендарных Оружия ",
+    "group": null,
+    "score": 12,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов 1 и 2 ночи без навыка и Высшего Искусства героя",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в 3 эверджейлах ",
+    "group": null,
+    "score": 10,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса 1 ночи без урона ",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса 2 ночи без урона ",
+    "group": null,
+    "score": 12,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 2 Могущественнных Боссов без урона ",
+    "group": null,
+    "score": 11,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Заполнить инвентарь оружием минимум уникального качества ",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Прокачать 3 оружия камнем 2 уровня ",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Купить у последнего торговца 3 фляжки ",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 4 Могущественных Боссов ",
+    "group": null,
+    "score": 13,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в 3 руинах и 3 лагерях",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить за игру минимум 10 боссов ",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить боссов в 2 фортах ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса в подземелье замка ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить в замке 3 троллей/горнилл/рыцарей и забрать награду ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Заснежие: Убить Дракона",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 1
+  },
+  {
+    "name": "Заснежие: Получить силу морозных гор",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 1
+  },
+  {
+    "name": "Кратер: Убить Магмового Змея ",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Город: Убить Астеля",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Город: Получить силу Города ",
+    "group": null,
+    "score": 8,
+    "type": 2,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Город: Убить Драконьего Солдата Нокстеллы",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Город: Убить Лоретту ",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Город: Убить Черного Ножа ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Гнилые земли: Получить силу Гнилых Земель ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 3
+  },
+  {
+    "name": "Кратер: Убить 3 Прелатов в красных накидках ",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Кратер: Убить Королеву Полулюдей",
+    "group": null,
+    "score": 3,
+    "type": 1,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Купить у 3 разных торговцев по 1 предмету ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "300 000 рун ",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "50 000 рун ",
+    "group": null,
+    "score": 1,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "75 000 рун ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Съесть 4 разные пилюли",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Использовать после боя золотую и серебряную лапки ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Добить босса кулаками ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 3 Скарабеев ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Открыть Узилище и убить босса находясь за зоной",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить Могущественного Босса находясь за зоной ",
+    "group": null,
+    "score": 12,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Кратер: Убить Гаргулью",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Кратер: Убить Зверя Падающей Звезды",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Кратер: Убить Алого Волка ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Город: Убить 2 Черных Ножей ",
+    "group": null,
+    "score": 6,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Город: Убить Королевского Призрака ",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Заснежие: Убить Могущественного Дракона ",
+    "group": null,
+    "score": 10,
+    "type": 2,
+    "shiftingEarth": 1
+  },
+  {
+    "name": "Заснежие: Убить Мечника-получеловека Онзе",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 1
+  },
+  {
+    "name": "Кратер: Убить 3 Красных боссов-монахов ",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Кратер: Убить 4 Огненные Колесницы",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 2
+  },
+  {
+    "name": "Убить Усиленного Ночного Владыку",
+    "group": null,
+    "score": 40,
+    "type": 3,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Гнилые земли: Убить 6 Могущественных боссов ",
+    "group": null,
+    "score": 11,
+    "type": 2,
+    "shiftingEarth": 3
+  },
+  {
+    "name": "Город: Убить Призрачного Тролля",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Город: Получить вознаграждение за Астеля Младшего",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Миллионер: 400 000 рун",
+    "group": null,
+    "score": 11,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Миллиардер: 450 000 рун",
+    "group": null,
+    "score": 13,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить босса после 4 успешных воскрешений",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить 10 разных типов рядовых противников ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Город: Убить Дракона",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 4
+  },
+  {
+    "name": "Получить 50 000 рун без убийства врагов ",
+    "group": null,
+    "score": 5,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Первым убитым противником становится босс в подземелье замка",
+    "group": null,
+    "score": 9,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Первым убитым противником становится скарабей",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Первым убитым противником становится босс на крыше замка ",
+    "group": null,
+    "score": 15,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Первым убитым противником становится босс в мавзолее",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Первым предметом в инвентаре становится Благодать Воскрешения",
+    "group": null,
+    "score": 4,
+    "type": 1,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Первым предметом в инвентаре становится любой талисман ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Получить любую магическую пассивную атаку",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Добить босса любой магической атакой",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Открыть сундук с талисманами ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить Могущественного босса не больше чем на 3 уровне",
+    "group": null,
+    "score": 7,
+    "type": 2,
+    "shiftingEarth": 0
+  },
+  {
+    "name": "Убить большого краба ",
+    "group": null,
+    "score": 2,
+    "type": 0,
+    "shiftingEarth": 0
+  }
+]

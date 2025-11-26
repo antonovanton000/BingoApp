@@ -17,17 +17,18 @@
             <DoubleAnimation Duration="0:0:0.2" From="0.6" To="1" Storyboard.TargetProperty="RenderTransform.(ScaleTransform.ScaleY)"/>
         </Storyboard>
     </UserControl.Resources>
-    <Grid x:Name="modalBg" Background="#00000000" Visibility="{Binding IsOpen, ElementName=control, Converter={StaticResource BoolToVisConverter}}" Panel.ZIndex="1000" 
+    <Grid x:Name="modalBg" Background="#00000000" d:Visibility="Visible" Visibility="{Binding IsOpen, ElementName=control, Converter={StaticResource BoolToVisConverter}}" Panel.ZIndex="1000" 
           HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <Border x:Name="newModal" Margin="180,70" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"
+        <Border x:Name="newModal" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"
                     Background="{StaticResource BackgroundColorBrushDark}"                    
-                    Visibility="Collapsed" CornerRadius="20" RenderTransformOrigin="0.5,0.5">
+                    Visibility="Collapsed" d:Visibility="Visible" CornerRadius="20" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <ScaleTransform ScaleX="1" ScaleY="1" />
             </Border.RenderTransform>
             
             <Border.Style>
                 <Style TargetType="Border">
+                    <Setter Property="Margin"  Value="180,30"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsOpen, ElementName=control}" Value="True">
                             <DataTrigger.EnterActions>
@@ -45,12 +46,15 @@
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>
                         </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSmall, ElementName=control}" Value="True">
+                            <Setter Property="Margin" Value="280,170"/>
+                        </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Border.Style>
             <Grid Margin="20">
                 <Button Style="{StaticResource IconButtonStyleBig}" Content="&#xe106;" 
-                            HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0" Click="CloseModal_Click"/>
+                            HorizontalAlignment="Right" FontSize="17" VerticalAlignment="Top" Margin="0" Click="CloseModal_Click"/>
                 <TextBlock Text="{Binding Title,ElementName=control}" Style="{StaticResource SubHeaderTextBlockBlockStyle}" 
                                 HorizontalAlignment="Center" Margin="0,20,0,40" Visibility="{Binding ElementName=control, Path=IsTitleVisible, Converter={StaticResource BoolToVisConverter}}"/>
                 <Grid Margin="40,60,40,0">

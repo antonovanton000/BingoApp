@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="HuntpointApp.Controls.SelectFieldControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cl="clr-namespace:HuntpointApp.Classes"
+             xmlns:local="clr-namespace:HuntpointApp.Controls"
+             mc:Ignorable="d" 
+             x:Name="control"
+             d:DesignHeight="80" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Storyboard x:Key="goUp">
+            <DoubleAnimation Storyboard.TargetName="pg_tt" Storyboard.TargetProperty="Y" To="-29" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="pg_tt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="pg_st" Storyboard.TargetProperty="ScaleX" To="0.8" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="pg_st" Storyboard.TargetProperty="ScaleY" To="0.8" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="plc" Storyboard.TargetProperty="Opacity" To="0.6" Duration="0:0:0.12"/>
+        </Storyboard>
+        <Storyboard x:Key="goDown">
+            <DoubleAnimation Storyboard.TargetName="pg_tt" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="pg_tt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="pg_st" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="pg_st" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.12"/>
+            <DoubleAnimation Storyboard.TargetName="plc" Storyboard.TargetProperty="Opacity"  To="1" Duration="0:0:0.12"/>
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid>
+        <Border Height="50" BorderThickness="2" Margin="0,25,0,0" CornerRadius="10" Padding="10,3" x:Name="cmpBorder">
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsReadOnly, ElementName=control}" Value="True">
+                            <Setter Property="Background" Value="#3d3e42"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsReadOnly, ElementName=control}" Value="False">
+                            <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsError, ElementName=control}" Value="True">
+                            <Setter Property="BorderBrush" Value="{StaticResource Danger}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsError, ElementName=control}" Value="False">
+                            <Setter Property="BorderBrush" Value="{StaticResource BorderColorBrush}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Grid>
+                <Grid x:Name="placeholderGrid" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <TranslateTransform x:Name="pg_tt" Y="0" X="0"/>
+                            <ScaleTransform x:Name="pg_st" ScaleX="1" ScaleY="1"/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    <Grid Background="{Binding ElementName=cmpBorder, Path=Background}" VerticalAlignment="Bottom" Height="12">
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="plc" Text="{Binding Placeholder, ElementName=control}" 
+                                   Margin="3,0" Foreground="#40FEFEFE" FontSize="18" 
+                                   RenderTransformOrigin="0.5,0.5" FontFamily="{StaticResource Manege}">
+                        </TextBlock>
+                        <Grid Margin="0,-4,0,0"  
+                                  Visibility="{Binding ElementName=control, Path=IsPlaceholderUp, Converter={StaticResource BoolToVisConverter}}">
+                            <TextBlock Text="*"               
+                                       Visibility="{Binding ElementName=control, Path=IsRequiered, Converter={StaticResource BoolToVisConverter}}"
+                                   FontSize="20" RenderTransformOrigin="0.5,0.5" Foreground="#40FEFEFE">
+                            </TextBlock>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <ComboBox x:Name="chb"
+                          ItemsSource="{Binding ItemsSource, ElementName=control}" 
+                          Height="50" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                          FontSize="18" Foreground="{StaticResource PrimaryTextBrush}" 
+                          GotFocus="ComboBox_GotFocus" LostFocus="ComboBox_LostFocus"   
+                          SelectedItem="{Binding SelectedCurrentItem, Mode=TwoWay, ElementName=control}"                          
+                          IsReadOnly="{Binding IsReadOnly, ElementName=control}"
+                          DisplayMemberPath="{Binding DisplayProperty, ElementName=control}"                                                                             
+                          FontFamily="{StaticResource Manege}"
+                          Style="{StaticResource ComboBoxFlatStyleForField}"
+                         />
+            </Grid>
+        </Border>
+        <TextBlock Visibility="{Binding IsError, ElementName=control, Converter={StaticResource BoolToVisConverter}}" 
+                   Text="{Binding ErrorMessage,ElementName=control}" Foreground="{StaticResource Danger}" 
+                   FontFamily="{StaticResource Manege}"
+                   HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,-20"/>
+    </Grid>
+</UserControl>

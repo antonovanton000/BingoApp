@@ -63,7 +63,7 @@ namespace BingoApp.Classes
                     Game = System.Web.HttpUtility.HtmlDecode(gameName.Attributes["value"].Value),
                     EncodedRoomUUID = roomUuid.Attributes["value"].Value,
                     CsrfMiddlewareToken = csrfToken?.Attributes["value"].Value ?? "",
-                    RoomActionUrl = form?.Attributes["action"].Value ?? ""
+                    RoomActionUrl = form?.Attributes["action"].Value ?? ""                    
                 };
 
                 return roomInfo;
@@ -75,7 +75,7 @@ namespace BingoApp.Classes
         }
 
         public async Task<Room> ConnectToRoomAsync(RoomConnectionInfo roomInfo, PlayerCredentials credentials, CancellationToken token, bool needSafe = true)
-        {
+        {            
             var formData = new List<KeyValuePair<string, string>>();
             formData.Add(new KeyValuePair<string, string>("csrfmiddlewaretoken", roomInfo.CsrfMiddlewareToken));
             formData.Add(new KeyValuePair<string, string>("encoded_room_uuid", roomInfo.EncodedRoomUUID));
@@ -164,6 +164,7 @@ namespace BingoApp.Classes
                         player.Color = (BingoColor)Enum.Parse(typeof(BingoColor), color);
 
                         room.Players.Add(player);
+                        room.RoomPlayers.Add(player);
                     }
                     room.PlayerCredentials = credentials;
                     await room.InitRoom(httpClient);
@@ -179,7 +180,7 @@ namespace BingoApp.Classes
             return null;
         }
 
-        public async Task<Room> CreateRoomAsync(NewBoardModel boardModel)
+        public async Task<Room> CreateRoomAsync(NewRoomModel boardModel)
         {
             try
             {
@@ -188,6 +189,8 @@ namespace BingoApp.Classes
                 doc.LoadHtml(html);
                 var form = doc.DocumentNode.Descendants("form").FirstOrDefault();
                 var csrfToken = form?.ChildNodes.Where(i => i.Name == "input" && i.Attributes.Any(j => j.Name == "name")).FirstOrDefault(i => i.Attributes["name"].Value == "csrfmiddlewaretoken")?.Attributes["value"].Value;
+
+                var roomLockoutModeId = boardModel.RoomLockoutMode.Id > 2 ? 1 : boardModel.RoomLockoutMode.Id;
 
                 var formData = new List<KeyValuePair<string, string>>
                 {
@@ -198,7 +201,7 @@ namespace BingoApp.Classes
                     new KeyValuePair<string, string>("game_type", boardModel.Game.ToString()),
                     new KeyValuePair<string, string>("variant_type", boardModel.Variant.ToString()),
                     new KeyValuePair<string, string>("custom_json", boardModel.BoardJSON),
-                    new KeyValuePair<string, string>("lockout_mode", boardModel.RoomLockoutMode.Id.ToString()),
+                    new KeyValuePair<string, string>("lockout_mode", roomLockoutModeId.ToString()),
                     new KeyValuePair<string, string>("seed", boardModel.Seed?.ToString() ?? "")
                 };
 
@@ -273,7 +276,7 @@ namespace BingoApp.Classes
                             Uuid = playerjObj["uuid"].Value<string>(),
                             Color = (BingoColor)Enum.Parse(typeof(BingoColor), playerjObj["color"].Value<string>()),
                             NickName = playerjObj["name"].Value<string>()
-                        };                        
+                        };
                         room.ChosenColor = room.CurrentPlayer.Color;
                     }
 
@@ -298,13 +301,22 @@ namespace BingoApp.Classes
 
         public async Task<Room> LoadRoomFromFile(string roomPath)
         {
+            Room room = new Room();
             var roomJson = await System.IO.File.ReadAllTextAsync(roomPath);
             var oldroom = JsonConvert.DeserializeObject<Room>(roomJson);
-            var roomInfo = await GetRoomInfoAsync(baseUrl + $"/room/{oldroom.RoomId}");
-            var room = await ConnectToRoomAsync(roomInfo, oldroom.PlayerCredentials, CancellationToken.None, false);
+            if (oldroom == null) return room;
+            if (oldroom.IsPractice)
+            {
+                return oldroom;
+            }
+            else
+            {
+                var roomInfo = await GetRoomInfoAsync(baseUrl + $"/room/{oldroom.RoomId}");
+                room = await ConnectToRoomAsync(roomInfo, oldroom.PlayerCredentials, CancellationToken.None, false);
+                if (!oldroom.CurrentPlayer.IsSpectator)
+                    await room.ChangeCollor(oldroom.ChosenColor);
+            }
             
-            if (!oldroom.CurrentPlayer.IsSpectator)
-                await room.ChangeCollor(oldroom.ChosenColor);
 
             room.StartDate = oldroom.StartDate;
             room.IsRevealed = oldroom.IsRevealed;
@@ -314,7 +326,14 @@ namespace BingoApp.Classes
             room.ChosenColor = oldroom.ChosenColor;
             room.IsCreatorMode = oldroom.IsCreatorMode;
             room.IsAutoBoardReveal = oldroom.IsAutoBoardReveal;
+            room.GameExtraMode = oldroom.GameExtraMode;
             room.BoardJSON = oldroom.BoardJSON;
+            room.GameMode = oldroom.GameMode;
+            room.GameName = oldroom.GameName;
+            room.PresetName = oldroom.PresetName;
+            room.IsHiddenGameInited = oldroom.IsHiddenGameInited;
+            if (room.IsCreatorMode && room.GameExtraMode == ExtraGameMode.Changing)
+                room.PresetSquares = await PresetCollection.GetPresetSquaresByGameAndPresetName(room.GameName, room.PresetName);
 
             for (int i = 0; i < oldroom.Board.Squares.Count; i++)
             {

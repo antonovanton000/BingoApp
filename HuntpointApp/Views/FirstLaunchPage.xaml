@@ -1,0 +1,278 @@
+﻿<Page x:Class="HuntpointApp.Views.FirstLaunchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:local="clr-namespace:HuntpointApp.Views"
+      xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+      xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+      mc:Ignorable="d" 
+      x:Name="page"
+      d:DesignHeight="900" d:DesignWidth="1200"
+      Background="{StaticResource GradientBackgroundBrush}"
+      Title="FirstLaunchPage">
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="stackPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-20">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="-25">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="-25">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.6000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock2" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="inputFieldControl" Storyboard.TargetProperty="Opacity">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="wrPanel" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock3" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="wrPanel" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock3" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.8000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="button" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.4000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.7000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="button1" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.2000000" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <ExponentialEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.7000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="button" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.4000000" Value="20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.7000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="button1" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.4000000" Value="20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:01.7000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:FirstLaunchViewModel/>
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Grid ClipToBounds="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="930"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Margin="0,120,0,0">
+            <StackPanel x:Name="stackPanel" Orientation="Horizontal" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
+
+                <TextBlock Style="{StaticResource HeaderTextBlockBlockStyle}" FontSize="50" Margin="0,0,10,50"
+                       Text="{DynamicResource fl_helloandwelcome}" />
+                <TextBlock Style="{StaticResource HeaderTextBlockBlockStyle}" FontSize="50" Margin="0,0,0,50"
+                       Text="HuntpointApp!" Foreground="{StaticResource AccentColorBrush}" />
+
+            </StackPanel>
+            <TextBlock x:Name="textBlock" Style="{StaticResource SubHeaderTextBlockBlockStyle}" Margin="0,0,0,20"
+                       Text="{DynamicResource fl_beforeyoustarte}" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <TextBlock x:Name="textBlock1" Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,0,0,20"
+                       Text="{DynamicResource fl_pleaseenteranic}" Width="739" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <!--<TextBlock Style="{StaticResource FlatTextBlockStyle}" 
+                       Text="To get started, please sign up or log in with your existing account. Thank you for choosing this application and have fun!"/>-->
+            <!--This will customize your app’s appearance and make it more personal. Once you are done, click on the “Continue” button to proceed. Thank you for joining us and enjoy your experience! 😊-->
+
+            <cnt:InputFieldControl x:Name="inputFieldControl" Placeholder="{DynamicResource fl_nickname}" Label="{DynamicResource fl_nickname}" Text="{Binding NickName, Mode=TwoWay}"/>
+
+            <TextBlock x:Name="textBlock2" Text="{DynamicResource fl_preferredcolor}" Margin="0,40,0,0" Style="{StaticResource FlatTextBlockStyle}" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <WrapPanel Margin="0,10,0,0" x:Name="wrPanel" RenderTransformOrigin="0.5,0.5">
+                <WrapPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </WrapPanel.RenderTransform>
+                <ToggleButton Background="{StaticResource HuntpointColorOrrange}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="orange"/>
+                <ToggleButton Background="{StaticResource HuntpointColorRed}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="red"/>
+                <ToggleButton Background="{StaticResource HuntpointColorBlue}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="blue"/>
+                <ToggleButton Background="{StaticResource HuntpointColorGreen}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="green"/>
+                <ToggleButton Background="{StaticResource HuntpointColorPurple}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="purple"/>
+                <ToggleButton Background="{StaticResource HuntpointColorNavy}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="navy"/>
+                <ToggleButton Background="{StaticResource HuntpointColorTeal}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="teal"/>
+                <ToggleButton Background="{StaticResource HuntpointColorBrown}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="brown"/>
+                <ToggleButton Background="{StaticResource HuntpointColorPink}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="pink"/>
+                <ToggleButton Background="{StaticResource HuntpointColorYellow}" Width="80" Height="45" Style="{DynamicResource ColorToggleButtonStyle}" Margin="0,0,5,5" Click="ToggleButton_Click" Tag="yellow"/>
+            </WrapPanel>
+            <TextBlock x:Name="textBlock3" Style="{StaticResource FlatTextBlockStyle}" TextWrapping="Wrap" Margin="0,50,0,50"
+                       Text="{DynamicResource fl_youcanskipthiss}" Width="673" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <Button x:Name="button" Style="{StaticResource FlatTextButtonStyleNoArrow}" Content="{DynamicResource fl_skip}" Width="250" Margin="0,0,0,20" Command="{Binding SkipCommand}" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+            <Button x:Name="button1" Style="{StaticResource FlatButtonStylePrimary}" Content="{DynamicResource fl_continue}" Click="Continue_Click" Width="250" Command="{Binding ContinueCommand}" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+        </StackPanel>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" Margin="0,40,0,0">
+                <cnt:SelectFieldControl  VerticalAlignment="Center" Placeholder="{DynamicResource st_language}" Width="180" ItemsSource="{Binding Languages}" SelectedCurrentItem="{Binding CurLanguage, Mode=TwoWay}"
+                                         DisplayProperty="LanguageName" Visibility="Collapsed"/>
+                <TextBlock Text="{DynamicResource st_language}" Style="{StaticResource FlatTextBlockStyle}"
+                           VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox Style="{StaticResource ComboBoxFlatStyleForField}" ItemsSource="{Binding Languages}"
+                          VerticalAlignment="Center" 
+                          SelectedItem="{Binding CurLanguage, Mode=TwoWay}" DisplayMemberPath="LanguageName"/>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Page>

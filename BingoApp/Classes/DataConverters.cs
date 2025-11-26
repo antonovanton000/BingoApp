@@ -192,6 +192,26 @@ namespace BingoApp.Classes
         }
     }
 
+    public class NotCountToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if ((int)value == 0)
+            {
+                return Visibility.Visible;
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+
+        }
+    }
+
+
     public class BingoCollorBackgroundConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -224,6 +244,74 @@ namespace BingoApp.Classes
                     break;
             }
             return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !((bool)value);
+
+        }
+    }
+
+    public class BingoCollorNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            switch (((BingoColor)value))
+            {
+                case BingoColor.orange:
+                    return Application.Current.FindResource("bc_orange");
+                case BingoColor.red:
+                    return Application.Current.FindResource("bc_red");
+                case BingoColor.blue:
+                    return Application.Current.FindResource("bc_blue");
+                case BingoColor.green:
+                    return Application.Current.FindResource("bc_green");
+                case BingoColor.purple:
+                    return Application.Current.FindResource("bc_purple");
+                case BingoColor.navy:
+                    return Application.Current.FindResource("bc_navy");
+                case BingoColor.teal:
+                    return Application.Current.FindResource("bc_teal");
+                case BingoColor.brown:
+                    return Application.Current.FindResource("bc_brown");
+                case BingoColor.pink:
+                    return Application.Current.FindResource("bc_pink");
+                case BingoColor.yellow:
+                    return Application.Current.FindResource("pc_yellow");
+                case BingoColor.blank:
+                    return "";
+                default:
+                    break;
+            }
+            return "";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !((bool)value);
+
+        }
+    }
+
+    public class GameModeTextConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            switch (((GameMode)value))
+            {
+                case GameMode.Lockout:
+                    return Application.Current.FindResource("mes_lockout");
+                case GameMode.Blackout:
+                    return Application.Current.FindResource("mes_blackout");
+                case GameMode.Triple:
+                    return Application.Current.FindResource("mes_triplebingo");
+                case GameMode.Other:
+                    return Application.Current.FindResource("mes_nonlockout");                                    
+                default:
+                    break;
+            }
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

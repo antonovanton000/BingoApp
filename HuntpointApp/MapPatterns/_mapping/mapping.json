@@ -1,0 +1,42 @@
+{
+  "BossNames": {
+    "gladius": "Трицефал",
+    "adel": "Зияющая пасть",
+    "gnoster": "Разумный мор",
+    "maris": "Авгур",
+    "libra": "Равновесный зверь",
+    "fulghor": "Рыцарь темного течения",
+    "caligo": "Излом Тумана",
+    "heolstor": "Аспект Ночи"
+  },
+  "SpawnPoints": {
+    "Above Stormhill Tunnel Entrance": "Над Входом Горного Тунеля",
+    "Below Summonwater Hawk": "Ниже призываемого ястреба",
+    "East of Cavalry Bridge": "К востоку от Кавалерийского моста",
+    "Far Southwest": "Дальний Юго-Запад",
+    "Minor Erdtree": "Малое Эрдтри",
+    "Northeast of Saintsbridge": "К северо-востоку от Сэйнтсбриджа",
+    "Southeast of Lake": "К юго-востоку от озера",
+    "Stormhill South of Gate": "Штормхилл к югу от ворот",
+    "West of Warmaster's Shack": "К западу от Хижины Воителя"
+  },
+  "ShiftingEarth": {
+    "Crater": "Кратер",
+    "Mountaintop": "Вершины",
+    "Noklateo": "Ноклатео, Окутанный Город",
+    "Rotted Woods": "Гнилые леса",
+    "Default": "Без сдвига"
+  },
+  "SpawnPointMargins": {
+    "Above Stormhill Tunnel Entrance": "391,436,663,673",
+    "Below Summonwater Hawk": "826,416,228,693",
+    "East of Cavalry Bridge": "672,736,382,373",
+    "Far Southwest": "180,834,874,275",
+    "Minor Erdtree": "986,672,68,437",
+    "Northeast of Saintsbridge": "632,191,422,918",
+    "Southeast of Lake": "668,990,386,119",
+    "Stormhill South of Gate": "180,635,874,474",
+    "West of Warmaster's Shack": "195,399,859,710"
+  }
+  
+}

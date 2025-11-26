@@ -1,0 +1,16 @@
+﻿<Application x:Class="AppUpdater.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AppUpdater"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <LinearGradientBrush x:Key="GradientBackgroundBrush" EndPoint="0,1">
+            <GradientStop Color="#06080D" Offset="0"/>
+            <GradientStop Color="#0F0E16" Offset="1"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="AccentBrush">#6663B2</SolidColorBrush>
+        <SolidColorBrush x:Key="PrimaryTextBrush">#bdc1c6</SolidColorBrush>
+        <SolidColorBrush x:Key="BorderColorBrush">#3c4043</SolidColorBrush>
+
+    </Application.Resources>
+</Application>

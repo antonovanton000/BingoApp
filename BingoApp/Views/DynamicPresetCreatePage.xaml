@@ -1,0 +1,497 @@
+﻿<Page x:Class="BingoApp.Views.DynamicPresetCreatePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BingoApp.Views"
+      xmlns:cnt="clr-namespace:BingoApp.Controls"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:vm="clr-namespace:BingoApp.ViewModels"
+      xmlns:m="clr-namespace:BingoApp.Models"
+      mc:Ignorable="d" 
+      d:DesignHeight="940" d:DesignWidth="1440"
+      Background="{StaticResource GradientBackgroundBrush}"
+      x:Name="page"      
+      Title="DynamicPresetCreatePage">
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="-20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="textBlock" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0.975"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="20"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:DynamicPresetCreateViewModel/>
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.3"/>
+                </Storyboard>
+            </BeginStoryboard>
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Grid>
+        <Grid Margin="40,40,40,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" VerticalAlignment="Top">
+                <TextBlock x:Name="textBlock" Style="{StaticResource SubHeaderTextBlockBlockStyle}" Text="{DynamicResource dp_dynamicpresetcr}" FontWeight="Light" FontSize="40" RenderTransformOrigin="0.5,0.5" >
+                    <TextBlock.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+                <TextBlock Text="{DynamicResource dp_tocreateadynami}" Style="{StaticResource FlatTextBlockStyle}"/>
+            </StackPanel>
+            <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource FlatButtonStyle}" Content="{DynamicResource mes_cancel}" Width="120"
+                            Command="{Binding CancelPresetCreationCommand}"/>
+                    <Button Style="{StaticResource FlatButtonStylePrimaryNoArrow}" Content="{DynamicResource dp_done}" Width="120" Margin="20,0,0,0"
+                            IsEnabled="{Binding IsAllReady}" Visibility="{Binding IsCreator, Converter={StaticResource BoolToVisConverter}}"
+                            Command="{Binding CreatePresetCommand}"/>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="grid" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Border BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1" CornerRadius="12" Margin="0,0,0,20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="395"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="395"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="{StaticResource BackgroundBrush}" Margin="10" CornerRadius="6">
+                            <Grid Margin="0,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="70"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="10,0" HorizontalAlignment="Left">
+                                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" FontFamily="Segoe MDL2 Assets" Text="&#xE13d;" VerticalAlignment="Center"/>
+                                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource dp_player}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Creator.NickName}" Margin="10,5"
+                                                   FontSize="17">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource SubHeaderTextBlockBlockStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsCreatorReady}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource Success}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5"
+                                                VerticalAlignment="Top">
+                                        <Border Height="26" Width="26" Background="{StaticResource SuccessAlpha20}" CornerRadius="15"
+                                                VerticalAlignment="Center" Margin="0,0,6,0"
+                                                Visibility="{Binding IsCreatorEnoughSquares, Converter={StaticResource BoolToVisConverter}}">
+                                            <TextBlock Text="&#xE10B;" Foreground="{StaticResource Success}"
+                                                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                       FontFamily="Segoe MDL2 Assets"/>
+                                        </Border>
+                                        <TextBlock VerticalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource FlatTextBlockStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsCreatorEnoughSquares}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource Success}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                            <Run Text="{DynamicResource dp_selected}"/>
+                                            <Run Text="{Binding CreatorSquares.Count, Mode=OneWay}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding CreatorSquares}" Margin="5,0">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Border Background="#181818" Height="110" Width="110" CornerRadius="10" 
+                                                        BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1" Margin="0,0,5,5">
+                                                            <Grid>
+                                                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Padding="4"
+                                                                   TextAlignment="Center" HorizontalAlignment="Center" 
+                                                                   VerticalAlignment="Center" Foreground="#FEFEFE" FontFamily="{StaticResource HelveticaThin}" FontSize="14"/>
+                                                            </Grid>
+                                                        </Border>
+                                                        <Button Style="{StaticResource IconButtonStyleNoHover}"                                                             
+                                                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                            Content="&#xe106;"  Margin="0,-6,-3,0"
+                                                            Visibility="{Binding ElementName=page, Path=DataContext.IsCreator, Converter={StaticResource BoolToVisConverter}}"
+                                                            CommandParameter="{Binding }"
+                                                            Command="{Binding DataContext.UncheckSquareCommand,ElementName=page}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Border Height="1" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"
+                                            VerticalAlignment="Top"/>
+                                    <Grid Visibility="{Binding IsCreatorReady, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                        <Button Content="{DynamicResource dp_accept}" Style="{StaticResource FlatButtonStylePrimary}" Margin="10,0"
+                                                Command="{Binding PlayerReadyCommand}"
+                                                IsEnabled="{Binding IsCreatorEnoughSquares}"
+                                                Visibility="{Binding IsCreator, Converter={StaticResource BoolToVisConverter}}"/>
+                                    </Grid>
+                                    <StackPanel Visibility="{Binding IsCreatorReady, Converter={StaticResource BoolToVisConverter}}"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{DynamicResource dp_ready}" Style="{StaticResource SubHeaderTextBlockBlockStyle}"
+                                                   TextAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
+                                                   Foreground="{StaticResource Success}" />
+
+                                        <Button Style="{StaticResource FlatTextButtonStyleNoArrow}" Content="{DynamicResource mes_cancel}"
+                                                Command="{Binding PlayerNotReadyCommand}" HorizontalAlignment="Center"
+                                                Visibility="{Binding IsCreator, Converter={StaticResource BoolToVisConverter}}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="2" Background="{StaticResource BackgroundBrush}" Margin="10" CornerRadius="6">
+                            <Grid Margin="0,10">
+                                <Grid Visibility="{Binding IsIvitePanelVisible,Converter={StaticResource BoolToVisConverter}}" Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="110"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel VerticalAlignment="Top">
+                                        <TextBlock Text="{DynamicResource dp_inviteplayer}" Style="{StaticResource SubHeaderTextBlockBlockStyle}"
+                                                   HorizontalAlignment="Left" Margin="0,0,0,10"/>
+
+                                        <TextBlock Text="{DynamicResource dp_tocreateapreset}" Style="{StaticResource FlatTextBlockStyle}"
+                                                   TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"/>
+
+                                        <Border BorderThickness="1" Height="1" BorderBrush="{StaticResource BorderColorBrush}" Margin="0,20"/>
+
+                                    </StackPanel>
+                                    <Grid Grid.Row="1" Visibility="{Binding IsInviteSent, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="80"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{DynamicResource dp_availableplayer}" Style="{StaticResource FlatTextBlockStyle}"
+                                               TextWrapping="Wrap" HorizontalAlignment="Left" Foreground="{StaticResource PrimaryTextBrush}"
+                                               VerticalAlignment="Center"/>
+                                        <Button Style="{StaticResource IconButtonStyle}" Content="&#xE149;" Grid.Row="0" HorizontalAlignment="Right"
+                                                VerticalAlignment="Center" Command="{Binding RefreshAvailablePlayersCommand}"
+                                                ToolTip="Refresh"/>
+                                        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                            <ListView ItemsSource="{Binding AvailablePlayers}" Background="Transparent" BorderThickness="0"
+                                                  ItemContainerStyle="{StaticResource ListViewContainerStyle}" SelectionMode="Single"
+                                                  SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate DataType="m:BingoAppPlayer">
+                                                        <Border Padding="5,10" CornerRadius="8">
+                                                            <Grid>
+                                                                <TextBlock Text="{Binding NickName}" Style="{StaticResource SubHeaderTextBlockBlockStyle}"
+                                                                       FontSize="15"/>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </ScrollViewer>
+                                        <Grid Grid.Row="1" Visibility="{Binding AvailablePlayers.Count, Converter={StaticResource NotCountToVisibilityConverter}}">
+                                            <TextBlock Text="{DynamicResource dp_therearecurrent}" HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap"
+                                                   Style="{StaticResource FlatTextBlockStyle}"/>
+                                        </Grid>
+                                        <Button Grid.Row="2" Style="{StaticResource FlatButtonStylePrimary}" Content="{DynamicResource dp_sendinvite}"
+                                            IsEnabled="{Binding SelectedPlayer, Converter={StaticResource NullToBool}}"
+                                            Command="{Binding SendInviteCommand}"/>
+                                    </Grid>
+                                    <Grid Grid.Row="1" Visibility="{Binding IsInviteSent, Converter={StaticResource BoolToVisConverter}}">
+                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource dp_waitingforplaye}"
+                                                       Margin="0,0,0,20"/>
+                                            <cnt:SpinerControl IsActive="True" IsSmall="True"
+                                                               SpinerColor="{StaticResource AccentBrush}"/>
+
+                                            <Button Content="{DynamicResource mes_cancel}" Command="{Binding CancelInviteCommand}" Margin="0,20,0,0"
+                                                    Style="{StaticResource FlatTextButtonStyleNoArrow}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                                <Grid Visibility="{Binding IsIvitePanelVisible,Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="70"/>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="70"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Margin="10,0" HorizontalAlignment="Left">
+                                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" FontFamily="Segoe MDL2 Assets" Text="&#xE13d;" VerticalAlignment="Center"/>
+                                                    <TextBlock Style="{StaticResource FlatTextBlockStyle}" Text="{DynamicResource dp_player}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding SecondPlayer.NickName}" Margin="10,5" FontSize="17">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource SubHeaderTextBlockBlockStyle}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsSecondPlayerReady}" Value="True">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Success}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5"
+                                                        VerticalAlignment="Top">
+                                                <Border Height="26" Width="26" Background="{StaticResource SuccessAlpha20}" CornerRadius="15"
+                                                        VerticalAlignment="Center" Margin="0,0,6,0"
+                                                        Visibility="{Binding IsSecondPlayerEnoughSquares, Converter={StaticResource BoolToVisConverter}}">
+                                                    <TextBlock Text="&#xE10B;" Foreground="{StaticResource Success}"
+                                                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"/>
+                                                </Border>
+                                                <TextBlock VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource FlatTextBlockStyle}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsSecondPlayerEnoughSquares}" Value="True">
+                                                                    <Setter Property="Foreground" Value="{StaticResource Success}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                        <Run Text="{DynamicResource dp_selected}"/>
+                                                        <Run Text="{Binding SecondPlayerSquares.Count, Mode=OneWay}"/>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                                <ItemsControl ItemsSource="{Binding SecondPlayerSquares}" Margin="5,0">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel Orientation="Horizontal" />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Border Background="#181818" Height="110" Width="110" CornerRadius="10" 
+                                                                        BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1" Margin="0,0,5,5">
+                                                                    <Grid>
+                                                                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" Padding="4"
+                                                                                   TextAlignment="Center" HorizontalAlignment="Center" 
+                                                                                   VerticalAlignment="Center" Foreground="#FEFEFE" FontFamily="{StaticResource HelveticaThin}" FontSize="14"/>
+                                                                    </Grid>
+                                                                </Border>
+                                                                <Button Style="{StaticResource IconButtonStyleNoHover}"                                                             
+                                                                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                                        Content="&#xe106;"  Margin="0,-6,-3,0"
+                                                                        Visibility="{Binding ElementName=page, Path=DataContext.IsCreator, Converter={StaticResource NotBoolToVisibilityConverter}}"
+                                                                        CommandParameter="{Binding }"
+                                                                        Command="{Binding DataContext.UncheckSquareCommand,ElementName=page}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Grid>
+                                        <Grid Grid.Row="2">
+                                            <Border Height="1" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}"
+                                                    VerticalAlignment="Top"/>
+                                            <Grid Visibility="{Binding IsSecondPlayerReady, Converter={StaticResource NotBoolToVisibilityConverter}}">
+                                                <Button Content="{DynamicResource dp_accept}" Style="{StaticResource FlatButtonStylePrimary}" Margin="10,0"
+                                                        IsEnabled="{Binding IsSecondPlayerEnoughSquares}"
+                                                        Command="{Binding PlayerReadyCommand}"
+                                                        Visibility="{Binding IsCreator, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+                                            </Grid>
+                                            <StackPanel Visibility="{Binding IsSecondPlayerReady, Converter={StaticResource BoolToVisConverter}}"
+                                                        VerticalAlignment="Center">
+                                                <TextBlock Text="{DynamicResource dp_ready}" Style="{StaticResource SubHeaderTextBlockBlockStyle}"
+                                                           TextAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"
+                                                           Foreground="{StaticResource Success}" />
+
+                                                <Button Style="{StaticResource FlatTextButtonStyleNoArrow}" Content="{DynamicResource mes_cancel}"
+                                                        Command="{Binding PlayerNotReadyCommand}"
+                                                        Visibility="{Binding IsCreator, Converter={StaticResource NotBoolToVisibilityConverter}}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                        <Grid Grid.Column="1">
+                            <Grid Margin="10,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid Height="50" Margin="0,0,20,0">
+                                        <TextBox Text="{Binding SearchQueue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SearchTextBoxStyle}" x:Name="tbxSearch" KeyDown="tbxSearch_KeyDown"/>
+                                        <TextBlock x:Name="Placeholder" IsHitTestVisible="False" TextWrapping="Wrap" Text="{DynamicResource dp_search}" Margin="20,15,0,10" Foreground="DarkGray" FontSize="16" FontFamily="Segoe UI Light">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <MultiDataTrigger>
+                                                            <MultiDataTrigger.Conditions>
+                                                                <Condition Binding="{Binding IsFocused, ElementName=tbxSearch}" Value="false" />
+                                                                <Condition Binding="{Binding Text, ElementName=tbxSearch}" Value="" />
+                                                            </MultiDataTrigger.Conditions>
+                                                            <MultiDataTrigger.Setters>
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </MultiDataTrigger.Setters>
+                                                        </MultiDataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <Button x:Name="btnSearch" Command="{Binding SearchCommand}" Content="&#xE1A3;" HorizontalAlignment="Right" Margin="0,0,3,0">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName=tbxSearch}" Value="">
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.EnterActions>
+                                                            <DataTrigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.ExitActions>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button x:Name="btnClear" Command="{Binding ClearSearchCommand}" Content="&#xE10A;" HorizontalAlignment="Right" Margin="0,0,43,0">
+                                            <Button.Style>
+                                                <Style TargetType="Button" BasedOn="{StaticResource IconButtonStyle}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName=tbxSearch}" Value="">
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.EnterActions>
+                                                            <DataTrigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                                        </ObjectAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.ExitActions>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                        <ItemsControl ItemsSource="{Binding AllSquares}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="m:DynamicPresetSquare">
+                                                    <Border BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                                                        CornerRadius="6" Margin="0,0,0,10"
+                                                        Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" Padding="15,9">
+                                                        <Grid Margin="5">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="1*"/>
+                                                                <ColumnDefinition Width="120"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock Grid.Column="0" Text="{Binding Name}"  FontSize="16"                                                        
+                                                                   Foreground="#FEFEFE" VerticalAlignment="Center"/>
+                                                            <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Right">
+
+                                                                <Button Style="{StaticResource IconButtonStyleColored}" 
+                                                                        Foreground="{StaticResource Green}"
+                                                                        Background="{StaticResource GreenAlpha20}"
+                                                                        Content="&#xe001;" ToolTip="{DynamicResource hs_duplicate}" Margin="0,0,0,0"
+                                                                        Visibility="{Binding ElementName=page, Path=DataContext.CanCheckSquares, Converter={StaticResource BoolToVisConverter}}"
+                                                                        CommandParameter="{Binding }"
+                                                                        Command="{Binding DataContext.CheckSquareCommand,ElementName=page}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

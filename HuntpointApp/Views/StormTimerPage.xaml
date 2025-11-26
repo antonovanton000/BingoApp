@@ -1,0 +1,112 @@
+﻿<Page x:Class="HuntpointApp.Views.StormTimerPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HuntpointApp.Views"
+      xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+      xmlns:vm="clr-namespace:HuntpointApp.ViewModels"
+      xmlns:m="clr-namespace:HuntpointApp.Models"
+      xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="1440" d:DesignWidth="670"
+      x:Name="page"
+      Background="{StaticResource BackgroundBrush}"
+      Title="MapSelectorPage">
+    <Page.DataContext>
+        <vm:StormTimerViewModel/>
+    </Page.DataContext>
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded" SourceObject="{Binding ElementName=page}">
+            <behaviors:InvokeCommandAction Command="{Binding AppearingCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+    <Page.Resources>
+        <Storyboard x:Key="WelcomeAnimation">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="00:00:00.3000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard Storyboard="{StaticResource WelcomeAnimation}"/>
+        </EventTrigger>
+    </Page.Triggers>
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{DynamicResource mp_stormtimer}" Style="{StaticResource SubHeaderTextBlockBlockStyle2}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Vertical" RenderTransformOrigin="0.5 0.5">
+                <TextBlock Text="{Binding CurrentStormState, Converter={StaticResource StormStateToTextConverter}}" FontSize="30" Margin="0,0,0,15">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource FlatTextBlockStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Start}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink1}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1AfterShrink}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink2}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Start}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink1}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2AfterShrink}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink2}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="{Binding StormTimer}" FontSize="30">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource FlatTextBlockStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Start}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink1}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1AfterShrink}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day1Shrink2}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Start}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink1}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2AfterShrink}">
+                                    <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding CurrentStormState}" Value="{x:Static m:StormState.Day2Shrink2}">
+                                    <Setter Property="Foreground" Value="{StaticResource Warning}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

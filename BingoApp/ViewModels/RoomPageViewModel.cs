@@ -3,9 +3,12 @@ using BingoApp.Models;
 using BingoApp.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +16,7 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -21,26 +25,10 @@ namespace BingoApp.ViewModels
 {
     public partial class RoomPageViewModel : MyBaseViewModel
     {
-
-        public DispatcherTimer _timer;
-        Stopwatch sw = new Stopwatch();
-
-        private TimerSocketClient _timerSocket;
-
-        MediaPlayer dingPlayer;
-
-        private Uri chatSound = new Uri(App.Location + "\\Sounds\\chat.wav", UriKind.Absolute);
-        private Uri connectedSound = new Uri(App.Location + "\\Sounds\\connected.wav", UriKind.Absolute);
-        private Uri disconnectedSound = new Uri(App.Location + "\\Sounds\\disconnected.wav", UriKind.Absolute);
-        private Uri goalSound = new Uri(App.Location + "\\Sounds\\goal.wav", UriKind.Absolute);
-        private Uri revealSound = new Uri(App.Location + "\\Sounds\\reveal.wav", UriKind.Absolute);
-        private TimeSpan savedTime = TimeSpan.Zero;
-        public event EventHandler EventAdded;
-
+        #region Construcror
         public RoomPageViewModel()
         {
-            _timerSocket = new TimerSocketClient();
-            _timer = new DispatcherTimer(DispatcherPriority.Input) { Interval = new TimeSpan(0, 0, 0, 0, 250) };
+            _timer = new DispatcherTimer(DispatcherPriority.Input) { Interval = new TimeSpan(0, 0, 0, 0, 100) };
             _timer.Tick += _timer_Tick;
 
             IsPlayerChat = BingoApp.Properties.Settings.Default.IsPlayerChat;
@@ -61,13 +49,45 @@ namespace BingoApp.ViewModels
                 dingPlayer.Close();
                 dingPlayer.Position = TimeSpan.Zero;
             };
+            newEventTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(7) };
+            newEventTimer.Tick += (s, e) =>
+            {
+                newEventTimer.Stop();
+                IsNewEventAdded = false;
+            };
         }
+        #endregion
 
+        #region Fields
 
+        public DispatcherTimer _timer;
+        Stopwatch sw = new Stopwatch();
+        MediaPlayer dingPlayer;
+        private Uri chatSound = new Uri(App.Location + "\\Sounds\\chat.wav", UriKind.Absolute);
+        private Uri connectedSound = new Uri(App.Location + "\\Sounds\\connected.wav", UriKind.Absolute);
+        private Uri disconnectedSound = new Uri(App.Location + "\\Sounds\\disconnected.wav", UriKind.Absolute);
+        private Uri goalSound = new Uri(App.Location + "\\Sounds\\goal.wav", UriKind.Absolute);
+        private Uri revealSound = new Uri(App.Location + "\\Sounds\\reveal.wav", UriKind.Absolute);
+        private Uri bingoSound = new Uri(App.Location + "\\Sounds\\bingo.wav", UriKind.Absolute);
+        private Uri beepSound = new Uri(App.Location + "\\Sounds\\beep-timer.wav", UriKind.Absolute);
+        private Uri newsquareSound = new Uri(App.Location + "\\Sounds\\new-square.wav", UriKind.Absolute);
+        private TimeSpan savedTime = TimeSpan.Zero;
+        bool leaveunsaved = false;
+        bool localServerStarted = false;
+        DispatcherTimer newEventTimer;
+        private BoardWindow? boardWindow = null;
+        bool isFogWallOn = false;
+        #endregion
+
+        #region Events
+        public event EventHandler EventAdded;
+        public event EventHandler BingoHappened;
+        #endregion
+
+        #region Properties
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsAutoRevealBoardVisible))]
-        Room? room;
+        Room room = default!;
 
         [ObservableProperty]
         bool isPotentialBingoVisible = false;
@@ -77,9 +97,6 @@ namespace BingoApp.ViewModels
 
         [ObservableProperty]
         string chatMessage;
-
-        [ObservableProperty]
-        bool isTimerStarted = false;
 
         [ObservableProperty]
         bool isStartVisible = true;
@@ -97,16 +114,6 @@ namespace BingoApp.ViewModels
         bool isTimerButtonsVisible = true;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(TimerString))]
-        [NotifyPropertyChangedFor(nameof(StartingTimerString))]
-        [NotifyPropertyChangedFor(nameof(AfterRevealTimerString))]
-        TimeSpan timerCounter;
-
-        public string TimerString => TimerCounter.ToString(@"hh\:mm\:ss");
-        public string StartingTimerString => (TimeSpan.FromSeconds(StartTimeSeconds) - TimerCounter).ToString(@"hh\:mm\:ss");
-        public string AfterRevealTimerString => (TimeSpan.FromSeconds(AfterRevealSeconds) - TimerCounter).ToString(@"hh\:mm\:ss");
-
-        [ObservableProperty]
         bool isPlayerChat;
 
         [ObservableProperty]
@@ -120,110 +127,10 @@ namespace BingoApp.ViewModels
 
         [ObservableProperty]
         bool isPasswordShare;
-
-        [RelayCommand]
-        void StartTimer()
-        {
-            IsStartVisible = false;
-            IsPauseVisible = true;
-            IsResetVisible = true;
-            IsTimerStarted = true;
-            sw.Start();
-            _timer.Start();
-        }
-
-        [RelayCommand]
-        void PauseTimer()
-        {
-            IsStartVisible = true;
-            IsPauseVisible = false;
-            IsTimerStarted = false;
-            sw.Stop();
-            _timer.Stop();
-        }
-
-        [RelayCommand]
-        void ResetTimer()
-        {
-            sw.Stop();
-            sw.Reset();
-            _timer.Stop();
-            IsPauseVisible = false;
-            IsResetVisible = false;
-            IsTimerStarted = false;
-            IsStartVisible = true;
-            TimerCounter = TimeSpan.FromSeconds(0);
-        }
-
-        [RelayCommand]
-        async Task StopTimer()
-        {
-            await _timerSocket.SendStopToServerAsync();
-        }
-
-        private async void _timer_Tick(object? sender, EventArgs e)
-        {
-            //if (IsTimerStarted)
-            //    TimerCounter += 1;
-
-            TimerCounter = (sw.Elapsed + savedTime);
-
-            if (IsTimerStarted)
-            {
-                if (IsStartTimerStarted)
-                {
-                    IsAutoRevealBoardVisible = false;
-                    if (((int)TimerCounter.TotalSeconds) == StartTimeSeconds)
-                    {
-                        sw.Stop();
-                        sw.Reset();
-                        IsStartTimerStarted = false;
-                        IsAfterRevealTimerStarted = true;
-                        await Room.RevealTheBoard();
-                        Room.IsRevealed = true;
-                        sw.Start();
-                    }
-                }
-                if (IsAfterRevealTimerStarted)
-                {
-                    IsAutoRevealBoardVisible = false;
-                    if (((int)TimerCounter.TotalSeconds) == AfterRevealSeconds)
-                    {
-                        sw.Stop();
-                        sw.Reset();
-                        IsAfterRevealTimerStarted = false;
-                        IsGameTimerStarted = true;
-                        Room.IsGameStarted = true;
-                        Room.StartDate = DateTime.Now;
-                        IsStarted = true;
-                        IsTimerButtonsVisible = true;
-                        IsStopVisible = false;
-                        StartTimer();
-                    }
-                }
-
-            }
-        }
-
+        public ObservableCollection<BingoAppPlayer> AvailablePlayers { get; set; } = [];
 
         [ObservableProperty]
         ICollectionView chatEventsMessages;
-
-        [ObservableProperty]
-        int startTimeSeconds;
-
-        [ObservableProperty]
-        int afterRevealSeconds;
-
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsAutoRevealBoardVisible))]
-        bool isStartTimerStarted = false;
-
-        [ObservableProperty]
-        bool isAfterRevealTimerStarted = false;
-
-        [ObservableProperty]
-        bool isGameTimerStarted = true;
 
         [ObservableProperty]
         bool isConnected;
@@ -232,7 +139,7 @@ namespace BingoApp.ViewModels
         bool isStarted = false;
 
         [ObservableProperty]
-        string revealPanelText = "Click to reveal";
+        string revealPanelText = App.Current.FindResource("mes_clicktoreveal").ToString();
 
         [ObservableProperty]
         bool isSoundsOn;
@@ -243,110 +150,11 @@ namespace BingoApp.ViewModels
         [ObservableProperty]
         bool isDebug;
 
-        [RelayCommand]
-        async Task Appearing()
-        {
-            IsDebug = Settings.Default.IsDebug;
-
-            MainWindow.HideSettingsButton();
-            (App.Current.MainWindow as MainWindow).frame.Navigating += Frame_Navigating;
-            Room.ChatMessages.CollectionChanged += ChatMessages_CollectionChanged;
-            ChatEventsMessages = CollectionViewSource.GetDefaultView(Room.ChatMessages);
-            IsFinishGameVisible = Room.IsCreatorMode || !Room.CurrentPlayer.IsSpectator;
-
-            ChatEventsMessages.Filter = item =>
-            {
-                Event @event = item as Event;
-                if (@event == null)
-                    return false;
-
-                return (@event.Type == (IsPlayerChat ? EventType.chat : EventType.none) ||
-                        @event.Type == (IsColorChanged ? EventType.color : EventType.none) ||
-                        @event.Type == (IsGoalActions ? EventType.goal : EventType.none) ||
-                        @event.Type == (IsConnections ? EventType.connection : EventType.none) ||
-                        @event.Type == EventType.revealed);
-            };
-
-            if (Room.StartDate == null)
-                Room.StartDate = DateTime.Now;
-            if (Room.RoomSettings.HideCard)
-                Room.IsRevealed = false;
-
-
-            Room.NewCardEvent += Room_NewCardEvent;
-            if (Room.IsAutoBoardReveal)
-                await AutoBoardRevealProcess();
-            else
-                IsTimerVisible = true;
-        }
-
-        private async void Room_NewCardEvent(object? sender, EventArgs e)
-        {
-            if (Room.IsAutoBoardReveal)
-            {
-                await AutoBoardRevealProcess(true);
-            }
-        }
-
-        private async Task AutoBoardRevealProcess(bool isRefresh = false)
-        {
-            _timer.Stop();
-            sw.Stop();
-            sw.Reset();
-
-            IsTimerStarted = false;
-            IsStartVisible = false;
-            IsPauseVisible = false;
-            IsResetVisible = false;
-            IsStopVisible = false;
-            IsTimerButtonsVisible = false;
-            IsStartTimerStarted = false;
-            IsAfterRevealTimerStarted = false;
-            IsGameTimerStarted = false;
-
-            TimerCounter = TimeSpan.FromSeconds(isRefresh ? 0 : Room.CurrentTimerTime);
-            savedTime = TimeSpan.FromSeconds(isRefresh ? 0 : Room.CurrentTimerTime);
-
-            _timerSocket.ConnectionChangedEvent += _timerSocket_ConnectionChangedEvent;
-            _timerSocket.SettingsRecievedEvent += _timerSocket_SettingsRecievedEvent;
-            _timerSocket.StartRecievedEvent += _timerSocket_StartRecievedEvent;
-            _timerSocket.StopRecievedEvent += _timerSocket_StopRecievedEvent;
-
-            Room.IsGameStarted = false;
-            IsTimerVisible = true;
-            IsTimerButtonsVisible = false;
-            RevealPanelText = "Waiting for game started";
-            IsTimerStarted = false;
-            await _timerSocket.InitAsync(Room.RoomId);
-            if (Room.IsCreatorMode)
-            {
-                IsAutoRevealBoardVisible = true;
-                StartTimeSeconds = BingoApp.Properties.Settings.Default.BeforeStartTime;
-                AfterRevealSeconds = BingoApp.Properties.Settings.Default.BoardAnalyzeTime;
-                await _timerSocket.SendSettingsToServerAsync(StartTimeSeconds, AfterRevealSeconds);
-            }
-            else
-            {
-                if (Room.CurrentPlayer.IsSpectator)
-                {
-                    IsAutoRevealBoardVisible = false;
-                    IsTimerVisible = true;
-                }
-                else
-                {
-                    IsTimerVisible = true;
-                    IsTimerButtonsVisible = false;
-                    RevealPanelText = "Waiting for game started";
-                    IsTimerStarted = false;
-                }
-            }
-        }
+        [ObservableProperty]
+        bool isTeamView = false;
 
         [ObservableProperty]
         bool isFinishGameVisible;
-
-        [ObservableProperty]
-        bool isAutoRevealBoardVisible;
 
         [ObservableProperty]
         bool isRefreshing;
@@ -354,61 +162,759 @@ namespace BingoApp.ViewModels
         [ObservableProperty]
         bool isTimerVisible;
 
-        private void _timerSocket_StartRecievedEvent(object? sender, StartRecievedEventArgs e)
-        {
-            //var dtNow = DateTime.Now;
-            //var difference = dtNow - e.StartTime;
+        [ObservableProperty]
+        bool isInvitePopupVisible;
 
-            //var startTime = TimeSpan.FromSeconds(StartTimeSeconds) - difference;
-            TimerCounter = TimeSpan.FromSeconds(0); //TimeSpan.FromSeconds((StartTimeSeconds) * -1);//(int)(Math.Round(startTime.TotalSeconds, 0) * -1);
-            IsAfterRevealTimerStarted = false;
-            IsGameTimerStarted = false;
-            IsStartTimerStarted = true;
-            IsTimerStarted = true;
-            IsStopVisible = true;
-            IsTimerVisible = true;            
+        [ObservableProperty]
+        BingoAppPlayer selectedPlayer;
+
+        [ObservableProperty]
+        bool isReconnecting = false;
+
+        [ObservableProperty]
+        bool isNewEventAdded = false;
+
+        [ObservableProperty]
+        Event newFeedEvent;
+
+        [ObservableProperty]
+        bool isExternalWindowOpened = false;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsBingoLineSelected))]
+        string? selectedBingoLine;
+
+        public bool IsBingoLineSelected => !string.IsNullOrEmpty(selectedBingoLine);
+
+        [ObservableProperty]
+        bool canSelectBingoLine;
+
+        public bool IsChangingMode => Room?.RoomSettings.ExtraGameMode == ExtraGameMode.Changing;
+        public bool IsUnhideMode => Room?.RoomSettings.ExtraGameMode == ExtraGameMode.Hidden;
+
+        #endregion
+
+        #region TimerControlCommands
+
+        [RelayCommand]
+        async Task StartTimer()
+        {
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                if (Room.IsTimerOnPause)
+                {
+                    await App.LocalSignalRHub.SendTimerResume((int)Room.TimerCounter.TotalSeconds);
+                }
+                else
+                {
+                    await App.LocalSignalRHub.SendTimerStart();
+                }
+            }
+            IsStartVisible = false;
+            IsPauseVisible = true;
+            IsResetVisible = true;
+            Room.IsTimerStarted = true;
+            Room.IsTimerOnPause = false;
+            Room.IsGameEnded = false;
             sw.Start();
             _timer.Start();
+            if (Room.RoomSettings.IsAutoBoardReveal)
+            {
+                await App.SignalRHub.SendResumeGame(Room.RoomId, Room.TimerCounter);
+            }
         }
 
-        private void _timerSocket_StopRecievedEvent(object? sender, StartRecievedEventArgs e)
+        [RelayCommand]
+        async Task PauseTimer()
+        {
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendTimerPause();
+            }
+
+            IsStartVisible = true;
+            IsPauseVisible = false;
+            Room.IsTimerStarted = false;
+            Room.IsTimerOnPause = true;
+            savedTime = Room.TimerCounter;
+            sw.Stop();
+            sw.Reset();
+            _timer.Stop();
+
+            if (Room.RoomSettings.IsAutoBoardReveal)
+            {
+                await App.SignalRHub.SendPauseGame(Room.RoomId, Room.TimerCounter);
+            }
+
+
+        }
+
+        [RelayCommand]
+        async Task ResetTimer()
+        {
+            sw.Stop();
+            sw.Reset();
+            _timer.Stop();
+            IsPauseVisible = false;
+            IsResetVisible = false;
+            Room.IsTimerStarted = false;
+            IsStartVisible = true;
+            Room.IsTimerOnPause = false;
+            Room.IsGameEnded = false;
+            Room.IsGameStarted = false;
+            Room.TimerCounter = TimeSpan.FromSeconds(0);
+
+            if (!Room.IsPractice)
+                await App.SignalRHub.SendResetRoomTimer(Room.RoomId);
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendTimerReset();
+            }
+        }
+
+        [RelayCommand]
+        async Task StopTimer()
+        {
+            await App.SignalRHub.SendStopGame(Room.RoomId);
+        }
+
+        [RelayCommand]
+        async Task StartGame()
+        {
+            await App.SignalRHub.SendStartGame(Room.RoomId);
+        }
+
+        [RelayCommand]
+        async Task SyncTimer()
+        {
+            await App.SignalRHub.SendSyncRoomTimer(Room.RoomId, Room.TimerCounter);
+        }
+
+        #endregion
+
+        #region TimerEvents
+        private async void _timer_Tick(object? sender, EventArgs e)
+        {
+            Room.TimerCounter = (sw.Elapsed + savedTime);
+
+            if (Room.IsCreatorMode)
+            {
+                if (Room.IsGameTimerStarted && Room.RoomSettings.ExtraGameMode == ExtraGameMode.Hidden && Room.CurrentHiddenStep <= 13)
+                {
+                    if (Room.TimerCounter.TotalMinutes >= (Room.RoomSettings.UnhideTimeMinutes * Room.CurrentHiddenStep))
+                    {
+                        await Room.ProcessHiddenGame();
+                    }
+                }
+
+                if (Room.IsGameTimerStarted && Room.RoomSettings.ExtraGameMode == ExtraGameMode.Changing)
+                {
+                    int totalMinutes = (int)Room.TimerCounter.TotalMinutes;
+                    if ((totalMinutes % Room.RoomSettings.ChangeTimeMinutes) == 0 && Room.LastChangeMinute != totalMinutes)
+                    {
+                        await Room.ProcessChangingGame(totalMinutes);
+                    }
+                }
+            }
+
+            if (Room.IsTimerStarted)
+            {
+                if (Room.IsStartTimerStarted)
+                {
+                    Room.IsAutoRevealBoardVisible = false;
+                    if (((int)Room.TimerCounter.TotalSeconds) == Room.RoomSettings.StartTimeSeconds)
+                    {
+                        sw.Stop();
+                        sw.Reset();
+                        Room.IsStartTimerStarted = false;
+                        Room.IsAfterRevealTimerStarted = true;
+                        await Room.RevealTheBoard();
+                        Room.CurrentPlayer.IsBoardRevealed = true;
+                        sw.Start();
+
+                        if (localServerStarted && App.LocalSignalRHub != null)
+                        {
+                            await App.Current.Dispatcher.InvokeAsync(async () =>
+                            {
+                                await App.LocalSignalRHub.SendAfterRevealTimeStarted(Room.RoomSettings.AfterRevealSeconds);
+                            });
+                        }
+                    }
+                }
+                if (Room.IsAfterRevealTimerStarted)
+                {
+                    Room.IsAutoRevealBoardVisible = false;
+                    if ((int)Room.TimerCounter.TotalSeconds == (Room.RoomSettings.AfterRevealSeconds - 6))
+                    {
+                        dingPlayer.Open(beepSound);
+                        dingPlayer.Volume = SoundsVolume * 0.01d;
+                        dingPlayer.Play();
+                    }
+
+                    if (Room.RoomSettings.IsAutoFogWall)
+                    {
+                        if (Room.RoomSettings.AfterRevealSeconds - (int)Room.TimerCounter.TotalSeconds <= 2)
+                        {
+                            await RemoveFogWall();
+                        }
+                    }
+
+                    if (((int)Room.TimerCounter.TotalSeconds) == Room.RoomSettings.AfterRevealSeconds)
+                    {
+                        sw.Stop();
+                        sw.Reset();
+                        Room.IsAfterRevealTimerStarted = false;
+                        Room.IsGameTimerStarted = true;
+                        Room.IsGameStarted = true;
+                        Room.StartDate = DateTime.Now;
+                        Room.TimerCounter = TimeSpan.FromSeconds(0);
+                        IsStarted = true;
+                        IsStopVisible = false;
+                        if (Room.RoomSettings.ExtraGameMode == ExtraGameMode.Hidden || Room.RoomSettings.ExtraGameMode == ExtraGameMode.Changing)
+                        {
+                            if (Room.IsCreatorMode)
+                                IsTimerButtonsVisible = true;
+                            else
+                                IsTimerButtonsVisible = false;
+                        }
+                        else
+                        {
+                            IsTimerButtonsVisible = true;
+                        }
+                        await Room.SaveAsync();
+
+                        await StartTimer();
+                    }
+                }
+            }
+        }
+
+        private void AutoBoardRevealProcess(bool isRefresh = false)
         {
             _timer.Stop();
             sw.Stop();
             sw.Reset();
-            IsStartTimerStarted = false;
-            IsGameTimerStarted = false;
-            IsAfterRevealTimerStarted = false;
-            IsPauseVisible = false;
-            IsResetVisible = false;
-            IsTimerStarted = false;
-            IsStartVisible = false;
-            IsStopVisible = false;
-            TimerCounter = TimeSpan.FromSeconds(0);
-            IsTimerVisible = false;
-            Room.IsRevealed = false;
-            savedTime = TimeSpan.FromSeconds(0);
-            if (Room.IsCreatorMode)
+
+            if (Room.IsGameStarted)
             {
-                IsAutoRevealBoardVisible = true;
+                savedTime = Room.TimerCounter;
+                Room.IsTimerStarted = false;
+                IsTimerVisible = true;
+
+                if (Room.IsCreatorMode)
+                    IsTimerButtonsVisible = true;
+                else
+                    IsTimerButtonsVisible = false;
+            }
+            else
+            {
+                if (isRefresh)
+                {
+                    Room.TimerCounter = TimeSpan.FromSeconds(0);
+                    savedTime = TimeSpan.FromSeconds(0);
+                }
+                IsTimerVisible = true;
+                IsStartVisible = false;
+                IsPauseVisible = false;
+                IsResetVisible = false;
+                IsStopVisible = false;
+                IsTimerButtonsVisible = false;
+                Room.IsTimerStarted = false;
+                Room.IsStartTimerStarted = false;
+                Room.IsAfterRevealTimerStarted = false;
+                Room.IsGameTimerStarted = false;
+                RevealPanelText = App.Current.FindResource("mes_waitingforgames").ToString();
+                if (Room.IsCreatorMode)
+                {
+                    Room.IsAutoRevealBoardVisible = true;
+                }
             }
         }
 
-        private void _timerSocket_SettingsRecievedEvent(object? sender, SettingsRecievedEventArgs e)
+        #endregion
+
+        #region SignalRHubEventHandlers
+        private void AddSignalRHubEventHandlers()
         {
-            StartTimeSeconds = e.StartTimeSeconds;
-            AfterRevealSeconds = e.AfterRevealSeconds;
+            App.SignalRHub.OnPlayerConnected += SignalRHub_OnPlayerConnected;
+            App.SignalRHub.OnSyncRoomTimerRecieved += SignalRHub_OnSyncRoomTimerRecieved;
+            App.SignalRHub.OnStartGameRecieved += SignalRHub_OnStartGameRecieved;
+            App.SignalRHub.OnPauseGameRecieved += SignalRHub_OnPauseGameRecieved;
+            App.SignalRHub.OnStopGameRecieved += SignalRHub_OnStopGameRecieved;
+            App.SignalRHub.OnResumeGameRecieved += SignalRHub_OnResumeGameRecieved;
+            App.SignalRHub.OnDisconnected += SignalRHub_OnDisconnected;
+            App.SignalRHub.OnPlayerDisconnected += SignalRHub_OnPlayerDisconnected;
+            App.SignalRHub.OnPlayerReconnected += SignalRHub_OnPlayerReconnected;
+            App.SignalRHub.OnChangeSquareRecieved += SignalRHub_OnChangeSquareRecieved;
+            App.SignalRHub.OnRoomBoardRecieved += SignalRHub_OnRoomBoardRecieved;
+            App.SignalRHub.OnReconnecting += SignalRHub_OnReconnecting;
+            App.SignalRHub.OnReconnected += SignalRHub_OnReconnected;
+            App.SignalRHub.OnNewEventRecieved += SignalRHub_OnNewEventRecieved;
+            App.SignalRHub.OnPlayerColorChangedRecieved += SignalRHub_OnPlayerColorChangedRecieved;
+            App.SignalRHub.OnMarkSquareRecieved += SignalRHub_OnMarkSquareRecieved;
+            App.SignalRHub.OnUnmarkSquareRecieved += SignalRHub_OnUnmarkSquareRecieved;
+            App.SignalRHub.OnNewBoardRecieved += SignalRHub_OnNewBoardRecieved;
+            App.SignalRHub.OnResetRoomTimerRecieved += SignalRHub_OnResetRoomTimerRecieved;
+            App.SignalRHub.OnUnhideSquareRecieved += SignalRHub_OnUnhideSquareRecieved;
+            App.SignalRHub.OnBingoLineSelected += SignalRHub_OnBingoLineSelected;
         }
 
-        private void _timerSocket_ConnectionChangedEvent(object? sender, ConnectionChangedEventArgs e)
+        private void RemoveSignalRHubEventHandlers()
         {
-            IsConnected = e.State == System.Net.WebSockets.WebSocketState.Open;
+            App.SignalRHub.OnPlayerConnected -= SignalRHub_OnPlayerConnected;
+            App.SignalRHub.OnSyncRoomTimerRecieved -= SignalRHub_OnSyncRoomTimerRecieved;
+            App.SignalRHub.OnStartGameRecieved -= SignalRHub_OnStartGameRecieved;
+            App.SignalRHub.OnPauseGameRecieved -= SignalRHub_OnPauseGameRecieved;
+            App.SignalRHub.OnStopGameRecieved -= SignalRHub_OnStopGameRecieved;
+            App.SignalRHub.OnResumeGameRecieved -= SignalRHub_OnResumeGameRecieved;
+            App.SignalRHub.OnDisconnected -= SignalRHub_OnDisconnected;
+            App.SignalRHub.OnPlayerDisconnected -= SignalRHub_OnPlayerDisconnected;
+            App.SignalRHub.OnPlayerReconnected -= SignalRHub_OnPlayerReconnected;
+            App.SignalRHub.OnChangeSquareRecieved -= SignalRHub_OnChangeSquareRecieved;
+            App.SignalRHub.OnRoomBoardRecieved -= SignalRHub_OnRoomBoardRecieved;
+            App.SignalRHub.OnReconnecting -= SignalRHub_OnReconnecting;
+            App.SignalRHub.OnReconnected -= SignalRHub_OnReconnected;
+            App.SignalRHub.OnNewEventRecieved -= SignalRHub_OnNewEventRecieved;
+            App.SignalRHub.OnPlayerColorChangedRecieved -= SignalRHub_OnPlayerColorChangedRecieved;
+            App.SignalRHub.OnMarkSquareRecieved -= SignalRHub_OnMarkSquareRecieved;
+            App.SignalRHub.OnUnmarkSquareRecieved -= SignalRHub_OnUnmarkSquareRecieved;
+            App.SignalRHub.OnNewBoardRecieved -= SignalRHub_OnNewBoardRecieved;
+            App.SignalRHub.OnResetRoomTimerRecieved -= SignalRHub_OnResetRoomTimerRecieved;
+            App.SignalRHub.OnUnhideSquareRecieved -= SignalRHub_OnUnhideSquareRecieved;
+            App.SignalRHub.OnBingoLineSelected -= SignalRHub_OnBingoLineSelected;
+
+        }
+
+        private async void SignalRHub_OnUnhideSquareRecieved(object? sender, BingoAppSignalRHub.UnhideSquareEventArgs e)
+        {
+            if (e.RoomId != Room.RoomId) return;
+            await Room.UnhideSquares(e.SlotId);
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendUnhideSquare(e.SlotId);
+            }
+        }
+
+        private async void SignalRHub_OnSyncRoomTimerRecieved(object? sender, BingoAppSignalRHub.RoomTimerEventArgs e)
+        {
+            if (e.RoomId != Room.RoomId) return;
+            Room.IsTimerOnPause = true;
+            Room.IsTimerStarted = false;
+            sw.Stop();
+            sw.Reset();
+            _timer.Stop();
+            IsPauseVisible = false;
+            IsStartVisible = true;
+            Room.TimerCounter = e.CurrentTime;
+            savedTime = e.CurrentTime;
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendTimerPause();
+            }
+        }
+
+        private async void SignalRHub_OnNewEventRecieved(object? sender, Event e)
+        {
+            await App.Current.Dispatcher.InvokeAsync(() =>
+            {
+                Room.ChatMessages.Add(e);
+            });
+        }
+
+        private async void SignalRHub_OnNewBoardRecieved(object? sender, Board e)
+        {
+            Room.Board = e;
+            if (Room.RoomSettings.IsAutoBoardReveal)
+            {
+                Room.IsGameEnded = false;
+                Room.IsGameStarted = false;
+                Room.CurrentPlayer.IsBoardRevealed = false;
+                AutoBoardRevealProcess(true);
+            }
+            Room.UpdatePlayersGoals();
+            await Room.SaveAsync();
+        }
+
+        private void SignalRHub_OnUnmarkSquareRecieved(object? sender, BingoAppSignalRHub.MarkSquareEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                var obj = Room.Board.Squares.FirstOrDefault(i => i.Slot == e.Slot);
+                if (obj != null)
+                {
+                    obj.IsMarking = false;
+                    obj.SquareColors.Remove(e.Color);
+                    Room.TriggerMarkSquareEvent(obj);
+                }
+                Room.UpdatePlayersGoals(obj);
+            });
+        }
+
+        private void SignalRHub_OnMarkSquareRecieved(object? sender, BingoAppSignalRHub.MarkSquareEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                var obj = Room.Board.Squares.FirstOrDefault(i => i.Slot == e.Slot);
+                if (obj != null)
+                {
+                    obj.IsMarking = false;
+                    obj.SquareColors.Add(e.Color);
+                    Room.TriggerMarkSquareEvent(obj);
+                }
+                Room.UpdatePlayersGoals(obj);
+            });
+        }
+
+        private async void SignalRHub_OnPlayerColorChangedRecieved(object? sender, BingoAppSignalRHub.PlayerColorChangedEventArgs e)
+        {
+            await App.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                var player = Room.Players.FirstOrDefault(i => i.Id == e.PlayerId);
+                if (player != null)
+                {
+                    player.Color = e.Color;
+                }
+                if (Room.CurrentPlayer.Id == e.PlayerId)
+                {
+                    Room.CurrentPlayer.Color = e.Color;
+                }
+                Room.UpdatePlayerTeams();
+                Room.UpdatePlayersGoals();
+                if (localServerStarted && App.LocalSignalRHub != null)
+                {
+                    await App.LocalSignalRHub.SendPlayerChangeColor(e.PlayerId, e.Color);
+                }
+            });
+        }
+
+        private async void SignalRHub_OnPlayerConnected(object? sender, Player e)
+        {
+            await App.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                if (!Room.Players.Any(i => i.Id == e.Id))
+                {
+                    e.IsCurrentPlayer = e.Id == Room.CurrentPlayer.Id;
+                    Room.Players.Add(e);
+                    Room.RoomPlayers.Add(e);
+                }
+
+                if (e.Id == App.CurrentPlayer.Id)
+                {
+                    Room.IsConnectedToServer = true;
+                    IsConnected = true;
+                }
+                Room.UpdatePlayersGoals();
+                if (localServerStarted && App.LocalSignalRHub != null)
+                {
+                    await App.LocalSignalRHub.SendPlayerConnected(e);
+                }
+            });
+        }
+
+        private void SignalRHub_OnRoomBoardRecieved(object? sender, BingoAppSignalRHub.RoomBoardEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                foreach (var item in e.Squares)
+                {
+                    var square = Room.Board.Squares.FirstOrDefault(i => i.Slot == item.Slot);
+                    if (square != null)
+                    {
+                        square.Name = item.Name;
+                    }
+                }
+            });
+        }
+
+        private async void SignalRHub_OnChangeSquareRecieved(object? sender, BingoAppSignalRHub.ChangeSquareEventArgs e)
+        {
+            await App.Current.Dispatcher.InvokeAsync(async () =>
+            {
+                if (e.RoomId != Room.RoomId) return;
+                await Room.ChangeSquare(e.SlotId, e.NewName);
+                if (localServerStarted && App.LocalSignalRHub != null)
+                {
+                    await App.LocalSignalRHub.SendChangeSquare(e.SlotId, e.NewName);
+                }
+            });
+        }
+
+        private void SignalRHub_OnReconnected(object? sender, string e)
+        {
+            IsReconnecting = false;
+        }
+
+        private void SignalRHub_OnReconnecting(object? sender, string e)
+        {
+            IsReconnecting = true;
+        }
+
+        private async void SignalRHub_OnPlayerDisconnected(object? sender, string playerId)
+        {
+            await App.Current.Dispatcher.InvokeAsync(async () =>
+             {
+                 var player = Room.Players.FirstOrDefault(i => i.Id == playerId);
+                 if (player != null)
+                 {
+                     savedTime = Room.TimerCounter;
+                     sw.Stop();
+                     sw.Reset();
+                     _timer.Stop();
+                     Room.Players.Remove(player);
+                     IsStartVisible = true;
+                     IsPauseVisible = false;
+                     Room.IsTimerStarted = false;
+                     Room.IsTimerOnPause = true;
+                     dingPlayer.Open(disconnectedSound);
+                     dingPlayer.Volume = SoundsVolume * 0.01d;
+                     dingPlayer.Play();
+                     if (localServerStarted && App.LocalSignalRHub != null)
+                     {
+                         await App.LocalSignalRHub.SendPlayerDisconnected(playerId);
+                     }
+                 }
+             });
+        }
+
+        private async void SignalRHub_OnDisconnected(object? sender, string e)
+        {
+            IsReconnecting = true;
+            sw.Stop();
+            _timer.Stop();
+            IsStartVisible = true;
+            IsPauseVisible = false;
+            Room.IsTimerStarted = false;
+            var tf = new TaskFactory();
+            await tf.StartNew(async () =>
+            {
+                while (!App.SignalRHub.IsHubConnected)
+                {
+                    await App.SignalRHub.ConnectAsync(App.CurrentPlayer.Id);
+                    if (App.SignalRHub.IsHubConnected)
+                    {
+                        await App.SignalRHub.ConnectToRoomHub(Room.RoomId);
+                        await Room.InitRoom();
+
+                        var preferedColor = BingoApp.Properties.Settings.Default.PreferedColor;
+                        if (!string.IsNullOrEmpty(preferedColor))
+                        {
+                            var color = (BingoColor)Enum.Parse(typeof(BingoColor), preferedColor);
+                            await Room.ChangeColor(color);
+                        }
+
+                        if (Room.IsCreatorMode)
+                        {
+                            savedTime = Room.TimerCounter;
+                            sw.Reset();
+                        }
+
+                        IsReconnecting = false;
+                    }
+                    else
+                    {
+                        IsReconnecting = true;
+                        await Task.Delay(3000);
+                    }
+                }
+            });
+        }
+
+        private async void SignalRHub_OnResumeGameRecieved(object? sender, BingoAppSignalRHub.RoomTimerEventArgs e)
+        {
+            if (e.RoomId != Room.RoomId) return;
+            sw.Start();
+            _timer.Start();
+
+            Room.IsTimerOnPause = false;
+            Room.IsGameEnded = false;
+            IsPauseVisible = true;
+            IsResetVisible = true;
+            IsStartVisible = false;
+            savedTime = e.CurrentTime;
+            Room.TimerCounter = e.CurrentTime;
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendTimerResume((int)Room.TimerCounter.TotalSeconds);
+            }
+        }
+
+        private async void SignalRHub_OnStopGameRecieved(object? sender, string e)
+        {
+            if (e != Room.RoomId) return;
+
+            _timer.Stop();
+            sw.Stop();
+            sw.Reset();
+            Room.IsStartTimerStarted = false;
+            Room.IsGameTimerStarted = false;
+            Room.IsAfterRevealTimerStarted = false;
+            IsPauseVisible = false;
+            IsResetVisible = false;
+            IsStartVisible = false;
+            IsStopVisible = false;
+            Room.IsTimerOnPause = false;
+            Room.IsTimerStarted = false;
+            Room.TimerCounter = TimeSpan.FromSeconds(0);
+            IsTimerVisible = false;
+            Room.CurrentPlayer.IsBoardRevealed = false;
+            savedTime = TimeSpan.FromSeconds(0);
+            if (Room.IsCreatorMode)
+            {
+                Room.IsAutoRevealBoardVisible = true;
+            }
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendGameStoped();
+            }
+        }
+
+        private async void SignalRHub_OnResetRoomTimerRecieved(object? sender, string e)
+        {
+            if (e != Room.RoomId) return;
+
+            sw.Stop();
+            sw.Reset();
+            _timer.Stop();
+            IsPauseVisible = false;
+            IsResetVisible = false;
+            Room.IsTimerStarted = false;
+            IsStartVisible = true;
+            Room.IsTimerOnPause = false;
+            Room.IsGameEnded = false;
+            Room.IsGameStarted = false;
+            Room.TimerCounter = TimeSpan.FromSeconds(0);
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendTimerReset();
+            }
+        }
+
+        private async void SignalRHub_OnPauseGameRecieved(object? sender, BingoAppSignalRHub.RoomTimerEventArgs e)
+        {
+            if (e.RoomId != Room.RoomId) return;
+            sw.Stop();
+            sw.Reset();
+            _timer.Stop();
+
+            Room.IsTimerOnPause = true;
+            IsPauseVisible = false;
+            IsStartVisible = true;
+            savedTime = e.CurrentTime;
+            Room.TimerCounter = e.CurrentTime;
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendTimerPause();
+            }
+        }
+
+        private async void SignalRHub_OnStartGameRecieved(object? sender, string e)
+        {
+            if (e != Room.RoomId) return;
+
+            Room.TimerCounter = TimeSpan.FromSeconds(0);
+            Room.IsAfterRevealTimerStarted = false;
+            Room.IsGameTimerStarted = false;
+            Room.IsStartTimerStarted = true;
+            Room.IsTimerStarted = true;
+            Room.IsTimerOnPause = false;
+            Room.IsGameEnded = false;
+            IsStopVisible = true;
+            IsPauseVisible = false;
+            IsStartVisible = true;
+            IsTimerVisible = true;
+            sw.Start();
+            _timer.Start();
+
+            if (Room.RoomSettings.IsAutoFogWall)
+            {
+                await AddFogWall();
+            }
+
+            if (localServerStarted && App.LocalSignalRHub != null)
+            {
+                await App.LocalSignalRHub.SendStartTimeStarted(Room.RoomSettings.StartTimeSeconds);
+            }
+
+        }
+
+        private void SignalRHub_OnRoomTimeSyncRecieved(object? sender, BingoAppSignalRHub.RoomTimeSyncEventArgs e)
+        {
+            if (e.RoomId != Room.RoomId) return;
+
+            sw.Reset();
+            Room.TimerCounter = TimeSpan.FromSeconds(e.CurrentTime);
+            savedTime = TimeSpan.FromSeconds(e.CurrentTime);
+        }
+
+        private void SignalRHub_OnPlayerReconnected(object? sender, string e)
+        {
+            if (Room.IsCreatorMode)
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    dingPlayer.Open(connectedSound);
+                    dingPlayer.Volume = SoundsVolume * 0.01d;
+                    dingPlayer.Play();
+                });
+            }
+        }
+
+        private void SignalRHub_OnBingoLineSelected(object? sender, string e)
+        {
+            Room.CurrentPlayer.SelectedBingoLine = e;
+            foreach (var item in Room.Board.Squares)
+            {
+                item.IsSelectedBingo = false;
+            }
+
+            if (e.Contains("row"))
+            {
+                var rowNum = int.Parse(e.Replace("row", ""));
+                var squares = Room.Board.Squares.Where(i => i.Row == rowNum);
+                foreach (var item in squares)
+                {
+                    item.IsSelectedBingo = true;
+                }
+            }
+            else if (e.Contains("col"))
+            {
+                var colNum = int.Parse(e.Replace("col", ""));
+                var squares = Room.Board.Squares.Where(i => i.Column == colNum);
+                foreach (var item in squares)
+                {
+                    item.IsSelectedBingo = true;
+                }
+            }
+            else if (e == "tr_bl")
+            {
+                var squares = Room.Board.GetTRLBDiagonal();
+                foreach (var item in squares)
+                {
+                    item.IsSelectedBingo = true;
+                }
+            }
+            else if (e == "tl_br")
+            {
+                var squares = Room.Board.GetTLRBDiagonal();
+                foreach (var item in squares)
+                {
+                    item.IsSelectedBingo = true;
+                }
+            }
         }
 
 
-        bool leaveunsaved = false;
+        #endregion
 
-        private async void Frame_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
+        #region EventHandlers
+        private void Frame_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode == System.Windows.Navigation.NavigationMode.Back)
             {
@@ -416,86 +922,111 @@ namespace BingoApp.ViewModels
                 {
                     e.Cancel = !leaveunsaved;
 
-                    if (Room.IsCreatorMode)
+                    if (!leaveunsaved)
                     {
-                        if (!leaveunsaved)
-                        {
-                            MainWindow.ShowMessage("Your game not finished!\r\n\r\nAre you sure you want to leave?", MessageNotificationType.YesNo,
-                                new Action(async () =>
+                        MainWindow.ShowMessage(App.Current.FindResource("mes_yourgamenotfini").ToString(), MessageNotificationType.YesNo,
+                            new Action(async () =>
+                            {
+
+                                if (boardWindow != null)
                                 {
+                                    boardWindow.Close();
+                                    boardWindow = null;
+                                    IsExternalWindowOpened = false;
+                                }
+
+                                if (!Room.IsPractice)
+                                {
+                                    if (Room.IsGameStarted)
+                                    {
+                                        await App.SignalRHub.SendPauseGame(Room.RoomId, Room.TimerCounter);
+                                    }
+
                                     await Room.DisconnectAsync();
-                                    await _timerSocket.DisconnectAsync();
-                                    Room.CurrentTimerTime = (int)TimerCounter.TotalSeconds;
-                                    await Room.SaveAsync();
-                                    leaveunsaved = true;
-                                    MainWindow.CloseMessage();
-                                    (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
-                                    await Task.Delay(300);
-                                    MainWindow.GoBack();
+                                    RemoveSignalRHubEventHandlers();
+                                    await App.SignalRHub.DisconnectFromRoomHub(Room.RoomId);
+                                }
 
-                                }),
-                                new Action(() =>
+                                if (Room.CurrentPlayer.IsSpectator)
                                 {
-                                    leaveunsaved = false;
-                                }));
-                        }
-                    }
-                    else
-                    {
-                        if (Room.CurrentPlayer.IsSpectator)
-                        {
-                            if (!leaveunsaved)
-                            {
-                                MainWindow.ShowMessage("Are you sure you want to leave?", MessageNotificationType.YesNo,
-                                    new Action(async () =>
-                                    {
-                                        leaveunsaved = true;
-                                        MainWindow.CloseMessage();
-                                        (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
-                                        await Task.Delay(300);
-                                        MainWindow.GoBack();
-
-                                    }),
-                                    new Action(() =>
-                                    {
-                                        leaveunsaved = false;
-                                    }));
-                            }
-                        }
-                        else
-                        {
-                            if (!leaveunsaved)
-                            {
-                                MainWindow.ShowMessage("Your game not finished!\r\n\r\nAre you sure you want to leave?", MessageNotificationType.YesNo,
-                                    new Action(async () =>
-                                    {
-                                        await Room.DisconnectAsync();
-                                        await _timerSocket.DisconnectAsync();
-                                        Room.CurrentTimerTime = (int)TimerCounter.TotalSeconds;
+                                    if (Room.IsCreatorMode)
                                         await Room.SaveAsync();
-                                        leaveunsaved = true;
-                                        MainWindow.CloseMessage();
-                                        (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
-                                        await Task.Delay(300);
-                                        MainWindow.GoBack();
+                                }
+                                else
+                                {
+                                    await Room.SaveAsync();
+                                }
 
-                                    }),
-                                    new Action(() =>
-                                    {
-                                        leaveunsaved = false;
-                                    }));
-                            }
-                        }
+                                if (App.LocalServer.IsServerStarted)
+                                    await App.LocalServer.StopAsync();
+
+                                leaveunsaved = true;
+                                MainWindow.CloseMessage();
+                                (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
+                                (App.Current.MainWindow as MainWindow).Closing -= RoomPageViewModel_Closing;
+                                await Task.Delay(300);
+                                MainWindow.GoBack();
+
+                            }),
+                            new Action(() =>
+                            {
+                                leaveunsaved = false;
+                            }));
                     }
+
+                }
+                else
+                {
+                    (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
+                    (App.Current.MainWindow as MainWindow).Closing -= RoomPageViewModel_Closing;
                 }
             }
         }
 
-        private void ChatMessages_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void RoomPageViewModel_Closing(object? sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            MainWindow.ShowMessage(App.Current.FindResource("mes_yourgamenotfini").ToString(), MessageNotificationType.YesNo,
+                new Action(async () =>
+                {
+                    if (boardWindow != null)
+                    {
+                        boardWindow.Close();
+                        boardWindow = null;
+                        IsExternalWindowOpened = false;
+                    }
+
+                    if (!Room.IsPractice)
+                    {
+                        await Room.DisconnectAsync();
+                        RemoveSignalRHubEventHandlers();
+                        await App.SignalRHub.DisconnectFromRoomHub(Room.RoomId);
+                    }
+
+                    if (Room.CurrentPlayer.IsSpectator)
+                    {
+                        if (Room.IsCreatorMode)
+                            await Room.SaveAsync();
+                    }
+                    else
+                    {
+                        await Room.SaveAsync();
+                    }
+
+                    if (App.LocalServer.IsServerStarted)
+                        await App.LocalServer.StopAsync();
+
+                    await Task.Delay(1000);
+                    (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
+                    (App.Current.MainWindow as MainWindow).Closing -= RoomPageViewModel_Closing;
+                    App.Current.Shutdown();
+                }));
+        }
+
+        private async void ChatMessages_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             try
             {
-
                 EventAdded?.Invoke(this, new EventArgs());
                 Uri soundPath = null;
                 var eventType = "";
@@ -530,6 +1061,28 @@ namespace BingoApp.ViewModels
                                         break;
                                     case EventType.none:
                                         break;
+                                    case EventType.newsquare:
+                                        soundPath = newsquareSound;
+                                        break;
+                                    case EventType.unhudesquare:
+                                        soundPath = revealSound;
+                                        break;
+                                    case EventType.bingo:
+                                        {
+                                            soundPath = bingoSound;
+                                            BingoHappened?.Invoke(this, new EventArgs());
+                                            Room.IsGameEnded = true;
+                                            await PauseTimer();
+                                        }
+                                        break;
+                                    case EventType.win:
+                                        {
+                                            soundPath = bingoSound;
+                                            BingoHappened?.Invoke(this, new EventArgs());
+                                            Room.IsGameEnded = true;
+                                            await PauseTimer();
+                                        }
+                                        break;
                                     default:
                                         break;
                                 }
@@ -546,6 +1099,42 @@ namespace BingoApp.ViewModels
                     var debugMessage = $"IsSoundsOn: {IsSoundsOn}\r\nAction: {e.Action}\r\nEventType: {eventType}\r\nSound path: {soundPath}\r\nSoundsVolume: {SoundsVolume}\r\nPlayer.Volume: {dingPlayer.Volume}\r\n----------------------\r\n";
                     System.IO.File.AppendAllText(System.IO.Path.Combine(App.Location, "logs.txt"), debugMessage);
                 }
+                if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+                {
+                    if (e.NewItems != null)
+                    {
+                        if (e.NewItems[0] is Event newEvent)
+                        {
+                            var filteredEventTypes = new List<EventType>() { EventType.bingo, EventType.win, EventType.newsquare, EventType.unhudesquare };
+
+                            if (IsPlayerChat)
+                                filteredEventTypes.Add(EventType.chat);
+
+                            if (IsColorChanged)
+                                filteredEventTypes.Add(EventType.color);
+
+                            if (IsGoalActions)
+                                filteredEventTypes.Add(EventType.goal);
+
+                            if (IsConnections)
+                                filteredEventTypes.Add(EventType.connection);
+
+                            if (filteredEventTypes.Any(i => i == newEvent.Type))
+                            {
+                                if (localServerStarted && App.LocalSignalRHub != null)
+                                {
+                                    await App.LocalSignalRHub.SendNewChatEvent(newEvent);
+                                }
+                                newEventTimer.Stop();
+                                NewFeedEvent = newEvent;
+                                IsNewEventAdded = false;
+                                await Task.Delay(200);
+                                IsNewEventAdded = true;
+                                newEventTimer.Start();
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -553,12 +1142,9 @@ namespace BingoApp.ViewModels
             }
         }
 
-        [RelayCommand]
-        void MuteUnmute()
-        {
-            BingoApp.Properties.Settings.Default.IsSoundsOn = IsSoundsOn;
-            BingoApp.Properties.Settings.Default.Save();
-        }
+        #endregion
+
+        #region BoardManipulationCommands
 
         [RelayCommand]
         async Task MarkSquare(Square square)
@@ -576,25 +1162,188 @@ namespace BingoApp.ViewModels
         async Task ChangeCollor(string color)
         {
             var bcolor = (BingoColor)Enum.Parse(typeof(BingoColor), color);
-            await Room.ChangeCollor(bcolor);
+            await Room.ChangeColor(bcolor);
         }
 
         [RelayCommand]
         async Task RevealBoard()
         {
-            if (Room.CurrentPlayer.IsSpectator)
+            if (Room.IsPractice)
             {
-                await Room.RevealTheBoard();
-                Room.IsRevealed = true;
+                Room.CurrentPlayer.IsBoardRevealed = true;
+                Room.ChatMessages.Add(new Event()
+                {
+                    Player = Room.CurrentPlayer,
+                    Type = EventType.revealed,
+                    Timestamp = DateTime.Now
+                });
+                Room.TriggerRevealBoard();
             }
             else
             {
-                if (!Room.IsAutoBoardReveal)
+                if (Room.RoomSettings.IsAutoBoardReveal && (Room.IsStartTimerStarted || !Room.IsGameStarted))
                 {
-                    await Room.RevealTheBoard();
-                    Room.IsRevealed = true;
+                    return;
+                }
+
+                await Room.RevealTheBoard();
+                Room.CurrentPlayer.IsBoardRevealed = true;
+            }
+        }
+
+        [RelayCommand]
+        async Task RefreshRoom()
+        {
+            IsRefreshing = true;
+            await Room.RefreshRoomAsync();
+            IsRefreshing = false;
+        }
+
+        [RelayCommand]
+        async Task NewBoard()
+        {
+            if (Room.IsPractice)
+            {
+                Room.IsGameEnded = false;
+                Room.TimerCounter = TimeSpan.Zero;
+                savedTime = TimeSpan.Zero;
+                Room.CurrentPlayer.IsBoardRevealed = false;
+                Room.GeneratePracticeBoard();
+                Room.UpdatePlayersGoals();
+                Room.TriggerNewBoardGenerated();
+            }
+            else
+            {
+                Room.IsGameStarted = false;
+                IsRefreshing = true;
+                await Room.GenerateNewBoardAsync();
+                IsRefreshing = false;
+            }
+        }
+
+        public async Task SelectBingoLine(string lineName, string playerId)
+        {
+            if (Room.RoomSettings.IsTripleBingoSelect)
+            {
+                await Room.SendSelectBingoLine(playerId, lineName);
+                CanSelectBingoLine = false;
+                SelectedBingoLine = null;
+                foreach (var item in Room.Board.Squares)
+                {
+                    item.IsInSelectedLine = false;
                 }
             }
+        }
+        #endregion
+
+        #region AppearingCommand
+
+        [RelayCommand]
+        async Task Appearing()
+        {
+            if (!Room.IsPractice)
+            {
+                AddSignalRHubEventHandlers();
+            }
+            else
+            {
+                IsConnected = true;
+            }
+
+            await Room.InitRoom();
+
+            var preferedColor = BingoApp.Properties.Settings.Default.PreferedColor;
+            if (!string.IsNullOrEmpty(preferedColor))
+            {
+                var color = (BingoColor)Enum.Parse(typeof(BingoColor), preferedColor);
+                await Room.ChangeColor(color);
+            }
+
+            IsDebug = Settings.Default.IsDebug;
+
+            MainWindow.HideSettingsButton();
+            (App.Current.MainWindow as MainWindow).frame.Navigating += Frame_Navigating;
+            (App.Current.MainWindow as MainWindow).Closing += RoomPageViewModel_Closing;
+
+            Room.ChatMessages.CollectionChanged += ChatMessages_CollectionChanged;
+            ChatEventsMessages = CollectionViewSource.GetDefaultView(Room.ChatMessages);
+            IsFinishGameVisible = Room.IsCreatorMode || !Room.CurrentPlayer.IsSpectator;
+
+            ChatEventsMessages.Filter = item =>
+            {
+                Event @event = item as Event;
+                if (@event == null)
+                    return false;
+
+                return (@event.Type == (IsPlayerChat ? EventType.chat : EventType.none) ||
+                        @event.Type == (IsColorChanged ? EventType.color : EventType.none) ||
+                        @event.Type == (IsGoalActions ? EventType.goal : EventType.none) ||
+                        @event.Type == (IsConnections ? EventType.connection : EventType.none) ||
+                        @event.Type == EventType.bingo ||
+                        @event.Type == EventType.win ||
+                        @event.Type == EventType.newsquare ||
+                        @event.Type == EventType.unhudesquare ||
+                        @event.Type == EventType.revealed);
+            };
+
+            if (Room.RoomSettings.IsAutoBoardReveal)
+            {
+                AutoBoardRevealProcess();
+            }
+            else
+            {
+                IsTimerVisible = true;
+            }
+
+            if (Room.RoomSettings.GameMode == GameMode.Triple && Room.RoomSettings.IsTripleBingoSelect)
+                CanSelectBingoLine = true;
+
+            localServerStarted = Properties.Settings.Default.IsStartLocalServer;
+            if (localServerStarted)
+            {
+                App.CurrentRoom = Room;
+                App.LocalServer.Start();
+                App.LocalServer.OnServerStarted += (s, args) =>
+                {
+                    if (App.LocalSignalRHub != null)
+                    {
+                        App.LocalSignalRHub.OnMarkSquareRecieved += (sender, slotId) =>
+                        {
+                            var square = Room.Board.Squares.FirstOrDefault(s => s.Slot == slotId);
+                            if (square != null)
+                            {
+                                App.Current.Dispatcher.Invoke(async () =>
+                                {
+                                    await MarkSquare(square);
+                                });
+                            }
+                        };
+
+                        App.LocalSignalRHub.OnRevealBoardRecieved += (sender, e) =>
+                        {
+                            App.Current.Dispatcher.Invoke(async () =>
+                            {
+                                await RevealBoard();
+                            });
+                        };
+
+                        Room.OnUpdatePlayerGoals += async (sender, e) =>
+                        {
+                            await App.LocalSignalRHub.SendPlayersScore(e);
+                        };
+                    }
+                };
+            }
+        }
+        #endregion
+
+        #region ChatAndNotificationsCommands
+
+        [RelayCommand]
+        void MuteUnmute()
+        {
+            BingoApp.Properties.Settings.Default.IsSoundsOn = IsSoundsOn;
+            BingoApp.Properties.Settings.Default.Save();
         }
 
         [RelayCommand]
@@ -610,11 +1359,11 @@ namespace BingoApp.ViewModels
         [RelayCommand]
         void SaveSettings()
         {
-            BingoApp.Properties.Settings.Default.IsPlayerChat = IsPlayerChat;
-            BingoApp.Properties.Settings.Default.IsGoalActions = IsGoalActions;
-            BingoApp.Properties.Settings.Default.IsColorChanged = IsColorChanged;
-            BingoApp.Properties.Settings.Default.IsConnections = IsConnections;
-            BingoApp.Properties.Settings.Default.Save();
+            Settings.Default.IsPlayerChat = IsPlayerChat;
+            Settings.Default.IsGoalActions = IsGoalActions;
+            Settings.Default.IsColorChanged = IsColorChanged;
+            Settings.Default.IsConnections = IsConnections;
+            Settings.Default.Save();
 
             ChatEventsMessages.Filter = item =>
             {
@@ -624,89 +1373,256 @@ namespace BingoApp.ViewModels
                         @event.Type == (IsColorChanged ? EventType.color : EventType.none) ||
                         @event.Type == (IsGoalActions ? EventType.goal : EventType.none) ||
                         @event.Type == (IsConnections ? EventType.connection : EventType.none) ||
-                        @event.Type == EventType.revealed);
+                        @event.Type == EventType.revealed ||
+                        @event.Type == EventType.bingo ||
+                        @event.Type == EventType.win);
             };
         }
+        #endregion
 
+        #region InviteCommands
         [RelayCommand]
-        async Task StartGame()
+        async Task InvitePlayer()
         {
-            await _timerSocket.SendStartToServerAsync();
-
+            IsInvitePopupVisible = true;
+            await GetAvailablePlayers();
         }
 
         [RelayCommand]
-        void CopyBingoAppLink()
+        async Task RefreshAvailablePlayers()
+        {
+            await GetAvailablePlayers();
+        }
+
+        async Task GetAvailablePlayers()
+        {
+            var resp = await App.RestClient.GetAvailablePlayersAsync(App.CurrentPlayer.Id);
+            if (resp.IsSuccess)
+            {
+                AvailablePlayers.Clear();
+                foreach (var item in resp.Data)
+                {
+                    AvailablePlayers.Add(item);
+                }
+            }
+        }
+
+        [RelayCommand]
+        async Task SendInvite()
         {
             var jobj = new JObject();
             jobj["r"] = Room.RoomId;
-            jobj["p"] = IsPasswordShare ? Room.PlayerCredentials.Password : "";
-            jobj["i"] = Room.IsAutoBoardReveal ? 1 : 0;
+            jobj["p"] = Room.Password;
+            jobj["i"] = Room.RoomSettings.IsAutoBoardReveal ? 1 : 0;
+            jobj["gm"] = Room.RoomSettings.GameMode.ToString();
+            jobj["egm"] = Room.RoomSettings.ExtraGameMode.ToString();
+            jobj["pr"] = Room.RoomSettings.PresetName?.ToString();
+            jobj["g"] = Room.RoomSettings.GameName?.ToString();
 
             var json = jobj.ToString();
             var data = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
-            Clipboard.SetText($"http://{App.TimerSocketAddress}/?d={data}");
+            var resp = await App.RestClient.SendGameInvite(App.CurrentPlayer, SelectedPlayer, data);
+            IsInvitePopupVisible = false;
 
-            MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = "Link copied!" });
-        }
-
-        [RelayCommand]
-        void CopyBingosyncLink()
-        {
-            Clipboard.SetText($"https://bingosync.com/room/{Room.RoomId}");
-            MainWindow.ShowToast(new ToastInfo() { Title = "Success", Detail = "Link copied!" });
+            MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("mes_invitesent").ToString() });
 
         }
 
+        #endregion
+
+        #region CopyLinksCommands
         [RelayCommand]
-        async Task EndGame()
+        void CopyRoomId()
         {
-            MainWindow.ShowMessage("Do you realy want to end this game?", MessageNotificationType.YesNo, async () =>
+            Clipboard.SetText(Room.RoomId);
+
+            MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("mes_roomidcopied").ToString() });
+        }
+
+        [RelayCommand]
+        void CopyRoomSpectatorLink()
+        {
+            Clipboard.SetText(RestClient.baseUri + $"bingo/spectate/{Room.RoomId}");
+
+            MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("rp_linkcopiedsuccess").ToString() });
+        }
+
+        #endregion
+
+        #region PlayerStufCommands
+
+        [RelayCommand]
+        async Task PlayerClick(Player player)
+        {
+            if (CanSelectBingoLine && IsBingoLineSelected && SelectedBingoLine != null)
             {
+                if (player.Id != Room.CurrentPlayer.Id)
+                {
+                    await SelectBingoLine(SelectedBingoLine, player.Id);
+                    return;
+                }
+            }
+
+            Room.UpdatePlayersGoals();
+            PotentialBingoColor = player.Color;
+            IsPotentialBingoVisible = !IsPotentialBingoVisible;
+        }
+        [RelayCommand]
+        void ChangeTeamView()
+        {
+            IsTeamView = !IsTeamView;
+        }
+
+        #endregion
+
+        #region MiscCommands
+
+        [RelayCommand]
+        void EndGame()
+        {
+            MainWindow.ShowMessage(App.Current.FindResource("mes_doyourealywanttoend").ToString(), MessageNotificationType.YesNo, async () =>
+            {
+                if (boardWindow != null)
+                {
+                    boardWindow.Close();
+                    boardWindow = null;
+                    IsExternalWindowOpened = false;
+                }
+
                 Room.IsGameEnded = true;
                 Room.EndDate = DateTime.Now;
-                IsTimerStarted = false;
+                Room.IsTimerStarted = false;
                 IsStartVisible = true;
                 IsPauseVisible = false;
-                IsTimerStarted = false;
+                Room.IsTimerStarted = false;
                 _timer.Stop();
-                Room.CurrentTimerTime = (int)TimerCounter.TotalSeconds;
+                await Room.DisconnectAsync();
                 await Room.SaveToHistoryAsync();
                 Room.RemoveFromActiveRooms();
+
+                if (App.LocalServer.IsServerStarted)
+                    await App.LocalServer.StopAsync();
 
                 MainWindow.GoBack();
             });
         }
 
         [RelayCommand]
-        async Task RefreshRoom()
+        async Task SendResults()
         {
-            IsRefreshing = true;
-            await Room.RefreshRoomAsync();
-            IsRefreshing = false;
-        }
-
-        [RelayCommand]
-        void PlayerClick(Player player)
-        {
-            Room.UpdatePlayersGoals();
-            PotentialBingoColor = player.Color;
-            IsPotentialBingoVisible = !IsPotentialBingoVisible;
-        }
-
-        [RelayCommand]
-        async void NewBoard()
-        {
-            IsRefreshing = true;
-            await Room.GenerateNewBoardAsync();
-            IsRefreshing = false;
-
-            if (Room.IsAutoBoardReveal)
+            var gameResult = new GameResult()
             {
-                await StopTimer();
-                await AutoBoardRevealProcess(true);
+                RoomId = Room.RoomId,
+                BingoType = Room.RoomSettings.GameMode.ToString(),
+                PlayersNames = Room.RoomPlayers.Select(i => i.NickName).ToArray(),
+                Score = Room.RoomPlayers.Select(i => i.SquaresCount).ToArray(),
+                LinesCount = Room.RoomPlayers.Select(i => i.LinesCount).ToArray(),
+                GameDate = Room.StartDate ?? DateTime.MinValue,
+                PresetName = Room.RoomSettings.PresetName,
+                GameName = Room.RoomSettings.GameName
+            };
+
+            var res = await App.RestClient.SendGameResult(gameResult);
+            if (res.IsSuccess)
+            {
+                MainWindow.ShowToast(new ToastInfo() { Title = App.Current.FindResource("mes_success").ToString(), Detail = App.Current.FindResource("mes_resultsend").ToString() });
             }
         }
+
+        [RelayCommand]
+        async Task ReconnectCancel()
+        {
+
+            await Room.DisconnectAsync();
+            RemoveSignalRHubEventHandlers();
+            await Room.SaveAsync();
+            leaveunsaved = true;
+            MainWindow.CloseMessage();
+            (App.Current.MainWindow as MainWindow).frame.Navigating -= Frame_Navigating;
+            await Task.Delay(300);
+            MainWindow.GoBack();
+        }
+
+        [RelayCommand]
+        void OpenExternalWindow()
+        {
+            if (!IsExternalWindowOpened)
+            {
+                IsExternalWindowOpened = true;
+                boardWindow = new BoardWindow();
+                boardWindow.Closed += (s, e) =>
+                {
+                    boardWindow = null;
+                    IsExternalWindowOpened = false;
+                };
+                boardWindow.DataContext = this;
+                boardWindow.Topmost = true;
+                boardWindow.Show();
+            }
+            else
+            {
+                if (boardWindow != null)
+                {
+                    boardWindow.Close();
+                    boardWindow = null;
+                    IsExternalWindowOpened = false;
+                }
+            }
+        }
+
+        #endregion
+
+        #region FogWall
+
+        async Task AddFogWall()
+        {
+            try
+            {
+                var sekiroExePath = Properties.Settings.Default.SekiroExePath;
+                if (string.IsNullOrEmpty(sekiroExePath) || !System.IO.File.Exists(sekiroExePath))
+                {
+                    return;
+                }
+                var sekiroFolder = System.IO.Path.GetDirectoryName(sekiroExePath);
+                if (string.IsNullOrEmpty(sekiroFolder) || !System.IO.Directory.Exists(sekiroFolder))
+                {
+                    return;
+                }
+                var fogWallFilePath = System.IO.Path.Combine(sekiroFolder, "bingomod", "fogwall.cfg");
+                await System.IO.File.WriteAllTextAsync(fogWallFilePath, "FogWall=ON");
+                isFogWallOn = true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        async Task RemoveFogWall()
+        {
+            try
+            {
+                if (isFogWallOn == false)
+                    return;
+                var sekiroExePath = Properties.Settings.Default.SekiroExePath;
+                if (string.IsNullOrEmpty(sekiroExePath) || !System.IO.File.Exists(sekiroExePath))
+                {
+                    return;
+                }
+                var sekiroFolder = System.IO.Path.GetDirectoryName(sekiroExePath);
+                if (string.IsNullOrEmpty(sekiroFolder) || !System.IO.Directory.Exists(sekiroFolder))
+                {
+                    return;
+                }
+                var fogWallFilePath = System.IO.Path.Combine(sekiroFolder, "bingomod", "fogwall.cfg");
+                await System.IO.File.WriteAllTextAsync(fogWallFilePath, "FogWall=OFF");
+                isFogWallOn = false;
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        #endregion
     }
 }

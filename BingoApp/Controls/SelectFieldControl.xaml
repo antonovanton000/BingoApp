@@ -71,14 +71,13 @@
                 <ComboBox x:Name="chb"
                           ItemsSource="{Binding ItemsSource, ElementName=control}" 
                           Height="50" VerticalAlignment="Center" VerticalContentAlignment="Center"
-                          FontSize="15" Foreground="{StaticResource PrimaryTextBrush}" 
+                          FontSize="18" Foreground="{StaticResource PrimaryTextBrush}" 
                           GotFocus="ComboBox_GotFocus" LostFocus="ComboBox_LostFocus"   
-                          SelectedItem="{Binding SelectedCurrentItem,ElementName=control}"
+                          SelectedItem="{Binding SelectedCurrentItem,ElementName=control, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                           IsReadOnly="{Binding IsReadOnly, ElementName=control}"
                           DisplayMemberPath="{Binding DisplayProperty, ElementName=control}"                                                   
                           Style="{StaticResource ComboBoxFlatStyleForField}"
                          />
-                                                    
             </Grid>
         </Border>
         <TextBlock Visibility="{Binding IsError, ElementName=control, Converter={StaticResource BoolToVisConverter}}" 

@@ -1,0 +1,218 @@
+﻿<UserControl x:Class="HuntpointApp.Controls.MapPatternSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:cnt="clr-namespace:HuntpointApp.Controls"
+             xmlns:local="clr-namespace:HuntpointApp.Controls"
+             mc:Ignorable="d" 
+             xmlns:WPFZoomPanel="https://github.com/Moravuscz/WPFZoomPanel"
+             DataContext="{Binding ElementName=control}"
+             x:Name="control"
+             d:DesignHeight="1140" d:DesignWidth="920">
+    <Grid Background="{StaticResource BackgroundBrush}">
+        <Grid x:Name="bossGrid" Grid.Row="1" Visibility="{Binding IsBossSelectionStep, Converter={StaticResource BoolToVisConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{DynamicResource mpf_expedition}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}" />
+            <ItemsControl ItemsSource="{Binding Bosses}" Margin="20,10" Grid.Row="1">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                                Height="70" Margin="0,0,15,15" Cursor="Hand" Padding="10" MouseLeftButtonDown="BossSelect_Clicked">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#10FFFFFF"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#15FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid>
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}"
+                                           FontSize="18"/>
+                                <Image HorizontalAlignment="Right" Source="{Binding ImagePath}" Margin="-8"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+        <Grid x:Name="shiftingEarthGrid" Grid.Row="1" Visibility="{Binding IsShiftingEarthSelectionStep, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{DynamicResource mpf_shiftingearth}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}" />
+            <Button Style="{StaticResource IconButtonStyle}" Content="&#xE0a6;" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10,0,0,0" Click="ShiftingEarthBack_Clicked"/>
+            <ItemsControl ItemsSource="{Binding SelectedBoss.ShiftingEarthes}" Margin="20,10" Grid.Row="1">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="5" BorderThickness="1" BorderBrush="{StaticResource BorderColorBrush}" 
+                                Height="90" Margin="0,0,15,15" Cursor="Hand"
+                                MouseLeftButtonDown="ShiftingEarthSelect_Clicked" ClipToBounds="True">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#10FFFFFF"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#20FFFFFF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid>
+                                <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}"
+                               FontSize="18" Margin="10,0,0,0"/>
+                                <Border Height="90" Width="90" HorizontalAlignment="Right" CornerRadius="8" ClipToBounds="True" Margin="0,0,-2,0">
+                                    <Border.Clip>
+                                        <RectangleGeometry Rect="0 0 90 90" RadiusX="8" RadiusY="8"/>
+                                    </Border.Clip>
+                                    <Image Source="{Binding ImagePath}"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Grid>
+        <Grid x:Name="spawnPointGrid" Grid.Row="1" Visibility="{Binding IsSpawnPointSelectionStep, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{DynamicResource mpf_spawnpoint}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}" />
+            <Button Style="{StaticResource IconButtonStyle}" Content="&#xE0a6;" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10,0,0,0" Click="SpawnPointBack_Clicked"/>
+            <Viewbox Stretch="Uniform" ClipToBounds="True" Grid.Row="1" Margin="10" SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid>
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=Border1}" />
+                        </Grid.OpacityMask>
+                        <Border x:Name="Border1" CornerRadius="30" Background="Black" />
+                        <Image Source="{Binding SelectedShiftingEarth.MapPath}" Stretch="Uniform" x:Name="imgMap"/>
+                    </Grid>
+                    <ItemsControl ItemsSource="{Binding SelectedShiftingEarth.SpawnPoints}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{StaticResource Blue}" BorderThickness="4" BorderBrush="{StaticResource AccentBrush}" 
+                                        CornerRadius="40" Width="80" Height="80" Margin="{Binding Margin}" Opacity="0.8"
+                                        Cursor="Hand" MouseLeftButtonDown="SpawnPointSelect_Clicked"
+                                        RenderTransformOrigin="0.5 0.5">
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                    <Border.Triggers>
+                                        <EventTrigger RoutedEvent="MouseEnter">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     To="1.1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     To="1.1" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="MouseLeave">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     To="1" Duration="0:0:0.2"/>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     To="1" Duration="0:0:0.2"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Border.Triggers>
+                                    <Image Source="{DynamicResource parachute}" Margin="15"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Grid>
+            </Viewbox>
+        </Grid>
+        <Grid x:Name="patternsGrid" Grid.Row="1" Visibility="{Binding IsPatternSelectionStep, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="180"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{DynamicResource mpf_patternselect}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}" />
+            <Button Style="{StaticResource IconButtonStyle}" Content="&#xE0a6;" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10,0,0,0" Click="PatterBack_Clicked"/>
+            <Image Source="{Binding SelectedPattern.ImagePath}" HorizontalAlignment="Center" Grid.Row="1">
+                <Image.OpacityMask>
+                    <VisualBrush>
+                        <VisualBrush.Visual>
+                            <Rectangle RadiusX="4" RadiusY="4" Height="100" Width="100" Fill="White"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Image.OpacityMask>
+            </Image>
+            <ListView ItemContainerStyle="{StaticResource ListViewContainerStyleForPresets}" ItemsSource="{Binding SelectedSpawnPoint.Patterns}" SelectedItem="{Binding SelectedPattern}"
+                      Grid.Row="2" Background="{x:Null}" BorderThickness="0" Margin="10,5">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="150" Height="150" CornerRadius="12" ClipToBounds="True">
+                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill">
+                                <Image.OpacityMask>
+                                    <VisualBrush>
+                                        <VisualBrush.Visual>
+                                            <Rectangle RadiusX="4" RadiusY="4" Height="100" Width="100" Fill="White"/>
+                                        </VisualBrush.Visual>
+                                    </VisualBrush>
+                                </Image.OpacityMask>
+                            </Image>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <Button Style="{StaticResource FlatButtonStylePrimary}" Content="{DynamicResource mpf_selectcurrent}" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                    Margin="0,0,0,10" Width="140" Click="SelectMap_Clicked" Grid.Row="1"/>
+        </Grid>
+        <Grid x:Name="mapView" Grid.Row="1" Visibility="{Binding IsMapViewStep, Converter={StaticResource BoolToVisConverter}}" d:Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding SelectedPattern.Name, StringFormat='{}#{0}'}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SubHeaderTextBlockBlockStyle2}" />
+            <Button Style="{StaticResource IconButtonStyle}" Content="&#xE0a6;" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10,0,0,0" Click="SelectDifferentMap_Click" x:Name="backFromMapViewButton"/>
+            <WPFZoomPanel:ZoomPanel HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" ScrollZoomModifier="" MaximumZoom="1.5" MinimumZoomType="FillScreen">
+                <Image Source="{Binding SelectedPattern.ImagePath}" />
+            </WPFZoomPanel:ZoomPanel>
+        </Grid>
+        <Button Style="{StaticResource IconButtonStyle}" Content="&#xE10A;" HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,18,10,0" Click="Close_Clicked"/>
+    </Grid>
+</UserControl>

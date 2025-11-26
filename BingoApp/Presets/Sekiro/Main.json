@@ -1,0 +1,762 @@
+[
+  {
+    "name": "10,000 sen",
+    "group": "sen"
+  },
+  {
+    "name": "5,000 sen",
+    "group": "sen"
+  },
+  {
+    "name": "Find 7 gourd seeds",
+    "group": "seeds"
+  },
+  {
+    "name": "Find 5 gourd seeds",
+    "group": "seeds"
+  },
+  {
+    "name": "Obtain 8 carp scales",
+    "group": "scales"
+  },
+  {
+    "name": "10 carp scales",
+    "group": "scales"
+  },
+  {
+    "name": "15 carp scales",
+    "group": "scales"
+  },
+  {
+    "name": "28 carp scales in inventory",
+    "group": "scales"
+  },
+  {
+    "name": "Kill 1 chained ogre",
+    "group": "ogre"
+  },
+  {
+    "name": "Kill 2 chained ogres",
+    "group": "ogre"
+  },
+  {
+    "name": "Kill 4 chained ogres",
+    "group": "ogre"
+  },
+  {
+    "name": "10 Memories",
+    "group": "memory"
+  },
+  {
+    "name": "8 Memories",
+    "group": "memory"
+  },
+  {
+    "name": "5 Memories",
+    "group": "memory"
+  },
+  {
+    "name": "Attack power 10",
+    "group": "memory"
+  },
+  {
+    "name": "Obtain 5 prosthetics",
+    "group": "prosthetic"
+  },
+  {
+    "name": "Obtain 7 prosthetics",
+    "group": "prosthetic"
+  },
+  {
+    "name": "Obtain 10 prosthetics",
+    "group": "prosthetic"
+  },
+  {
+    "name": "Activate 40 idols",
+    "group": "idols"
+  },
+  {
+    "name": "Activate 20 idols",
+    "group": "idols"
+  },
+  {
+    "name": "25 prayer beads",
+    "group": "beads"
+  },
+  {
+    "name": "15 prayer beads",
+    "group": "beads"
+  },
+  {
+    "name": "Collect 3 sugars of each type",
+    "group": "sugars"
+  },
+  {
+    "name": "10 sugars of each type in inventory",
+    "group": "sugars"
+  },
+  {
+    "name": "20 skill points on counter",
+    "group": "skill"
+  },
+  {
+    "name": "27 skill points on counter",
+    "group": "skill"
+  },
+  {
+    "name": "Obtain the Mist Raven",
+    "group": null
+  },
+  {
+    "name": "Kill 1 Ashina elite warrior",
+    "group": "elite warrior"
+  },
+  {
+    "name": "Defeat Genichiro (Tutorial)",
+    "group": null
+  },
+  {
+    "name": "Kill Demon of Hatred",
+    "group": null
+  },
+  {
+    "name": "Defeat 2 Ashina spearmen",
+    "group": null
+  },
+  {
+    "name": "Kill 2 bulls",
+    "group": "bull"
+  },
+  {
+    "name": "Kill Lady Butterfly",
+    "group": null
+  },
+  {
+    "name": "Obtain Prosthetic Arts Esoteric Text",
+    "group": null
+  },
+  {
+    "name": "Unlock Living Force (Prosthetic Arts)",
+    "group": null
+  },
+  {
+    "name": "Kill 3 drunkards",
+    "group": "drunkard"
+  },
+  {
+    "name": "Unlock Ashina Cross (Ashina Style)",
+    "group": null
+  },
+  {
+    "name": "Kill Headless Ape (Duo)",
+    "group": null
+  },
+  {
+    "name": "Kill Great Carp",
+    "group": "carp"
+  },
+  {
+    "name": "Obtain Loaded Spear",
+    "group": null
+  },
+  {
+    "name": "Obtain Loaded Axe",
+    "group": null
+  },
+  {
+    "name": "Kill Mist Noble",
+    "group": null
+  },
+  {
+    "name": "Kill Folding Screen Monkeys",
+    "group": "blade"
+  },
+  {
+    "name": "Defeat Armored Warrior",
+    "group": null
+  },
+  {
+    "name": "Obtain Dried Serpent Viscera",
+    "group": null
+  },
+  {
+    "name": "Obtain Senpou Esoteric Text",
+    "group": null
+  },
+  {
+    "name": "Kill Guardian Ape of the Valley",
+    "group": null
+  },
+  {
+    "name": "Kill the Great Serpent",
+    "group": null
+  },
+  {
+    "name": "Kill 3 Ashina generals",
+    "group": "generals"
+  },
+  {
+    "name": "Kill Shinobi Hunter",
+    "group": null
+  },
+  {
+    "name": "Obtain Loaded Umbrella",
+    "group": null
+  },
+  {
+    "name": "Obtain Sabimaru",
+    "group": null
+  },
+  {
+    "name": "Kill Divine Dragon",
+    "group": null
+  },
+  {
+    "name": "Kill 1 Shichimen Warrior",
+    "group": "shichimen"
+  },
+  {
+    "name": "Kill 2 Lone Shadows",
+    "group": null
+  },
+  {
+    "name": "Unlock Shadowfall (Shinobi Style)",
+    "group": null
+  },
+  {
+    "name": "Obtain Fresh Serpent Viscera",
+    "group": null
+  },
+  {
+    "name": "Kill 2 Snake Eyes",
+    "group": null
+  },
+  {
+    "name": "Kill Gyoubu",
+    "group": null
+  },
+  {
+    "name": "Defeat Okami Leader",
+    "group": null
+  },
+  {
+    "name": "Obtain Shinobi Firecracker",
+    "group": null
+  },
+  {
+    "name": "Kill O'Rin",
+    "group": null
+  },
+  {
+    "name": "Kill 2 drunkards",
+    "group": "drunkard"
+  },
+  {
+    "name": "Kill Ashina spearman without Mikiri",
+    "group": null
+  },
+  {
+    "name": "Kill 2 centipedes",
+    "group": null
+  },
+  {
+    "name": "Kill Blazing Bull",
+    "group": "bull"
+  },
+  {
+    "name": "Obtain Mushin Esoteric Text",
+    "group": null
+  },
+  {
+    "name": "Kill 4 white guardian monkeys",
+    "group": "monkey"
+  },
+  {
+    "name": "Obtain Ashina Esoteric Text",
+    "group": null
+  },
+  {
+    "name": "Kill Isshin",
+    "group": null
+  },
+  {
+    "name": "Kill 2 Headless",
+    "group": "headless"
+  },
+  {
+    "name": "Obtain Shelter Stone",
+    "group": "shelter"
+  },
+  {
+    "name": "Obtain Lotus of the Palace",
+    "group": "monkey"
+  },
+  {
+    "name": "Obtain Kuro's Charm",
+    "group": null
+  },
+  {
+    "name": "Obtain 2 bottles of sake",
+    "group": "sake"
+  },
+  {
+    "name": "Obtain Floating Passage",
+    "group": null
+  },
+  {
+    "name": "Kill Genichiro (Ashina Castle)",
+    "group": null
+  },
+  {
+    "name": "Kill Corrupted Monk",
+    "group": "shelter"
+  },
+  {
+    "name": "Kill True Monk",
+    "group": "monk"
+  },
+  {
+    "name": "Kill 1 Headless",
+    "group": "headless"
+  },
+  {
+    "name": "Rescue merchant in Ashina Castle",
+    "group": null
+  },
+  {
+    "name": "Obtain Mortal Blade",
+    "group": "blade"
+  },
+  {
+    "name": "Kill Hanbei the Undying",
+    "group": null
+  },
+  {
+    "name": "Collect 4 Jizo Statues",
+    "group": null
+  },
+  {
+    "name": "Kill a boss only with Mortal Blade",
+    "group": null
+  },
+  {
+    "name": "Perform Mikiri Counter 4+ times in one fight",
+    "group": "mikiri"
+  },
+  {
+    "name": "Inflict 'Burn' status on any boss",
+    "group": null
+  },
+  {
+    "name": "Kill 20 dogs",
+    "group": null
+  },
+  {
+    "name": "Assemble Dragon Mask",
+    "group": null
+  },
+  {
+    "name": "Obtain seventh Prayer Bead set",
+    "group": "beads"
+  },
+  {
+    "name": "Kill 7 different samurai",
+    "group": null
+  },
+  {
+    "name": "Reach 20 spirit emblems",
+    "group": null
+  },
+  {
+    "name": "Kill 3 monks with Senpou Style",
+    "group": null
+  },
+  {
+    "name": "Obtain Debt Note from Anayama",
+    "group": "anayama"
+  },
+  {
+    "name": "3 heavy purses in inventory",
+    "group": "purse"
+  },
+  {
+    "name": "Kill Blazing Bull without taking damage",
+    "group": "bull"
+  },
+  {
+    "name": "Give Water of the Palace to Mibu Priest",
+    "group": null
+  },
+  {
+    "name": "Obtain all 4 colored gourds",
+    "group": null
+  },
+  {
+    "name": "Equip Flame Vent",
+    "group": null
+  },
+  {
+    "name": "Kill Shichimen with aerial deathblow",
+    "group": null
+  },
+  {
+    "name": "Kill a boss after 10+ Mikiri Counters",
+    "group": "mikiri"
+  },
+  {
+    "name": "Pull centipede out of monkey 7 times",
+    "group": "centipede"
+  },
+  {
+    "name": "Kill a boss after 10 Raven Feather teleports",
+    "group": null
+  },
+  {
+    "name": "Ring Demon Bell 5 times",
+    "group": null
+  },
+  {
+    "name": "Kill True Monk without taking damage",
+    "group": "monk"
+  },
+  {
+    "name": "Kill Owl after being poisoned twice",
+    "group": null
+  },
+  {
+    "name": "Kill Owl without being hit by anti-heal attack",
+    "group": null
+  },
+  {
+    "name": "Control 10 different enemies with Puppeteer Ninjutsu",
+    "group": null
+  },
+  {
+    "name": "Kill 8 different geckos",
+    "group": null
+  },
+  {
+    "name": "Spend 25 spirit emblems in one boss fight",
+    "group": null
+  },
+  {
+    "name": "Sell items worth 4,500 sen at once",
+    "group": null
+  },
+  {
+    "name": "Pray with 3 grandmas",
+    "group": null
+  },
+  {
+    "name": "10 Yashariku's Sugars in inventory",
+    "group": "candy"
+  },
+  {
+    "name": "Wolf has exactly 1713 sen",
+    "group": null
+  },
+  {
+    "name": "10 Divine Confetti in inventory",
+    "group": "blood drops"
+  },
+  {
+    "name": "Kick any boss 10 times",
+    "group": null
+  },
+  {
+    "name": "Buy one item from each noble",
+    "group": null
+  },
+  {
+    "name": "Max level Breath of Life: Light & Shadow",
+    "group": null
+  },
+  {
+    "name": "Kill 5 soldiers by throwing money",
+    "group": null
+  },
+  {
+    "name": "Deflect 6 Snake Eyes grabs",
+    "group": null
+  },
+  {
+    "name": "Kill Long-arm Centipede Giraffe without deflecting",
+    "group": null
+  },
+  {
+    "name": "Kill 3 Shichimen Warriors",
+    "group": "shichimen"
+  },
+  {
+    "name": "Obtain 3 bottles of sake",
+    "group": "sake"
+  },
+  {
+    "name": "Obtain Frozen Tears",
+    "group": null
+  },
+  {
+    "name": "Kill Shinobi boss without taking damage",
+    "group": null
+  },
+  {
+    "name": "Kill Owl (Father)",
+    "group": "father"
+  },
+  {
+    "name": "Kill 2 white monkeys with two swords",
+    "group": null
+  },
+  {
+    "name": "Poison any boss",
+    "group": null
+  },
+  {
+    "name": "Inflict two status effects on a boss",
+    "group": null
+  },
+  {
+    "name": "Control a boss with Puppeteer Ninjutsu",
+    "group": null
+  },
+  {
+    "name": "Obtain Jizo Jinja Statue",
+    "group": "anayama"
+  },
+  {
+    "name": "Talk to Emma at the graves",
+    "group": null
+  },
+  {
+    "name": "Kill Doujun and his red-eyed partner",
+    "group": null
+  },
+  {
+    "name": "Lure 3 different beasts with whistle",
+    "group": null
+  },
+  {
+    "name": "Obtain Pilgrimage Ball",
+    "group": null
+  },
+  {
+    "name": "Obtain Taro Persimmon",
+    "group": "anayama"
+  },
+  {
+    "name": "Obtain Large White Whisker",
+    "group": "carp"
+  },
+  {
+    "name": "Collect two pinwheels",
+    "group": null
+  },
+  {
+    "name": "Obtain Healing Charm",
+    "group": null
+  },
+  {
+    "name": "Give drink to 3 NPCs",
+    "group": null
+  },
+  {
+    "name": "Eat Sweet Rice Ball",
+    "group": null
+  },
+  {
+    "name": "Obtain Dragon's Tally Board",
+    "group": "monk"
+  },
+  {
+    "name": "Obtain Aromatic Flower",
+    "group": "father"
+  },
+  {
+    "name": "Collect 4 Lapis Lazuli",
+    "group": null
+  },
+  {
+    "name": "Obtain third resurrection",
+    "group": null
+  },
+  {
+    "name": "Obtain Pine Resin Ember",
+    "group": null
+  },
+  {
+    "name": "Obtain Phantom Kunai",
+    "group": null
+  },
+  {
+    "name": "Kill 3 friendly NPCs",
+    "group": null
+  },
+  {
+    "name": "Ring three bells",
+    "group": null
+  },
+  {
+    "name": "Kill Headless in misty forest while in mist",
+    "group": "gachiin"
+  },
+  {
+    "name": "Eavesdrop on 5 conversations",
+    "group": null
+  },
+  {
+    "name": "Go through 5 secret doors",
+    "group": null
+  },
+  {
+    "name": "Find 4 different drinks",
+    "group": null
+  },
+  {
+    "name": "4 Scrap Magnetite in inventory",
+    "group": null
+  },
+  {
+    "name": "15 Scrap Magnetite in inventory",
+    "group": null
+  },
+  {
+    "name": "5 Lump of Fat Wax in inventory",
+    "group": null
+  },
+  {
+    "name": "Kill Lone Shadow Masanaga twice",
+    "group": null
+  },
+  {
+    "name": "Kill red-eyed samurai",
+    "group": "elite warrior"
+  },
+  {
+    "name": "Kill 4 Lone Shadows",
+    "group": null
+  },
+  {
+    "name": "Kill Lone Shadow without deflecting",
+    "group": null
+  },
+  {
+    "name": "Kill 6 different black ghost samurai",
+    "group": "ghosts"
+  },
+  {
+    "name": "Wolf has exactly 1111 sen, 111 emblems, 111 skill XP",
+    "group": null
+  },
+  {
+    "name": "Obtain all combat arts",
+    "group": null
+  },
+  {
+    "name": "30 pellets in inventory",
+    "group": null
+  },
+  {
+    "name": "Kill Shichimen without confetti",
+    "group": null
+  },
+  {
+    "name": "Deflect boss 5 times with magnet umbrella",
+    "group": null
+  },
+  {
+    "name": "Kill two Ashina elite warriors",
+    "group": "elite warrior"
+  },
+  {
+    "name": "Obtain Rebel's Ring",
+    "group": null
+  },
+  {
+    "name": "Obtain Ako's Blessing",
+    "group": null
+  },
+  {
+    "name": "Obtain Ungo's Blessing",
+    "group": null
+  },
+  {
+    "name": "Obtain Gokan's Blessing",
+    "group": null
+  },
+  {
+    "name": "Obtain Gachiin's Blessing",
+    "group": "gachiin"
+  },
+  {
+    "name": "Obtain Yashariku's Blessing",
+    "group": null
+  },
+  {
+    "name": "Kill 6 different generals",
+    "group": "generals"
+  },
+  {
+    "name": "Kill 3 dogs with lightning reversal",
+    "group": null
+  },
+  {
+    "name": "Kill 5 white geckos",
+    "group": null
+  },
+  {
+    "name": "Kill 5 different monks with naginata",
+    "group": null
+  },
+  {
+    "name": "20 confetti in inventory",
+    "group": null
+  },
+  {
+    "name": "5 sugars of each type in inventory",
+    "group": null
+  },
+  {
+    "name": "Kill 10 different palace maidens",
+    "group": null
+  },
+  {
+    "name": "Get the last bite 5 times",
+    "group": null
+  },
+  {
+    "name": "Finish boss using Breath of the Dragon",
+    "group": null
+  },
+  {
+    "name": "Kill boss only with Ichimonji",
+    "group": null
+  },
+  {
+    "name": "Kill 9 different small rats",
+    "group": null
+  },
+  {
+    "name": "Sell items worth at least 1,000 sen without purses",
+    "group": null
+  },
+  {
+    "name": "Use 3 different ninjutsu in a row",
+    "group": null
+  },
+  {
+    "name": "Kill Gyoubu using 7 different prosthetics in one fight",
+    "group": null
+  },
+  {
+    "name": "Kill Guardian Ape Spirit",
+    "group": "ghosts"
+  },
+  {
+    "name": "Kill 3 Snake Eyes",
+    "group": "ghosts"
+  },
+  {
+    "name": "Kill Mibu Village Granny Spirit",
+    "group": "ghosts"
+  }
+]

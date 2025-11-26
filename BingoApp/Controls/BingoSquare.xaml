@@ -10,15 +10,91 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              d:DesignHeight="110" d:DesignWidth="110"
              Initialized="control_Initialized"
+             RenderTransformOrigin="0.5, 0.5"
              x:Name="control">
     <UserControl.Resources>
         <cl:BingoCollorBackgroundConverter x:Key="BingoCollorBackgroundConverter"/>
         <cl:CountToMarginConverter x:Key="CountToMarginConverter"/>
+        <Storyboard x:Key="bingoAnimate">
+            <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:01" Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)">
+                <LinearColorKeyFrame KeyTime="00:00:00" Value="#00FFFFFF"/>
+                <LinearColorKeyFrame KeyTime="00:00:00.4" Value="#A0FFFFFF"/>
+                <LinearColorKeyFrame KeyTime="00:00:00.7" Value="#A0FFFFFF"/>
+                <LinearColorKeyFrame KeyTime="00:00:01" Value="#00FFFFFF"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
-    <Border Background="#181818" BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1"
+    <UserControl.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform />
+            <RotateTransform />
+        </TransformGroup>
+    </UserControl.RenderTransform>
+    <UserControl.Style>
+        <Style TargetType="UserControl">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Square.IsReplaceNewAnimate, ElementName=control}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" BeginTime="00:00:00">
+                                    <DiscreteInt32KeyFrame KeyTime="00:00:00" Value="200"/>
+                                </Int32AnimationUsingKeyFrames>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                             From="1" To="1.12" Duration="0:0:0.3" BeginTime="0:0:0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                             From="1" To="1.12" Duration="0:0:0.3" BeginTime="0:0:0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)" 
+                                             From="0" To="5" Duration="0:0:0.1" BeginTime="0:0:0.3"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)" 
+                                             From="0" To="-5" Duration="0:0:0.2" BeginTime="0:0:0.4"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)" 
+                                             From="0" To="0" Duration="0:0:0.1" BeginTime="0:0:0.6"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" 
+                                             From="1.12" To="1" Duration="0:0:0.3" BeginTime="0:0:1.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" 
+                                             From="1.12" To="1" Duration="0:0:0.3" BeginTime="0:0:1.2"/>
+                                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" BeginTime="0:0:1.6">
+                                    <DiscreteInt32KeyFrame KeyTime="00:00:00" Value="1"/>
+                                </Int32AnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Square.IsMarked, ElementName=control}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" BeginTime="00:00:00">
+                                    <DiscreteInt32KeyFrame KeyTime="00:00:00" Value="200"/>
+                                </Int32AnimationUsingKeyFrames>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                 From="1" To="1.12" Duration="0:0:0.2" BeginTime="0:0:0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                 From="1" To="1.12" Duration="0:0:0.2" BeginTime="0:0:0"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" 
+                                                 From="1.12" To="1" Duration="0:0:0.2" BeginTime="0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" 
+                                                 From="1.12" To="1" Duration="0:0:0.2" BeginTime="0:0:0.2"/>
+                                <Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.ZIndex)" BeginTime="0:0:0.4">
+                                    <DiscreteInt32KeyFrame KeyTime="00:00:00" Value="1"/>
+                                </Int32AnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    <Border BorderBrush="{StaticResource BorderColorBrush}" BorderThickness="1"
             Focusable="True" MouseEnter="Border_MouseEnter" MouseDown="Border_MouseDown" PreviewKeyDown="Border_KeyDown"
-            PreviewMouseRightButtonDown="Border_PreviewMouseRightButtonDown"
-            PreviewMouseWheel="Border_MouseWheel">
+            PreviewMouseRightButtonDown="Border_PreviewMouseRightButtonDown" PreviewMouseRightButtonUp="Border_PreviewMouseRightButtonUp"
+            PreviewMouseWheel="Border_MouseWheel" CornerRadius="10"
+            ToolTipService.IsEnabled="{Binding Square.IsHidden, ElementName=control, Converter={StaticResource NotConverter}}" 
+            ToolTip="{Binding Square.Notes, ElementName=control}" x:Name="mainBorder">
+        <Border.Clip>
+            <RectangleGeometry Rect="0 0 110 110" RadiusX="10" RadiusY="10"/>
+        </Border.Clip>
         <Border.Triggers>
             <EventTrigger RoutedEvent="MouseEnter">
                 <BeginStoryboard>
@@ -57,8 +133,21 @@
                 </BeginStoryboard>
             </EventTrigger>
         </Border.Triggers>
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="#181818"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsTransparent, ElementName=control}" Value="True">
+                        <Setter Property="Background" Value="Transparent"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
         <Grid>
-            <ItemsControl Focusable="False" ItemsSource="{Binding Square.SquareColors, ElementName=control}" Visibility="{Binding Square.HasOnlyOneColor, ElementName=control, Converter={StaticResource NotBoolToVisibilityConverter}}">
+            <Border CornerRadius="10" Background="#08FFFFFF" Visibility="{Binding Square.IsSelectedBingo, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
+            <Border CornerRadius="10" Background="#12FFFFFF" Visibility="{Binding Square.IsInSelectedLine, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
+
+            <ItemsControl Focusable="False" ItemsSource="{Binding Square.SquareColorsSorted, ElementName=control}" Visibility="{Binding Square.HasOnlyOneColor, ElementName=control, Converter={StaticResource NotBoolToVisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"/>
@@ -66,23 +155,38 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="110" Width="110" Margin="{Binding Square.SquareColors.Count, ElementName=control, Converter={StaticResource CountToMarginConverter}}" RenderTransformOrigin="0.5,0.5" Background="{Binding Converter={StaticResource BingoCollorBackgroundConverter}}">
-                            <Grid.RenderTransform>
+                        <Border CornerRadius="8" Height="110" Width="110" Margin="{Binding Square.SquareColors.Count, ElementName=control, Converter={StaticResource CountToMarginConverter}}" RenderTransformOrigin="0.5,0.5" 
+                              Background="{Binding Converter={StaticResource BingoCollorBackgroundConverter}}">
+                            <Border.RenderTransform>
                                 <TransformGroup>
                                     <ScaleTransform/>
                                     <SkewTransform AngleX="-45"/>
                                     <RotateTransform/>
                                     <TranslateTransform/>
                                 </TransformGroup>
-                            </Grid.RenderTransform>
-                        </Grid>
+                            </Border.RenderTransform>
+                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <Grid Background="{Binding Square.SquareColors[0], ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}"
+            <Grid Background="{Binding Square.FirstColor, ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}"
                   Visibility="{Binding Square.HasOnlyOneColor, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
-            <Grid Background="{StaticResource AccentColorBrush}" Opacity="0" x:Name="hover"/>
+            
+            <Grid x:Name="animateBg" Background="#00FFFFFF">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Square.IsBingoAnimate, ElementName=control}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource bingoAnimate}"/>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+            <Grid Background="{StaticResource AccentColorBrush}" Opacity="0" x:Name="hover" />
             <Grid Visibility="{Binding IsPotentialBingoVisible,ElementName=control, Converter={StaticResource BoolToVisConverter}}">
                 <Grid Background="{Binding PotentialBingoColor,ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}" Opacity="0.2" x:Name="potential"
                       Visibility="{Binding Square.IsPotentialBingo, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
@@ -92,20 +196,64 @@
                        VerticalAlignment="Center" Foreground="#FEFEFE" FontFamily="{StaticResource HelveticaThin}" FontSize="14"/>
 
             <TextBlock Visibility="{Binding Square.IsScoreVisible ,ElementName=control, Converter={StaticResource BoolToVisConverter}}"
-                        HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3"
+                        HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"
                         x:Name="tblScore"
                         Text="{Binding Square.Score, ElementName=control}"  
-                        FontSize="14" Foreground="{Binding CurrentPlayerColor,ElementName=control, Converter={StaticResource BingoCollorBackgroundConverter}}" 
+                        FontSize="14" Foreground="#FEFEFE" 
                         FontFamily="{StaticResource HelveticaLight}"/>
-
-
 
             <TextBlock Visibility="{Binding Square.IsGoal, ElementName=control, Converter={StaticResource BoolToVisConverter}}" 
                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="3"
-                       FontFamily="{StaticResource SegoeMDL2}" Text="&#xe082;" Foreground="#FEFEFE"/>
+                       FontFamily="{StaticResource SegoeMDL2}" Text="&#xe082;" Foreground="{Binding ElementName=control, Path=SynergyBackground}"/>
             <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" BorderThickness="0"
                          Background="Transparent" Foreground="{StaticResource AccentBrush}" Height="2"
                          Visibility="{Binding Square.IsMarking, ElementName=control, Converter={StaticResource BoolToVisConverter}}"/>
+            <Border x:Name="glowBorder" BorderThickness="2" BorderBrush="#BBFFFFFF" Margin="0" CornerRadius="8" Opacity="0">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Opacity" Value="0"/>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect ShadowDepth="0" Color="White" Opacity="1" BlurRadius="5" RenderingBias="Quality" />
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Square.IsMarked, ElementName=control}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="1" Duration="0:0:0.3" Storyboard.TargetProperty="Opacity"/>
+                                            <DoubleAnimation From="1" To="0" BeginTime="0:0:3" Duration="0:0:0.5" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Square.IsReplaceNewAnimate, ElementName=control}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="1" Duration="0:0:0.3" Storyboard.TargetProperty="Opacity"/>
+                                            <DoubleAnimation From="1" To="0" BeginTime="0:0:3" Duration="0:0:0.5" Storyboard.TargetProperty="Opacity"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+
+            <Border CornerRadius="8" Visibility="{Binding Square.IsHidden, ElementName=control, Converter={StaticResource BoolToVisConverter}}">
+                <Border.Background>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="0,0" EndPoint="4,4" SpreadMethod="Repeat">
+                        <GradientStop Offset="0" Color="Black"/>
+                        <GradientStop Offset="0.55" Color="Black"/>
+                        <GradientStop Offset="0.55" Color="#101010"/>
+                        <GradientStop Offset="1" Color="#101010"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
         </Grid>
     </Border>
 </UserControl>
